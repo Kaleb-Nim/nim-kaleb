@@ -1,0 +1,20 @@
+.twoColumn,
+.singleColumn {
+  font-family: var(--font-anonymous-pro), monospace;
+}
+
+.statusRow {
+  margin: 0;
+}
+
+.statusLine {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-family: var(--font-anonymous-pro), monospace;
+  line-height: 1.8;
+}
+
+.singleColumn .statusLine {
+  white-space: normal;
+}

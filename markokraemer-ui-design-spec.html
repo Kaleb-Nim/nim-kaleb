@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Design Spec — markokraemer.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010810;
+    --bg-terminal: #000000;
+    --bg-header: #333333;
+    --green-primary: #00FF00;
+    --green-dim: #00cc00;
+    --green-glow: rgba(0, 255, 0, 0.15);
+    --yellow-accent: #FFD700;
+    --red-dot: #FF5F56;
+    --yellow-dot: #FFBD2E;
+    --green-dot: #27C93F;
+    --white: #FFFFFF;
+    --gray-muted: #888888;
+    --gray-light: #CCCCCC;
+    --spec-bg: #0c1220;
+    --spec-card: #111b2e;
+    --spec-border: #1e2d4a;
+    --spec-accent: #4fd1c5;
+    --spec-text: #c9d1d9;
+    --spec-heading: #e6edf3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--spec-bg);
+    color: var(--spec-text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(79, 209, 197, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(0, 255, 0, 0.04) 0%, transparent 50%),
+      var(--spec-bg);
+    border-bottom: 1px solid var(--spec-border);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.12) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.08) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.07) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.11) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .cover-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--spec-accent);
+    border: 1px solid rgba(79, 209, 197, 0.3);
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .cover h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    color: var(--spec-heading);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .cover h1 span { color: var(--spec-accent); }
+  .cover p {
+    font-size: 1.15rem;
+    color: var(--gray-muted);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray-muted);
+    position: relative;
+  }
+  .cover-meta strong { color: var(--spec-accent); }
+
+  /* ─── NAV ─── */
+  .spec-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12, 18, 32, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--spec-border);
+    padding: 0 2rem;
+  }
+  .spec-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .spec-nav a {
+    display: block;
+    padding: 1rem 1.25rem;
+    color: var(--gray-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .spec-nav a:hover {
+    color: var(--spec-heading);
+    border-bottom-color: var(--spec-accent);
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .spec-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ─── SECTIONS ─── */
+  .spec-section {
+    padding-top: 4rem;
+    margin-bottom: 1rem;
+  }
+  .spec-section-header {
+    margin-bottom: 2.5rem;
+  }
+  .spec-section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--spec-accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .spec-section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--spec-heading);
+    line-height: 1.25;
+  }
+  .spec-section-header p {
+    margin-top: 0.75rem;
+    color: var(--gray-muted);
+    font-size: 1rem;
+    max-width: 700px;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--spec-card);
+    border: 1px solid var(--spec-border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--spec-heading);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .card h3 .icon {
+    width: 20px;
+    height: 20px;
+    background: var(--spec-accent);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--spec-bg);
+    font-weight: 700;
+  }
+
+  /* ─── GRID ─── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ─── COLOR SWATCHES ─── */
+  .swatch-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .swatch {
+    width: 100%;
+    flex: 1;
+    min-width: 140px;
+  }
+  .swatch-block {
+    height: 72px;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .swatch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray-muted);
+    margin-bottom: 0.15rem;
+  }
+  .swatch-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--spec-heading);
+  }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-block {
+    background: #080e1a;
+    border: 1px solid var(--spec-border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.9;
+    color: var(--green-primary);
+    overflow-x: auto;
+    margin: 1rem 0;
+    position: relative;
+  }
+  .code-block .comment { color: #546e7a; }
+  .code-block .key { color: #82aaff; }
+  .code-block .val { color: #c3e88d; }
+  .code-block .num { color: #f78c6c; }
+  .code-block .tag { color: var(--spec-accent); font-size: 0.65rem; position: absolute; top: 0.6rem; right: 0.8rem; opacity: 0.5; }
+
+  /* ─── TABLES ─── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 1rem 0;
+  }
+  .spec-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--spec-accent);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(79, 209, 197, 0.05);
+    border-bottom: 1px solid var(--spec-border);
+  }
+  .spec-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(30, 45, 74, 0.5);
+    color: var(--spec-text);
+  }
+  .spec-table td code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--spec-accent);
+    background: rgba(79, 209, 197, 0.08);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  /* ─── LIVE PREVIEW TERMINAL ─── */
+  .terminal-preview {
+    background: var(--bg-deep);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--spec-border);
+    position: relative;
+    margin: 1.5rem 0;
+  }
+  .terminal-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 5% 15%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 55%, rgba(255,255,255,0.12) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 25%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.08) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 45%, rgba(255,255,255,0.18) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 95% 5%, rgba(255,255,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 65%, rgba(255,255,255,0.07) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .terminal-preview-frame {
+    background: var(--bg-terminal);
+    border-radius: 10px;
+    margin: 2.5rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  }
+  .terminal-preview-header {
+    background: var(--bg-header);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+  .terminal-preview-header .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-red { background: var(--red-dot); }
+  .dot-yellow { background: var(--yellow-dot); }
+  .dot-green { background: var(--green-dot); }
+  .terminal-preview-header .title-bar {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.8rem;
+    color: var(--gray-light);
+    pointer-events: none;
+  }
+  .terminal-preview-body {
+    padding: 1.5rem;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.82rem;
+    color: var(--green-primary);
+    line-height: 1.8;
+    min-height: 280px;
+  }
+  .terminal-preview-body .muted { color: var(--green-dim); opacity: 0.7; }
+  .terminal-preview-body .highlight { color: var(--yellow-accent); }
+  .terminal-preview-body .white { color: var(--white); }
+
+  /* ─── ANNOTATION CALLOUTS ─── */
+  .callout {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: rgba(79, 209, 197, 0.04);
+    border-left: 3px solid var(--spec-accent);
+    border-radius: 0 8px 8px 0;
+    margin: 1.25rem 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .callout-icon { flex-shrink: 0; font-size: 1rem; }
+  .callout-warn {
+    background: rgba(255, 215, 0, 0.04);
+    border-left-color: var(--yellow-accent);
+  }
+
+  /* ─── ANIMATION TIMELINE ─── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--spec-accent), transparent);
+  }
+  .timeline-item {
+    padding-bottom: 1.75rem;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0.4rem;
+    width: 8px;
+    height: 8px;
+    background: var(--spec-accent);
+    border-radius: 50%;
+    transform: translateX(-3px);
+  }
+  .timeline-item .time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--spec-accent);
+    margin-bottom: 0.25rem;
+  }
+  .timeline-item .desc {
+    font-size: 0.88rem;
+    color: var(--spec-text);
+  }
+
+  /* ─── MEASUREMENT ANNOTATIONS ─── */
+  .measure-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--spec-accent);
+    background: rgba(79, 209, 197, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  /* ─── COMPONENT ANATOMY ─── */
+  .anatomy {
+    position: relative;
+    border: 1px dashed rgba(79, 209, 197, 0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+  .anatomy-tag {
+    position: absolute;
+    top: -0.6rem;
+    left: 1rem;
+    background: var(--spec-card);
+    padding: 0 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--spec-accent);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--spec-border);
+    margin: 3rem 0;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(79, 209, 197, 0.1);
+    color: var(--spec-accent);
+    margin-right: 0.4rem;
+  }
+  .tag-warn { background: rgba(255, 215, 0, 0.1); color: var(--yellow-accent); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ COVER ══════════════════════════════════════════ -->
+<section class="cover">
+  <div class="cover-badge">Front-End Design Specification</div>
+  <h1>markokraemer<span>.com</span></h1>
+  <p>A complete UI design specification for rebuilding the terminal-themed personal portfolio site of Marko Kraemer — with every pixel, color, and animation documented.</p>
+  <div class="cover-meta">
+    <span><strong>Source</strong> markokraemer.com</span>
+    <span><strong>Date</strong> Feb 2026</span>
+    <span><strong>Stack</strong> React SPA</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ NAV ══════════════════════════════════════════ -->
+<nav class="spec-nav">
+  <div class="spec-nav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#colors">Colors</a>
+    <a href="#typography">Typography</a>
+    <a href="#layout">Layout</a>
+    <a href="#components">Components</a>
+    <a href="#animations">Animations</a>
+    <a href="#interactions">Interactions</a>
+    <a href="#responsive">Responsive</a>
+    <a href="#implementation">Implementation</a>
+  </div>
+</nav>
+
+<div class="spec-main">
+
+<!-- ══════════════════════ 01 · OVERVIEW ══════════════════════ -->
+<section class="spec-section" id="overview">
+  <div class="spec-section-header">
+    <div class="spec-section-num">01 — Overview</div>
+    <h2>Site Concept & Architecture</h2>
+    <p>A sci-fi terminal emulator as a personal portfolio site. The entire experience is framed as a "Kortix Neural Interface" — a fictional OS that presents Marko Kraemer as an AI model.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">C</span> Core Concept</h3>
+      <p>The site is a <strong>single-page React application</strong> that simulates a macOS-style terminal window floating on a deep-space starfield background. The "Kortix Neural Interface" theme turns a standard portfolio into a memorable sci-fi experience.</p>
+      <br>
+      <p><strong>Key narrative elements:</strong></p>
+      <p style="margin-top:0.5rem; color: var(--spec-accent); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+        Operating Model: marko-kraemer-400b-0706<br>
+        Powered by Kortix 10.24 (Elaborate Mind Edition)<br>
+        Cognitive Management: app.kortix.ai
+      </p>
+    </div>
+    <div class="card">
+      <h3><span class="icon">F</span> User Flow</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">STEP 1</div>
+          <div class="desc">Page loads → Starfield background animates → Terminal window fades in</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">STEP 2</div>
+          <div class="desc">Terminal auto-types welcome text with "Cognitive Status" dashboard</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">STEP 3</div>
+          <div class="desc">Menu appears: "1. Activate Voice Interface"</div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">STEP 4</div>
+          <div class="desc">User types "1" → Connects to voice interface with loading animation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE PREVIEW -->
+  <div class="terminal-preview">
+    <div class="terminal-preview-frame">
+      <div class="terminal-preview-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <div class="title-bar">root@marko-kraemer-400b-0706 ~ %</div>
+      </div>
+      <div class="terminal-preview-body">
+        <div>Welcome to the Kortix Neural Interface (Operating Model: marko-kraemer-400b-0706)</div>
+        <div>Powered by Kortix 10.24 (Elaborate Mind Edition)</div>
+        <br>
+        <div>&nbsp;&nbsp;* Cognitive Management: &nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">https://app.kortix.ai</span></div>
+        <br>
+        <div>&nbsp;&nbsp;Cognitive Status as of Fri Jun 7 17:01:04 UTC 2024</div>
+        <br>
+        <div>&nbsp;&nbsp;Neural Activity: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elevated &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cognitive Processes: &nbsp;&nbsp;&nbsp;102</div>
+        <div>&nbsp;&nbsp;Synapse Utilization: &nbsp;45% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conscious Entities: &nbsp;&nbsp;&nbsp;&nbsp;1</div>
+        <div>&nbsp;&nbsp;Memory Usage: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27.1% of 100TB &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IPv4 address for mind0: 192.168.100.1</div>
+        <div>&nbsp;&nbsp;Dream Cache: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Model: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;marko-kraemer-400b-0706</div>
+        <div>&nbsp;&nbsp;Emotion Index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mood Updates: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 pending</div>
+        <div>&nbsp;&nbsp;Neuron Connections: &nbsp;&nbsp;98% optimal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creativity Boosters: &nbsp;&nbsp;&nbsp;Activated</div>
+        <br>
+        <div class="muted">Last sync: Fri Jun &nbsp;7 16:58:32 2024 via Kortix Cloud</div>
+        <br>
+        <div>Select an option:</div>
+        <div>1. Activate Voice Interface</div>
+        <br>
+        <div>---</div>
+        <br>
+        <div>&gt; <span class="white">█</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 02 · COLORS ══════════════════════ -->
+<section class="spec-section" id="colors">
+  <div class="spec-section-header">
+    <div class="spec-section-num">02 — Color System</div>
+    <h2>Color Palette</h2>
+    <p>A strictly limited palette centered on phosphor-green terminal text against deep space blacks.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">P</span> Primary Palette</h3>
+    <div class="swatch-row">
+      <div class="swatch">
+        <div class="swatch-block" style="background: #010810;"></div>
+        <div class="swatch-label">Page Background (Deep Space)</div>
+        <div class="swatch-value">#010810 · rgb(1, 8, 16)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #000000; border-color: rgba(255,255,255,0.15);"></div>
+        <div class="swatch-label">Terminal Background</div>
+        <div class="swatch-value">#000000 · rgb(0, 0, 0)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #333333;"></div>
+        <div class="swatch-label">Terminal Header Bar</div>
+        <div class="swatch-value">#333333 · rgb(51, 51, 51)</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: #00FF00;"></div>
+        <div class="swatch-label">Primary Text (Phosphor Green)</div>
+        <div class="swatch-value">#00FF00 · rgb(0, 255, 0)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">A</span> Accent Colors</h3>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-block" style="background: #FFFFFF;"></div>
+          <div class="swatch-label">Input Text / Title Bar</div>
+          <div class="swatch-value">#FFFFFF</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background: #FFD700;"></div>
+          <div class="swatch-label">Highlight / Links</div>
+          <div class="swatch-value">#FFD700</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="icon">W</span> Window Chrome Dots</h3>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-block" style="background: #FF5F56;"></div>
+          <div class="swatch-label">Close (Red)</div>
+          <div class="swatch-value">#FF5F56</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background: #FFBD2E;"></div>
+          <div class="swatch-label">Minimize (Yellow)</div>
+          <div class="swatch-value">#FFBD2E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background: #27C93F;"></div>
+          <div class="swatch-label">Maximize (Green)</div>
+          <div class="swatch-value">#27C93F</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">G</span> Green Glow Effect</h3>
+    <p>Terminal text has a subtle phosphor glow via <code style="font-family: 'JetBrains Mono', monospace; color: var(--spec-accent); font-size: 0.85rem;">text-shadow</code>. This is critical for the CRT/terminal authenticity.</p>
+    <div class="code-block">
+      <span class="tag">CSS</span>
+<span class="comment">/* Phosphor green glow on all terminal text */</span>
+<span class="key">color</span>: <span class="val">#00FF00</span>;
+<span class="key">text-shadow</span>:
+  <span class="num">0 0 4px</span> <span class="val">rgba(0, 255, 0, 0.4)</span>,
+  <span class="num">0 0 8px</span> <span class="val">rgba(0, 255, 0, 0.2)</span>,
+  <span class="num">0 0 16px</span> <span class="val">rgba(0, 255, 0, 0.1)</span>;
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 03 · TYPOGRAPHY ══════════════════════ -->
+<section class="spec-section" id="typography">
+  <div class="spec-section-header">
+    <div class="spec-section-num">03 — Typography</div>
+    <h2>Font System</h2>
+    <p>A single monospace font family throughout — the site has zero sans-serif or serif text.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">F</span> Primary Font: Anonymous Pro</h3>
+    <p style="margin-bottom: 1rem;">Google Fonts — <code style="font-family: 'JetBrains Mono', monospace; color: var(--spec-accent); font-size: 0.82rem;">font-family: "Anonymous Pro", monospace</code></p>
+
+    <div style="font-family: 'Anonymous Pro', monospace; color: var(--green-primary); background: #000; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">Anonymous Pro</div>
+      <div style="font-size: 1rem; margin-bottom: 1rem; opacity: 0.7;">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</div>
+      <div style="font-size: 0.9rem;">root@marko-kraemer-400b-0706 ~ % Cognitive Status: Elevated</div>
+    </div>
+
+    <table class="spec-table">
+      <thead>
+        <tr><th>Element</th><th>Size</th><th>Weight</th><th>Color</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Terminal title bar</td><td><code>~13px (0.8rem)</code></td><td>400</td><td><code>#CCCCCC</code></td></tr>
+        <tr><td>Terminal body text</td><td><code>~13px (0.82rem)</code></td><td>400</td><td><code>#00FF00</code></td></tr>
+        <tr><td>Status values</td><td><code>~13px</code></td><td>400</td><td><code>#00FF00</code></td></tr>
+        <tr><td>Prompt symbol ( > )</td><td><code>~13px</code></td><td>400</td><td><code>#00FF00</code></td></tr>
+        <tr><td>URL highlights</td><td><code>~13px</code></td><td>400</td><td><code>#FFD700</code> (yellow)</td></tr>
+        <tr><td>Muted timestamps</td><td><code>~13px</code></td><td>400</td><td><code>#00FF00</code> at 70% opacity</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">📐</span>
+    <div><strong>Monospace alignment is critical.</strong> The "Cognitive Status" dashboard relies on exact character-width alignment — use <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">white-space: pre</code> or precisely counted <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">&amp;nbsp;</code> for two-column alignment.</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 04 · LAYOUT ══════════════════════ -->
+<section class="spec-section" id="layout">
+  <div class="spec-section-header">
+    <div class="spec-section-num">04 — Layout & Spacing</div>
+    <h2>Page Structure</h2>
+    <p>Two visual layers: the space starfield background and a centered floating terminal window.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">L</span> Layer Architecture</h3>
+    <table class="spec-table">
+      <thead>
+        <tr><th>Layer</th><th>z-index</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Starfield background</td><td><code>0</code></td><td>Full viewport, dark space with animated stars</td></tr>
+        <tr><td>Terminal window</td><td><code>1</code></td><td>Centered floating terminal frame</td></tr>
+        <tr><td>Terminal header</td><td><code>2</code></td><td>macOS-style title bar with traffic light dots</td></tr>
+        <tr><td>Terminal content</td><td><code>2</code></td><td>Green monospace text with scrollable area</td></tr>
+        <tr><td>Input field</td><td><code>3</code></td><td>Hidden text input capturing keyboard events</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">T</span> Terminal Window Dimensions</h3>
+      <table class="spec-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Max width</td><td><code>~860px</code></td></tr>
+          <tr><td>Height</td><td><code>~442px</code> (variable)</td></tr>
+          <tr><td>Border radius</td><td><code>10px</code></td></tr>
+          <tr><td>Background</td><td><code>#000000</code></td></tr>
+          <tr><td>Shadow</td><td><code>0 25px 60px rgba(0,0,0,0.6)</code></td></tr>
+          <tr><td>Centering</td><td>Absolute center (flex)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3><span class="icon">H</span> Terminal Header Bar</h3>
+      <table class="spec-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Height</td><td><code>~30px</code> (14.5px content)</td></tr>
+          <tr><td>Background</td><td><code>#333333</code></td></tr>
+          <tr><td>Padding</td><td><code>8px 12px</code></td></tr>
+          <tr><td>Dot size</td><td><code>12px</code> diameter</td></tr>
+          <tr><td>Dot gap</td><td><code>8px</code></td></tr>
+          <tr><td>Title alignment</td><td>Centered horizontally</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">S</span> Starfield Background Specification</h3>
+    <p>The page background is a deep navy-black (<code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">#010810</code>) with scattered white dots simulating a star field. Stars appear to subtly animate/twinkle.</p>
+    <div class="code-block">
+      <span class="tag">CSS / Canvas</span>
+<span class="comment">/* Background: Deep space with animated starfield */</span>
+<span class="key">body</span> {
+  <span class="key">background-color</span>: <span class="val">#010810</span>;
+  <span class="key">overflow</span>: <span class="val">hidden</span>;
+}
+
+<span class="comment">/* Stars can be implemented via: */</span>
+<span class="comment">/* Option A: CSS radial-gradient particles (static) */</span>
+<span class="comment">/* Option B: Canvas/WebGL particle system (animated, recommended) */</span>
+<span class="comment">/* Option C: Multiple small &lt;div&gt; elements with animation */</span>
+
+<span class="comment">/* Star properties observed: */</span>
+<span class="comment">/*   - Size: 1-2px dots */</span>
+<span class="comment">/*   - Color: white with varying opacity (0.07 to 0.25) */</span>
+<span class="comment">/*   - Distribution: random scatter, ~40-60 visible stars */</span>
+<span class="comment">/*   - Some stars have a faint green tint (matching terminal theme) */</span>
+<span class="comment">/*   - Subtle twinkling animation (opacity pulse) */</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">P</span> Terminal Content Spacing</h3>
+    <table class="spec-table">
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Content padding</td><td><code>24px</code></td></tr>
+        <tr><td>Line height</td><td><code>1.8</code> (generous for readability)</td></tr>
+        <tr><td>Section spacing (blank lines)</td><td><code>1 empty line</code> between logical groups</td></tr>
+        <tr><td>Two-column data alignment</td><td>Character-count padding (monospace) — left column ~24ch, right column starts ~40ch</td></tr>
+        <tr><td>Indent</td><td><code>2 spaces</code> (for status rows)</td></tr>
+        <tr><td>Scrollbar</td><td>Custom light gray, horizontal, at terminal bottom</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 05 · COMPONENTS ══════════════════════ -->
+<section class="spec-section" id="components">
+  <div class="spec-section-header">
+    <div class="spec-section-num">05 — Component Breakdown</div>
+    <h2>UI Components</h2>
+    <p>Every visual element on the page, fully specified.</p>
+  </div>
+
+  <!-- COMPONENT: Terminal Window -->
+  <div class="card">
+    <h3><span class="icon">1</span> Terminal Window Frame</h3>
+    <div class="anatomy">
+      <div class="anatomy-tag">&lt;TerminalWindow /&gt;</div>
+      <p>The central container that houses the entire experience. Modeled after a macOS Terminal.app window.</p>
+      <div class="code-block">
+        <span class="tag">JSX Structure</span>
+<span class="key">&lt;div</span> <span class="val">className="terminal-wrapper"</span><span class="key">&gt;</span>
+  <span class="key">&lt;div</span> <span class="val">className="terminal-header"</span><span class="key">&gt;</span>
+    <span class="key">&lt;div</span> <span class="val">className="buttons"</span><span class="key">&gt;</span>
+      <span class="key">&lt;span</span> <span class="val">className="button close"</span> <span class="key">/&gt;</span>    <span class="comment">// #FF5F56</span>
+      <span class="key">&lt;span</span> <span class="val">className="button minimize"</span> <span class="key">/&gt;</span> <span class="comment">// #FFBD2E</span>
+      <span class="key">&lt;span</span> <span class="val">className="button maximize"</span> <span class="key">/&gt;</span> <span class="comment">// #27C93F</span>
+    <span class="key">&lt;/div&gt;</span>
+    <span class="key">&lt;span</span> <span class="val">className="title"</span><span class="key">&gt;</span>root@marko-kraemer-400b-0706 ~ %<span class="key">&lt;/span&gt;</span>
+  <span class="key">&lt;/div&gt;</span>
+  <span class="key">&lt;div</span> <span class="val">className="terminal-content"</span><span class="key">&gt;</span>
+    <span class="comment">// Auto-typed content goes here</span>
+  <span class="key">&lt;/div&gt;</span>
+<span class="key">&lt;/div&gt;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENT: Cognitive Status Dashboard -->
+  <div class="card">
+    <h3><span class="icon">2</span> Cognitive Status Dashboard</h3>
+    <p>A two-column layout rendered in monospace. Each row displays a label and a value, with exact character-count alignment.</p>
+    <div class="code-block">
+      <span class="tag">Data Model</span>
+<span class="key">statusData</span> = [
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Neural Activity"</span>,     <span class="key">value</span>: <span class="val">"Elevated"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"Cognitive Processes"</span>, <span class="key">value</span>: <span class="val">"102"</span> } },
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Synapse Utilization"</span>, <span class="key">value</span>: <span class="val">"45%"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"Conscious Entities"</span>, <span class="key">value</span>: <span class="val">"1"</span> } },
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Memory Usage"</span>,        <span class="key">value</span>: <span class="val">"27.1% of 100TB"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"IPv4 address for mind0"</span>, <span class="key">value</span>: <span class="val">"192.168.100.1"</span> } },
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Dream Cache"</span>,          <span class="key">value</span>: <span class="val">"20%"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"Model"</span>,              <span class="key">value</span>: <span class="val">"marko-kraemer-400b-0706"</span> } },
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Emotion Index"</span>,       <span class="key">value</span>: <span class="val">"Stable"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"Mood Updates"</span>,       <span class="key">value</span>: <span class="val">"0 pending"</span> } },
+  { <span class="key">left</span>: { <span class="key">label</span>: <span class="val">"Neuron Connections"</span>,  <span class="key">value</span>: <span class="val">"98% optimal"</span> },
+    <span class="key">right</span>: { <span class="key">label</span>: <span class="val">"Creativity Boosters"</span>, <span class="key">value</span>: <span class="val">"Activated"</span> } },
+]
+    </div>
+    <div class="callout">
+      <span class="callout-icon">⚠️</span>
+      <div>Use <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">white-space: pre</code> or pad with spaces to exactly align columns. Left labels are padded to 22 characters, values start at character 23. Right column labels start around character 40.</div>
+    </div>
+  </div>
+
+  <!-- COMPONENT: Command Input -->
+  <div class="card">
+    <h3><span class="icon">3</span> Command Input Line</h3>
+    <p>A hidden text input that captures keyboard events. Visually rendered as a prompt with a blinking cursor.</p>
+    <table class="spec-table">
+      <thead><tr><th>Element</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Prompt symbol</td><td><code>&gt;</code> in green, followed by a space</td></tr>
+        <tr><td>Input text color</td><td><code>#FFFFFF</code> (white, not green)</td></tr>
+        <tr><td>Cursor</td><td>Block cursor (█), blinking at ~500ms interval</td></tr>
+        <tr><td>Accepted inputs</td><td>Number selections (e.g., "1" for voice interface)</td></tr>
+        <tr><td>Implementation</td><td>Hidden <code>&lt;input type="text"&gt;</code> with focus maintained on click anywhere in terminal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMPONENT: Voice Interface -->
+  <div class="card">
+    <h3><span class="icon">4</span> Voice Interface Connector</h3>
+    <p>After selecting option 1, a connection sequence plays, followed by a voice interface UI.</p>
+    <table class="spec-table">
+      <thead><tr><th>State</th><th>Visual</th></tr></thead>
+      <tbody>
+        <tr><td>Connecting</td><td>Text: <code>"You chose to activate marko-kraemer-400b-0706 voice interface. Connecting..."</code> with animated ellipsis</td></tr>
+        <tr><td>Idle</td><td>Shows <code>"marko-kraemer-400b-0706 idle"</code> with volume level indicator</td></tr>
+        <tr><td>Volume indicator</td><td>Labeled "Volume Level:" — appears to be a visual audio level bar</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMPONENT: Loading/Scroll Bar -->
+  <div class="card">
+    <h3><span class="icon">5</span> Progress / Scroll Bar</h3>
+    <p>A light-gray horizontal bar at the bottom of the terminal content area.</p>
+    <table class="spec-table">
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Color</td><td><code>#C0C0C0</code> (light silver-gray)</td></tr>
+        <tr><td>Height</td><td><code>~14px</code></td></tr>
+        <tr><td>Width</td><td>Full terminal width (inside padding)</td></tr>
+        <tr><td>Border radius</td><td><code>7px</code> (pill shape)</td></tr>
+        <tr><td>Position</td><td>Bottom of terminal content</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 06 · ANIMATIONS ══════════════════════ -->
+<section class="spec-section" id="animations">
+  <div class="spec-section-header">
+    <div class="spec-section-num">06 — Animations & Transitions</div>
+    <h2>Motion Design</h2>
+    <p>The animations sell the "booting up" narrative. Everything should feel like a system initializing.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">A</span> Animation Sequence Timeline</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="time">0ms — Page Load</div>
+        <div class="desc">Starfield background renders immediately (dark space with stars)</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">~200ms — Terminal Fade-In</div>
+        <div class="desc">Terminal window fades in with CSS class <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">.fade-in</code>. Use <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">opacity: 0 → 1</code> over ~400ms ease-out.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">~600ms — Welcome Text Typewriter</div>
+        <div class="desc">Text begins "typing" character by character. Speed: ~20-40ms per character. Each line appears sequentially.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">~2s — Status Dashboard</div>
+        <div class="desc">The Cognitive Status block types out row by row. Two-column data renders with precise monospace alignment.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">~4s — Menu Appears</div>
+        <div class="desc">"Select an option:" and "1. Activate Voice Interface" type out. Cursor begins blinking, input enabled.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">User Action — Option Selected</div>
+        <div class="desc">User types "1" + Enter → Response types out: "You chose to activate..." + "Connecting..." with animated dots.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">T</span> Typewriter Effect</h3>
+      <div class="code-block">
+        <span class="tag">JS Logic</span>
+<span class="comment">// Character-by-character reveal</span>
+<span class="key">const</span> typeText = <span class="key">async</span> (text, delay = <span class="num">30</span>) => {
+  <span class="key">for</span> (<span class="key">const</span> char <span class="key">of</span> text) {
+    appendChar(char);
+    <span class="key">await</span> sleep(delay);
+  }
+};
+
+<span class="comment">// Variation: line-by-line for faster sections</span>
+<span class="key">const</span> typeLine = <span class="key">async</span> (line, delay = <span class="num">80</span>) => {
+  appendLine(line);
+  <span class="key">await</span> sleep(delay);
+};
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="icon">C</span> Cursor Blink</h3>
+      <div class="code-block">
+        <span class="tag">CSS</span>
+<span class="key">@keyframes</span> blink {
+  <span class="num">0%</span>, <span class="num">100%</span> { <span class="key">opacity</span>: <span class="num">1</span>; }
+  <span class="num">50%</span> { <span class="key">opacity</span>: <span class="num">0</span>; }
+}
+
+<span class="key">.cursor</span> {
+  <span class="key">animation</span>: blink <span class="num">1s</span> step-end infinite;
+  <span class="key">color</span>: <span class="val">#FFFFFF</span>;
+}
+
+<span class="comment">/* Block cursor character: █ (U+2588) */</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">S</span> Star Twinkling</h3>
+    <div class="code-block">
+      <span class="tag">CSS / Canvas</span>
+<span class="comment">/* Each star pulses opacity independently */</span>
+<span class="key">@keyframes</span> twinkle {
+  <span class="num">0%</span>, <span class="num">100%</span> { <span class="key">opacity</span>: <span class="num">0.3</span>; }
+  <span class="num">50%</span> { <span class="key">opacity</span>: <span class="num">1</span>; }
+}
+
+<span class="key">.star</span> {
+  <span class="key">animation</span>: twinkle <span class="num">3s</span> ease-in-out infinite;
+  <span class="key">animation-delay</span>: var(<span class="val">--delay</span>); <span class="comment">/* randomized per star */</span>
+}
+
+<span class="comment">/* Or use Canvas for better performance with many stars */</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 07 · INTERACTIONS ══════════════════════ -->
+<section class="spec-section" id="interactions">
+  <div class="spec-section-header">
+    <div class="spec-section-num">07 — Interaction Design</div>
+    <h2>User Interactions</h2>
+    <p>How users interact with the terminal interface.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">K</span> Keyboard Input</h3>
+      <table class="spec-table">
+        <thead><tr><th>Action</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td>Type any key</td><td>Character appears after <code>&gt;</code> prompt in white</td></tr>
+          <tr><td>Enter</td><td>Submits the command, triggers response</td></tr>
+          <tr><td>Backspace</td><td>Deletes last typed character</td></tr>
+          <tr><td>Click anywhere</td><td>Focus returns to hidden input field</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3><span class="icon">M</span> Menu Selection</h3>
+      <table class="spec-table">
+        <thead><tr><th>Input</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>1</code> + Enter</td><td>Activates voice interface</td></tr>
+          <tr><td>Invalid input</td><td>Error message or re-prompt</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-warn" style="margin-top: 1rem;">
+        <span class="callout-icon">⚡</span>
+        <div>The voice interface connects to an actual AI voice service (Kortix). The "Connecting..." state may have a real API call behind it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">W</span> Window Chrome Interactions (macOS dots)</h3>
+    <p>The red/yellow/green traffic light dots are <strong>decorative only</strong> — they do not have functional click handlers. They exist purely to sell the terminal window aesthetic.</p>
+    <div class="callout">
+      <span class="callout-icon">💡</span>
+      <div><strong>Enhancement opportunity:</strong> Consider adding hover effects (darken on hover) and optional close/minimize behaviors for added polish.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 08 · RESPONSIVE ══════════════════════ -->
+<section class="spec-section" id="responsive">
+  <div class="spec-section-header">
+    <div class="spec-section-num">08 — Responsive Behavior</div>
+    <h2>Responsive Design</h2>
+    <p>How the interface adapts across screen sizes.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">B</span> Breakpoint Strategy</h3>
+    <table class="spec-table">
+      <thead><tr><th>Breakpoint</th><th>Terminal Width</th><th>Behavior</th></tr></thead>
+      <tbody>
+        <tr><td><code>&gt; 1024px</code> (Desktop)</td><td>~860px fixed</td><td>Terminal centered in viewport with starfield visible on all sides</td></tr>
+        <tr><td><code>768–1024px</code> (Tablet)</td><td>~90vw</td><td>Terminal scales down, maintains padding. Font size may reduce slightly.</td></tr>
+        <tr><td><code>&lt; 768px</code> (Mobile)</td><td>~95vw</td><td>Terminal nearly full-width. Two-column status data may need horizontal scroll or single-column fallback.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-warn" style="margin-top: 1rem;">
+      <span class="callout-icon">📱</span>
+      <div><strong>Mobile challenge:</strong> The two-column "Cognitive Status" data is ~80 characters wide. On narrow screens, consider either horizontal scrolling within the terminal or reformatting to a single-column layout.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ 09 · IMPLEMENTATION ══════════════════════ -->
+<section class="spec-section" id="implementation">
+  <div class="spec-section-header">
+    <div class="spec-section-num">09 — Implementation Notes</div>
+    <h2>Technical Guidance</h2>
+    <p>Recommendations for the engineering team.</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">T</span> Recommended Tech Stack</h3>
+    <table class="spec-table">
+      <thead><tr><th>Layer</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td>Framework</td><td><code>React</code> (original site uses React SPA)</td></tr>
+        <tr><td>Styling</td><td><code>CSS Modules</code> or <code>styled-components</code> — avoid Tailwind for this (too many custom styles)</td></tr>
+        <tr><td>Fonts</td><td><code>Google Fonts: Anonymous Pro 400, 700</code></td></tr>
+        <tr><td>Starfield</td><td><code>HTML Canvas</code> or <code>CSS radial-gradients</code></td></tr>
+        <tr><td>Animations</td><td>CSS keyframes + JS <code>setTimeout</code>/<code>requestAnimationFrame</code> for typewriter</td></tr>
+        <tr><td>State</td><td>React <code>useState</code>/<code>useReducer</code> for terminal state machine</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">S</span> Component Architecture</h3>
+    <div class="code-block">
+      <span class="tag">React Components</span>
+<span class="key">src/</span>
+├── <span class="val">App.jsx</span>                 <span class="comment">// Root — renders Starfield + Terminal</span>
+├── <span class="key">components/</span>
+│   ├── <span class="val">Starfield.jsx</span>        <span class="comment">// Canvas-based star background</span>
+│   ├── <span class="val">Terminal.jsx</span>         <span class="comment">// Main terminal window frame</span>
+│   ├── <span class="val">TerminalHeader.jsx</span>   <span class="comment">// macOS title bar with dots</span>
+│   ├── <span class="val">TerminalContent.jsx</span>  <span class="comment">// Scrollable content area</span>
+│   ├── <span class="val">TypeWriter.jsx</span>       <span class="comment">// Character-by-character text reveal</span>
+│   ├── <span class="val">CognitiveStatus.jsx</span>  <span class="comment">// Two-column status dashboard</span>
+│   ├── <span class="val">CommandInput.jsx</span>     <span class="comment">// Hidden input + cursor</span>
+│   └── <span class="val">VoiceInterface.jsx</span>   <span class="comment">// Post-connection voice UI</span>
+├── <span class="key">hooks/</span>
+│   ├── <span class="val">useTypewriter.js</span>     <span class="comment">// Typewriter animation hook</span>
+│   └── <span class="val">useTerminalState.js</span>  <span class="comment">// State machine for terminal phases</span>
+└── <span class="key">styles/</span>
+    ├── <span class="val">global.css</span>           <span class="comment">// Reset, body, font imports</span>
+    └── <span class="val">terminal.css</span>         <span class="comment">// All terminal styles</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">M</span> Terminal State Machine</h3>
+    <div class="code-block">
+      <span class="tag">State Flow</span>
+<span class="key">STATES</span>:
+  <span class="val">BOOTING</span>      → Terminal fades in, welcome text types
+  <span class="val">STATUS</span>       → Cognitive Status dashboard types out  
+  <span class="val">MENU</span>         → "Select an option:" shown, input enabled
+  <span class="val">PROCESSING</span>   → User submitted input, response typing
+  <span class="val">CONNECTING</span>   → "Connecting..." animation playing
+  <span class="val">VOICE_IDLE</span>   → Voice interface connected, waiting
+  <span class="val">VOICE_ACTIVE</span> → Voice interface in use
+
+<span class="key">TRANSITIONS</span>:
+  BOOTING → STATUS → MENU → PROCESSING → CONNECTING → VOICE_IDLE
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">A</span> Accessibility Notes</h3>
+      <p style="margin-bottom: 0.75rem;">While the terminal aesthetic is inherently visual, ensure:</p>
+      <p>• Hidden input has proper <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">aria-label</code> ("Terminal command input")</p>
+      <p>• Screen readers can access the text content</p>
+      <p>• <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">prefers-reduced-motion</code> disables typewriter (show text instantly)</p>
+      <p>• Sufficient contrast: green on black passes WCAG AA</p>
+    </div>
+    <div class="card">
+      <h3><span class="icon">P</span> Performance Notes</h3>
+      <p style="margin-bottom: 0.75rem;">Key optimizations:</p>
+      <p>• Starfield: use <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">requestAnimationFrame</code>, cap at 30fps</p>
+      <p>• Typewriter: batch DOM updates, avoid per-character reflows</p>
+      <p>• Font: preload Anonymous Pro via <code style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">&lt;link rel="preload"&gt;</code></p>
+      <p>• Total JS bundle target: &lt; 80KB gzipped</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<section style="text-align: center; padding: 3rem 0 2rem; color: var(--gray-muted); font-size: 0.82rem;">
+  <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--spec-accent); margin-bottom: 0.5rem;">END OF SPECIFICATION</p>
+  <p>UI Design Spec for markokraemer.com — Generated Feb 2026</p>
+  <p style="margin-top: 0.25rem; opacity: 0.5;">Reference: https://markokraemer.com/</p>
+</section>
+
+</div>
+</body>
+</html>

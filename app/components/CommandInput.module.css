@@ -1,0 +1,46 @@
+.container {
+  position: relative;
+  cursor: text;
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prompt {
+  display: flex;
+  align-items: center;
+}
+
+.promptSymbol {
+  color: var(--green-primary);
+}
+
+.inputText {
+  color: var(--white);
+}
+
+.cursor {
+  color: var(--white);
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+    opacity: 1;
+  }
+}

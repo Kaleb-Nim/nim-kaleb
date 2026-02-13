@@ -1,0 +1,22 @@
+.terminal {
+  background: var(--bg-terminal);
+  border-radius: 10px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  max-width: 860px;
+  width: 90vw;
+  animation: fadeIn 400ms ease-out 200ms forwards;
+  opacity: 0;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal {
+    width: 95vw;
+  }
+}

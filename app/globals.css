@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-deep: #010810;        /* Deep space background */
+  --bg-terminal: #000000;     /* Terminal window */
+  --bg-header: #333333;       /* Header bar */
+  --green-primary: #00FF00;   /* Phosphor green */
+  --yellow-accent: #FFD700;   /* Highlights/links */
+  --white: #FFFFFF;           /* Input text */
+  --red-dot: #FF5F56;         /* macOS close */
+  --yellow-dot: #FFBD2E;      /* macOS minimize */
+  --green-dot: #27C93F;       /* macOS maximize */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-anonymous-pro: var(--font-anonymous-pro);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-deep);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-anonymous-pro), monospace;
+}
+
+/* Phosphor glow effect utility class */
+.phosphor-glow {
+  color: var(--green-primary);
+  text-shadow:
+    0 0 4px rgba(0, 255, 0, 0.4),
+    0 0 8px rgba(0, 255, 0, 0.2),
+    0 0 16px rgba(0, 255, 0, 0.1);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

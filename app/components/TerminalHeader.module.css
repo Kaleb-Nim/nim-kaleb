@@ -1,0 +1,50 @@
+.header {
+  background: var(--bg-header);
+  height: 30px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 10px 10px 0 0;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.dotRed {
+  background: var(--red-dot);
+}
+
+.dotYellow {
+  background: var(--yellow-dot);
+}
+
+.dotGreen {
+  background: var(--green-dot);
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #CCCCCC;
+  font-size: 0.8rem;
+  font-family: var(--font-anonymous-pro), monospace;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 0.7rem;
+  }
+}
