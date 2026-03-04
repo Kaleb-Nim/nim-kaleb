@@ -1,0 +1,111 @@
+.container {
+  animation: slideIn 0.3s ease-out both;
+  padding-top: 8px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Mic button ──────────────────────────────────────────────────────────── */
+
+.micButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid var(--green-primary);
+  color: var(--green-primary);
+  font-family: var(--font-anonymous-pro), monospace;
+  font-size: 0.82rem;
+  padding: 6px 16px;
+  cursor: pointer;
+  text-shadow:
+    0 0 4px rgba(0, 255, 0, 0.4),
+    0 0 8px rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 6px rgba(0, 255, 0, 0.15);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  line-height: 1.8;
+}
+
+.micButton:hover:not(:disabled) {
+  box-shadow: 0 0 12px rgba(0, 255, 0, 0.35);
+}
+
+.micButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.micButton.recording {
+  border-color: #ff4444;
+  color: #ff4444;
+  text-shadow: 0 0 6px rgba(255, 68, 68, 0.6);
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.4);
+  animation: recordPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes recordPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.7);
+  }
+}
+
+/* ── Waveform canvas ─────────────────────────────────────────────────────── */
+
+.waveformCanvas {
+  display: block;
+  margin: 8px 0;
+  opacity: 0.85;
+}
+
+/* ── Status + transcript ─────────────────────────────────────────────────── */
+
+.statusLine {
+  opacity: 0.7;
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+.transcriptBlock {
+  margin: 6px 0;
+}
+
+.transcriptLabel {
+  color: var(--yellow-accent);
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+}
+
+.responseBlock {
+  margin-top: 8px;
+}
+
+.responseSentence {
+  animation: fadeIn 0.2s ease-out both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.errorLine {
+  color: #ff4444;
+  text-shadow: 0 0 4px rgba(255, 68, 68, 0.5);
+}
+
+.hint {
+  opacity: 0.45;
+  font-size: 0.75rem;
+  margin-top: 10px;
+}

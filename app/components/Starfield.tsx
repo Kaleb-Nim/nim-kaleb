@@ -14,7 +14,7 @@ type Star = {
 export default function Starfield() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(0);
   const lastFrameTimeRef = useRef<number>(0);
 
   useEffect(() => {
