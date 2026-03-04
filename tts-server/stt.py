@@ -66,19 +66,50 @@ def transcribe_bytes(audio_bytes: bytes, mime_type: str = "audio/webm") -> str:
 
 
 def _decode_audio(audio_bytes: bytes) -> tuple[np.ndarray, int]:
-    """Decode audio bytes to float32 mono numpy array."""
+    """Decode audio bytes to float32 mono numpy array.
+
+    soundfile can't read webm/opus (browser MediaRecorder format), so we
+    attempt a direct read first and fall back to ffmpeg conversion.
+    """
     buf = io.BytesIO(audio_bytes)
     try:
         data, sr = sf.read(buf, dtype="float32", always_2d=True)
         mono = data.mean(axis=1)
         return mono, sr
     except Exception:
-        # Fallback: try reading via soundfile with explicit format hints
-        buf.seek(0)
-        data, sr = sf.read(buf, dtype="float32")
-        if data.ndim > 1:
-            data = data.mean(axis=1)
+        pass
+
+    # ffmpeg fallback: decode any container to raw 16kHz mono PCM
+    return _decode_via_ffmpeg(audio_bytes)
+
+
+def _decode_via_ffmpeg(audio_bytes: bytes) -> tuple[np.ndarray, int]:
+    """Use ffmpeg to decode webm/opus (or any format) to float32 mono PCM."""
+    import subprocess
+    import tempfile
+    import os
+
+    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_in:
+        tmp_in.write(audio_bytes)
+        tmp_in_path = tmp_in.name
+
+    tmp_out_path = tmp_in_path + ".wav"
+    try:
+        subprocess.run(
+            [
+                "ffmpeg", "-y", "-i", tmp_in_path,
+                "-ac", "1", "-ar", "16000",
+                "-f", "wav", tmp_out_path,
+            ],
+            check=True,
+            capture_output=True,
+        )
+        data, sr = sf.read(tmp_out_path, dtype="float32")
         return data, sr
+    finally:
+        os.unlink(tmp_in_path)
+        if os.path.exists(tmp_out_path):
+            os.unlink(tmp_out_path)
 
 
 def _transcribe_mlx(audio: np.ndarray, sr: int) -> str:
