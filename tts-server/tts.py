@@ -39,7 +39,7 @@ _model: Qwen3TTSModel | None = None
 
 # A short reference WAV bundled with the repo — used in x_vector_only_mode so
 # only the speaker timbre is extracted, not transcribed content.
-_REF_AUDIO = os.path.join(_QWEN_TTS_REPO, "example_output", "test_1.7b_base.wav")
+_REF_AUDIO = os.path.join(_QWEN_TTS_REPO, "finetuning", "data_v3", "ref.wav")
 _REF_TEXT = "Good one. Okay, fine, I'm just gonna leave this sock monkey here. Goodbye."
 
 _GEN_KWARGS = dict(

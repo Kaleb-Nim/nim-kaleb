@@ -7,7 +7,8 @@ export default defineConfig({
   reporter: 'list',
   use: {
     baseURL: 'http://localhost:3000',
-    extraHTTPHeaders: { 'Content-Type': 'application/json' },
+    // Don't set global Content-Type — it breaks multipart form uploads
+    // Individual tests set Content-Type as needed
   },
   webServer: {
     command: 'bun dev',
