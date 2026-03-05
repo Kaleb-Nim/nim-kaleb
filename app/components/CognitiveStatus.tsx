@@ -11,27 +11,23 @@ interface StatusRow {
 const statusData: StatusRow[] = [
   {
     left: { label: "Neural Activity", value: "Elevated" },
-    right: { label: "Cognitive Processes", value: "102" }
-  },
-  {
-    left: { label: "Synapse Utilization", value: "45%" },
-    right: { label: "Conscious Entities", value: "1" }
+    right: { label: "Model", value: "kaleb-nim-400b-0706" }
   },
   {
     left: { label: "Memory Usage", value: "27.1% of 100TB" },
-    right: { label: "IPv4 address for mind0", value: "192.168.100.1" }
+    right: { label: "Coffee Consumed", value: "4.2L today" }
   },
   {
-    left: { label: "Dream Cache", value: "20%" },
-    right: { label: "Model", value: "kaleb-nim-400b-0706" }
+    left: { label: "Training Loss", value: "NaN (it's fine)" },
+    right: { label: "Side Projects", value: "∞ (unfinished)" }
+  },
+  {
+    left: { label: "GitHub Commits", value: "3am (mostly)" },
+    right: { label: "Prod Incidents", value: "definitely 0" }
   },
   {
     left: { label: "Emotion Index", value: "Stable" },
     right: { label: "Mood Updates", value: "0 pending" }
-  },
-  {
-    left: { label: "Neuron Connections", value: "98% optimal" },
-    right: { label: "Creativity Boosters", value: "Activated" }
   },
 ];
 
@@ -62,7 +58,7 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
 
     const timer = setTimeout(() => {
       setVisibleRows((prev) => prev + 1);
-    }, 200); // 200ms per row
+    }, 150); // 150ms per row
 
     return () => clearTimeout(timer);
   }, [visibleRows, onComplete]);

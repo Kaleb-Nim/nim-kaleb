@@ -12,7 +12,7 @@
   padding: 0;
   white-space: pre;
   font-family: var(--font-anonymous-pro), monospace;
-  line-height: 1.8;
+  line-height: 1.4;
 }
 
 .singleColumn .statusLine {
