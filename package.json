@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-context": "bun scripts/sync-context.ts",
+    "test": "bunx playwright test",
+    "test:headed": "bunx playwright test --headed"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

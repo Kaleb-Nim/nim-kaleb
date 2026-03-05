@@ -1,0 +1,79 @@
+Personal information
+
+Kaleb Nim - Personal & Professional Profile
+Personal Details
+*  Name: Kaleb Nim   
+*  Contact Number: +65 84953150   
+*  Email: kaleb.nim@gmail.com   
+*  Location: Singapore   
+* Online Presence:
+    * GitHub: https://github.com/Kaleb-Nim   
+    * Beacons: https://beacons.ai/kaleb_nim   
+
+Professional Experience
+RAID (RSAF Agile Innovation Digital)
+*  Role: AI Engineer   
+*  Tenure: January 2025 – July 2026   
+* Key Projects:
+    * Developed a real-time speech diarization and transcription application tailored for ATC controllers.  
+    * Augmented sim-pilots' console-based operations utilizing digital twin and agentic solutions.  
+    * Managed equipment procurement, including official price quotations for office camera equipment (Canon EOS R8) for MINDEF/RSAF.  
+Singapore Youth AI
+*  Role: Representative   
+*  Activity: Engaged in high-level stakeholder meetings, including a scheduled meeting with Ms. Wu Mei Ling, CEO of YMCA, representing the organization.  
+Tensorplex Labs (Crypto AI Startup)
+*  Role: AI Engineer   
+*  Tenure: April 2024 – August 2024   
+* Key Projects:
+    * Developed an LLM-powered community management and helpdesk chatbot.  
+    * Automated query responses, discussion moderation, and ticket handling for Web3 projects.  
+    * Supported over 10,000 members across four distinct crypto project Discord servers.  
+A*STAR - Agency for Science, Technology and Research (ARTC)
+*  Role: AI Engineer  +1 
+*  Tenure: January 2024 – April 2024  +1 
+*  Key Projects: Led AI-driven supply chain risk management research in partnership with a Fortune 50 medical company, creating an LLM-based early warning system.  
+*  Previous Role: Development Scientist Intern (March 2023 – January 2024).  
+    * Built a Question-Answer LLM agent for "what-if" hydrogen supply chain optimization scenarios.  
+    * Implemented custom knowledge-based LLM retrieval systems with analytical visualizations.  
+
+Education
+Singapore Polytechnic
+*  Credential: Diploma in Applied Artificial Intelligence and Analytics   
+*  Performance: CGPA 3.86   
+*  Duration: April 2021 – March 2024   
+*  Distinctions: Achieved distinctions in "Communicating for Project Effectiveness" and "Narrative Thinking".  
+Evergreen Secondary School
+*  Credential: Singapore-Cambridge GCE O Levels   
+* Performance: Net L1R4: 5; L1R5: 7   
+*  Duration: January 2017 – November 2020   
+*  Subject Mastery: Achieved A1 in Elementary Mathematics, Biology, Chemistry/Physics, and Combined Humanities.  
+
+Technical Projects & Personal Initiatives
+Media & Content Creation
+* YouTube Channels:
+    * "Campus After Dark": Focuses on college and clubbing storytelling.  
+    * Music Channel: Dedicated to showcasing "underrated raw singing vocals," featuring content edited with CapCut.  
+*  AI Influencers: Researching and developing consistent AI influencers for brand promotion.  
+App & Simulation Development
+*  App Development: Designing characters for a new application, including a cat character in a specific aesthetic style.  
+*  Physics Simulations: Created a 3D physics simulation of "Mega Altaria" hitting a glass door.  
+*  Marketing Automation: Developed a project to convert forms into AI voice agents for streamlined feedback collection.  
+Hackathons & Achievements
+* NUS Hack&Roll 2024: Built "ABCD - A Brilliant Cobra Duel," a snake game variant with LLM-based "prompt engineering" combat. Awarded Best Pre-University Hack.  
+* PolyFinTech 100 API Hackathon 2023: Developed an automated video generation system using a custom LLM for personalized 30-45 second infomercials. Awarded Champion Team ($2500).  
+* Batey Hackathon 2022: Built a food recommender system using TensorFlow Recommenders. Awarded Gold Award ($2000).  
+* PolyFinTech 100 API Hackathon 2022: Created a decentralized portfolio application using Klaytn Blockchain and Zero-Knowledge protocols. Awarded 1st Runner Up ($1000).  
+
+Leadership & Community
+* SP Guitarist: Served as Vice-President. Led a team of 6 to manage 40 members, organized concert performances, and ran weekly training sessions. +1 
+* SPAI (Student Chapter): Committee member. Planned AI-themed workshops, python graphing competitions, and served as a student instructor for Year 1 students. +1 
+
+Personal Interests & Travel
+* Skiing: Active interest in skiing with trips planned for:
+    * Hakuba, Japan (February/March 2026). +1 
+    * Yabuli, China (March 2026).  
+*  Travel History: Planned and executed a 3-day itinerary for Melbourne, Australia in late 2025.  
+
+Professional References
+* Dr. Wenda Chen: Section Manager, A*STAR (ARTC). Contact: +65 94344163 / Wenda_Chen@artc.a-star.edu.sg.  
+* Dr. Qiu Zixuan (Wilson): Senior Lecturer, Singapore Polytechnic. Contact: +65 96899157 / qiu_zixuan@ichat.sp.edu.sg.

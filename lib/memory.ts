@@ -1,6 +1,13 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
+interface WorkEntry {
+  role?: string;
+  company?: string;
+  period?: string;
+  highlights?: string[];
+}
+
 interface ContextJSON {
   identity: Record<string, string>;
   personality: { tone: string; communication_style: string; values: string[] };
@@ -8,6 +15,18 @@ interface ContextJSON {
   projects: Array<{ name: string; description: string; stack: string[] }>;
   background: Record<string, string>;
   conversation_instructions: string[];
+  personal_info?: {
+    bio?: string;
+    location?: string;
+    education?: string;
+  };
+  work_history?: WorkEntry[];
+  hobbies?: string[];
+  contact?: {
+    github?: string;
+    twitter?: string;
+    email?: string;
+  };
 }
 
 let _context: ContextJSON | null = null;
@@ -34,6 +53,32 @@ export function buildSystemPrompt(): string {
     ...(ctx.skills.frameworks as string[]),
   ].join(', ');
 
+  const personalSection = ctx.personal_info
+    ? `\n## Personal\n${ctx.personal_info.bio ? `Bio: ${ctx.personal_info.bio}\n` : ''}${ctx.personal_info.location ? `Location: ${ctx.personal_info.location}\n` : ''}${ctx.personal_info.education ? `Education: ${ctx.personal_info.education}\n` : ''}`.trimEnd()
+    : '';
+
+  const workSection = ctx.work_history?.length
+    ? `\n## Work History\n${ctx.work_history
+        .map((w) => {
+          const header = [w.role, w.company, w.period].filter(Boolean).join(' @ ');
+          const highlights = w.highlights?.length
+            ? '\n' + w.highlights.map((h) => `  - ${h}`).join('\n')
+            : '';
+          return `- ${header}${highlights}`;
+        })
+        .join('\n')}`
+    : '';
+
+  const hobbiesSection = ctx.hobbies?.length
+    ? `\n## Interests\n${ctx.hobbies.join(', ')}`
+    : '';
+
+  const contactSection = ctx.contact
+    ? `\n## Contact\n${Object.entries(ctx.contact)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join('\n')}`
+    : '';
+
   return `${instructions}
 
 ## Identity
@@ -52,6 +97,6 @@ ${projectList}
 ## Background
 ${Object.entries(ctx.background)
   .map(([k, v]) => `${k}: ${v}`)
-  .join('\n')}
+  .join('\n')}${personalSection}${workSection}${hobbiesSection}${contactSection}
 `.trim();
 }
