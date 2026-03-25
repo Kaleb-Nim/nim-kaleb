@@ -1,0 +1,31 @@
+# Daily todos/accomplishments 
+
+#4th March
+* Successfully posted a 16 sec TikTok
+    * Took 2h total ( inclusive of a shitting break ) 
+    * Fliming + editing + content
+* Qwen3 tts 
+    * Downloaded base 1.7B
+    * Successfully ran inference
+    * Script to process raw .wav files into .jsonl ( 15-30 sec ) for training
+    * Successfully tested and ran fine-tuning script on 40sec clip ( able to do inference as well ) 
+* Nim-kaleb
+    * Anthropic LLM response generation
+    * Local Qwen3 reply
+    * Full E2E testing 
+Lowkey one of my most productive days. Having enough sleep to wake up refreshed really helps, my brain is full of energy. 
+
+Script for “day one cloning myself” 
+today we will be trying to use qwen3 TTS to clone my own voice, cuts to demo page of
+This is a new model that only requires 30sec of audio input to successfully clone yr voice 
+
+#5th March 
+Discuss hackomania things 
+Book flights returning
+Edit the interview reflection video
+
+* Qwen3 tts
+    * Uploading the 15mins recording to be used in the fine-tuning process of the model 
+    * Training on the 15mins 
+* Nim-kaleb
+    * Pipeline for ingesting raw txt files to be added a context memory for response generation
