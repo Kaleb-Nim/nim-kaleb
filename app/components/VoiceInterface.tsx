@@ -3,19 +3,19 @@
 import { useEffect, useRef } from 'react';
 import styles from './VoiceInterface.module.css';
 import type { TerminalState, TerminalStateMetadata } from '@/app/hooks/useTerminalState';
-import { useVoicePipeline } from '@/app/hooks/useVoicePipeline';
+import { useRealtimeVoice } from '@/app/hooks/useRealtimeVoice';
 
 interface VoiceInterfaceProps {
-  terminalState: TerminalState;
+  terminalState?: TerminalState;
   transitionTo: (state: TerminalState, meta?: TerminalStateMetadata) => void;
 }
 
 const PHASE_LABELS: Record<string, string> = {
-  idle: 'Ready. Click mic to speak.',
-  recording: 'Recording… click to stop.',
-  transcribing: 'Transcribing audio…',
-  thinking: 'Processing query…',
-  speaking: 'Synthesizing response…',
+  idle: 'Click connect to start voice chat.',
+  connecting: 'Connecting to OpenAI Realtime…',
+  listening: 'Listening… (speak naturally)',
+  responding: 'Responding…',
+  error: 'Connection error.',
 };
 
 export default function VoiceInterface({
@@ -25,11 +25,8 @@ export default function VoiceInterface({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
-  const { status, analyserRef, startRecording, stopRecording } =
-    useVoicePipeline({ transitionTo });
-
-  const isRecording = status.phase === 'recording';
-  const isBusy = ['transcribing', 'thinking', 'speaking'].includes(status.phase);
+  const { status, analyserRef, connect, disconnect, isConnected } =
+    useRealtimeVoice({ transitionTo });
 
   // ── Waveform visualiser ────────────────────────────────────────────────────
   useEffect(() => {
@@ -47,7 +44,6 @@ export default function VoiceInterface({
       ctx.clearRect(0, 0, W, H);
 
       if (!analyser) {
-        // Draw flat baseline
         ctx.strokeStyle = 'rgba(0,255,0,0.2)';
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -62,7 +58,7 @@ export default function VoiceInterface({
       analyser.getByteFrequencyData(dataArr);
 
       const barW = (W / bufLen) * 2.5;
-      const color = isRecording ? '#ff4444' : '#00ff00';
+      const color = status.phase === 'listening' ? '#00ff00' : '#ffaa00';
 
       ctx.fillStyle = color;
       let x = 0;
@@ -77,15 +73,7 @@ export default function VoiceInterface({
 
     draw();
     return () => cancelAnimationFrame(animFrameRef.current);
-  }, [analyserRef, isRecording]);
-
-  const handleMicClick = () => {
-    if (isRecording) {
-      stopRecording();
-    } else if (!isBusy) {
-      startRecording();
-    }
-  };
+  }, [analyserRef, status.phase]);
 
   return (
     <div className={styles.container}>
@@ -102,18 +90,18 @@ export default function VoiceInterface({
         height={32}
       />
 
-      {/* Mic button */}
+      {/* Connect / Disconnect button */}
       <button
-        className={`${styles.micButton} ${isRecording ? styles.recording : ''}`}
-        onClick={handleMicClick}
-        disabled={isBusy}
-        aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+        className={`${styles.micButton} ${isConnected ? styles.recording : ''}`}
+        onClick={isConnected ? disconnect : connect}
+        disabled={status.phase === 'connecting'}
+        aria-label={isConnected ? 'Disconnect voice' : 'Connect voice'}
       >
-        <span>{isRecording ? '■' : '●'}</span>
-        <span>{isRecording ? 'Stop' : 'Speak'}</span>
+        <span>{isConnected ? '■' : '●'}</span>
+        <span>{isConnected ? 'Disconnect' : 'Connect'}</span>
       </button>
 
-      {/* Transcript */}
+      {/* User transcript */}
       {status.transcript && (
         <div className={styles.transcriptBlock}>
           <span className={styles.transcriptLabel}>you: </span>
@@ -121,15 +109,12 @@ export default function VoiceInterface({
         </div>
       )}
 
-      {/* Streamed response sentences */}
-      {status.responseSentences.length > 0 && (
+      {/* AI response text */}
+      {status.responseText && (
         <div className={styles.responseBlock}>
-          {status.responseSentences.map((s, i) => (
-            <div key={i} className={styles.responseSentence}>
-              {i === 0 ? '  ' : '  '}
-              {s}
-            </div>
-          ))}
+          <div className={styles.responseSentence}>
+            {'  '}{status.responseText}
+          </div>
         </div>
       )}
 
@@ -139,7 +124,7 @@ export default function VoiceInterface({
       )}
 
       <div className={styles.hint}>
-        {'  '}[speak naturally — multi-turn context enabled]
+        {'  '}[openai realtime — low-latency voice with server vad]
       </div>
     </div>
   );
