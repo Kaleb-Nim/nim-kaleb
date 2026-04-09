@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-ENDPOINT="https://dashscope-intl.aliyuncs.com/api/v1/services/audio/tts"
+ENDPOINT="https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation"
 OUTPUT_DIR="assets/reference-audio/verification"
 
 if [[ -z "${DASHSCOPE_API_KEY:-}" ]]; then
@@ -51,8 +51,7 @@ for i in 0 1 2; do
       --arg text "$SENTENCE" \
       '{
         model: "qwen3-tts-vc-2026-01-22",
-        input: { text: $text },
-        parameters: { voice: $voice }
+        input: { text: $text, voice: $voice, language_type: "English" }
       }'
     )")
 
