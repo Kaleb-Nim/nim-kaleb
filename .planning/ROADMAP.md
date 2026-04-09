@@ -46,9 +46,9 @@ Plans:
   4. A WebSocket drop triggers automatic reconnect and the session resumes without a page reload
 **Plans:** 3 plans
 Plans:
-- [ ] 02-01-PLAN.md — Create Bun WS server scaffold with DashScope ASR integration
-- [ ] 02-02-PLAN.md — Wire LLM and TTS streaming pipeline with sentence-boundary overlap
-- [ ] 02-03-PLAN.md — Refactor browser hook for new protocol and add auto-reconnect
+- [x] 02-01-PLAN.md — Create Bun WS server scaffold with DashScope ASR integration
+- [x] 02-02-PLAN.md — Wire LLM and TTS streaming pipeline with sentence-boundary overlap
+- [x] 02-03-PLAN.md — Refactor browser hook for new protocol and add auto-reconnect
 
 ### Phase 3: Conversational AI + Speech Quality
 **Goal**: Conversation feels natural — VAD activates automatically, the AI remembers context, and speech sounds human
