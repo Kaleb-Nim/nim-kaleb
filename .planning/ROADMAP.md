@@ -29,7 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The LLM system prompt contains Kaleb's resume, bio, and project descriptions — a visitor question about any listed role or project returns an accurate answer
   4. Responses maintain Kaleb's vocabulary and tone across at least three distinct topic areas (technical, career, personal projects)
   5. Emotional intonation varies observably between an achievement response and a challenge response
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Create enrollment script, record audio, enroll voice with DashScope
+- [ ] 01-02-PLAN.md — Author LLM system prompt with persona, knowledge base, and style constraints
+- [ ] 01-03-PLAN.md — Verify voice quality and emotional intonation variation
 
 ### Phase 2: Server Infrastructure + Full Pipeline
 **Goal**: Visitors can speak to the site and hear Kaleb's AI clone respond, end-to-end, under 800ms round-trip
@@ -73,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Voice Enrollment | 0/? | Not started | - |
+| 1. Voice Enrollment | 0/3 | Planning complete | - |
 | 2. Server Infrastructure + Full Pipeline | 0/? | Not started | - |
 | 3. Conversational AI + Speech Quality | 0/? | Not started | - |
 | 4. UI Preservation + Launch Readiness | 0/? | Not started | - |
