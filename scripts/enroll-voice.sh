@@ -98,25 +98,30 @@ AUDIO_B64=$(base64 -i "$PADDED_FILE" | tr -d '\n')
 AUDIO_DATA_URI="data:audio/wav;base64,$AUDIO_B64"
 TRANSCRIPT=$(cat "$TRANSCRIPT_FILE")
 
+# Build JSON payload via file to avoid ARG_MAX limits on large base64 audio
+PAYLOAD_FILE=$(mktemp)
+jq -n \
+  --arg target_model "$TARGET_MODEL" \
+  --arg transcript "$TRANSCRIPT" \
+  --rawfile audio_b64 <(echo -n "$AUDIO_B64") \
+  '{
+    model: "qwen-voice-enrollment",
+    input: {
+      action: "create",
+      target_model: $target_model,
+      preferred_name: "kaleb",
+      audio: { data: ("data:audio/wav;base64," + $audio_b64) },
+      text: $transcript,
+      language: "en"
+    }
+  }' > "$PAYLOAD_FILE"
+
 RESPONSE=$(curl -s -X POST "$ENDPOINT" \
   -H "Authorization: Bearer $DASHSCOPE_API_KEY" \
   -H "Content-Type: application/json" \
-  -d "$(jq -n \
-    --arg target_model "$TARGET_MODEL" \
-    --arg transcript "$TRANSCRIPT" \
-    --arg audio "$AUDIO_DATA_URI" \
-    '{
-      model: "qwen-voice-enrollment",
-      input: {
-        action: "create",
-        target_model: $target_model,
-        preferred_name: "kaleb",
-        audio: { data: $audio },
-        text: $transcript,
-        language: "en"
-      }
-    }'
-  )")
+  -d @"$PAYLOAD_FILE")
+
+rm -f "$PAYLOAD_FILE"
 
 echo "API Response:"
 echo "$RESPONSE" | jq .
