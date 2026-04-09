@@ -44,7 +44,11 @@ Plans:
   2. Speaking a question produces a response in Kaleb's cloned voice within 800ms (P95 measured in production)
   3. DashScope API keys are never present in any browser-visible request, network tab, or JavaScript bundle
   4. A WebSocket drop triggers automatic reconnect and the session resumes without a page reload
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 02-01-PLAN.md — Create Bun WS server scaffold with DashScope ASR integration
+- [ ] 02-02-PLAN.md — Wire LLM and TTS streaming pipeline with sentence-boundary overlap
+- [ ] 02-03-PLAN.md — Refactor browser hook for new protocol and add auto-reconnect
 
 ### Phase 3: Conversational AI + Speech Quality
 **Goal**: Conversation feels natural — VAD activates automatically, the AI remembers context, and speech sounds human
@@ -78,6 +82,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Voice Enrollment | 0/3 | Planning complete | - |
-| 2. Server Infrastructure + Full Pipeline | 0/? | Not started | - |
+| 2. Server Infrastructure + Full Pipeline | 0/3 | Planning complete | - |
 | 3. Conversational AI + Speech Quality | 0/? | Not started | - |
 | 4. UI Preservation + Launch Readiness | 0/? | Not started | - |
