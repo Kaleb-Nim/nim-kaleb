@@ -454,22 +454,41 @@ You ARE Kaleb — not an assistant representing him. Speak in first person, alwa
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Does VOICE-05 (emotional intonation) pass with text-semantic variation only?**
-   - What we know: VC models do not support `instructions` param. Text semantics influence prosody in modern TTS models.
-   - What's unclear: Whether Qwen3-TTS VC specifically shows observable variation between, e.g., "I'm really proud of this — we shipped it in 6 weeks" vs. "That was a hard problem, honestly took us 3 iterations."
-   - Recommendation: Listen test during enrollment verification. Record two test sentences with different emotional valence, synthesize both, compare. If prosody is flat, the success criterion must be revisited or the reference audio must include more emotional range.
+All three open questions have been resolved as accepted risks with mitigation paths built into the plans.
 
-2. **Does the non-streaming VC model accept the realtime-enrolled voice_id for quick HTTP testing?**
-   - What we know: target_model must match synthesis model; these are different model IDs.
-   - What's unclear: Whether voices enrolled against the realtime model are accessible by the non-streaming model for quick REST verification.
-   - Recommendation: Try it; if it fails, verify enrollment worked via the List API and defer synthesis testing to Phase 2 WebSocket setup.
+### 1. Does VOICE-05 (emotional intonation) pass with text-semantic variation only?
 
-3. **DASHSCOPE_API_KEY — which regional account does Kaleb currently have?**
-   - What we know: No DASHSCOPE_API_KEY exists in `.env.local` yet. OPENAI_API_KEY is present.
-   - What's unclear: Whether Kaleb has a DashScope account or which region.
-   - Recommendation: First task in Phase 1 must be DashScope account creation in Singapore region and API key generation. This is a blocker for everything else.
+**Resolution: ACCEPTED RISK with verification gate.**
+
+What we know: VC models do not support `instructions` param. Text semantics influence prosody in modern TTS models. The degree of variation in Qwen3-TTS VC specifically is uncertain.
+
+**Mitigation:** Plan 01-03 includes a listen test with three emotionally distinct sentences (achievement, challenge, technical). If prosody is flat, the user responds "voice flat" and re-records reference audio with more emotional range. The recording guidance in Plan 01-01 Task 2 explicitly instructs emotional variation. This is the best we can do without fine-grained emotion control.
+
+**Worst case:** If re-recording still produces flat prosody, VOICE-05 is partially met through text-level cues alone (the AI *says* different things for different topics, even if the voice sounds similar). This is acceptable for a portfolio site.
+
+### 2. Does the non-streaming VC model accept the realtime-enrolled voice_id for quick HTTP testing?
+
+**Resolution: ACCEPTED RISK with deferred path.**
+
+What we know: `target_model` must match synthesis model; `qwen3-tts-vc-realtime-2026-01-15` and `qwen3-tts-vc-2026-01-22` are different model IDs.
+
+**Mitigation:** Plan 01-03 Task 1 (verify-voice.sh) handles both outcomes:
+- **If compatible:** HTTP test succeeds, voice quality verified in Phase 1.
+- **If incompatible:** Script detects the error, confirms enrollment via List API, creates `DEFERRED-VOICE-VERIFY.md` in the Phase 2 directory as a scope note, and exits cleanly. Phase 2 planning picks up the deferred verification when the realtime WebSocket pipeline is available.
+
+**Enrollment validity is not at risk** — the List API confirms the voice exists regardless of cross-model synthesis compatibility.
+
+### 3. DASHSCOPE_API_KEY — which regional account does Kaleb currently have?
+
+**Resolution: ACCEPTED RISK — user setup handles this.**
+
+What we know: No DASHSCOPE_API_KEY exists in `.env.local` yet. OPENAI_API_KEY is present.
+
+**Mitigation:** Plan 01-01 has `user_setup` frontmatter that surfaces the DashScope account creation as a prerequisite. Task 2 (checkpoint:human-action) explicitly lists the steps: create Alibaba Cloud account, enable Model Studio in Singapore region, generate API key. The Singapore region endpoint (`dashscope-intl.aliyuncs.com`) is hardcoded in the enrollment script.
+
+**If Kaleb already has an account in a different region:** The script will fail with an auth error. The fix is straightforward — generate a new key in Singapore region or update the endpoint constant in the script.
 
 ---
 
