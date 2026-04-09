@@ -31,9 +31,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. Emotional intonation varies observably between an achievement response and a challenge response
 **Plans:** 3 plans
 Plans:
-- [ ] 01-01-PLAN.md — Create enrollment script, record audio, enroll voice with DashScope
-- [ ] 01-02-PLAN.md — Author LLM system prompt with persona, knowledge base, and style constraints
-- [ ] 01-03-PLAN.md — Verify voice quality and emotional intonation variation
+- [x] 01-01-PLAN.md — Create enrollment script, record audio, enroll voice with DashScope
+- [x] 01-02-PLAN.md — Author LLM system prompt with persona, knowledge base, and style constraints
+- [x] 01-03-PLAN.md — Verify voice quality and emotional intonation variation
 
 ### Phase 2: Server Infrastructure + Full Pipeline
 **Goal**: Visitors can speak to the site and hear Kaleb's AI clone respond, end-to-end, under 800ms round-trip
