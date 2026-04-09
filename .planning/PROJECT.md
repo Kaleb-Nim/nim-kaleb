@@ -24,10 +24,10 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 ### Active
 
 - [ ] Replace OpenAI Realtime API with Alibaba Cloud full pipeline (STT + LLM + TTS)
-- [ ] Clone Kaleb's voice using Qwen3-TTS for personalized speech synthesis
+- ✓ Clone Kaleb's voice using Qwen3-TTS for personalized speech synthesis — Validated in Phase 1: Voice Enrollment (voice_id: qwen-tts-vc-kaleb-voice, listen test deferred to Phase 2)
 - [ ] Human-like speech control instructions (filler words: "erm", "uh", natural pauses)
 - [ ] Conversational follow-up questions at end of responses when appropriate
-- [ ] Resume/docs-fed context so the LLM answers as Kaleb with accurate information
+- ✓ Resume/docs-fed context so the LLM answers as Kaleb with accurate information — Validated in Phase 1: System prompt populated with full work history, projects, skills
 - [ ] Maintain current terminal UI + voice interface experience
 
 ### Out of Scope
@@ -43,7 +43,7 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 - **Existing codebase**: Next.js 16, React 19, TypeScript, Tailwind CSS 4, Bun runtime
 - **Current voice pipeline**: OpenAI Realtime API (gpt-4o-realtime-preview) handles STT + LLM + TTS via WebSocket with ephemeral tokens
 - **Target pipeline**: Alibaba Cloud services replacing all three pieces (STT, LLM via Qwen, TTS via Qwen3-TTS with voice cloning)
-- **Voice clone**: Needs to be created — Kaleb's voice model doesn't exist yet
+- **Voice clone**: Enrolled with DashScope (Phase 1 complete) — voice_id stored in .env.local
 - **Context source**: Resume/bio documents fed into LLM system prompt
 - **Hosting**: Vercel (existing)
 - **Key file**: `app/hooks/useRealtimeVoice.ts` — current OpenAI WebSocket voice hook (modified, uncommitted)
@@ -82,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-09 after initialization*
+*Last updated: 2026-04-09 after Phase 1 completion*
