@@ -12,7 +12,7 @@ interface VoiceInterfaceProps {
 
 const PHASE_LABELS: Record<string, string> = {
   idle: 'Click connect to start voice chat.',
-  connecting: 'Connecting to OpenAI Realtime…',
+  connecting: 'Connecting to Bun WS server…',
   listening: 'Listening… (speak naturally)',
   responding: 'Responding…',
   error: 'Connection error.',
@@ -124,7 +124,7 @@ export default function VoiceInterface({
       )}
 
       <div className={styles.hint}>
-        {'  '}[openai realtime — low-latency voice with server vad]
+        {'  '}[bun ws server — dashscope asr + llm + tts pipeline]
       </div>
     </div>
   );
