@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Voice enrollment artifacts (contain personal audio)
+assets/reference-audio/*.wav
+assets/reference-audio/*.txt
