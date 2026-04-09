@@ -43,3 +43,4 @@ next-env.d.ts
 # Voice enrollment artifacts (contain personal audio)
 assets/reference-audio/*.wav
 assets/reference-audio/*.txt
+assets/reference-audio/verification/
