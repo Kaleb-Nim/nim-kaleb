@@ -22,11 +22,26 @@ export class Session {
   /** Conversation history for multi-turn context — capped at 20 entries (T-02-07) */
   conversationHistory: Array<{ role: string; content: string }> = [];
 
+  /** AbortController for the current LLM+TTS pipeline — aborted on barge-in */
+  private responseAbort: AbortController | null = null;
+
   private ws: ServerWebSocket<SessionData>;
 
   constructor(ws: ServerWebSocket<SessionData>) {
     this.ws = ws;
     this.sessionId = ws.data.sessionId;
+  }
+
+  /** Cancel any in-flight LLM+TTS response (barge-in) */
+  private cancelCurrentResponse(): void {
+    if (this.responseAbort) {
+      this.responseAbort.abort();
+      this.responseAbort = null;
+    }
+    if (this.ttsWs && this.ttsWs.readyState === WebSocket.OPEN) {
+      this.ttsWs.close();
+    }
+    this.ttsWs = null;
   }
 
   /** Send a typed message to the browser client */
@@ -53,6 +68,14 @@ export class Session {
       onTranscriptFinal: (text) => {
         session.send({ type: 'transcript.final', text });
         console.log(`[session] ${session.sessionId} transcript: ${text}`);
+
+        // ── Barge-in: cancel any in-flight response before starting new one ──
+        session.cancelCurrentResponse();
+        session.send({ type: 'response.done' }); // signal browser to stop playing old audio
+
+        // Create new abort controller for this response turn
+        const abort = new AbortController();
+        session.responseAbort = abort;
 
         // ── STT → LLM → TTS cascade ──────────────────────────────────────────
 
@@ -101,12 +124,14 @@ export class Session {
             text,
             session.conversationHistory.slice(0, -1), // exclude the user turn just added
             (chunk) => {
+              if (abort.signal.aborted) return;
               // Streaming overlap: each chunk forwarded to TTS and browser immediately
               appendTextToTts(ttsWs, chunk);
               session.send({ type: 'response.text.delta', delta: chunk });
               assistantResponse += chunk;
             },
             () => {
+              if (abort.signal.aborted) return;
               // LLM done — signal TTS to finalize synthesis
               finishTtsSession(ttsWs);
               // Add assistant turn to conversation history
@@ -120,8 +145,10 @@ export class Session {
               }
             },
             (message) => {
+              if (abort.signal.aborted) return;
               session.send({ type: 'error', message });
-            }
+            },
+            abort.signal
           );
         }).catch((err) => {
           console.error('[session] TTS failed to open:', err);
@@ -160,15 +187,12 @@ export class Session {
   cleanup(): void {
     this.isActive = false;
 
+    this.cancelCurrentResponse();
+
     if (this.asrWs && this.asrWs.readyState === WebSocket.OPEN) {
       this.asrWs.close();
     }
     this.asrWs = null;
-
-    if (this.ttsWs && this.ttsWs.readyState === WebSocket.OPEN) {
-      this.ttsWs.close();
-    }
-    this.ttsWs = null;
 
     this.conversationHistory = [];
 

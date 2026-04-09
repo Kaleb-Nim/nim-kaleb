@@ -28,7 +28,8 @@ export async function streamLlmResponse(
   conversationHistory: Array<{ role: string; content: string }>,
   onChunk: (text: string) => void,
   onDone: () => void,
-  onError: (msg: string) => void
+  onError: (msg: string) => void,
+  signal?: AbortSignal
 ): Promise<void> {
   console.log(`[llm] streaming started for: "${transcript.slice(0, 50)}..."`);
 
@@ -51,6 +52,13 @@ export async function streamLlmResponse(
     let buffer = '';
 
     for await (const chunk of stream) {
+      // Abort early if signal fires (barge-in from new user utterance)
+      if (signal?.aborted) {
+        stream.controller.abort();
+        console.log('[llm] aborted — user barged in');
+        return;
+      }
+
       const token = chunk.choices[0]?.delta?.content ?? '';
       if (!token) continue;
 
@@ -63,6 +71,9 @@ export async function streamLlmResponse(
       }
     }
 
+    // Don't flush or signal done if aborted
+    if (signal?.aborted) return;
+
     // Flush any remaining content
     if (buffer.length > 0) {
       onChunk(buffer);
@@ -71,6 +82,7 @@ export async function streamLlmResponse(
     onDone();
     console.log('[llm] streaming complete');
   } catch (err) {
+    if (signal?.aborted) return; // swallow errors from abort
     const msg = err instanceof Error ? err.message : String(err);
     onError(msg);
   }

@@ -90,6 +90,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const retriesRef = useRef(0);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intentionalCloseRef = useRef(false);
+  const connectingRef = useRef(false);
 
   const setPhase = useCallback((phase: RealtimePhase, extra?: Partial<RealtimeStatus>) => {
     setStatus(prev => ({ ...prev, phase, error: null, ...extra }));
@@ -188,6 +189,13 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       case 'response.done': {
         setPhase('listening');
         setStatus(prev => ({ ...prev, responseText: '' }));
+        // Kill all scheduled/playing audio by closing and recreating the playback context
+        // AudioBufferSourceNodes that are already .start()'ed cannot be stopped otherwise
+        if (playbackCtxRef.current) {
+          playbackCtxRef.current.close();
+          playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+        }
+        nextPlayTimeRef.current = 0;
         break;
       }
 
@@ -201,6 +209,8 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
   // Internal connect logic — sets up mic, audio contexts, and WebSocket
   const connectInternal = useCallback(async () => {
+    if (connectingRef.current) return;
+    connectingRef.current = true;
     try {
       // 1. Set up mic stream
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -240,8 +250,9 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       };
 
       ws.onopen = () => {
-        // Reset retry counter on successful connection
+        // Reset retry counter and connecting lock on successful connection
         retriesRef.current = 0;
+        connectingRef.current = false;
         // Send session.start to initialize DashScope sessions on the server
         ws.send(JSON.stringify({ type: 'session.start' }));
 
@@ -292,11 +303,19 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       setStatus({ phase: 'error', transcript: '', responseText: '', error: msg });
       cleanupAudio();
       wsRef.current = null;
+      connectingRef.current = false;
     }
   }, [handleMessage, cleanupAudio, transitionTo]);
 
   const connect = useCallback(async () => {
-    if (wsRef.current) return;
+    if (connectingRef.current) return;
+    // Tear down any existing connection before starting fresh
+    if (wsRef.current) {
+      intentionalCloseRef.current = true;
+      wsRef.current.close();
+      wsRef.current = null;
+      cleanupAudio();
+    }
     // Reset reconnect state for fresh connect
     intentionalCloseRef.current = false;
     retriesRef.current = 0;
@@ -306,11 +325,12 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     }
     setPhase('connecting');
     await connectInternal();
-  }, [connectInternal, setPhase]);
+  }, [connectInternal, setPhase, cleanupAudio]);
 
   const disconnect = useCallback(() => {
     // Mark as intentional close so auto-reconnect does not trigger
     intentionalCloseRef.current = true;
+    connectingRef.current = false;
 
     // Clear any pending reconnect timer
     if (reconnectTimerRef.current) {
@@ -321,9 +341,10 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     const ws = wsRef.current;
     wsRef.current = null;
 
-    cleanupAudio();
-
+    // Close WS after nulling ref so onclose handler sees intentionalClose
     ws?.close();
+
+    cleanupAudio();
 
     setStatus({ phase: 'idle', transcript: '', responseText: '', error: null });
     transitionTo('VOICE_IDLE');
