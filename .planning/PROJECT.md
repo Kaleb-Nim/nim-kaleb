@@ -23,12 +23,12 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 
 ### Active
 
-- [ ] Replace OpenAI Realtime API with Alibaba Cloud full pipeline (STT + LLM + TTS)
-- ✓ Clone Kaleb's voice using Qwen3-TTS for personalized speech synthesis — Validated in Phase 1: Voice Enrollment (voice_id: qwen-tts-vc-kaleb-voice, listen test deferred to Phase 2)
+- ✓ Replace OpenAI Realtime API with Alibaba Cloud full pipeline (STT + LLM + TTS) — Validated in Phase 2: Bun WS server with DashScope ASR + qwen-plus LLM + Qwen3-TTS pipeline
+- ✓ Clone Kaleb's voice using Qwen3-TTS for personalized speech synthesis — Validated in Phase 1+2: voice enrolled, end-to-end pipeline confirmed with cloned voice
 - [ ] Human-like speech control instructions (filler words: "erm", "uh", natural pauses)
 - [ ] Conversational follow-up questions at end of responses when appropriate
 - ✓ Resume/docs-fed context so the LLM answers as Kaleb with accurate information — Validated in Phase 1: System prompt populated with full work history, projects, skills
-- [ ] Maintain current terminal UI + voice interface experience
+- ✓ Maintain current terminal UI + voice interface experience — Validated in Phase 2: hook interface unchanged, VoiceInterface.tsx only needed label updates
 
 ### Out of Scope
 
@@ -41,12 +41,12 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 ## Context
 
 - **Existing codebase**: Next.js 16, React 19, TypeScript, Tailwind CSS 4, Bun runtime
-- **Current voice pipeline**: OpenAI Realtime API (gpt-4o-realtime-preview) handles STT + LLM + TTS via WebSocket with ephemeral tokens
-- **Target pipeline**: Alibaba Cloud services replacing all three pieces (STT, LLM via Qwen, TTS via Qwen3-TTS with voice cloning)
+- **Voice pipeline**: Bun WS server (ws-server/) with DashScope ASR (qwen3-asr-flash-realtime) + LLM (qwen-plus) + TTS (qwen3-tts-vc with Kaleb's cloned voice). Browser connects via WebSocket, server holds all API keys.
 - **Voice clone**: Enrolled with DashScope (Phase 1 complete) — voice_id stored in .env.local
 - **Context source**: Resume/bio documents fed into LLM system prompt
 - **Hosting**: Vercel (existing)
-- **Key file**: `app/hooks/useRealtimeVoice.ts` — current OpenAI WebSocket voice hook (modified, uncommitted)
+- **Key files**: `app/hooks/useRealtimeVoice.ts` (browser voice hook), `ws-server/src/session.ts` (server pipeline orchestration)
+- **Known issue**: Barge-in triggers too aggressively on filler speech ("ahh i see") — needs transcript filtering before abort
 
 ## Constraints
 
@@ -60,7 +60,7 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Alibaba Cloud over OpenAI Realtime | Full pipeline control, voice cloning via Qwen3-TTS | — Pending |
+| Alibaba Cloud over OpenAI Realtime | Full pipeline control, voice cloning via Qwen3-TTS | ✓ Phase 2 |
 | Document-based context over RAG | Portfolio scope doesn't need dynamic retrieval | — Pending |
 | Keep terminal UI unchanged | Strong existing design, focus effort on voice pipeline | — Pending |
 
@@ -82,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-09 after Phase 1 completion*
+*Last updated: 2026-04-09 after Phase 2 completion*
