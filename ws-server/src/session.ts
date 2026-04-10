@@ -69,6 +69,17 @@ export class Session {
         session.send({ type: 'transcript.final', text });
         console.log(`[session] ${session.sessionId} transcript: ${text}`);
 
+        // ── Guard: skip empty or filler utterances (D-05) ──
+        if (!text.trim()) return;
+        const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+        if (wordCount < 3) {
+          console.log(`[session] ignoring short transcript (${wordCount} words): "${text}"`);
+          return;
+        }
+
+        // ── D-06: detect if we're interrupting an in-flight response ──
+        const wasResponding = session.responseAbort !== null;
+
         // ── Barge-in: cancel any in-flight response before starting new one ──
         session.cancelCurrentResponse();
         session.send({ type: 'response.done' }); // signal browser to stop playing old audio
@@ -118,6 +129,7 @@ export class Session {
         });
 
         // 4. Start LLM streaming once TTS WebSocket is open
+        const bargeInPrefix = wasResponding ? 'Oh sure \u2014 ' : undefined;
         ttsReadyPromise.then((ttsWs) => {
           // 5. Stream LLM response — chunks flow directly into TTS
           streamLlmResponse(
@@ -148,7 +160,8 @@ export class Session {
               if (abort.signal.aborted) return;
               session.send({ type: 'error', message });
             },
-            abort.signal
+            abort.signal,
+            bargeInPrefix   // D-06: one-time assistant prefix for barge-in acknowledgment
           );
         }).catch((err) => {
           console.error('[session] TTS failed to open:', err);

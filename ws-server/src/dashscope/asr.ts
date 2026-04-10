@@ -48,7 +48,7 @@ export function createAsrSession(callbacks: AsrCallbacks): WebSocket {
           turn_detection: {
             type: 'server_vad',
             threshold: 0.0,
-            silence_duration_ms: 400,
+            silence_duration_ms: 1000,
           },
         },
       })

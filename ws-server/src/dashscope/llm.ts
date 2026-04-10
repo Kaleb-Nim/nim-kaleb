@@ -29,7 +29,8 @@ export async function streamLlmResponse(
   onChunk: (text: string) => void,
   onDone: () => void,
   onError: (msg: string) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  bargeInPrefix?: string
 ): Promise<void> {
   console.log(`[llm] streaming started for: "${transcript.slice(0, 50)}..."`);
 
@@ -40,6 +41,7 @@ export async function streamLlmResponse(
         role: m.role as 'user' | 'assistant',
         content: m.content,
       })),
+      ...(bargeInPrefix ? [{ role: 'assistant' as const, content: bargeInPrefix }] : []),
       { role: 'user', content: transcript },
     ];
 
