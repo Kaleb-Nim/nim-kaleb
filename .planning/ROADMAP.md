@@ -60,8 +60,10 @@ Plans:
   3. AI responses include filler words or natural pauses that make the speech sound conversational rather than synthesized
   4. A visitor sees the audio waveform animate in sync with the AI speaking
   5. Toggling the transcript shows readable text of the AI's last response
-**Plans**: TBD
-**UI hint**: yes
+**Plans:** 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Update system prompt for speech quality and tune VAD + barge-in filter on server
+- [ ] 03-02-PLAN.md — Add accessible transcript toggle and fix responseText lifecycle on client
 
 ### Phase 4: UI Preservation + Launch Readiness
 **Goal**: The terminal experience is exactly as designed and the site is ready for recruiters to visit
@@ -83,5 +85,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Voice Enrollment | 0/3 | Planning complete | - |
 | 2. Server Infrastructure + Full Pipeline | 0/3 | Planning complete | - |
-| 3. Conversational AI + Speech Quality | 0/? | Not started | - |
+| 3. Conversational AI + Speech Quality | 0/2 | Planning complete | - |
 | 4. UI Preservation + Launch Readiness | 0/? | Not started | - |
