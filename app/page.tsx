@@ -109,9 +109,8 @@ export default function Home() {
               <CognitiveStatus onComplete={() => setStatusComplete(true)} />
               <br />
               <div style={{ opacity: 0.7 }}>
-                Last sync: Thu Feb 13{' '}
-                {new Date().toLocaleTimeString('en-US', { hour12: false })} 2026
-                via Kebab Cloud
+                Last sync: {new Date(process.env.NEXT_PUBLIC_LAST_SYNC!).toUTCString()}
+                {' '}via Kebab Cloud
               </div>
               <br />
             </>

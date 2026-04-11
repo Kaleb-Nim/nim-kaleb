@@ -28,7 +28,7 @@ export default function VoiceInterface({
   const { status, analyserRef, connect, disconnect, isConnected } =
     useRealtimeVoice({ transitionTo });
 
-  const [showTranscript, setShowTranscript] = useState(false);
+  const [showTranscript, setShowTranscript] = useState(true);
 
   // ── Waveform visualiser ────────────────────────────────────────────────────
   useEffect(() => {
