@@ -25,8 +25,8 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 
 - ✓ Replace OpenAI Realtime API with Alibaba Cloud full pipeline (STT + LLM + TTS) — Validated in Phase 2: Bun WS server with DashScope ASR + qwen-plus LLM + Qwen3-TTS pipeline
 - ✓ Clone Kaleb's voice using Qwen3-TTS for personalized speech synthesis — Validated in Phase 1+2: voice enrolled, end-to-end pipeline confirmed with cloned voice
-- [ ] Human-like speech control instructions (filler words: "erm", "uh", natural pauses)
-- [ ] Conversational follow-up questions at end of responses when appropriate
+- ✓ Human-like speech control instructions (filler words: "erm", "uh", natural pauses) — Validated in Phase 3: system prompt tuned with D-01 through D-04 speech quality guidance
+- ✓ Conversational follow-up questions at end of responses when appropriate — Validated in Phase 3: 1-in-3 follow-up frequency configured in system prompt
 - ✓ Resume/docs-fed context so the LLM answers as Kaleb with accurate information — Validated in Phase 1: System prompt populated with full work history, projects, skills
 - ✓ Maintain current terminal UI + voice interface experience — Validated in Phase 2: hook interface unchanged, VoiceInterface.tsx only needed label updates
 
@@ -46,7 +46,9 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 - **Context source**: Resume/bio documents fed into LLM system prompt
 - **Hosting**: Vercel (existing)
 - **Key files**: `app/hooks/useRealtimeVoice.ts` (browser voice hook), `ws-server/src/session.ts` (server pipeline orchestration)
-- **Known issue**: Barge-in triggers too aggressively on filler speech ("ahh i see") — needs transcript filtering before abort
+- **Barge-in**: Sub-3-word utterances filtered, valid barge-in gets "Oh sure —" acknowledgment prefix
+- **Proactive greeting**: AI speaks first on connect with varied casual openers
+- **TTS pipeline**: Fixed onopen race condition (Promise-based), server_commit intermediate response.done gating, browser audio drain before teardown
 
 ## Constraints
 
@@ -63,6 +65,8 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 | Alibaba Cloud over OpenAI Realtime | Full pipeline control, voice cloning via Qwen3-TTS | ✓ Phase 2 |
 | Document-based context over RAG | Portfolio scope doesn't need dynamic retrieval | — Pending |
 | Keep terminal UI unchanged | Strong existing design, focus effort on voice pipeline | — Pending |
+| TTS server_commit gating | DashScope sends response.done per segment; only forward after session.finish | ✓ Phase 3 |
+| AI greets first on connect | Better UX — visitor hears Kaleb immediately, no awkward silence | ✓ Phase 3 |
 
 ## Evolution
 
@@ -82,4 +86,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-09 after Phase 2 completion*
+*Last updated: 2026-04-11 after Phase 3 completion*
