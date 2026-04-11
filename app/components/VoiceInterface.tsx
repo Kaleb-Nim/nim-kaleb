@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './VoiceInterface.module.css';
 import type { TerminalState, TerminalStateMetadata } from '@/app/hooks/useTerminalState';
 import { useRealtimeVoice } from '@/app/hooks/useRealtimeVoice';
@@ -27,6 +27,8 @@ export default function VoiceInterface({
 
   const { status, analyserRef, connect, disconnect, isConnected } =
     useRealtimeVoice({ transitionTo });
+
+  const [showTranscript, setShowTranscript] = useState(false);
 
   // ── Waveform visualiser ────────────────────────────────────────────────────
   useEffect(() => {
@@ -109,13 +111,26 @@ export default function VoiceInterface({
         </div>
       )}
 
-      {/* AI response text */}
+      {/* AI response transcript toggle */}
       {status.responseText && (
-        <div className={styles.responseBlock}>
-          <div className={styles.responseSentence}>
-            {'  '}{status.responseText}
-          </div>
-        </div>
+        <>
+          <button
+            className={styles.transcriptToggle}
+            aria-expanded={showTranscript}
+            aria-controls="ai-transcript"
+            onClick={() => setShowTranscript(p => !p)}
+          >
+            {showTranscript ? '[hide transcript]' : '[show transcript]'}
+          </button>
+          {showTranscript && (
+            <div id="ai-transcript" role="region" aria-label="AI response transcript"
+                 className={styles.responseBlock}>
+              <div className={styles.responseSentence}>
+                {'  '}{status.responseText}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Error */}

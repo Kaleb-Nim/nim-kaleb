@@ -90,6 +90,28 @@
   margin-top: 8px;
 }
 
+.transcriptToggle {
+  background: none;
+  border: none;
+  color: var(--yellow-accent);
+  font-family: var(--font-anonymous-pro), monospace;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 0;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+  margin-top: 8px;
+  display: block;
+}
+
+.transcriptToggle:hover {
+  opacity: 0.8;
+}
+
+.transcriptToggle:focus-visible {
+  outline: 1px solid var(--yellow-accent);
+  outline-offset: 2px;
+}
+
 .responseSentence {
   animation: fadeIn 0.2s ease-out both;
 }
