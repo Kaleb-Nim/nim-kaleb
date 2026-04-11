@@ -285,22 +285,22 @@ const [showTranscript, setShowTranscript] = useState(false);
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Is the Bun WS server deployed to Railway?**
    - What we know: `ws-server/railway.json` exists and `dist/index.js` is built
    - What's unclear: Whether it has been deployed and is reachable at a Railway URL
-   - Recommendation: Phase 4 must include a task to verify or deploy the Railway service and get the `wss://` URL
+   - **Resolution:** Covered by 04-03-PLAN.md Task 1 (checkpoint:human-action) — human verifies/deploys Railway service and configures env vars
 
 2. **What is the max-height for TerminalContent when VoiceInterface is visible?**
    - What we know: Design spec says ~442px total terminal height (variable). Header is 30px + 8px padding = ~46px. Content gets ~396px.
    - What's unclear: Whether the VoiceInterface content (status + canvas + button + transcript + hint) fits within 396px or needs to scroll
-   - Recommendation: Set `max-height: 400px` with `overflow-y: auto` — the native scrollbar will appear only if content overflows, which is the correct UX
+   - **Resolution:** Set `max-height: 400px` with `overflow-y: auto` — the native scrollbar will appear only if content overflows. Implemented in 04-01-PLAN.md Task 1.
 
 3. **Should the branch be merged to main before Vercel deployment?**
    - What we know: Vercel is linked to the project (`prj_26Zk2jxE6tNDTX1lDwmoGCr0qY4c`). The `main` branch has a different architecture.
    - What's unclear: Whether the recruiter-facing URL deploys from `main` or a specific branch
-   - Recommendation: Treat this as a human decision — surface it explicitly in the launch checklist task
+   - **Resolution:** Covered by 04-03-PLAN.md Task 1 Step 4 — human decides merge-to-main vs branch deploy as part of the production launch checklist
 
 ---
 

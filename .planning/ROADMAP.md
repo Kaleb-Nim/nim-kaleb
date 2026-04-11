@@ -60,7 +60,7 @@ Plans:
   3. AI responses include filler words or natural pauses that make the speech sound conversational rather than synthesized
   4. A visitor sees the audio waveform animate in sync with the AI speaking
   5. Toggling the transcript shows readable text of the AI's last response
-**Plans:** 2 plans
+**Plans:** 3 plans
 Plans:
 - [x] 03-01-PLAN.md — Update system prompt for speech quality and tune VAD + barge-in filter on server
 - [x] 03-02-PLAN.md — Add accessible transcript toggle and fix responseText lifecycle on client
@@ -73,10 +73,11 @@ Plans:
   1. The terminal window, macOS chrome, phosphor green text, and starfield background are visually identical to the design spec
   2. The typewriter boot sequence and Cognitive Status dashboard animate exactly as before
   3. The state machine progresses BOOTING → STATUS → MENU → VOICE without regressions on desktop, tablet, and mobile viewports
-**Plans:** 2 plans
+**Plans:** 3 plans
 Plans:
 - [ ] 04-01-PLAN.md — Fix CSS spec gaps (line-height, overflow) and re-apply accessible transcript toggle
 - [ ] 04-02-PLAN.md — Cross-viewport Playwright smoke tests and human visual verification
+- [ ] 04-03-PLAN.md — Production launch: Railway WS deploy, Vercel env vars, end-to-end smoke test
 
 ## Progress
 
