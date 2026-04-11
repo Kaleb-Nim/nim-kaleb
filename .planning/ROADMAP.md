@@ -73,8 +73,10 @@ Plans:
   1. The terminal window, macOS chrome, phosphor green text, and starfield background are visually identical to the design spec
   2. The typewriter boot sequence and Cognitive Status dashboard animate exactly as before
   3. The state machine progresses BOOTING → STATUS → MENU → VOICE without regressions on desktop, tablet, and mobile viewports
-**Plans**: TBD
-**UI hint**: yes
+**Plans:** 2 plans
+Plans:
+- [ ] 04-01-PLAN.md — Fix CSS spec gaps (line-height, overflow) and re-apply accessible transcript toggle
+- [ ] 04-02-PLAN.md — Cross-viewport Playwright smoke tests and human visual verification
 
 ## Progress
 
@@ -86,4 +88,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Voice Enrollment | 0/3 | Planning complete | - |
 | 2. Server Infrastructure + Full Pipeline | 0/3 | Planning complete | - |
 | 3. Conversational AI + Speech Quality | 0/2 | Planning complete | - |
-| 4. UI Preservation + Launch Readiness | 0/? | Not started | - |
+| 4. UI Preservation + Launch Readiness | 0/2 | Planning complete | - |
