@@ -19,6 +19,15 @@ export function useTypewriter({ text, speed = 30, onComplete }: TypewriterOption
       return;
     }
 
+    // Respect reduced motion — show text instantly
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      setDisplayedText(text);
+      setIsComplete(true);
+      onComplete?.();
+      return;
+    }
+
     let currentIndex = 0;
     setDisplayedText('');
     setIsComplete(false);
