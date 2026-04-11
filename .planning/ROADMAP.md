@@ -62,8 +62,8 @@ Plans:
   5. Toggling the transcript shows readable text of the AI's last response
 **Plans:** 2 plans
 Plans:
-- [ ] 03-01-PLAN.md — Update system prompt for speech quality and tune VAD + barge-in filter on server
-- [ ] 03-02-PLAN.md — Add accessible transcript toggle and fix responseText lifecycle on client
+- [x] 03-01-PLAN.md — Update system prompt for speech quality and tune VAD + barge-in filter on server
+- [x] 03-02-PLAN.md — Add accessible transcript toggle and fix responseText lifecycle on client
 
 ### Phase 4: UI Preservation + Launch Readiness
 **Goal**: The terminal experience is exactly as designed and the site is ready for recruiters to visit
