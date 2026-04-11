@@ -2,13 +2,14 @@
   padding: 24px;
   font-family: var(--font-anonymous-pro), monospace;
   font-size: 0.82rem;
-  line-height: 1.4;
+  line-height: 1.8;
   color: var(--green-primary);
   text-shadow:
     0 0 4px rgba(0, 255, 0, 0.4),
     0 0 8px rgba(0, 255, 0, 0.2),
     0 0 16px rgba(0, 255, 0, 0.1);
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 400px;
 }
 
 @media (max-width: 768px) {
