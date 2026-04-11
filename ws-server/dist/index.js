@@ -5,65 +5,66 @@ function createAsrSession(callbacks) {
   const apiKey = process.env.DASHSCOPE_API_KEY;
   if (!apiKey) {
     callbacks.onError("DASHSCOPE_API_KEY is not set");
-    const dummy = new WebSocket("wss://localhost:0");
-    dummy.close();
-    return dummy;
+    return Promise.reject(new Error("DASHSCOPE_API_KEY is not set"));
   }
-  const ws = new WebSocket(ASR_WS_URL, {
-    headers: {
-      Authorization: "Bearer " + apiKey
-    }
-  });
-  ws.onopen = () => {
-    ws.send(JSON.stringify({
-      type: "session.update",
-      event_id: "evt_asr_init",
-      session: {
-        modalities: ["text"],
-        input_audio_format: "pcm",
-        sample_rate: 16000,
-        input_audio_transcription: { language: "en" },
-        turn_detection: {
-          type: "server_vad",
-          threshold: 0,
-          silence_duration_ms: 1000
+  return new Promise((resolve, reject) => {
+    const ws = new WebSocket(ASR_WS_URL, {
+      headers: {
+        Authorization: "Bearer " + apiKey
+      }
+    });
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        type: "session.update",
+        event_id: "evt_asr_init",
+        session: {
+          modalities: ["text"],
+          input_audio_format: "pcm",
+          sample_rate: 16000,
+          input_audio_transcription: { language: "en" },
+          turn_detection: {
+            type: "server_vad",
+            threshold: 0,
+            silence_duration_ms: 1000
+          }
         }
+      }));
+      resolve(ws);
+    };
+    ws.onmessage = (event) => {
+      let msg;
+      try {
+        msg = JSON.parse(typeof event.data === "string" ? event.data : new TextDecoder().decode(event.data));
+      } catch {
+        callbacks.onError("ASR: failed to parse message");
+        return;
       }
-    }));
-  };
-  ws.onmessage = (event) => {
-    let msg;
-    try {
-      msg = JSON.parse(typeof event.data === "string" ? event.data : new TextDecoder().decode(event.data));
-    } catch {
-      callbacks.onError("ASR: failed to parse message");
-      return;
-    }
-    switch (msg.type) {
-      case "conversation.item.input_audio_transcription.completed": {
-        const transcript = msg.transcript ?? "";
-        callbacks.onTranscriptFinal(transcript);
-        break;
+      switch (msg.type) {
+        case "conversation.item.input_audio_transcription.completed": {
+          const transcript = msg.transcript ?? "";
+          callbacks.onTranscriptFinal(transcript);
+          break;
+        }
+        case "input_audio_buffer.speech_started":
+          console.log("[asr] speech started");
+          break;
+        case "error": {
+          const errMsg = msg.error?.message ?? "ASR error";
+          callbacks.onError(errMsg);
+          break;
+        }
+        default:
+          break;
       }
-      case "input_audio_buffer.speech_started":
-        console.log("[asr] speech started");
-        break;
-      case "error": {
-        const errMsg = msg.error?.message ?? "ASR error";
-        callbacks.onError(errMsg);
-        break;
-      }
-      default:
-        break;
-    }
-  };
-  ws.onclose = () => {
-    console.log("[asr] WebSocket closed");
-  };
-  ws.onerror = () => {
-    callbacks.onError("ASR WebSocket connection error");
-  };
-  return ws;
+    };
+    ws.onclose = () => {
+      console.log("[asr] WebSocket closed");
+    };
+    ws.onerror = () => {
+      callbacks.onError("ASR WebSocket connection error");
+      reject(new Error("ASR WebSocket connection error"));
+    };
+  });
 }
 function forwardAudioToAsr(asrWs, base64Audio) {
   if (asrWs.readyState !== WebSocket.OPEN)
@@ -6062,72 +6063,78 @@ function createTtsSession(callbacks) {
   const voiceId = process.env.DASHSCOPE_VOICE_ID;
   if (!apiKey) {
     callbacks.onError("DASHSCOPE_API_KEY is not set");
-    const dummy = new WebSocket("wss://localhost:0");
-    dummy.close();
-    return dummy;
+    return Promise.reject(new Error("DASHSCOPE_API_KEY is not set"));
   }
-  const ws = new WebSocket(TTS_WS_URL, {
-    headers: {
-      Authorization: "Bearer " + apiKey
-    }
-  });
-  ws.onopen = () => {
-    ws.send(JSON.stringify({
-      type: "session.update",
-      event_id: "evt_tts_init",
-      session: {
-        mode: "server_commit",
-        voice: voiceId,
-        language_type: "Auto",
-        response_format: "pcm",
-        sample_rate: 24000
+  return new Promise((resolve2, reject) => {
+    const handle = { ws: null, finishing: false };
+    const ws = new WebSocket(TTS_WS_URL, {
+      headers: {
+        Authorization: "Bearer " + apiKey
       }
-    }));
-  };
-  ws.onmessage = (event) => {
-    let msg;
-    try {
-      msg = JSON.parse(typeof event.data === "string" ? event.data : new TextDecoder().decode(event.data));
-    } catch {
-      callbacks.onError("TTS: failed to parse message");
-      return;
-    }
-    switch (msg.type) {
-      case "response.audio.delta":
-        if (msg.delta)
-          callbacks.onAudioDelta(msg.delta);
-        break;
-      case "response.done":
-        callbacks.onDone();
-        break;
-      case "error":
-        callbacks.onError(msg.error?.message ?? "TTS error");
-        break;
-      default:
-        break;
-    }
-  };
-  ws.onclose = () => {
-    console.log("[tts] WebSocket closed");
-  };
-  ws.onerror = () => {
-    callbacks.onError("TTS WebSocket connection error");
-  };
-  return ws;
+    });
+    handle.ws = ws;
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        type: "session.update",
+        event_id: "evt_tts_init",
+        session: {
+          mode: "server_commit",
+          voice: voiceId,
+          language_type: "en",
+          response_format: "pcm",
+          sample_rate: 24000
+        }
+      }));
+      resolve2(handle);
+    };
+    ws.onmessage = (event) => {
+      let msg;
+      try {
+        msg = JSON.parse(typeof event.data === "string" ? event.data : new TextDecoder().decode(event.data));
+      } catch {
+        callbacks.onError("TTS: failed to parse message");
+        return;
+      }
+      switch (msg.type) {
+        case "response.audio.delta":
+          if (msg.delta)
+            callbacks.onAudioDelta(msg.delta);
+          break;
+        case "response.done":
+          if (handle.finishing) {
+            callbacks.onDone();
+          }
+          break;
+        case "error":
+          callbacks.onError(msg.error?.message ?? "TTS error");
+          break;
+        default:
+          break;
+      }
+    };
+    ws.onclose = () => {
+      console.log("[tts] WebSocket closed");
+    };
+    ws.onerror = () => {
+      callbacks.onError("TTS WebSocket connection error");
+      reject(new Error("TTS WebSocket connection error"));
+    };
+  });
 }
-function appendTextToTts(ttsWs, text) {
-  if (ttsWs.readyState !== WebSocket.OPEN)
+function appendTextToTts(handle, text) {
+  if (handle.ws.readyState !== WebSocket.OPEN)
     return;
-  ttsWs.send(JSON.stringify({
+  handle.ws.send(JSON.stringify({
     type: "input_text_buffer.append",
     event_id: "evt_tts_" + Date.now(),
     text
   }));
 }
-function finishTtsSession(ttsWs) {
-  if (ttsWs.readyState !== WebSocket.OPEN)
+function finishTtsSession(handle) {
+  if (handle.ws.readyState !== WebSocket.OPEN)
     return;
-  ttsWs.send(JSON.stringify({
+  handle.finishing = true;
+  handle.ws.send(JSON.stringify({
     type: "session.finish",
     event_id: "evt_tts_finish"
   }));
@@ -6139,7 +6146,7 @@ var MAX_HISTORY_ENTRIES = 20;
 class Session {
   sessionId;
   asrWs = null;
-  ttsWs = null;
+  ttsHandle = null;
   isActive = true;
   conversationHistory = [];
   responseAbort = null;
@@ -6153,15 +6160,75 @@ class Session {
       this.responseAbort.abort();
       this.responseAbort = null;
     }
-    if (this.ttsWs && this.ttsWs.readyState === WebSocket.OPEN) {
-      this.ttsWs.close();
+    if (this.ttsHandle && this.ttsHandle.ws.readyState === WebSocket.OPEN) {
+      this.ttsHandle.ws.close();
     }
-    this.ttsWs = null;
+    this.ttsHandle = null;
   }
   send(msg) {
     if (this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(msg));
     }
+  }
+  startResponse(userText, opts) {
+    const session = this;
+    const isGreeting = opts?.isGreeting ?? false;
+    session.cancelCurrentResponse();
+    if (!isGreeting) {
+      session.send({ type: "response.done", immediate: true });
+    }
+    const abort = new AbortController;
+    session.responseAbort = abort;
+    if (!isGreeting) {
+      session.conversationHistory.push({ role: "user", content: userText });
+      while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
+        session.conversationHistory.shift();
+        session.conversationHistory.shift();
+      }
+    }
+    let assistantResponse = "";
+    const ttsReadyPromise = createTtsSession({
+      onAudioDelta: (delta) => {
+        session.send({ type: "response.audio.delta", delta });
+      },
+      onDone: () => {
+        session.send({ type: "response.done" });
+        session.ttsHandle = null;
+      },
+      onError: (message) => {
+        session.send({ type: "error", message });
+      }
+    });
+    ttsReadyPromise.then((handle) => {
+      session.ttsHandle = handle;
+    });
+    ttsReadyPromise.then((handle) => {
+      const prompt = isGreeting ? "[GREETING] The visitor just activated the voice interface. Greet them." : userText;
+      streamLlmResponse(prompt, session.conversationHistory.slice(), (chunk) => {
+        if (abort.signal.aborted)
+          return;
+        appendTextToTts(handle, chunk);
+        session.send({ type: "response.text.delta", delta: chunk });
+        assistantResponse += chunk;
+      }, () => {
+        if (abort.signal.aborted)
+          return;
+        finishTtsSession(handle);
+        if (assistantResponse) {
+          session.conversationHistory.push({ role: "assistant", content: assistantResponse });
+          while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
+            session.conversationHistory.shift();
+            session.conversationHistory.shift();
+          }
+        }
+      }, (message) => {
+        if (abort.signal.aborted)
+          return;
+        session.send({ type: "error", message });
+      }, abort.signal, opts?.bargeInPrefix);
+    }).catch((err) => {
+      console.error("[session] TTS failed to open:", err);
+    });
   }
   startPipeline() {
     if (this.asrWs && this.asrWs.readyState === WebSocket.OPEN) {
@@ -6169,7 +6236,7 @@ class Session {
       return;
     }
     const session = this;
-    this.asrWs = createAsrSession({
+    createAsrSession({
       onTranscriptPartial: (text) => {
         session.send({ type: "transcript.partial", text });
       },
@@ -6184,79 +6251,21 @@ class Session {
           return;
         }
         const wasResponding = session.responseAbort !== null;
-        session.cancelCurrentResponse();
-        session.send({ type: "response.done" });
-        const abort = new AbortController;
-        session.responseAbort = abort;
-        session.conversationHistory.push({ role: "user", content: text });
-        while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
-          session.conversationHistory.shift();
-          session.conversationHistory.shift();
-        }
-        let assistantResponse = "";
-        const ttsReadyPromise = new Promise((resolve2, reject) => {
-          const ttsWs = createTtsSession({
-            onAudioDelta: (delta) => {
-              session.send({ type: "response.audio.delta", delta });
-            },
-            onDone: () => {
-              session.send({ type: "response.done" });
-              session.ttsWs = null;
-            },
-            onError: (message) => {
-              session.send({ type: "error", message });
-              reject(new Error(message));
-            }
-          });
-          session.ttsWs = ttsWs;
-          const originalOnOpen2 = ttsWs.onopen;
-          ttsWs.onopen = (event) => {
-            if (originalOnOpen2)
-              originalOnOpen2(event);
-            resolve2(ttsWs);
-          };
-        });
         const bargeInPrefix = wasResponding ? "Oh sure \u2014 " : undefined;
-        ttsReadyPromise.then((ttsWs) => {
-          streamLlmResponse(text, session.conversationHistory.slice(0, -1), (chunk) => {
-            if (abort.signal.aborted)
-              return;
-            appendTextToTts(ttsWs, chunk);
-            session.send({ type: "response.text.delta", delta: chunk });
-            assistantResponse += chunk;
-          }, () => {
-            if (abort.signal.aborted)
-              return;
-            finishTtsSession(ttsWs);
-            if (assistantResponse) {
-              session.conversationHistory.push({ role: "assistant", content: assistantResponse });
-              while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
-                session.conversationHistory.shift();
-                session.conversationHistory.shift();
-              }
-            }
-          }, (message) => {
-            if (abort.signal.aborted)
-              return;
-            session.send({ type: "error", message });
-          }, abort.signal, bargeInPrefix);
-        }).catch((err) => {
-          console.error("[session] TTS failed to open:", err);
-        });
+        session.startResponse(text, { bargeInPrefix });
       },
       onError: (message) => {
         session.send({ type: "error", message });
       }
-    });
-    const asrWs = this.asrWs;
-    const originalOnOpen = asrWs.onopen;
-    asrWs.onopen = (event) => {
-      if (originalOnOpen) {
-        originalOnOpen(event);
-      }
+    }).then((asrWs) => {
+      session.asrWs = asrWs;
       session.send({ type: "session.ready" });
       console.log(`[session] ${session.sessionId} ASR pipeline ready`);
-    };
+      session.startResponse("", { isGreeting: true });
+    }).catch((err) => {
+      console.error(`[session] ${session.sessionId} ASR failed to open:`, err);
+      session.send({ type: "error", message: "ASR connection failed" });
+    });
   }
   handleAudio(base642) {
     if (!this.asrWs) {
@@ -6265,7 +6274,6 @@ class Session {
     }
     forwardAudioToAsr(this.asrWs, base642);
   }
-  _lastTranscript = "";
   cleanup() {
     this.isActive = false;
     this.cancelCurrentResponse();

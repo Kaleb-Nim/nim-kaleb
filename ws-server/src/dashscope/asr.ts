@@ -14,88 +14,87 @@ export interface AsrCallbacks {
 /**
  * Open a DashScope ASR WebSocket session.
  * Sends session.update on open, then routes incoming messages to callbacks.
- * Returns the WebSocket so the caller can forward audio and close it.
+ * Returns a promise that resolves with the WebSocket once the connection is open
+ * and session.update has been sent.
  */
-export function createAsrSession(callbacks: AsrCallbacks): WebSocket {
+export function createAsrSession(callbacks: AsrCallbacks): Promise<WebSocket> {
   const apiKey = process.env.DASHSCOPE_API_KEY;
   if (!apiKey) {
-    // Return a dummy closed WS — caller will receive an error via callback
     callbacks.onError('DASHSCOPE_API_KEY is not set');
-    // Return a minimal stub that satisfies WebSocket interface
-    const dummy = new WebSocket('wss://localhost:0');
-    dummy.close();
-    return dummy;
+    return Promise.reject(new Error('DASHSCOPE_API_KEY is not set'));
   }
 
-  const ws = new WebSocket(ASR_WS_URL, {
-    // @ts-expect-error — Bun's WebSocket constructor accepts headers as second arg
-    headers: {
-      Authorization: 'Bearer ' + apiKey,
-    },
-  });
+  return new Promise<WebSocket>((resolve, reject) => {
+    const ws = new WebSocket(ASR_WS_URL, {
+      // @ts-expect-error — Bun's WebSocket constructor accepts headers as second arg
+      headers: {
+        Authorization: 'Bearer ' + apiKey,
+      },
+    });
 
-  ws.onopen = () => {
-    // Initialize ASR session with PCM 16kHz mono config and server VAD
-    ws.send(
-      JSON.stringify({
-        type: 'session.update',
-        event_id: 'evt_asr_init',
-        session: {
-          modalities: ['text'],
-          input_audio_format: 'pcm',
-          sample_rate: 16000,
-          input_audio_transcription: { language: 'en' },
-          turn_detection: {
-            type: 'server_vad',
-            threshold: 0.0,
-            silence_duration_ms: 1000,
+    ws.onopen = () => {
+      // Initialize ASR session with PCM 16kHz mono config and server VAD
+      ws.send(
+        JSON.stringify({
+          type: 'session.update',
+          event_id: 'evt_asr_init',
+          session: {
+            modalities: ['text'],
+            input_audio_format: 'pcm',
+            sample_rate: 16000,
+            input_audio_transcription: { language: 'en' },
+            turn_detection: {
+              type: 'server_vad',
+              threshold: 0.0,
+              silence_duration_ms: 1000,
+            },
           },
-        },
-      })
-    );
-  };
+        })
+      );
+      resolve(ws);
+    };
 
-  ws.onmessage = (event) => {
-    let msg: { type: string; [key: string]: unknown };
-    try {
-      msg = JSON.parse(typeof event.data === 'string' ? event.data : new TextDecoder().decode(event.data as ArrayBuffer));
-    } catch {
-      callbacks.onError('ASR: failed to parse message');
-      return;
-    }
-
-    switch (msg.type) {
-      case 'conversation.item.input_audio_transcription.completed': {
-        const transcript = (msg.transcript as string | undefined) ?? '';
-        callbacks.onTranscriptFinal(transcript);
-        break;
+    ws.onmessage = (event) => {
+      let msg: { type: string; [key: string]: unknown };
+      try {
+        msg = JSON.parse(typeof event.data === 'string' ? event.data : new TextDecoder().decode(event.data as ArrayBuffer));
+      } catch {
+        callbacks.onError('ASR: failed to parse message');
+        return;
       }
 
-      case 'input_audio_buffer.speech_started':
-        console.log('[asr] speech started');
-        break;
+      switch (msg.type) {
+        case 'conversation.item.input_audio_transcription.completed': {
+          const transcript = (msg.transcript as string | undefined) ?? '';
+          callbacks.onTranscriptFinal(transcript);
+          break;
+        }
 
-      case 'error': {
-        const errMsg = (msg.error as { message?: string } | undefined)?.message ?? 'ASR error';
-        callbacks.onError(errMsg);
-        break;
+        case 'input_audio_buffer.speech_started':
+          console.log('[asr] speech started');
+          break;
+
+        case 'error': {
+          const errMsg = (msg.error as { message?: string } | undefined)?.message ?? 'ASR error';
+          callbacks.onError(errMsg);
+          break;
+        }
+
+        default:
+          // Other events (session.updated, session.created, etc.) — ignore silently
+          break;
       }
+    };
 
-      default:
-        // Other events (session.updated, session.created, etc.) — ignore silently
-        break;
-    }
-  };
+    ws.onclose = () => {
+      console.log('[asr] WebSocket closed');
+    };
 
-  ws.onclose = () => {
-    console.log('[asr] WebSocket closed');
-  };
-
-  ws.onerror = () => {
-    callbacks.onError('ASR WebSocket connection error');
-  };
-
-  return ws;
+    ws.onerror = () => {
+      callbacks.onError('ASR WebSocket connection error');
+      reject(new Error('ASR WebSocket connection error'));
+    };
+  });
 }
 
 /**

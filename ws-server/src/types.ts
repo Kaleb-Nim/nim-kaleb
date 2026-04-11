@@ -11,7 +11,7 @@ export type ServerMessage =
   | { type: 'transcript.final'; text: string }   // final ASR result
   | { type: 'response.audio.delta'; delta: string } // base64 PCM 24kHz chunk
   | { type: 'response.text.delta'; delta: string }  // LLM text chunk for transcript display
-  | { type: 'response.done' }                    // TTS finished for this turn
+  | { type: 'response.done'; immediate?: boolean } // TTS finished; immediate=true means barge-in (stop audio now)
   | { type: 'error'; message: string }           // error from any pipeline stage
 
 export function isValidBrowserMessage(msg: unknown): msg is BrowserMessage {

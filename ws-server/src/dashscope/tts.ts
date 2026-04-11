@@ -13,95 +13,118 @@ export interface TtsCallbacks {
 }
 
 /**
+ * Wraps the TTS WebSocket with a `finishing` flag so callers can distinguish
+ * intermediate response.done (from server_commit segments) from the final one.
+ */
+export interface TtsHandle {
+  ws: WebSocket;
+  /** Set to true once finishTtsSession() is called — only then is response.done final */
+  finishing: boolean;
+}
+
+/**
  * Open a DashScope TTS WebSocket session in server_commit mode.
  * Sends session.update on open with Kaleb's cloned voice_id.
  * Routes incoming messages to callbacks.
- * Returns the WebSocket so the caller can append text and finish the session.
+ * Returns a promise that resolves with a TtsHandle once the connection is open
+ * and the session.update has been sent.
+ *
+ * IMPORTANT: In server_commit mode the server sends response.done after each
+ * auto-committed segment. The onDone callback only fires after session.finish
+ * has been sent (i.e. handle.finishing === true) to avoid cutting playback short.
  */
-export function createTtsSession(callbacks: TtsCallbacks): WebSocket {
+export function createTtsSession(callbacks: TtsCallbacks): Promise<TtsHandle> {
   const apiKey = process.env.DASHSCOPE_API_KEY;
   const voiceId = process.env.DASHSCOPE_VOICE_ID;
 
   if (!apiKey) {
     callbacks.onError('DASHSCOPE_API_KEY is not set');
-    const dummy = new WebSocket('wss://localhost:0');
-    dummy.close();
-    return dummy;
+    return Promise.reject(new Error('DASHSCOPE_API_KEY is not set'));
   }
 
-  const ws = new WebSocket(TTS_WS_URL, {
-    // @ts-expect-error — Bun's WebSocket constructor accepts headers as second arg
-    headers: {
-      Authorization: 'Bearer ' + apiKey,
-    },
-  });
+  return new Promise<TtsHandle>((resolve, reject) => {
+    const handle: TtsHandle = { ws: null as unknown as WebSocket, finishing: false };
 
-  ws.onopen = () => {
-    // Initialize TTS session with server_commit mode and Kaleb's voice
-    ws.send(
-      JSON.stringify({
-        type: 'session.update',
-        event_id: 'evt_tts_init',
-        session: {
-          mode: 'server_commit',
-          voice: voiceId,
-          language_type: 'Auto',
-          response_format: 'pcm',
-          sample_rate: 24000,
-        },
-      })
-    );
-  };
+    const ws = new WebSocket(TTS_WS_URL, {
+      // @ts-expect-error — Bun's WebSocket constructor accepts headers as second arg
+      headers: {
+        Authorization: 'Bearer ' + apiKey,
+      },
+    });
 
-  ws.onmessage = (event) => {
-    let msg: { type: string; delta?: string; error?: { message?: string }; [key: string]: unknown };
-    try {
-      msg = JSON.parse(
-        typeof event.data === 'string' ? event.data : new TextDecoder().decode(event.data as ArrayBuffer)
+    handle.ws = ws;
+
+    ws.onopen = () => {
+      // Initialize TTS session with server_commit mode and Kaleb's voice
+      ws.send(
+        JSON.stringify({
+          type: 'session.update',
+          event_id: 'evt_tts_init',
+          session: {
+            mode: 'server_commit',
+            voice: voiceId,
+            language_type: 'en',
+            response_format: 'pcm',
+            sample_rate: 24000,
+          },
+        })
       );
-    } catch {
-      callbacks.onError('TTS: failed to parse message');
-      return;
-    }
+      resolve(handle);
+    };
 
-    switch (msg.type) {
-      case 'response.audio.delta':
-        if (msg.delta) callbacks.onAudioDelta(msg.delta);
-        break;
+    ws.onmessage = (event) => {
+      let msg: { type: string; delta?: string; error?: { message?: string }; [key: string]: unknown };
+      try {
+        msg = JSON.parse(
+          typeof event.data === 'string' ? event.data : new TextDecoder().decode(event.data as ArrayBuffer)
+        );
+      } catch {
+        callbacks.onError('TTS: failed to parse message');
+        return;
+      }
 
-      case 'response.done':
-        callbacks.onDone();
-        break;
+      switch (msg.type) {
+        case 'response.audio.delta':
+          if (msg.delta) callbacks.onAudioDelta(msg.delta);
+          break;
 
-      case 'error':
-        callbacks.onError(msg.error?.message ?? 'TTS error');
-        break;
+        case 'response.done':
+          // In server_commit mode the server sends response.done per segment.
+          // Only treat it as truly done after we've sent session.finish.
+          if (handle.finishing) {
+            callbacks.onDone();
+          }
+          break;
 
-      default:
-        // Other events (session.created, session.updated, etc.) — ignore silently
-        break;
-    }
-  };
+        case 'error':
+          callbacks.onError(msg.error?.message ?? 'TTS error');
+          break;
 
-  ws.onclose = () => {
-    console.log('[tts] WebSocket closed');
-  };
+        default:
+          // Other events (session.created, session.updated, etc.) — ignore silently
+          break;
+      }
+    };
 
-  ws.onerror = () => {
-    callbacks.onError('TTS WebSocket connection error');
-  };
+    ws.onclose = () => {
+      console.log('[tts] WebSocket closed');
+    };
 
-  return ws;
+    ws.onerror = () => {
+      callbacks.onError('TTS WebSocket connection error');
+      reject(new Error('TTS WebSocket connection error'));
+    };
+  });
 }
 
 /**
  * Append a text chunk to the TTS session for synthesis.
  * Only sends if the WebSocket is in the OPEN state.
  */
-export function appendTextToTts(ttsWs: WebSocket, text: string): void {
-  if (ttsWs.readyState !== WebSocket.OPEN) return;
+export function appendTextToTts(handle: TtsHandle, text: string): void {
+  if (handle.ws.readyState !== WebSocket.OPEN) return;
 
-  ttsWs.send(
+  handle.ws.send(
     JSON.stringify({
       type: 'input_text_buffer.append',
       event_id: 'evt_tts_' + Date.now(),
@@ -112,12 +135,13 @@ export function appendTextToTts(ttsWs: WebSocket, text: string): void {
 
 /**
  * Signal the TTS session that all text has been appended.
- * The server will synthesize and send back response.done when complete.
+ * Sets handle.finishing so the next response.done is treated as final.
  */
-export function finishTtsSession(ttsWs: WebSocket): void {
-  if (ttsWs.readyState !== WebSocket.OPEN) return;
+export function finishTtsSession(handle: TtsHandle): void {
+  if (handle.ws.readyState !== WebSocket.OPEN) return;
 
-  ttsWs.send(
+  handle.finishing = true;
+  handle.ws.send(
     JSON.stringify({
       type: 'session.finish',
       event_id: 'evt_tts_finish',

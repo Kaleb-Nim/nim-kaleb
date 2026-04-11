@@ -188,14 +188,34 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
       case 'response.done': {
         setPhase('listening');
-        setStatus(prev => ({ ...prev, responseText: '' }));
-        // Kill all scheduled/playing audio by closing and recreating the playback context
-        // AudioBufferSourceNodes that are already .start()'ed cannot be stopped otherwise
-        if (playbackCtxRef.current) {
-          playbackCtxRef.current.close();
-          playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+
+        const isImmediate = (event.immediate as boolean | undefined) ?? false;
+        const ctx = playbackCtxRef.current;
+
+        if (ctx) {
+          if (isImmediate) {
+            // Barge-in: clear text and stop audio immediately
+            setStatus(prev => ({ ...prev, responseText: '' }));
+            ctx.close();
+            playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+            nextPlayTimeRef.current = 0;
+          } else {
+            // Normal end-of-response: drain remaining scheduled audio before teardown.
+            // Keep responseText visible until audio finishes playing.
+            const remaining = Math.max(0, nextPlayTimeRef.current - ctx.currentTime);
+            // Add 200ms margin so the last chunk fully decodes and plays out
+            const drainMs = remaining * 1000 + 200;
+            setTimeout(() => {
+              // Only close if this is still the same context (not already replaced by barge-in)
+              if (playbackCtxRef.current === ctx) {
+                setStatus(prev => ({ ...prev, responseText: '' }));
+                ctx.close();
+                playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+                nextPlayTimeRef.current = 0;
+              }
+            }, drainMs);
+          }
         }
-        nextPlayTimeRef.current = 0;
         break;
       }
 

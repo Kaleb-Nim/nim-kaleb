@@ -1,5 +1,6 @@
 import type { ServerWebSocket } from 'bun';
 import type { ServerMessage } from './types';
+import type { TtsHandle } from './dashscope/tts';
 import { createAsrSession, forwardAudioToAsr } from './dashscope/asr';
 import { streamLlmResponse } from './dashscope/llm';
 import { createTtsSession, appendTextToTts, finishTtsSession } from './dashscope/tts';
@@ -16,7 +17,7 @@ const MAX_HISTORY_ENTRIES = 20;
 export class Session {
   readonly sessionId: string;
   asrWs: WebSocket | null = null;
-  ttsWs: WebSocket | null = null;
+  ttsHandle: TtsHandle | null = null;
   isActive: boolean = true;
 
   /** Conversation history for multi-turn context — capped at 20 entries (T-02-07) */
@@ -38,10 +39,10 @@ export class Session {
       this.responseAbort.abort();
       this.responseAbort = null;
     }
-    if (this.ttsWs && this.ttsWs.readyState === WebSocket.OPEN) {
-      this.ttsWs.close();
+    if (this.ttsHandle && this.ttsHandle.ws.readyState === WebSocket.OPEN) {
+      this.ttsHandle.ws.close();
     }
-    this.ttsWs = null;
+    this.ttsHandle = null;
   }
 
   /** Send a typed message to the browser client */
@@ -49,6 +50,92 @@ export class Session {
     if (this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(msg));
     }
+  }
+
+  /**
+   * Run the LLM→TTS pipeline for a given user message (or greeting prompt).
+   * Reused by both transcript handling and the proactive greeting.
+   */
+  private startResponse(userText: string, opts?: { isGreeting?: boolean; bargeInPrefix?: string }): void {
+    const session = this;
+    const isGreeting = opts?.isGreeting ?? false;
+
+    // Cancel any in-flight response
+    session.cancelCurrentResponse();
+    if (!isGreeting) {
+      session.send({ type: 'response.done', immediate: true }); // barge-in: stop old audio immediately
+    }
+
+    // Create new abort controller for this response turn
+    const abort = new AbortController();
+    session.responseAbort = abort;
+
+    // Add user turn to conversation history (skip for greeting — no user message)
+    if (!isGreeting) {
+      session.conversationHistory.push({ role: 'user', content: userText });
+      while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
+        session.conversationHistory.shift();
+        session.conversationHistory.shift();
+      }
+    }
+
+    // Accumulate assistant response for history
+    let assistantResponse = '';
+
+    // Open TTS session — promise resolves once WS is open
+    const ttsReadyPromise = createTtsSession({
+      onAudioDelta: (delta) => {
+        session.send({ type: 'response.audio.delta', delta });
+      },
+      onDone: () => {
+        session.send({ type: 'response.done' });
+        session.ttsHandle = null;
+      },
+      onError: (message) => {
+        session.send({ type: 'error', message });
+      },
+    });
+
+    // Store handle once resolved (for barge-in cleanup)
+    ttsReadyPromise.then((handle) => { session.ttsHandle = handle; });
+
+    // Start LLM streaming once TTS WebSocket is open
+    ttsReadyPromise.then((handle) => {
+      // For greeting, use a special internal prompt; for normal, use transcript
+      const prompt = isGreeting
+        ? '[GREETING] The visitor just activated the voice interface. Greet them.'
+        : userText;
+
+      streamLlmResponse(
+        prompt,
+        session.conversationHistory.slice(),
+        (chunk) => {
+          if (abort.signal.aborted) return;
+          appendTextToTts(handle, chunk);
+          session.send({ type: 'response.text.delta', delta: chunk });
+          assistantResponse += chunk;
+        },
+        () => {
+          if (abort.signal.aborted) return;
+          finishTtsSession(handle);
+          if (assistantResponse) {
+            session.conversationHistory.push({ role: 'assistant', content: assistantResponse });
+            while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
+              session.conversationHistory.shift();
+              session.conversationHistory.shift();
+            }
+          }
+        },
+        (message) => {
+          if (abort.signal.aborted) return;
+          session.send({ type: 'error', message });
+        },
+        abort.signal,
+        opts?.bargeInPrefix
+      );
+    }).catch((err) => {
+      console.error('[session] TTS failed to open:', err);
+    });
   }
 
   /** Start the ASR pipeline and signal session.ready to browser once ASR is open */
@@ -61,7 +148,7 @@ export class Session {
 
     const session = this;
 
-    this.asrWs = createAsrSession({
+    createAsrSession({
       onTranscriptPartial: (text) => {
         session.send({ type: 'transcript.partial', text });
       },
@@ -79,109 +166,24 @@ export class Session {
 
         // ── D-06: detect if we're interrupting an in-flight response ──
         const wasResponding = session.responseAbort !== null;
-
-        // ── Barge-in: cancel any in-flight response before starting new one ──
-        session.cancelCurrentResponse();
-        session.send({ type: 'response.done' }); // signal browser to stop playing old audio
-
-        // Create new abort controller for this response turn
-        const abort = new AbortController();
-        session.responseAbort = abort;
-
-        // ── STT → LLM → TTS cascade ──────────────────────────────────────────
-
-        // 1. Add user turn to conversation history
-        session.conversationHistory.push({ role: 'user', content: text });
-        // Cap at MAX_HISTORY_ENTRIES — shift oldest pair when exceeded (T-02-07)
-        while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
-          session.conversationHistory.shift();
-          session.conversationHistory.shift();
-        }
-
-        // 2. Accumulate assistant response to add to history after onDone
-        let assistantResponse = '';
-
-        // 3. Open TTS session before streaming LLM — enables streaming overlap.
-        //    createTtsSession handles onopen (sends session.update) internally.
-        //    We wait for the WS to be open via a Promise before starting LLM stream.
-        const ttsReadyPromise = new Promise<WebSocket>((resolve, reject) => {
-          const ttsWs = createTtsSession({
-            onAudioDelta: (delta) => {
-              session.send({ type: 'response.audio.delta', delta });
-            },
-            onDone: () => {
-              session.send({ type: 'response.done' });
-              session.ttsWs = null;
-            },
-            onError: (message) => {
-              session.send({ type: 'error', message });
-              reject(new Error(message));
-            },
-          });
-          session.ttsWs = ttsWs;
-
-          // Wrap original onopen to resolve the promise once TTS is ready
-          const originalOnOpen = ttsWs.onopen;
-          ttsWs.onopen = (event) => {
-            if (originalOnOpen) (originalOnOpen as (e: Event) => void)(event);
-            resolve(ttsWs);
-          };
-        });
-
-        // 4. Start LLM streaming once TTS WebSocket is open
         const bargeInPrefix = wasResponding ? 'Oh sure \u2014 ' : undefined;
-        ttsReadyPromise.then((ttsWs) => {
-          // 5. Stream LLM response — chunks flow directly into TTS
-          streamLlmResponse(
-            text,
-            session.conversationHistory.slice(0, -1), // exclude the user turn just added
-            (chunk) => {
-              if (abort.signal.aborted) return;
-              // Streaming overlap: each chunk forwarded to TTS and browser immediately
-              appendTextToTts(ttsWs, chunk);
-              session.send({ type: 'response.text.delta', delta: chunk });
-              assistantResponse += chunk;
-            },
-            () => {
-              if (abort.signal.aborted) return;
-              // LLM done — signal TTS to finalize synthesis
-              finishTtsSession(ttsWs);
-              // Add assistant turn to conversation history
-              if (assistantResponse) {
-                session.conversationHistory.push({ role: 'assistant', content: assistantResponse });
-                // Cap again after assistant turn
-                while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {
-                  session.conversationHistory.shift();
-                  session.conversationHistory.shift();
-                }
-              }
-            },
-            (message) => {
-              if (abort.signal.aborted) return;
-              session.send({ type: 'error', message });
-            },
-            abort.signal,
-            bargeInPrefix   // D-06: one-time assistant prefix for barge-in acknowledgment
-          );
-        }).catch((err) => {
-          console.error('[session] TTS failed to open:', err);
-        });
+
+        session.startResponse(text, { bargeInPrefix });
       },
       onError: (message) => {
         session.send({ type: 'error', message });
       },
-    });
-
-    // Signal session.ready once ASR WebSocket is open
-    const asrWs = this.asrWs;
-    const originalOnOpen = asrWs.onopen;
-    asrWs.onopen = (event) => {
-      if (originalOnOpen) {
-        (originalOnOpen as (event: Event) => void)(event);
-      }
+    }).then((asrWs) => {
+      session.asrWs = asrWs;
       session.send({ type: 'session.ready' });
       console.log(`[session] ${session.sessionId} ASR pipeline ready`);
-    };
+
+      // Proactive greeting — AI speaks first when visitor connects
+      session.startResponse('', { isGreeting: true });
+    }).catch((err) => {
+      console.error(`[session] ${session.sessionId} ASR failed to open:`, err);
+      session.send({ type: 'error', message: 'ASR connection failed' });
+    });
   }
 
   /** Forward browser audio to the ASR WebSocket */
@@ -192,9 +194,6 @@ export class Session {
     }
     forwardAudioToAsr(this.asrWs, base64);
   }
-
-  /** Last transcript received from ASR — used by LLM stage */
-  _lastTranscript: string = '';
 
   /** Close all DashScope WebSockets and mark session inactive */
   cleanup(): void {
