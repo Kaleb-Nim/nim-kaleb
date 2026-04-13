@@ -1,0 +1,9 @@
+tts-server/
+ws-server/
+.planning/
+tests/
+assets/
+scripts/
+memory/
+*.spec.ts
+playwright.config.ts

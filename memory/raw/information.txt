@@ -38,6 +38,10 @@ A*STAR - Agency for Science, Technology and Research (ARTC)
     * Implemented custom knowledge-based LLM retrieval systems with analytical visualizations.
 
 Education
+National University of Singapore (NUS)
+* Credential: Majoring in Business AI Systems (Previous Information Systems;IS)
+* Duration: Aug 2026 – May 2030
+
 Singapore Polytechnic
 * Credential: Diploma in Applied Artificial Intelligence and Analytics Performance: CGPA 3.86 Duration: April 2021 – March 2024 Distinctions: Achieved distinctions in "Communicating for Project Effectiveness" and "Narrative Thinking".
 Evergreen Secondary School	Credential: Singapore-Cambridge GCE O Levels 
@@ -82,4 +86,31 @@ QN:Tell us something you have done outside your school curriculum to prepare you
 * 3 other work experiences other then the 1 mandatory internship in year 3 Polytechnic
 * Singapore Youth AI (SYAI) stuff
 
-QN:
+QN:Have you participated in any Voluntary Community Service? Please provide examples of your contributions.
+
+• Singapore Youth AI - Head of Community
+First 4 founding members of the Organization. Heading the planning and execution of monthly AI meetups islandwide, featuring networking sessions, hands-on AI workshops, and fireside chats with industry leaders. 
+
+Funded $50,000 by National Youth Council, Co-Organized with Youth Tech SG. Successfully organised 10 events to date, each engaging 30–60 youths from polytechnics, universities, and junior colleges. sgyouthai.org/programs#AIMM
+
+QN:What are your areas of interest in science and technology and how can you apply innovation in these areas to strengthen Singapore’s defence capabilities?
+
+Most people serve their NS — I got to build digital AI systems that could reshape how the RSAF trains its air traffic controllers (ATC).
+Through connections forged at hackathons, I was re-vocated to RAID (RSAF Agile Innovation Digital), where my background in AI engineering was put to immediate, tangible use. I developed real-time speech diarization and transcription tools for air traffic controllers, enabling more efficient monitoring and analysis of ATC communications. (trialled in Ex Wallaby ) 
+I also led work on ASTRA — a Scalable Next-Generation ATCO Training Simulator with Autonomous Simpilots — which explores how AI agents can take on the role of human trainers in air traffic controller training, dramatically improving its scalability. This research was accepted as a poster presentation at the AI for Air Transportation Workshop at AAAI 2026. 
+I had the privilege of demonstrating the project to a few notable names over the course of my NS: MG Kelvin Fan, Prof Lui Pao Chuen, Dr He Rumin and Prof Gary Ang.
+What started as a fortunate connection became something far bigger — I’m really grateful for the chance to learn from and present alongside leading voices in Singapore's defence ecosystem. I hope to carry this work well beyond my university days.
+
+Hobbies and interests:
+
+LOVE solo travelling, meeting new people, been solo-travelling since 2024 and been to
+Thailand: Phuket, Bangkok
+China: Chengdu, Xian,shanghai,beijing,harbin,shenzhen
+Indonesia: Bali,Lombok
+Taiwan
+Vietnam
+
+Activities:
+* Bouldering
+* Skiing
+* Diving ( recently got my open water certification )

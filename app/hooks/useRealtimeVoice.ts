@@ -1,0 +1,376 @@
+'use client';
+
+import { useCallback, useRef, useState } from 'react';
+import type { TerminalState, TerminalStateMetadata } from '@/app/hooks/useTerminalState';
+
+export type RealtimePhase = 'idle' | 'connecting' | 'listening' | 'responding' | 'error';
+
+export interface RealtimeStatus {
+  phase: RealtimePhase;
+  transcript: string;
+  responseText: string;
+  error: string | null;
+}
+
+interface UseRealtimeVoiceOptions {
+  transitionTo: (state: TerminalState, meta?: TerminalStateMetadata) => void;
+}
+
+const WS_SERVER_URL = process.env.NEXT_PUBLIC_WS_SERVER_URL ?? 'ws://localhost:8080';
+
+// Audio sample rates
+const MIC_SAMPLE_RATE = 16000;     // ASR requires 16kHz mono PCM
+const PLAYBACK_SAMPLE_RATE = 24000; // TTS returns 24kHz PCM
+
+// ── Audio utility functions ────────────────────────────────────────────────
+
+function pcm16ToFloat32(pcm: ArrayBuffer): Float32Array<ArrayBuffer> {
+  const int16 = new Int16Array(pcm);
+  const float32 = new Float32Array(int16.length) as Float32Array<ArrayBuffer>;
+  for (let i = 0; i < int16.length; i++) {
+    float32[i] = int16[i] / 32768;
+  }
+  return float32;
+}
+
+function float32ToPcm16Base64(float32: Float32Array): string {
+  const int16 = new Int16Array(float32.length);
+  for (let i = 0; i < float32.length; i++) {
+    const s = Math.max(-1, Math.min(1, float32[i]));
+    int16[i] = s < 0 ? s * 32768 : s * 32767;
+  }
+  const bytes = new Uint8Array(int16.buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+// Downsample from srcRate to MIC_SAMPLE_RATE (16kHz)
+function downsample(float32: Float32Array, srcRate: number): Float32Array {
+  if (srcRate === MIC_SAMPLE_RATE) return float32;
+  const ratio = srcRate / MIC_SAMPLE_RATE;
+  const outLen = Math.floor(float32.length / ratio);
+  const out = new Float32Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    out[i] = float32[Math.floor(i * ratio)];
+  }
+  return out;
+}
+
+export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
+  const [status, setStatus] = useState<RealtimeStatus>({
+    phase: 'idle',
+    transcript: '',
+    responseText: '',
+    error: null,
+  });
+
+  const wsRef = useRef<WebSocket | null>(null);
+  // Separate AudioContexts: one for mic capture (16kHz), one for playback (24kHz)
+  const audioCtxRef = useRef<AudioContext | null>(null);       // mic capture
+  const playbackCtxRef = useRef<AudioContext | null>(null);    // TTS playback
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const processorRef = useRef<ScriptProcessorNode | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  // Next scheduled playback time for gapless audio
+  const nextPlayTimeRef = useRef<number>(0);
+
+  // Auto-reconnect state
+  const retriesRef = useRef(0);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intentionalCloseRef = useRef(false);
+  const connectingRef = useRef(false);
+
+  const setPhase = useCallback((phase: RealtimePhase, extra?: Partial<RealtimeStatus>) => {
+    setStatus(prev => ({ ...prev, phase, error: null, ...extra }));
+  }, []);
+
+  const sendEvent = useCallback((event: object) => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(event));
+    }
+  }, []);
+
+  // Schedule a PCM16 audio chunk for seamless playback using the playback context
+  const scheduleAudioChunk = useCallback((pcm: ArrayBuffer) => {
+    const ctx = playbackCtxRef.current;
+    if (!ctx) return;
+
+    const float32 = pcm16ToFloat32(pcm);
+    const buffer = ctx.createBuffer(1, float32.length, PLAYBACK_SAMPLE_RATE);
+    buffer.copyToChannel(float32, 0);
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+    const startAt = Math.max(now, nextPlayTimeRef.current);
+    source.start(startAt);
+    nextPlayTimeRef.current = startAt + buffer.duration;
+  }, []);
+
+  // Clean up mic and audio resources (called on disconnect and before reconnect)
+  const cleanupAudio = useCallback(() => {
+    processorRef.current?.disconnect();
+    processorRef.current = null;
+
+    analyserRef.current?.disconnect();
+    analyserRef.current = null;
+
+    micStreamRef.current?.getTracks().forEach(t => t.stop());
+    micStreamRef.current = null;
+
+    audioCtxRef.current?.close();
+    audioCtxRef.current = null;
+
+    playbackCtxRef.current?.close();
+    playbackCtxRef.current = null;
+  }, []);
+
+  const handleMessage = useCallback((raw: string) => {
+    let event: { type: string; [key: string]: unknown };
+    try {
+      event = JSON.parse(raw);
+    } catch {
+      return;
+    }
+
+    switch (event.type) {
+      case 'session.ready': {
+        setPhase('listening');
+        transitionTo('VOICE_ACTIVE');
+        break;
+      }
+
+      case 'transcript.partial': {
+        const text = (event.text as string | undefined) ?? '';
+        setStatus(prev => ({ ...prev, transcript: text }));
+        break;
+      }
+
+      case 'transcript.final': {
+        const text = (event.text as string | undefined) ?? '';
+        setStatus(prev => ({ ...prev, transcript: text }));
+        break;
+      }
+
+      case 'response.audio.delta': {
+        const delta = event.delta as string | undefined;
+        if (delta) {
+          const pcm = base64ToArrayBuffer(delta);
+          scheduleAudioChunk(pcm);
+          setStatus(prev =>
+            prev.phase !== 'responding' ? { ...prev, phase: 'responding' } : prev
+          );
+        }
+        break;
+      }
+
+      case 'response.text.delta': {
+        const delta = event.delta as string | undefined;
+        if (delta) {
+          setStatus(prev => ({ ...prev, responseText: prev.responseText + delta }));
+        }
+        break;
+      }
+
+      case 'response.done': {
+        setPhase('listening');
+
+        const isImmediate = (event.immediate as boolean | undefined) ?? false;
+        const ctx = playbackCtxRef.current;
+
+        if (ctx) {
+          if (isImmediate) {
+            // Barge-in: clear text and stop audio immediately
+            setStatus(prev => ({ ...prev, responseText: '' }));
+            ctx.close();
+            playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+            nextPlayTimeRef.current = 0;
+          } else {
+            // Normal end-of-response: drain remaining scheduled audio before teardown.
+            // Keep responseText visible until audio finishes playing.
+            const remaining = Math.max(0, nextPlayTimeRef.current - ctx.currentTime);
+            // Add 200ms margin so the last chunk fully decodes and plays out
+            const drainMs = remaining * 1000 + 200;
+            setTimeout(() => {
+              // Only close if this is still the same context (not already replaced by barge-in)
+              if (playbackCtxRef.current === ctx) {
+                setStatus(prev => ({ ...prev, responseText: '' }));
+                ctx.close();
+                playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+                nextPlayTimeRef.current = 0;
+              }
+            }, drainMs);
+          }
+        }
+        break;
+      }
+
+      case 'error': {
+        const msg = (event.message as string | undefined) ?? 'Unknown error from server';
+        setStatus(prev => ({ ...prev, phase: 'error', error: msg }));
+        break;
+      }
+    }
+  }, [setPhase, scheduleAudioChunk, transitionTo]);
+
+  // Internal connect logic — sets up mic, audio contexts, and WebSocket
+  const connectInternal = useCallback(async () => {
+    if (connectingRef.current) return;
+    connectingRef.current = true;
+    try {
+      // 1. Set up mic stream
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      micStreamRef.current = stream;
+
+      // 2. Mic capture AudioContext at 16kHz for ASR
+      const ctx = new AudioContext({ sampleRate: MIC_SAMPLE_RATE });
+      audioCtxRef.current = ctx;
+
+      // 3. Separate playback AudioContext at 24kHz for TTS
+      const playbackCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+      playbackCtxRef.current = playbackCtx;
+      nextPlayTimeRef.current = playbackCtx.currentTime;
+
+      const source = ctx.createMediaStreamSource(stream);
+
+      // Analyser for waveform visualisation (connected to mic capture context)
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+      analyserRef.current = analyser;
+
+      // ScriptProcessor to capture PCM and send to Bun WS server
+      const processor = ctx.createScriptProcessor(4096, 1, 1);
+      source.connect(processor);
+      processor.connect(ctx.destination);
+      processorRef.current = processor;
+
+      // 4. Connect to Bun WS server — no subprotocol headers needed
+      const ws = new WebSocket(WS_SERVER_URL + '/ws');
+      wsRef.current = ws;
+
+      ws.onmessage = (e) => handleMessage(e.data);
+
+      ws.onerror = () => {
+        setStatus(prev => ({ ...prev, phase: 'error', error: 'WebSocket error' }));
+      };
+
+      ws.onopen = () => {
+        // Reset retry counter and connecting lock on successful connection
+        retriesRef.current = 0;
+        connectingRef.current = false;
+        // Send session.start to initialize DashScope sessions on the server
+        ws.send(JSON.stringify({ type: 'session.start' }));
+
+        // Wire up audio processor — downsample mic audio to 16kHz and send as PCM16
+        processor.onaudioprocess = (e) => {
+          if (ws.readyState !== WebSocket.OPEN) return;
+          const input = e.inputBuffer.getChannelData(0);
+          const downsampled = downsample(input, ctx.sampleRate);
+          const b64 = float32ToPcm16Base64(downsampled);
+          ws.send(JSON.stringify({ type: 'audio.append', data: b64 }));
+        };
+      };
+
+      ws.onclose = () => {
+        wsRef.current = null;
+
+        if (!intentionalCloseRef.current && retriesRef.current < 5) {
+          // Exponential backoff reconnect (CONV-03)
+          const delay = Math.min(1000 * 2 ** retriesRef.current, 30000);
+          console.log(`[ws] reconnecting in ${delay}ms (attempt ${retriesRef.current + 1}/5)`);
+
+          // Clean up audio before reconnecting
+          cleanupAudio();
+
+          reconnectTimerRef.current = setTimeout(() => {
+            retriesRef.current++;
+            connectInternal();
+          }, delay);
+        } else if (!intentionalCloseRef.current) {
+          // Max retries exhausted
+          setStatus(prev => ({
+            ...prev,
+            phase: 'error',
+            error: 'Connection lost. Max reconnect attempts reached.',
+          }));
+          transitionTo('VOICE_IDLE');
+        } else {
+          // Intentional close
+          setStatus(prev => ({
+            ...prev,
+            phase: prev.phase === 'error' ? 'error' : 'idle',
+          }));
+          transitionTo('VOICE_IDLE');
+        }
+      };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setStatus({ phase: 'error', transcript: '', responseText: '', error: msg });
+      cleanupAudio();
+      wsRef.current = null;
+      connectingRef.current = false;
+    }
+  }, [handleMessage, cleanupAudio, transitionTo]);
+
+  const connect = useCallback(async () => {
+    if (connectingRef.current) return;
+    // Tear down any existing connection before starting fresh
+    if (wsRef.current) {
+      intentionalCloseRef.current = true;
+      wsRef.current.close();
+      wsRef.current = null;
+      cleanupAudio();
+    }
+    // Reset reconnect state for fresh connect
+    intentionalCloseRef.current = false;
+    retriesRef.current = 0;
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+    setPhase('connecting');
+    await connectInternal();
+  }, [connectInternal, setPhase, cleanupAudio]);
+
+  const disconnect = useCallback(() => {
+    // Mark as intentional close so auto-reconnect does not trigger
+    intentionalCloseRef.current = true;
+    connectingRef.current = false;
+
+    // Clear any pending reconnect timer
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+
+    const ws = wsRef.current;
+    wsRef.current = null;
+
+    // Close WS after nulling ref so onclose handler sees intentionalClose
+    ws?.close();
+
+    cleanupAudio();
+
+    setStatus({ phase: 'idle', transcript: '', responseText: '', error: null });
+    transitionTo('VOICE_IDLE');
+  }, [cleanupAudio, transitionTo]);
+
+  const isConnected = status.phase !== 'idle' && status.phase !== 'error' && status.phase !== 'connecting';
+
+  return { status, analyserRef, connect, disconnect, isConnected };
+}
