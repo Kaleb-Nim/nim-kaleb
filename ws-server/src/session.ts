@@ -40,7 +40,7 @@ export class Session {
       this.responseAbort = null;
     }
     if (this.ttsHandle && this.ttsHandle.ws.readyState === WebSocket.OPEN) {
-      this.ttsHandle.ws.close();
+      finishTtsSession(this.ttsHandle);
     }
     this.ttsHandle = null;
   }
