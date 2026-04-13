@@ -82,9 +82,10 @@ Plans:
   1. A completed conversation produces an NDJSON log file on the ECS server with one entry per turn containing session ID, role, transcript text, and timestamp
   2. Each log entry includes measured latency for ASR duration, LLM time-to-first-token, TTS time-to-first-audio, and total round-trip
   3. Log writes do not add perceptible delay to the voice response (analytics is fire-and-forget, not in the hot path)
-**Plans**: TBD
+**Plans**: 1 plan
 
-Plans: TBD
+Plans:
+- [ ] 06-01-PLAN.md — Create logger module, extend ASR callbacks, instrument session.ts with per-turn NDJSON logging and latency tracking
 
 #### Phase 7: Automated Testing
 **Goal**: The test suite verifies WS server connectivity, each DashScope component, and the full audio pipeline end-to-end — and all tests pass in CI
@@ -109,5 +110,5 @@ Plans: TBD
 | 3. Conversational AI + Speech Quality | v1.0 | 2/2 | Complete | 2026-04-11 |
 | 4. UI Preservation + Launch Readiness | v1.0 | 3/3 | Complete | 2026-04-12 |
 | 5. TTS Playback Bug Fixes | v1.1 | 0/1 | Not started | - |
-| 6. Session Analytics & Logging | v1.1 | 0/TBD | Not started | - |
+| 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
