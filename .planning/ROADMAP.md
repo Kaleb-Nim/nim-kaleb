@@ -72,7 +72,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 05-01-PLAN.md — Fix audio cutoff (onended drain), barge-in overlap (generation counter), and audio pop (graceful TTS teardown)
+- [x] 05-01-PLAN.md — Fix audio cutoff (onended drain), barge-in overlap (generation counter), and audio pop (graceful TTS teardown)
 
 #### Phase 6: Session Analytics & Logging
 **Goal**: Every conversation turn is durably logged on the ECS server with latency breakdowns for each pipeline component
