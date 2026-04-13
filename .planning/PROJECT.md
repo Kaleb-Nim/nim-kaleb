@@ -48,17 +48,19 @@ Browser (Vercel)          Alibaba Cloud ECS           DashScope APIs
 | AI greets first on connect | Better UX — visitor hears Kaleb immediately | v1.0 |
 | Alibaba Cloud ECS over Railway | User has $300 free credits, keeps infra on 2 providers | v1.0 |
 
-## Next Milestone Goals
+## Current Milestone: v1.1 Observability, Testing & Bug Fixes
 
-*Not yet defined. Candidates:*
-- Fix TTS playback quality (overlapping audio, cut-offs, barge-in)
-- Add conversation analytics (session count, common questions)
-- Thinking delay before complex answers
-- Content updates and portfolio polish
+**Goal:** Add conversation analytics/logging, comprehensive automated testing (E2E audio + component health), and fix known v1.0 TTS playback issues.
+
+**Target features:**
+- Analytics & logging of conversation transcripts, question classification, session metrics
+- Playwright E2E audio tests including interrupt/barge-in behavior
+- Unit/integration tests for WS server, ASR, and TTS component health
+- Fix TTS playback quality (overlapping audio, cut-offs, inconsistent barge-in)
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-04-13 after v1.0 milestone completion*
+*Last updated: 2026-04-13 after v1.1 milestone start*
