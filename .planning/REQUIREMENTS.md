@@ -60,21 +60,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUG-01 | — | Pending |
-| BUG-02 | — | Pending |
-| BUG-03 | — | Pending |
-| LOG-01 | — | Pending |
-| LOG-02 | — | Pending |
-| TEST-01 | — | Pending |
-| TEST-02 | — | Pending |
-| TEST-03 | — | Pending |
-| TEST-04 | — | Pending |
+| BUG-01 | Phase 5 | Pending |
+| BUG-02 | Phase 5 | Pending |
+| BUG-03 | Phase 5 | Pending |
+| LOG-01 | Phase 6 | Pending |
+| LOG-02 | Phase 6 | Pending |
+| TEST-01 | Phase 7 | Pending |
+| TEST-02 | Phase 7 | Pending |
+| TEST-03 | Phase 7 | Pending |
+| TEST-04 | Phase 7 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9
+- Mapped to phases: 9
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after initial definition*
+*Last updated: 2026-04-13 after roadmap creation*
