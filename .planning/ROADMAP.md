@@ -57,7 +57,7 @@ Plans:
 
 </details>
 
-### 🚧 v1.1 Observability, Testing & Bug Fixes (In Progress)
+### v1.1 Observability, Testing & Bug Fixes (In Progress)
 
 **Milestone Goal:** Fix known TTS playback regressions, add structured session analytics, and close the automated test coverage gap with component health checks and a full E2E audio pipeline test.
 
@@ -69,9 +69,10 @@ Plans:
   1. Visitor hears the AI's full response without audio cutting off mid-sentence
   2. Interrupting the AI (barge-in) stops playback immediately with no audio overlap on the next response
   3. Barge-in teardown produces no audio pop or artifact (clean silence after interrupt)
-**Plans**: TBD
+**Plans**: 1 plan
 
-Plans: TBD
+Plans:
+- [ ] 05-01-PLAN.md — Fix audio cutoff (onended drain), barge-in overlap (generation counter), and audio pop (graceful TTS teardown)
 
 #### Phase 6: Session Analytics & Logging
 **Goal**: Every conversation turn is durably logged on the ECS server with latency breakdowns for each pipeline component
@@ -107,6 +108,6 @@ Plans: TBD
 | 2. Server Infrastructure + Full Pipeline | v1.0 | 3/3 | Complete | 2026-04-11 |
 | 3. Conversational AI + Speech Quality | v1.0 | 2/2 | Complete | 2026-04-11 |
 | 4. UI Preservation + Launch Readiness | v1.0 | 3/3 | Complete | 2026-04-12 |
-| 5. TTS Playback Bug Fixes | v1.1 | 0/TBD | Not started | - |
+| 5. TTS Playback Bug Fixes | v1.1 | 0/1 | Not started | - |
 | 6. Session Analytics & Logging | v1.1 | 0/TBD | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
