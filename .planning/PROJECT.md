@@ -16,7 +16,7 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 - **Browser**: Next.js 16 + React 19 + TypeScript, terminal-themed UI with state machine
 - **Server**: Bun WS server with full streaming pipeline, proactive greeting, 20-turn memory, barge-in handling
 - **Tests**: 1 UI smoke test + 9 backend/WS pipeline tests (Playwright)
-- **Known Issue**: TTS playback quality (overlapping audio, cut-offs, inconsistent barge-in)
+- **Phase 5 Complete (2026-04-13)**: TTS playback bugs fixed — audio cutoff, barge-in overlap, and barge-in pop all resolved
 
 ## Architecture
 
