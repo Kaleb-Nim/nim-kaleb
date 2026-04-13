@@ -85,6 +85,8 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const analyserRef = useRef<AnalyserNode | null>(null);
   // Next scheduled playback time for gapless audio
   const nextPlayTimeRef = useRef<number>(0);
+  const lastSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const playGenRef = useRef<number>(0);
 
   // Auto-reconnect state
   const retriesRef = useRef(0);
@@ -103,7 +105,8 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   }, []);
 
   // Schedule a PCM16 audio chunk for seamless playback using the playback context
-  const scheduleAudioChunk = useCallback((pcm: ArrayBuffer) => {
+  const scheduleAudioChunk = useCallback((pcm: ArrayBuffer, gen: number) => {
+    if (gen !== playGenRef.current) return;
     const ctx = playbackCtxRef.current;
     if (!ctx) return;
 
@@ -119,6 +122,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     const startAt = Math.max(now, nextPlayTimeRef.current);
     source.start(startAt);
     nextPlayTimeRef.current = startAt + buffer.duration;
+    lastSourceRef.current = source;
   }, []);
 
   // Clean up mic and audio resources (called on disconnect and before reconnect)
@@ -137,6 +141,8 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
     playbackCtxRef.current?.close();
     playbackCtxRef.current = null;
+
+    lastSourceRef.current = null;
   }, []);
 
   const handleMessage = useCallback((raw: string) => {
@@ -170,7 +176,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
         const delta = event.delta as string | undefined;
         if (delta) {
           const pcm = base64ToArrayBuffer(delta);
-          scheduleAudioChunk(pcm);
+          scheduleAudioChunk(pcm, playGenRef.current);
           setStatus(prev =>
             prev.phase !== 'responding' ? { ...prev, phase: 'responding' } : prev
           );
@@ -191,29 +197,37 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
         const isImmediate = (event.immediate as boolean | undefined) ?? false;
         const ctx = playbackCtxRef.current;
+        const gen = playGenRef.current;
 
         if (ctx) {
           if (isImmediate) {
-            // Barge-in: clear text and stop audio immediately
+            // Barge-in: clear text, stop audio, create fresh context
             setStatus(prev => ({ ...prev, responseText: '' }));
             ctx.close();
-            playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
-            nextPlayTimeRef.current = 0;
+            const newCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+            playbackCtxRef.current = newCtx;
+            nextPlayTimeRef.current = newCtx.currentTime;  // BUG-02 fix: was 0
+            playGenRef.current++;                           // BUG-02 fix: invalidate stale deltas
+            lastSourceRef.current = null;
           } else {
-            // Normal end-of-response: drain remaining scheduled audio before teardown.
-            // Keep responseText visible until audio finishes playing.
-            const remaining = Math.max(0, nextPlayTimeRef.current - ctx.currentTime);
-            // Add 200ms margin so the last chunk fully decodes and plays out
-            const drainMs = remaining * 1000 + 200;
-            setTimeout(() => {
-              // Only close if this is still the same context (not already replaced by barge-in)
-              if (playbackCtxRef.current === ctx) {
+            // Normal end: wait for last audio chunk to finish playing (BUG-01 fix)
+            const lastSource = lastSourceRef.current;
+            const drain = () => {
+              if (playbackCtxRef.current === ctx && playGenRef.current === gen) {
                 setStatus(prev => ({ ...prev, responseText: '' }));
                 ctx.close();
-                playbackCtxRef.current = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
-                nextPlayTimeRef.current = 0;
+                const newCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+                playbackCtxRef.current = newCtx;
+                nextPlayTimeRef.current = newCtx.currentTime;
               }
-            }, drainMs);
+            };
+
+            if (lastSource) {
+              lastSource.onended = drain;
+            } else {
+              drain();
+            }
+            lastSourceRef.current = null;
           }
         }
         break;
