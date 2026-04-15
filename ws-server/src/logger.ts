@@ -1,7 +1,7 @@
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const LOG_DIR = process.env.LOG_DIR ?? '/var/log/kaleb-voice';
+const LOG_DIR = process.env.LOG_DIR ?? join(process.env.HOME ?? '.', '.local', 'share', 'kaleb-voice', 'logs');
 
 export interface TurnLog {
   ts: number;                    // Date.now() epoch ms
