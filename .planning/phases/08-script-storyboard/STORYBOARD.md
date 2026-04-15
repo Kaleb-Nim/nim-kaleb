@@ -12,13 +12,13 @@
 
 | Beat | Start | End | Duration | Spoken Words (first 8 words + "...") | Visual Type | Visual Description | Scholarship Pointer |
 |------|-------|-----|----------|--------------------------------------|-------------|-------------------|---------------------|
-| Hook | 0:00 | 0:05 | 5s | *(No voiceover. Demo plays.)* | Screen demo | nim-kaleb.vercel.app in browser, terminal modal centered on starfield background (#010810), visitor question "What's the hardest bug you've ever fixed?" appears in white command input, AI response types in green monospace (#00FF00) with phosphor glow, audio waveform indicator pulses, AI clone voice audible | -- |
+| Hook | 0:00 | 0:05 | 5s | *(No voiceover. Demo plays.)* | Screen demo | nim-kaleb.vercel.app in browser, terminal modal centered on starfield background (#010810), visitor question "Hey, who are you?" appears in white command input, AI response types in green monospace (#00FF00) with phosphor glow, audio waveform indicator pulses, AI clone voice audible | -- |
 | Open Loop | 0:05 | 0:10 | 5s | "I built an AI clone of myself..." | Talking head | Direct to camera, upper body, neutral background, energetic delivery, fast cut on "rebuild" | Context |
 | Problem / Context | 0:10 | 0:22 | 12s | "I wanted my portfolio to be a..." | Talking head | Direct to camera, confident delivery, slight head shake on "kind of", hand gesture counting off pipeline steps (Groq, Claude, Qwen) | Context, What was tried |
 | Mechanism / Pivots | 0:22 | 0:40 | 18s | "So I swapped the whole pipeline for..." | Talking head + Architecture diagram | First 10s: direct to camera, animated delivery describing OpenAI pivot; Last 8s: full-screen architecture diagram -- LEFT side: 3 boxes (Groq STT -> Claude -> Qwen3-TTS local) connected by arrows with red X overlay and "March 2026" label; RIGHT side: ECS architecture (Browser <-> Bun WS Server <-> DashScope ASR/LLM/TTS) with green checkmark and "April 2026" label, Singapore flag icon on server box | What was built, What was tried |
 | Support Beats | 0:40 | 0:55 | 15s | "Then the bugs hit. Audio cutting off..." | Code snippet + Architecture diagram | First 8s: zoomed code extract from useRealtimeVoice.ts showing 3 lines of connectingRef lock pattern: `if (connectingRef.current) return; connectingRef.current = true;` -- dark terminal background, green syntax highlighting, file path label visible; Last 7s: side-by-side comparison diagram -- LEFT: "Before" with 3 Next.js API route boxes (/api/stt, /api/chat, /api/tts); RIGHT: "After" with single ECS server box containing pipeline orchestrator connected to 3 DashScope streams | What surprised |
 | Result | 0:55 | 1:03 | 8s | *(Demo plays.)* "It shipped. And it..." | Screen demo | nim-kaleb.vercel.app in browser, different question than hook (e.g., "Tell me about a project you're proud of"), AI responding naturally in Kaleb's cloned voice, terminal text appearing character-by-character in green, waveform active, voice quality noticeably natural and conversational; 6s demo hold then 2s voiceover over the demo | What was built |
-| CTA | 1:03 | 1:10 | 7s | "Talk to my AI clone yourself..." | Talking head | Direct to camera, confident smile, pointing gesture toward camera/link area, energy matches opening, clean end frame suitable for TikTok end card | -- |
+| CTA | 1:03 | 1:10 | 7s | "Go talk to my AI clone yourself..." | Talking head | Direct to camera, confident smile, pointing gesture toward camera/link area, energy matches opening, clean end frame suitable for TikTok end card | -- |
 
 ---
 
@@ -29,7 +29,7 @@
 Frame-by-frame breakdown of the 5-second cold open demo hold:
 
 - **0:00-0:01:** Browser window fills frame. URL bar shows nim-kaleb.vercel.app. Terminal modal centered on dark starfield background (#010810). macOS-style title bar with red/yellow/green traffic light dots visible. Terminal shows boot sequence text already complete, cursor blinking at command input.
-- **0:01-0:02:** Visitor's question "What's the hardest bug you've ever fixed?" appears in the white command input field. Cursor blinks after the question mark.
+- **0:01-0:02:** Visitor's question "Hey, who are you?" appears in the white command input field. Cursor blinks after the question mark.
 - **0:02-0:03:** Terminal processes -- brief "Connecting..." text with animated ellipsis appears.
 - **0:03-0:05:** AI response begins typing in green monospace text (#00FF00 with phosphor glow). Audio waveform indicator activates in the voice interface area. AI clone voice is audible speaking the response. Response should be mid-sentence by 0:05 to create intrigue.
 - **Audio:** AI clone voice responding (no music, no voiceover, no background sound). The voice quality itself is the hook.
@@ -76,7 +76,7 @@ What plays during the 6-second demo hold and how it differs from the hook:
 ## Production Notes for Phase 9
 
 **Demo recordings needed:**
-1. **Cold open demo (Beat 1):** Record nim-kaleb.vercel.app with AI responding to "What's the hardest bug you've ever fixed?" -- need 5 seconds of clean interaction. Start recording with terminal in ready state (post-boot, cursor blinking). Audio must capture the AI clone voice clearly. Browser chrome should be minimal or hidden.
+1. **Cold open demo (Beat 1):** Record nim-kaleb.vercel.app with AI responding to "Hey, who are you?" -- need 5 seconds of clean interaction. Start recording with terminal in ready state (post-boot, cursor blinking). Audio must capture the AI clone voice clearly. Browser chrome should be minimal or hidden.
 2. **Result demo (Beat 6):** Record same site with "Tell me about a project you're proud of" or similar open-ended question -- need 6-8 seconds showing natural voice quality and conversational depth. This demo emphasizes voice naturalness; the hook demo emphasizes "wow it works."
 
 **Remotion segments needed:**
