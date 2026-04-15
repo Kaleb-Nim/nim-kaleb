@@ -131,7 +131,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
+- [x] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
 - [ ] 09-02-PLAN.md — Create shot list and production checklist for filming day
 
 ## Progress
