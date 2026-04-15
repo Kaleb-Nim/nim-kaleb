@@ -51,20 +51,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCRIPT-01 | TBD | Pending |
-| SCRIPT-02 | TBD | Pending |
-| SCRIPT-03 | TBD | Pending |
-| STORY-01 | TBD | Pending |
-| STORY-02 | TBD | Pending |
-| STORY-03 | TBD | Pending |
-| PROD-01 | TBD | Pending |
-| PROD-02 | TBD | Pending |
+| SCRIPT-01 | Phase 8 | Pending |
+| SCRIPT-02 | Phase 8 | Pending |
+| SCRIPT-03 | Phase 8 | Pending |
+| STORY-01 | Phase 8 | Pending |
+| STORY-02 | Phase 8 | Pending |
+| STORY-03 | Phase 9 | Pending |
+| PROD-01 | Phase 9 | Pending |
+| PROD-02 | Phase 9 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 8 total
-- Mapped to phases: 0
-- Unmapped: 8 (pending roadmap creation)
+- Mapped to phases: 8
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-15*
-*Last updated: 2026-04-15 after initial definition*
+*Last updated: 2026-04-15 after roadmap creation*

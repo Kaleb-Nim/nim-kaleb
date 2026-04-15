@@ -4,6 +4,7 @@
 
 - ✅ **v1.0** — Phases 1-4 (shipped 2026-04-12)
 - 🚧 **v1.1 Observability, Testing & Bug Fixes** — Phases 5-7 (in progress)
+- 📋 **v2.0 Scholarship Video Production** — Phases 8-9 (planned)
 
 ## Phases
 
@@ -85,7 +86,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 06-01-PLAN.md — Create logger module, extend ASR callbacks, instrument session.ts with per-turn NDJSON logging and latency tracking
+- [x] 06-01-PLAN.md — Create logger module, extend ASR callbacks, instrument session.ts with per-turn NDJSON logging and latency tracking
 
 #### Phase 7: Automated Testing
 **Goal**: The test suite verifies WS server connectivity, each DashScope component, and the full audio pipeline end-to-end — and all tests pass in CI
@@ -101,6 +102,35 @@ Plans:
 
 Plans: TBD
 
+### 📋 v2.0 Scholarship Video Production (Planned)
+
+**Milestone Goal:** Create a punchy 1-2 minute TikTok-first scholarship application video showcasing the AI Voice Portfolio — what was built, the context, what was tried, and what surprised Kaleb — producing all narrative, storyboard, and production assets needed for filming day.
+
+#### Phase 8: Script & Storyboard
+**Goal**: A complete, approved script and beat-by-beat storyboard exist that tell the AI Voice Portfolio story in TikTok narrative structure
+**Depends on**: Nothing (video production milestone, independent of Phases 1-7)
+**Requirements**: SCRIPT-01, SCRIPT-02, SCRIPT-03, STORY-01, STORY-02
+**Success Criteria** (what must be TRUE):
+  1. A written script exists that follows hook → open loop → problem → mechanism → result → CTA structure and fits within 1-2 minutes at natural speaking pace
+  2. The script references at least two specific technical examples drawn from the project's git history (e.g., API pivot, race conditions, audio bugs, or speech quality tuning)
+  3. Scholarship pointers (context, what was built, what was tried, what surprised Kaleb) are woven into the narrative without feeling like a checklist
+  4. A storyboard document exists with a row per beat: beat name, timing, spoken words, and visual type (talking head / screen demo / architecture diagram / code snippet)
+**Plans**: TBD
+
+Plans: TBD
+
+#### Phase 9: Visual Production & Demo Plan
+**Goal**: All production assets are ready for filming day — visual briefs for every Remotion segment and a concrete shot list so no decisions need to be made on the day
+**Depends on**: Phase 8
+**Requirements**: STORY-03, PROD-01, PROD-02
+**Success Criteria** (what must be TRUE):
+  1. A visual brief exists for every Remotion-produced segment identified in the storyboard, specifying layout, text content, color treatment, and animation intent
+  2. A demo recording plan lists each section of the live site to capture, the order of capture, and any setup steps needed (e.g., clearing session state, triggering voice connection)
+  3. A shot list and production checklist exist covering camera setup, lighting, wardrobe, takes required, and a pre-filming system check — so filming can start without any open decisions
+**Plans**: TBD
+
+Plans: TBD
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -112,3 +142,5 @@ Plans: TBD
 | 5. TTS Playback Bug Fixes | v1.1 | 0/1 | Not started | - |
 | 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
+| 8. Script & Storyboard | v2.0 | 0/TBD | Not started | - |
+| 9. Visual Production & Demo Plan | v2.0 | 0/TBD | Not started | - |
