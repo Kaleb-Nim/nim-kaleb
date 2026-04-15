@@ -102,7 +102,7 @@ Plans:
 
 Plans: TBD
 
-### 📋 v2.0 Scholarship Video Production (Planned)
+### v2.0 Scholarship Video Production (Planned)
 
 **Milestone Goal:** Create a punchy 1-2 minute TikTok-first scholarship application video showcasing the AI Voice Portfolio — what was built, the context, what was tried, and what surprised Kaleb — producing all narrative, storyboard, and production assets needed for filming day.
 
@@ -111,7 +111,7 @@ Plans: TBD
 **Depends on**: Nothing (video production milestone, independent of Phases 1-7)
 **Requirements**: SCRIPT-01, SCRIPT-02, SCRIPT-03, STORY-01, STORY-02
 **Success Criteria** (what must be TRUE):
-  1. A written script exists that follows hook → open loop → problem → mechanism → result → CTA structure and fits within 1-2 minutes at natural speaking pace
+  1. A written script exists that follows hook -> open loop -> problem -> mechanism -> result -> CTA structure and fits within 1-2 minutes at natural speaking pace
   2. The script references at least two specific technical examples drawn from the project's git history (e.g., API pivot, race conditions, audio bugs, or speech quality tuning)
   3. Scholarship pointers (context, what was built, what was tried, what surprised Kaleb) are woven into the narrative without feeling like a checklist
   4. A storyboard document exists with a row per beat: beat name, timing, spoken words, and visual type (talking head / screen demo / architecture diagram / code snippet)
@@ -128,9 +128,11 @@ Plans:
   1. A visual brief exists for every Remotion-produced segment identified in the storyboard, specifying layout, text content, color treatment, and animation intent
   2. A demo recording plan lists each section of the live site to capture, the order of capture, and any setup steps needed (e.g., clearing session state, triggering voice connection)
   3. A shot list and production checklist exist covering camera setup, lighting, wardrobe, takes required, and a pre-filming system check — so filming can start without any open decisions
-**Plans**: TBD
+**Plans**: 2 plans
 
-Plans: TBD
+Plans:
+- [ ] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
+- [ ] 09-02-PLAN.md — Create shot list and production checklist for filming day
 
 ## Progress
 
@@ -144,4 +146,4 @@ Plans: TBD
 | 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
 | 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
-| 9. Visual Production & Demo Plan | v2.0 | 0/TBD | Not started | - |
+| 9. Visual Production & Demo Plan | v2.0 | 0/2 | Not started | - |
