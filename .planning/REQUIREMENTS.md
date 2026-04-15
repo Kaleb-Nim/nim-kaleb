@@ -1,45 +1,38 @@
 # Requirements: Kaleb's AI Voice Portfolio
 
-**Defined:** 2026-04-13
+**Defined:** 2026-04-15
 **Core Value:** Visitors can have a natural, human-sounding voice conversation with an AI clone of Kaleb that authentically represents his experience and personality.
 
-## v1.1 Requirements
+## v2.0 Requirements
 
-Requirements for milestone v1.1: Observability, Testing & Bug Fixes.
+Requirements for milestone v2.0: Scholarship Video Production.
 
-### Bug Fixes (TTS Playback)
+### Script & Narrative
 
-- [ ] **BUG-01**: Audio playback completes without cutoff using `onended`-based drain instead of `setTimeout` estimate
-- [ ] **BUG-02**: Barge-in does not produce overlapping audio — `nextPlayTimeRef` resets to `ctx.currentTime` with generation counter on `TtsHandle`
-- [ ] **BUG-03**: Server-side barge-in teardown sends `session.finish` to TTS instead of `ws.close()` to prevent audio pops
+- [ ] **SCRIPT-01**: Script uses TikTok narrative structure (hook → open loop → problem → mechanism → result → CTA) while naturally hitting scholarship pointers (context, what you built, what you tried, what surprised you). Open loop teases payoff near end for retention.
+- [ ] **SCRIPT-02**: Script is 1-2 minutes at natural speaking pace (~150-300 words)
+- [ ] **SCRIPT-03**: Script references specific technical examples from git history (API pivot, race conditions, audio bugs, speech quality tuning)
 
-### Analytics & Logging
+### Storyboard & Visuals
 
-- [ ] **LOG-01**: Each conversation turn is logged as structured NDJSON on the ECS server with session ID, role, transcript text, and timestamp
-- [ ] **LOG-02**: Each turn log includes per-component latency measurements (ASR duration, LLM TTFT, TTS TTFA, total round-trip)
+- [ ] **STORY-01**: Beat-by-beat storyboard with frame timing for each segment
+- [ ] **STORY-02**: Each beat specifies visual type (talking head / screen demo / architecture diagram / code snippet)
+- [ ] **STORY-03**: Visual briefs exist for all Remotion-produced segments (overlays, diagrams, text cards)
 
-### Testing — Component Health
+### Production Assets
 
-- [ ] **TEST-01**: Automated test verifies WS server accepts WebSocket handshake and responds to health check
-- [ ] **TEST-02**: Automated test sends audio to ASR and asserts transcript is returned within latency target
-- [ ] **TEST-03**: Automated test sends text to TTS and asserts PCM audio is returned with byte-level sanity check
+- [ ] **PROD-01**: Demo recording plan specifying which parts of the live site to capture and in what order
+- [ ] **PROD-02**: Shot list and production checklist for filming day
 
-### Testing — E2E Audio
-
-- [ ] **TEST-04**: Automated test exercises full pipeline round-trip: audio input → ASR transcript → LLM response → TTS audio output
-
-## v1.2+ Requirements
+## v2.1+ Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
 
-### Analytics
+### Post-Production
 
-- **LOG-03**: Question topic classification via keyword heuristics (fire-and-forget)
-- **LOG-04**: Session summary metrics (duration, turn count, topics)
-
-### Testing
-
-- **TEST-05**: Barge-in quality test asserting audio suppression < 200ms on interrupt
+- **POST-01**: Voiceover generation via OpenAI TTS (video-production /gen-voiceover)
+- **POST-02**: Caption generation and overlay via Remotion CaptionOverlay
+- **POST-03**: Final Remotion composition render
 
 ## Out of Scope
 
@@ -47,12 +40,10 @@ Explicitly excluded. Documented to prevent scope creep.
 
 | Feature | Reason |
 |---------|--------|
-| Real-time analytics dashboard | Over-engineering for solo portfolio |
-| MOS/WER automated scoring | No baseline to compare against |
-| OpenTelemetry integration | Portfolio scale doesn't justify complexity |
-| Load testing | Single-user portfolio, not multi-tenant |
-| Coverage enforcement | Small codebase, not needed |
-| External analytics services (Mixpanel/PostHog) | Unnecessary cost and complexity for personal site |
+| Remotion rendering/export | Production happens in video-production repo, not here |
+| Multiple video versions | One strong cut is the goal; iterate after filming |
+| Professional editing software | Remotion + talking head is the production pipeline |
+| Music/soundtrack production | Simple SFX if any; no original music needed |
 
 ## Traceability
 
@@ -60,21 +51,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUG-01 | Phase 5 | Pending |
-| BUG-02 | Phase 5 | Pending |
-| BUG-03 | Phase 5 | Pending |
-| LOG-01 | Phase 6 | Pending |
-| LOG-02 | Phase 6 | Pending |
-| TEST-01 | Phase 7 | Pending |
-| TEST-02 | Phase 7 | Pending |
-| TEST-03 | Phase 7 | Pending |
-| TEST-04 | Phase 7 | Pending |
+| SCRIPT-01 | TBD | Pending |
+| SCRIPT-02 | TBD | Pending |
+| SCRIPT-03 | TBD | Pending |
+| STORY-01 | TBD | Pending |
+| STORY-02 | TBD | Pending |
+| STORY-03 | TBD | Pending |
+| PROD-01 | TBD | Pending |
+| PROD-02 | TBD | Pending |
 
 **Coverage:**
-- v1.1 requirements: 9 total
-- Mapped to phases: 9
-- Unmapped: 0
+- v2.0 requirements: 8 total
+- Mapped to phases: 0
+- Unmapped: 8 (pending roadmap creation)
 
 ---
-*Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after roadmap creation*
+*Requirements defined: 2026-04-15*
+*Last updated: 2026-04-15 after initial definition*
