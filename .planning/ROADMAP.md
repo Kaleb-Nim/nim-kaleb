@@ -115,9 +115,10 @@ Plans: TBD
   2. The script references at least two specific technical examples drawn from the project's git history (e.g., API pivot, race conditions, audio bugs, or speech quality tuning)
   3. Scholarship pointers (context, what was built, what was tried, what surprised Kaleb) are woven into the narrative without feeling like a checklist
   4. A storyboard document exists with a row per beat: beat name, timing, spoken words, and visual type (talking head / screen demo / architecture diagram / code snippet)
-**Plans**: TBD
+**Plans**: 1 plan
 
-Plans: TBD
+Plans:
+- [ ] 08-01-PLAN.md — Write TikTok narrative script and beat-by-beat storyboard
 
 #### Phase 9: Visual Production & Demo Plan
 **Goal**: All production assets are ready for filming day — visual briefs for every Remotion segment and a concrete shot list so no decisions need to be made on the day
@@ -142,5 +143,5 @@ Plans: TBD
 | 5. TTS Playback Bug Fixes | v1.1 | 0/1 | Not started | - |
 | 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
-| 8. Script & Storyboard | v2.0 | 0/TBD | Not started | - |
+| 8. Script & Storyboard | v2.0 | 0/1 | Not started | - |
 | 9. Visual Production & Demo Plan | v2.0 | 0/TBD | Not started | - |
