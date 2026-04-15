@@ -18,3 +18,17 @@
 .singleColumn .statusLine {
   white-space: normal;
 }
+
+.goldLink {
+  color: #FFD700;
+  text-decoration: none;
+  cursor: pointer;
+  text-shadow:
+    0 0 4px rgba(255, 215, 0, 0.4),
+    0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+.goldLink:hover {
+  text-decoration: underline;
+  filter: brightness(1.2);
+}
