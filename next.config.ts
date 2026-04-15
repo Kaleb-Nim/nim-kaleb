@@ -14,6 +14,19 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_LAST_SYNC: getLastMainCommitDate(),
   },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Permissions-Policy',
+            value: 'microphone=(self)',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
