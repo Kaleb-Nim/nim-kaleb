@@ -22,7 +22,7 @@ Requirements for milestone v2.0: Scholarship Video Production.
 ### Production Assets
 
 - [x] **PROD-01**: Demo recording plan specifying which parts of the live site to capture and in what order
-- [ ] **PROD-02**: Shot list and production checklist for filming day
+- [x] **PROD-02**: Shot list and production checklist for filming day
 
 ## v2.1+ Requirements
 
@@ -58,7 +58,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STORY-02 | Phase 8 | Complete |
 | STORY-03 | Phase 9 | Complete |
 | PROD-01 | Phase 9 | Complete |
-| PROD-02 | Phase 9 | Pending |
+| PROD-02 | Phase 9 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 8 total
