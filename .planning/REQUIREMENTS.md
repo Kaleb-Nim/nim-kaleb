@@ -9,14 +9,14 @@ Requirements for milestone v2.0: Scholarship Video Production.
 
 ### Script & Narrative
 
-- [ ] **SCRIPT-01**: Script uses TikTok narrative structure (hook → open loop → problem → mechanism → result → CTA) while naturally hitting scholarship pointers (context, what you built, what you tried, what surprised you). Open loop teases payoff near end for retention.
-- [ ] **SCRIPT-02**: Script is 1-2 minutes at natural speaking pace (~150-300 words)
-- [ ] **SCRIPT-03**: Script references specific technical examples from git history (API pivot, race conditions, audio bugs, speech quality tuning)
+- [x] **SCRIPT-01**: Script uses TikTok narrative structure (hook → open loop → problem → mechanism → result → CTA) while naturally hitting scholarship pointers (context, what you built, what you tried, what surprised you). Open loop teases payoff near end for retention.
+- [x] **SCRIPT-02**: Script is 1-2 minutes at natural speaking pace (~150-300 words)
+- [x] **SCRIPT-03**: Script references specific technical examples from git history (API pivot, race conditions, audio bugs, speech quality tuning)
 
 ### Storyboard & Visuals
 
-- [ ] **STORY-01**: Beat-by-beat storyboard with frame timing for each segment
-- [ ] **STORY-02**: Each beat specifies visual type (talking head / screen demo / architecture diagram / code snippet)
+- [x] **STORY-01**: Beat-by-beat storyboard with frame timing for each segment
+- [x] **STORY-02**: Each beat specifies visual type (talking head / screen demo / architecture diagram / code snippet)
 - [ ] **STORY-03**: Visual briefs exist for all Remotion-produced segments (overlays, diagrams, text cards)
 
 ### Production Assets
@@ -51,11 +51,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCRIPT-01 | Phase 8 | Pending |
-| SCRIPT-02 | Phase 8 | Pending |
-| SCRIPT-03 | Phase 8 | Pending |
-| STORY-01 | Phase 8 | Pending |
-| STORY-02 | Phase 8 | Pending |
+| SCRIPT-01 | Phase 8 | Complete |
+| SCRIPT-02 | Phase 8 | Complete |
+| SCRIPT-03 | Phase 8 | Complete |
+| STORY-01 | Phase 8 | Complete |
+| STORY-02 | Phase 8 | Complete |
 | STORY-03 | Phase 9 | Pending |
 | PROD-01 | Phase 9 | Pending |
 | PROD-02 | Phase 9 | Pending |

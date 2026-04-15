@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Observability, Testing & Bug Fixes
-status: planning
-stopped_at: Phase 8 context gathered
-last_updated: "2026-04-15T06:38:39.564Z"
-last_activity: 2026-04-15 — v2.0 roadmap created (Phases 8-9)
+status: executing
+stopped_at: Completed 08-01-PLAN.md
+last_updated: "2026-04-15T07:12:57.357Z"
+last_activity: 2026-04-15 -- Phase 8 planning complete
 progress:
-  total_phases: 5
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-04-15)
 
 Phase: 8 of 9 (Script & Storyboard)
 Plan: —
-Status: Ready to plan
-Last activity: 2026-04-15 — v2.0 roadmap created (Phases 8-9)
+Status: Ready to execute
+Last activity: 2026-04-15 -- Phase 8 planning complete
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -49,6 +49,7 @@ Progress: [░░░░░░░░░░] 0%
 **Recent Trend:** No data yet
 
 *Updated after each plan completion*
+| Phase 08 P01 | 235 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -58,6 +59,8 @@ Progress: [░░░░░░░░░░] 0%
 - [v2.0]: Open loop technique after hook for retention
 - [v2.0]: All video deliverables (script, storyboard, visuals) live in nim-kaleb repo
 - [v2.0]: Phase 8 and Phase 9 are independent of v1.1 (no technical dependency)
+- [Phase 08]: Demo question: What's the hardest bug you've ever fixed?
+- [Phase 08]: Two CTA variations presented for Kaleb to choose
 
 ### Pending Todos
 
@@ -70,6 +73,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-15T06:38:39.562Z
-Stopped at: Phase 8 context gathered
-Resume file: .planning/phases/08-script-storyboard/08-CONTEXT.md
+Last session: 2026-04-15T07:12:57.356Z
+Stopped at: Completed 08-01-PLAN.md
+Resume file: None

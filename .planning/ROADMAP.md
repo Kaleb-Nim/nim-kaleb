@@ -118,7 +118,7 @@ Plans: TBD
 **Plans**: 1 plan
 
 Plans:
-- [ ] 08-01-PLAN.md — Write TikTok narrative script and beat-by-beat storyboard
+- [x] 08-01-PLAN.md — Write TikTok narrative script and beat-by-beat storyboard
 
 #### Phase 9: Visual Production & Demo Plan
 **Goal**: All production assets are ready for filming day — visual briefs for every Remotion segment and a concrete shot list so no decisions need to be made on the day
@@ -143,5 +143,5 @@ Plans: TBD
 | 5. TTS Playback Bug Fixes | v1.1 | 0/1 | Not started | - |
 | 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
-| 8. Script & Storyboard | v2.0 | 0/1 | Not started | - |
+| 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
 | 9. Visual Production & Demo Plan | v2.0 | 0/TBD | Not started | - |
