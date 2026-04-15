@@ -21,12 +21,12 @@ const statusData: StatusRow[] = [
     right: { label: "GitHub", value: "GitHub", href: "https://github.com/Kaleb-Nim", external: true },
   },
   {
-    left:  { label: "Email", value: "kaleb.nim@gmail.com", href: "mailto:kaleb.nim@gmail.com" },
-    right: { label: "Resume", value: "Download CV [PDF]", href: "/kaleb-cv.pdf", external: true },
-  },
-  {
     left:  { label: "Coffee Consumed", value: "4.2L today" },
     right: { label: "Side Projects", value: "\u221E (unfinished)" },
+  },
+  {
+    left:  { label: "Email", value: "kaleb.nim@gmail.com", href: "mailto:kaleb.nim@gmail.com" },
+    right: { label: "Resume", value: "Download CV [PDF]", href: "/kaleb-cv.pdf", external: true },
   },
   {
     left:  { label: "Prod Incidents", value: "definitely 0" },
@@ -130,6 +130,11 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
           )}
         </div>
       ))}
+      {visibleRows >= statusData.length && (
+        <div className={styles.internshipBanner}>
+          LOOKING FOR AI ENGINEERING INTERNSHIPS — STARTING AUG 2026
+        </div>
+      )}
     </div>
   );
 }

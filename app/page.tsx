@@ -120,9 +120,11 @@ export default function Home() {
           {state === 'MENU' && (
             <>
               <TypewriterLine text="Select an option:" speed={30} />
-              <TypewriterLine text="1. Activate Voice Interface" speed={30} />
+              <TypewriterLine text="  [1] Activate Voice Interface — Talk to Kaleb's AI clone" speed={30} />
               <br />
-              <div>---</div>
+              <div style={{ opacity: 0.5, fontSize: '0.75rem' }}>
+                {'  '}Type 1 and press Enter
+              </div>
               <br />
               <CommandInput onCommand={handleCommand} />
             </>

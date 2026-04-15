@@ -131,8 +131,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
-- [ ] 09-02-PLAN.md — Create shot list and production checklist for filming day
+- [x] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
+- [x] 09-02-PLAN.md — Create shot list and production checklist for filming day
 
 ## Progress
 
@@ -146,4 +146,4 @@ Plans:
 | 6. Session Analytics & Logging | v1.1 | 0/1 | Not started | - |
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
 | 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
-| 9. Visual Production & Demo Plan | v2.0 | 0/2 | Not started | - |
+| 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |

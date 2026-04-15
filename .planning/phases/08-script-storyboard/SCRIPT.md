@@ -11,9 +11,9 @@
 
 *(No voiceover. Demo plays.)*
 
-*(The site nim-kaleb.vercel.app is visible. A visitor types: "What's the hardest bug you've ever fixed?" The AI responds in Kaleb's cloned voice, green text appearing in the terminal, audio waveform pulsing.)*
+*(The site nim-kaleb.vercel.app is visible. A visitor types: "Hey, who are you?" The AI responds in Kaleb's cloned voice, green text appearing in the terminal, audio waveform pulsing.)*
 
-[VISUAL: Screen demo | nim-kaleb.vercel.app in browser, terminal modal centered on starfield, visitor question in command input, AI response typing in green monospace (#00FF00), audio waveform indicator active | 5s hold]
+[VISUAL: Screen demo | nim-kaleb.vercel.app in browser, terminal modal centered on starfield, visitor question "Hey, who are you?" in command input, AI response typing in green monospace (#00FF00), audio waveform indicator active | 5s hold]
 
 ---
 
@@ -28,7 +28,7 @@ I built an AI clone of myself that visitors can actually talk to. But I had to r
 
 ### Problem / Context -- 0:10-0:22
 
-I wanted my portfolio to be a conversation, not a page. So back in March 2026, I wired up Groq for speech-to-text, Claude for the brain, and Qwen running on my Mac for voice. It worked -- kind of. The STT kept crashing on real browser audio. Every request, 500 error.
+I'm not a software dev, I'm an AI Engineer so why not build my portfolio website to reflect that. Thus, I wired up Groq for speech-to-text, Claude for the brain, and Qwen running on my Mac for voice. It worked -- kind of. The STT kept crashing on real browser audio. Every request, 500 error.
 
 [VISUAL: Talking head | Direct to camera, confident delivery, slight head shake on "kind of"]
 [SCHOLARSHIP: context, what was tried]
@@ -37,7 +37,7 @@ I wanted my portfolio to be a conversation, not a page. So back in March 2026, I
 
 ### Mechanism / Pivots -- 0:22-0:40
 
-So I swapped the whole pipeline for OpenAI's Realtime API. One WebSocket, deleted 500 lines. But OpenAI's voice wasn't mine. It sounded like a generic AI reading my resume.
+So I swapped the whole pipeline for OpenAI's Realtime API. One WebSocket, deleted half my codebase. But OpenAI's voice wasn't mine. It sounded like a generic AI reading my resume.
 
 Then I found Alibaba Cloud's Qwen3-TTS -- it supports voice cloning. I recorded my voice, enrolled it, and rebuilt the entire server on Alibaba Cloud ECS. Three WebSocket streams -- speech recognition, language model, text-to-speech -- all orchestrated on a Bun server in Singapore.
 
@@ -70,11 +70,7 @@ It shipped. And it actually sounds like me.
 
 ### CTA -- 1:03-1:15
 
-**Variation A:**
-Talk to my AI clone yourself. Link's in the bio.
-
-**Variation B:**
-The site's live right now. Go ask it something weird.
+Go talk to my AI clone yourself. please don't ask it something weird.
 
 [VISUAL: Talking head | Direct to camera, confident smile, pointing gesture on "link" or "site"]
 
@@ -96,7 +92,7 @@ The site's live right now. Go ask it something weird.
 - Race condition fix: commit 6168e9b (2026-04-09) -- connectingRef lock
 - Production deploy: commit 413cf51 (2026-04-12) -- v1.0 shipped
 
-**Open Questions for Kaleb:**
-1. Which CTA variation? (a) or (b)?
-2. Demo question for cold open -- confirm "What's the hardest bug you've ever fixed?" or suggest alternative
-3. Optional: before/after voice comparison in Result beat if OpenAI default voice recording is available
+**Resolved Decisions:**
+1. CTA: "Go talk to my AI clone yourself. please don't ask it something weird."
+2. Demo question for cold open: "Hey, who are you?"
+3. Before/after voice comparison: deferred (optional for Phase 9 if recording available)

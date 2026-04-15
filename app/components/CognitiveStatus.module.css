@@ -32,3 +32,15 @@
   text-decoration: underline;
   filter: brightness(1.2);
 }
+
+.internshipBanner {
+  color: #FFD700;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 6px 0 2px;
+  text-shadow:
+    0 0 4px rgba(255, 215, 0, 0.4),
+    0 0 8px rgba(255, 215, 0, 0.2);
+  letter-spacing: 0.5px;
+}
