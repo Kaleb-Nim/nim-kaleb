@@ -4,6 +4,8 @@ import type { TtsHandle } from './dashscope/tts';
 import { createAsrSession, forwardAudioToAsr } from './dashscope/asr';
 import { streamLlmResponse } from './dashscope/llm';
 import { createTtsSession, appendTextToTts, finishTtsSession } from './dashscope/tts';
+import { logTurn } from './logger';
+import type { TurnLog } from './logger';
 
 // Per-session data stored in Bun's WebSocket data slot
 export type SessionData = {
@@ -40,7 +42,7 @@ export class Session {
       this.responseAbort = null;
     }
     if (this.ttsHandle && this.ttsHandle.ws.readyState === WebSocket.OPEN) {
-      this.ttsHandle.ws.close();
+      finishTtsSession(this.ttsHandle);
     }
     this.ttsHandle = null;
   }
@@ -56,7 +58,7 @@ export class Session {
    * Run the LLM→TTS pipeline for a given user message (or greeting prompt).
    * Reused by both transcript handling and the proactive greeting.
    */
-  private startResponse(userText: string, opts?: { isGreeting?: boolean; bargeInPrefix?: string }): void {
+  private startResponse(userText: string, opts?: { isGreeting?: boolean; bargeInPrefix?: string; asrDurationMs?: number | null }): void {
     const session = this;
     const isGreeting = opts?.isGreeting ?? false;
 
@@ -69,6 +71,14 @@ export class Session {
     // Create new abort controller for this response turn
     const abort = new AbortController();
     session.responseAbort = abort;
+
+    // ── Latency tracking (closure-scoped per turn) ──────────────────────
+    const turnStart = performance.now();
+    let llmTtftMs: number | null = null;
+    let ttsTtfaMs: number | null = null;
+    let ttsOpenTime: number | null = null;
+    let firstLlmChunk = true;
+    let firstTtsAudio = true;
 
     // Add user turn to conversation history (skip for greeting — no user message)
     if (!isGreeting) {
@@ -85,9 +95,27 @@ export class Session {
     // Open TTS session — promise resolves once WS is open
     const ttsReadyPromise = createTtsSession({
       onAudioDelta: (delta) => {
+        if (firstTtsAudio) {
+          ttsTtfaMs = Math.round(performance.now() - (ttsOpenTime ?? turnStart));
+          firstTtsAudio = false;
+        }
         session.send({ type: 'response.audio.delta', delta });
       },
       onDone: () => {
+        if (abort.signal.aborted) return; // don't log aborted turns
+        const totalMs = Math.round(performance.now() - turnStart);
+        logTurn({
+          ts: Date.now(),
+          sessionId: session.sessionId,
+          role: 'assistant',
+          text: isGreeting ? '[greeting]' : assistantResponse,
+          latency: {
+            asrMs: opts?.asrDurationMs ?? null,
+            llmTtftMs,
+            ttsTtfaMs,
+            totalMs,
+          },
+        });
         session.send({ type: 'response.done' });
         session.ttsHandle = null;
       },
@@ -101,6 +129,7 @@ export class Session {
 
     // Start LLM streaming once TTS WebSocket is open
     ttsReadyPromise.then((handle) => {
+      ttsOpenTime = performance.now();
       // For greeting, use a special internal prompt; for normal, use transcript
       const prompt = isGreeting
         ? '[GREETING] The visitor just activated the voice interface. Greet them.'
@@ -111,6 +140,10 @@ export class Session {
         session.conversationHistory.slice(),
         (chunk) => {
           if (abort.signal.aborted) return;
+          if (firstLlmChunk) {
+            llmTtftMs = Math.round(performance.now() - (ttsOpenTime ?? turnStart));
+            firstLlmChunk = false;
+          }
           appendTextToTts(handle, chunk);
           session.send({ type: 'response.text.delta', delta: chunk });
           assistantResponse += chunk;
@@ -147,12 +180,22 @@ export class Session {
     }
 
     const session = this;
+    let asrSpeechStart: number | null = null;
 
     createAsrSession({
+      onSpeechStarted: () => {
+        asrSpeechStart = performance.now();
+      },
       onTranscriptPartial: (text) => {
         session.send({ type: 'transcript.partial', text });
       },
       onTranscriptFinal: (text) => {
+        // Compute ASR duration
+        const asrDurationMs = asrSpeechStart !== null
+          ? Math.round(performance.now() - asrSpeechStart)
+          : null;
+        asrSpeechStart = null; // reset for next turn
+
         session.send({ type: 'transcript.final', text });
         console.log(`[session] ${session.sessionId} transcript: ${text}`);
 
@@ -164,11 +207,25 @@ export class Session {
           return;
         }
 
+        // Log user turn (fire-and-forget)
+        logTurn({
+          ts: Date.now(),
+          sessionId: session.sessionId,
+          role: 'user',
+          text,
+          latency: {
+            asrMs: asrDurationMs,
+            llmTtftMs: null,
+            ttsTtfaMs: null,
+            totalMs: null,
+          },
+        });
+
         // ── D-06: detect if we're interrupting an in-flight response ──
         const wasResponding = session.responseAbort !== null;
         const bargeInPrefix = wasResponding ? 'Oh sure \u2014 ' : undefined;
 
-        session.startResponse(text, { bargeInPrefix });
+        session.startResponse(text, { bargeInPrefix, asrDurationMs });
       },
       onError: (message) => {
         session.send({ type: 'error', message });

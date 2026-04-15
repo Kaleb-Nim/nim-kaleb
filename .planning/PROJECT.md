@@ -16,7 +16,7 @@ Visitors can have a natural, human-sounding voice conversation with an AI clone 
 - **Browser**: Next.js 16 + React 19 + TypeScript, terminal-themed UI with state machine
 - **Server**: Bun WS server with full streaming pipeline, proactive greeting, 20-turn memory, barge-in handling
 - **Tests**: 1 UI smoke test + 9 backend/WS pipeline tests (Playwright)
-- **Known Issue**: TTS playback quality (overlapping audio, cut-offs, inconsistent barge-in)
+- **Phase 5 Complete (2026-04-13)**: TTS playback bugs fixed — audio cutoff, barge-in overlap, and barge-in pop all resolved
 
 ## Architecture
 
@@ -48,17 +48,18 @@ Browser (Vercel)          Alibaba Cloud ECS           DashScope APIs
 | AI greets first on connect | Better UX — visitor hears Kaleb immediately | v1.0 |
 | Alibaba Cloud ECS over Railway | User has $300 free credits, keeps infra on 2 providers | v1.0 |
 
-## Next Milestone Goals
+## Current Milestone: v2.0 Scholarship Video Production
 
-*Not yet defined. Candidates:*
-- Fix TTS playback quality (overlapping audio, cut-offs, barge-in)
-- Add conversation analytics (session count, common questions)
-- Thinking delay before complex answers
-- Content updates and portfolio polish
+**Goal:** Create a punchy 1-2 minute TikTok-first scholarship application video showcasing the AI Voice Portfolio project — what was built, the context, what was tried, and what surprised Kaleb — using video-production storytelling skills for storyboarding and visual production.
+
+**Target features:**
+- TikTok-style narrative script (hook → open loop → problem → mechanism → result → CTA) hitting scholarship pointers naturally
+- Beat-by-beat storyboard with visual briefs for Remotion-produced segments
+- Demo recording plan and production checklist for filming day
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-04-13 after v1.0 milestone completion*
+*Last updated: 2026-04-15 after v2.0 milestone start*

@@ -1,7 +1,10 @@
 import { Session, type SessionData } from './session';
 import { isValidBrowserMessage } from './types';
+import { initLogDir } from './logger';
 
 const port = Number(process.env.PORT) || 8080;
+
+initLogDir();
 
 const server = Bun.serve<SessionData>({
   port,

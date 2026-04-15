@@ -8,6 +8,7 @@ const ASR_WS_URL =
 export interface AsrCallbacks {
   onTranscriptPartial: (text: string) => void;
   onTranscriptFinal: (text: string) => void;
+  onSpeechStarted?: () => void;   // fires on input_audio_buffer.speech_started
   onError: (message: string) => void;
 }
 
@@ -72,6 +73,7 @@ export function createAsrSession(callbacks: AsrCallbacks): Promise<WebSocket> {
 
         case 'input_audio_buffer.speech_started':
           console.log('[asr] speech started');
+          callbacks.onSpeechStarted?.();
           break;
 
         case 'error': {

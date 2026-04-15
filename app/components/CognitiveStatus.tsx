@@ -3,31 +3,34 @@
 import { useState, useEffect } from 'react';
 import styles from './CognitiveStatus.module.css';
 
+interface StatusCell {
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}
+
 interface StatusRow {
-  left: { label: string; value: string };
-  right: { label: string; value: string };
+  left: StatusCell;
+  right: StatusCell;
 }
 
 const statusData: StatusRow[] = [
   {
-    left: { label: "Neural Activity", value: "Elevated" },
-    right: { label: "Model", value: "kaleb-nim-400b-0706" }
+    left:  { label: "LinkedIn", value: "LinkedIn", href: "https://www.linkedin.com/in/kaleb-nim/", external: true },
+    right: { label: "GitHub", value: "GitHub", href: "https://github.com/Kaleb-Nim", external: true },
   },
   {
-    left: { label: "Memory Usage", value: "27.1% of 100TB" },
-    right: { label: "Coffee Consumed", value: "4.2L today" }
+    left:  { label: "Email", value: "kaleb.nim@gmail.com", href: "mailto:kaleb.nim@gmail.com" },
+    right: { label: "Resume", value: "Download CV [PDF]", href: "/kaleb-cv.pdf", external: true },
   },
   {
-    left: { label: "Training Loss", value: "NaN (it's fine)" },
-    right: { label: "Side Projects", value: "∞ (unfinished)" }
+    left:  { label: "Coffee Consumed", value: "4.2L today" },
+    right: { label: "Side Projects", value: "\u221E (unfinished)" },
   },
   {
-    left: { label: "GitHub Commits", value: "3am (mostly)" },
-    right: { label: "Prod Incidents", value: "definitely 0" }
-  },
-  {
-    left: { label: "Emotion Index", value: "Stable" },
-    right: { label: "Mood Updates", value: "0 pending" }
+    left:  { label: "Prod Incidents", value: "definitely 0" },
+    right: { label: "Emotion Index", value: "Stable" },
   },
 ];
 
@@ -63,14 +66,54 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
     return () => clearTimeout(timer);
   }, [visibleRows, onComplete]);
 
-  const formatTwoColumn = (row: StatusRow): string => {
-    const leftLabel = row.left.label.padEnd(22, ' ');
-    const rightLabel = row.right.label.padEnd(25, ' ');
-    return `  ${leftLabel}: ${row.left.value.padEnd(18, ' ')}${rightLabel}: ${row.right.value}`;
+  const renderCell = (cell: StatusCell, padWidth: number, isLeft: boolean) => {
+    const displayValue = isLeft ? cell.value.padEnd(padWidth, ' ') : cell.value;
+    if (cell.href) {
+      return (
+        <a
+          href={cell.href}
+          className={styles.goldLink}
+          target={cell.external ? "_blank" : undefined}
+          rel={cell.external ? "noopener noreferrer" : undefined}
+        >
+          {displayValue}
+        </a>
+      );
+    }
+    return displayValue;
   };
 
-  const formatSingleColumn = (item: { label: string; value: string }): string => {
-    return `  ${item.label}: ${item.value}`;
+  const renderTwoColumn = (row: StatusRow): React.ReactNode => {
+    const leftLabel = `  ${row.left.label.padEnd(22, ' ')}: `;
+    const rightLabel = `${row.right.label.padEnd(25, ' ')}: `;
+
+    return (
+      <>
+        {leftLabel}
+        {renderCell(row.left, 22, true)}
+        {rightLabel}
+        {renderCell(row.right, 0, false)}
+      </>
+    );
+  };
+
+  const renderSingleColumn = (cell: StatusCell): React.ReactNode => {
+    if (cell.href) {
+      return (
+        <>
+          {`  ${cell.label}: `}
+          <a
+            href={cell.href}
+            className={styles.goldLink}
+            target={cell.external ? "_blank" : undefined}
+            rel={cell.external ? "noopener noreferrer" : undefined}
+          >
+            {cell.value}
+          </a>
+        </>
+      );
+    }
+    return `  ${cell.label}: ${cell.value}`;
   };
 
   return (
@@ -78,11 +121,11 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
       {statusData.slice(0, visibleRows).map((row, i) => (
         <div key={i} className={styles.statusRow}>
           {isDesktop ? (
-            <pre className={styles.statusLine}>{formatTwoColumn(row)}</pre>
+            <pre className={styles.statusLine}>{renderTwoColumn(row)}</pre>
           ) : (
             <>
-              <div className={styles.statusLine}>{formatSingleColumn(row.left)}</div>
-              <div className={styles.statusLine}>{formatSingleColumn(row.right)}</div>
+              <div className={styles.statusLine}>{renderSingleColumn(row.left)}</div>
+              <div className={styles.statusLine}>{renderSingleColumn(row.right)}</div>
             </>
           )}
         </div>
