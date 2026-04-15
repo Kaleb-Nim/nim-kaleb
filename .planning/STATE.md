@@ -1,36 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Observability, Testing & Bug Fixes
-status: executing
-stopped_at: v1.1 roadmap created — Phases 5, 6, 7 defined. Ready to plan Phase 5.
-last_updated: "2026-04-13T03:13:53.601Z"
-last_activity: 2026-04-13 -- Phase 06 planning complete
+milestone: v2.0
+milestone_name: Scholarship Video Production
+status: defining_requirements
+stopped_at: Milestone v2.0 started — defining requirements
+last_updated: "2026-04-15"
+last_activity: 2026-04-15 -- Milestone v2.0 started
 progress:
-  total_phases: 3
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 1
-  percent: 50
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-13)
+See: .planning/PROJECT.md (updated 2026-04-15)
 
 **Core value:** Visitors can have a natural, human-sounding voice conversation with an AI clone of Kaleb that authentically represents his experience and personality.
-**Current focus:** Phase 5 — TTS Playback Bug Fixes
+**Current focus:** Defining requirements for v2.0 Scholarship Video Production
 
 ## Current Position
 
-Phase: 6 of 7 (session analytics & logging)
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-04-15 -- Quick task 260415-h6s: Add domain routing for kalebnim.dev
-
-Progress: [████░░░░░░] 40% (v1.0 complete, v1.1 not started)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-15 — Milestone v2.0 started
 
 ## Accumulated Context
 
@@ -42,6 +40,9 @@ Recent decisions affecting current work:
 - [v1.0]: AI greets first on connect — visitor hears Kaleb immediately on connection
 - [v1.1]: Analytics must be fire-and-forget — never await classification in the hot path
 - [v1.1]: E2E audio tests inject audio at WebSocket level — Playwright cannot use real mic in CI
+- [v2.0]: Video is TikTok-first (engaging, high-retention) while hitting scholarship pointers naturally
+- [v2.0]: Open loop technique after hook for retention
+- [v2.0]: All video deliverables (script, storyboard, visuals) live in nim-kaleb repo
 
 ### Pending Todos
 
@@ -60,6 +61,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-13
-Stopped at: v1.1 roadmap created — Phases 5, 6, 7 defined. Ready to plan Phase 5.
+Last session: 2026-04-15
+Stopped at: Milestone v2.0 started — defining requirements
 Resume file: None

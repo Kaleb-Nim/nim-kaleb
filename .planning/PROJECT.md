@@ -48,19 +48,18 @@ Browser (Vercel)          Alibaba Cloud ECS           DashScope APIs
 | AI greets first on connect | Better UX — visitor hears Kaleb immediately | v1.0 |
 | Alibaba Cloud ECS over Railway | User has $300 free credits, keeps infra on 2 providers | v1.0 |
 
-## Current Milestone: v1.1 Observability, Testing & Bug Fixes
+## Current Milestone: v2.0 Scholarship Video Production
 
-**Goal:** Add conversation analytics/logging, comprehensive automated testing (E2E audio + component health), and fix known v1.0 TTS playback issues.
+**Goal:** Create a punchy 1-2 minute TikTok-first scholarship application video showcasing the AI Voice Portfolio project — what was built, the context, what was tried, and what surprised Kaleb — using video-production storytelling skills for storyboarding and visual production.
 
 **Target features:**
-- Analytics & logging of conversation transcripts, question classification, session metrics
-- Playwright E2E audio tests including interrupt/barge-in behavior
-- Unit/integration tests for WS server, ASR, and TTS component health
-- Fix TTS playback quality (overlapping audio, cut-offs, inconsistent barge-in)
+- TikTok-style narrative script (hook → open loop → problem → mechanism → result → CTA) hitting scholarship pointers naturally
+- Beat-by-beat storyboard with visual briefs for Remotion-produced segments
+- Demo recording plan and production checklist for filming day
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-04-13 after v1.1 milestone start*
+*Last updated: 2026-04-15 after v2.0 milestone start*
