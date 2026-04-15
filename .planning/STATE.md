@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-13)
 Phase: 6 of 7 (session analytics & logging)
 Plan: Not started
 Status: Ready to execute
-Last activity: 2026-04-13 -- Phase 06 planning complete
+Last activity: 2026-04-15 -- Quick task 260415-h6s: Add domain routing for kalebnim.dev
 
 Progress: [████░░░░░░] 40% (v1.0 complete, v1.1 not started)
 
@@ -51,6 +51,12 @@ None yet.
 
 - [Phase 7]: Playwright webServer config needs second entry for WS server before any new tests run
 - [Phase 7]: Confirm MediaStreamTrackGenerator availability in Playwright Chromium before architecting E2E tests; fallback is WS-level PCM injection
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260415-h6s | Add domain routing for kalebnim.dev | 2026-04-15 | pending | [260415-h6s-add-domain-routing-for-kalebnim-dev](./quick/260415-h6s-add-domain-routing-for-kalebnim-dev/) |
 
 ## Session Continuity
 
