@@ -68,6 +68,23 @@ function downsample(float32: Float32Array, srcRate: number): Float32Array {
   return out;
 }
 
+// Maps getUserMedia DOMException names to user-friendly messages
+function getUserMediaErrorMessage(err: unknown): string {
+  if (err instanceof DOMException) {
+    switch (err.name) {
+      case 'NotAllowedError':
+        return 'Microphone blocked. Tap the lock icon in your browser address bar to allow microphone access, then try again.';
+      case 'NotFoundError':
+        return 'No microphone found. Please connect a microphone and try again.';
+      case 'NotReadableError':
+        return 'Microphone is in use by another application. Close other apps using the mic and try again.';
+      default:
+        return `Microphone error: ${err.message}`;
+    }
+  }
+  return `Microphone error: ${err instanceof Error ? err.message : String(err)}`;
+}
+
 export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const [status, setStatus] = useState<RealtimeStatus>({
     phase: 'idle',
@@ -241,21 +258,23 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     }
   }, [setPhase, scheduleAudioChunk, transitionTo]);
 
-  // Internal connect logic — sets up mic, audio contexts, and WebSocket
-  const connectInternal = useCallback(async () => {
+  // Internal connect logic — accepts an already-acquired MediaStream to set up audio and WebSocket.
+  // getUserMedia is NOT called here; it must be called in connect() before any setState to stay
+  // within the user gesture activation window on mobile (iOS Safari, mobile Chrome).
+  const connectInternal = useCallback(async (stream: MediaStream) => {
     if (connectingRef.current) return;
     connectingRef.current = true;
     try {
-      // 1. Set up mic stream
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       micStreamRef.current = stream;
 
-      // 2. Mic capture AudioContext at 16kHz for ASR
+      // Mic capture AudioContext at 16kHz for ASR
       const ctx = new AudioContext({ sampleRate: MIC_SAMPLE_RATE });
+      await ctx.resume(); // Ensure not suspended on mobile
       audioCtxRef.current = ctx;
 
-      // 3. Separate playback AudioContext at 24kHz for TTS
+      // Separate playback AudioContext at 24kHz for TTS
       const playbackCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+      await playbackCtx.resume(); // Ensure not suspended on mobile
       playbackCtxRef.current = playbackCtx;
       nextPlayTimeRef.current = playbackCtx.currentTime;
 
@@ -304,19 +323,45 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
         wsRef.current = null;
 
         if (!intentionalCloseRef.current && retriesRef.current < 5) {
-          // Exponential backoff reconnect (CONV-03)
+          // Exponential backoff reconnect
           const delay = Math.min(1000 * 2 ** retriesRef.current, 30000);
           console.log(`[ws] reconnecting in ${delay}ms (attempt ${retriesRef.current + 1}/5)`);
 
-          // Clean up audio before reconnecting
-          cleanupAudio();
+          // Selectively clean up audio contexts and processors but preserve mic stream
+          // so reconnect can reuse it without needing a new user gesture
+          processorRef.current?.disconnect();
+          processorRef.current = null;
+          analyserRef.current?.disconnect();
+          analyserRef.current = null;
+          audioCtxRef.current?.close();
+          audioCtxRef.current = null;
+          playbackCtxRef.current?.close();
+          playbackCtxRef.current = null;
+          lastSourceRef.current = null;
 
           reconnectTimerRef.current = setTimeout(() => {
             retriesRef.current++;
-            connectInternal();
+            const existingStream = micStreamRef.current;
+            const tracksLive = existingStream?.getTracks().some(t => t.readyState === 'live');
+            if (existingStream && tracksLive) {
+              // Reuse existing mic stream — no new user gesture required
+              connectInternal(existingStream);
+            } else {
+              // No live mic stream and no user gesture available — cannot call getUserMedia
+              micStreamRef.current?.getTracks().forEach(t => t.stop());
+              micStreamRef.current = null;
+              connectingRef.current = false;
+              setStatus(prev => ({
+                ...prev,
+                phase: 'error',
+                error: 'Connection lost. Tap Connect to reconnect.',
+              }));
+              transitionTo('VOICE_IDLE');
+            }
           }, delay);
         } else if (!intentionalCloseRef.current) {
           // Max retries exhausted
+          cleanupAudio();
           setStatus(prev => ({
             ...prev,
             phase: 'error',
@@ -325,6 +370,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
           transitionTo('VOICE_IDLE');
         } else {
           // Intentional close
+          cleanupAudio();
           setStatus(prev => ({
             ...prev,
             phase: prev.phase === 'error' ? 'error' : 'idle',
@@ -357,8 +403,23 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       clearTimeout(reconnectTimerRef.current);
       reconnectTimerRef.current = null;
     }
+
+    // CRITICAL: getUserMedia MUST be called FIRST, before any setState.
+    // Mobile browsers (iOS Safari, mobile Chrome) require this to be in the
+    // direct user gesture chain — calling setPhase() before getUserMedia
+    // breaks the user activation window on mobile.
+    let stream: MediaStream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (err) {
+      const msg = getUserMediaErrorMessage(err);
+      setStatus({ phase: 'error', transcript: '', responseText: '', error: msg });
+      return;
+    }
+
+    // NOW safe to update phase — stream is already acquired
     setPhase('connecting');
-    await connectInternal();
+    await connectInternal(stream);
   }, [connectInternal, setPhase, cleanupAudio]);
 
   const disconnect = useCallback(() => {
