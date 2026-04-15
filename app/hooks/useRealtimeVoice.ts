@@ -222,6 +222,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
             setStatus(prev => ({ ...prev, responseText: '' }));
             ctx.close();
             const newCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+            newCtx.resume(); // Prevent suspended state on mobile
             playbackCtxRef.current = newCtx;
             nextPlayTimeRef.current = newCtx.currentTime;  // BUG-02 fix: was 0
             playGenRef.current++;                           // BUG-02 fix: invalidate stale deltas
@@ -234,6 +235,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
                 setStatus(prev => ({ ...prev, responseText: '' }));
                 ctx.close();
                 const newCtx = new AudioContext({ sampleRate: PLAYBACK_SAMPLE_RATE });
+                newCtx.resume(); // Prevent suspended state on mobile
                 playbackCtxRef.current = newCtx;
                 nextPlayTimeRef.current = newCtx.currentTime;
               }
@@ -389,6 +391,9 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
   const connect = useCallback(async () => {
     if (connectingRef.current) return;
+    // Lock immediately to prevent double-tap on mobile spawning parallel connections
+    connectingRef.current = true;
+
     // Tear down any existing connection before starting fresh
     if (wsRef.current) {
       intentionalCloseRef.current = true;
@@ -396,8 +401,7 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       wsRef.current = null;
       cleanupAudio();
     }
-    // Reset reconnect state for fresh connect
-    intentionalCloseRef.current = false;
+    // Reset reconnect state
     retriesRef.current = 0;
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
@@ -414,11 +418,18 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     } catch (err) {
       const msg = getUserMediaErrorMessage(err);
       setStatus({ phase: 'error', transcript: '', responseText: '', error: msg });
+      connectingRef.current = false;
       return;
     }
 
+    // Reset intentionalClose AFTER getUserMedia succeeds and right before connectInternal,
+    // so any pending onclose from the old WebSocket doesn't trigger auto-reconnect
+    intentionalCloseRef.current = false;
+
     // NOW safe to update phase — stream is already acquired
     setPhase('connecting');
+    // connectInternal will manage connectingRef from here
+    connectingRef.current = false;
     await connectInternal(stream);
   }, [connectInternal, setPhase, cleanupAudio]);
 
