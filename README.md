@@ -2,7 +2,7 @@
 
 > **Welcome to my AI voice portfolio.** Instead of reading a static résumé, visitors talk to an AI clone that answers in my own  cloned voice — about his experience, projects, and goals.
 
-**Live:** https://nim-kaleb.vercel.app
+**How i built it:** https://youtu.be/WHKIfOb0V7Q
 
 ![Kebab Neural Interface boot screen](./public/readme/hero.png)
 
