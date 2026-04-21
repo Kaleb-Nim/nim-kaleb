@@ -44,3 +44,4 @@ next-env.d.ts
 assets/reference-audio/*.wav
 assets/reference-audio/*.txt
 assets/reference-audio/verification/
+.env*.local

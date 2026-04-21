@@ -1,4 +1,6 @@
 import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
+import * as schema from './schema';
 
 export const isDbConfigured = Boolean(process.env.DATABASE_URL);
 
@@ -17,3 +19,6 @@ export const sql: NeonQueryFunction<false, false> = isDbConfigured
         throw new Error('DATABASE_URL not configured');
       },
     }));
+
+export const db = isDbConfigured ? drizzle(sql, { schema }) : null;
+export { schema };

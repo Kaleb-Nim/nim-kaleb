@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
-    "@neondatabase/serverless": "1.1.0",
+    "@neondatabase/serverless": "^1.1.0",
     "@vercel/analytics": "2.0.1",
+    "drizzle-orm": "^0.45.2",
     "next": "16.0.10",
     "openai": "^6.32.0",
     "react": "19.2.0",
@@ -27,6 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.10.16",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "tailwindcss": "^4",
