@@ -291,7 +291,10 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       case 'error': {
         const msg = (event.message as string | undefined) ?? 'Unknown error from server';
         setStatus(prev => ({ ...prev, phase: 'error', error: msg }));
+        // Suppress auto-reconnect so onclose does not spawn a replacement session row
+        intentionalCloseRef.current = true;
         const id = sessionIdRef.current;
+        sessionIdRef.current = null;
         if (id) {
           postAnalytics('/api/analytics/session', {
             event: 'end',
@@ -301,7 +304,6 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
             errorCode: 'server_error',
             errorMessage: msg,
           });
-          sessionIdRef.current = null;
         }
         break;
       }
@@ -504,8 +506,11 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     intentionalCloseRef.current = true;
     connectingRef.current = false;
 
-    // Analytics: end session on intentional disconnect
+    // Analytics: end session on intentional disconnect.
+    // Clear ref BEFORE posting so a racing visibilitychange/pagehide cannot
+    // issue a second end beacon for the same session id.
     const analyticsId = sessionIdRef.current;
+    sessionIdRef.current = null;
     if (analyticsId) {
       postAnalytics('/api/analytics/session', {
         event: 'end',
@@ -513,7 +518,6 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
         durationMs: Date.now() - startedAtRef.current,
         status: 'ended',
       });
-      sessionIdRef.current = null;
     }
 
     // Clear any pending reconnect timer

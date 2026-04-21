@@ -4,6 +4,7 @@ import { sql, isDbConfigured } from '@/lib/db';
 export const runtime = 'nodejs';
 
 const MAX_TEXT = 8000;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 interface Body {
   sessionId?: unknown;
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
 
   if (
     typeof sessionId !== 'string' ||
-    sessionId.length === 0 ||
+    !UUID_RE.test(sessionId) ||
     (role !== 'user' && role !== 'assistant') ||
     typeof text !== 'string'
   ) {
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
     `;
     return NextResponse.json({ ok: true });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error('[analytics/transcript]', err);
+    return NextResponse.json({ error: 'internal error' }, { status: 500 });
   }
 }

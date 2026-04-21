@@ -13,4 +13,7 @@ export const sql: NeonQueryFunction<false, false> = isDbConfigured
       apply() {
         throw new Error('DATABASE_URL not configured');
       },
+      get() {
+        throw new Error('DATABASE_URL not configured');
+      },
     }));

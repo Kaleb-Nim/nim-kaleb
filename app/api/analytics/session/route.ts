@@ -3,6 +3,8 @@ import { sql, isDbConfigured } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 interface Body {
   event?: string;
   sessionId?: unknown;
@@ -34,8 +36,8 @@ export async function POST(req: Request) {
 
     if (event === 'end') {
       const sessionId = body.sessionId;
-      if (typeof sessionId !== 'string' || sessionId.length === 0) {
-        return NextResponse.json({ error: 'sessionId required' }, { status: 400 });
+      if (typeof sessionId !== 'string' || !UUID_RE.test(sessionId)) {
+        return NextResponse.json({ error: 'bad request' }, { status: 400 });
       }
       const durationMs =
         typeof body.durationMs === 'number' ? Math.floor(body.durationMs) : null;
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ error: 'unknown event' }, { status: 400 });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error('[analytics/session]', err);
+    return NextResponse.json({ error: 'internal error' }, { status: 500 });
   }
 }
