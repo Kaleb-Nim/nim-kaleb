@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TerminalState, TerminalStateMetadata } from '@/app/hooks/useTerminalState';
 
 export type RealtimePhase = 'idle' | 'connecting' | 'listening' | 'responding' | 'error';
@@ -68,6 +68,16 @@ function downsample(float32: Float32Array, srcRate: number): Float32Array {
   return out;
 }
 
+// Fire-and-forget analytics POST. Must NEVER throw into the voice pipeline.
+function postAnalytics(path: string, body: unknown) {
+  fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    keepalive: true,
+  }).catch(() => {});
+}
+
 // Maps getUserMedia DOMException names to user-friendly messages
 function getUserMediaErrorMessage(err: unknown): string {
   if (err instanceof DOMException) {
@@ -110,6 +120,12 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intentionalCloseRef = useRef(false);
   const connectingRef = useRef(false);
+
+  // Analytics session tracking
+  const sessionIdRef = useRef<string | null>(null);
+  const startedAtRef = useRef<number>(0);
+  const turnIndexRef = useRef(0);
+  const assistantBufferRef = useRef('');
 
   const setPhase = useCallback((phase: RealtimePhase, extra?: Partial<RealtimeStatus>) => {
     setStatus(prev => ({ ...prev, phase, error: null, ...extra }));
@@ -186,6 +202,14 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       case 'transcript.final': {
         const text = (event.text as string | undefined) ?? '';
         setStatus(prev => ({ ...prev, transcript: text }));
+        if (sessionIdRef.current && text) {
+          postAnalytics('/api/analytics/transcript', {
+            sessionId: sessionIdRef.current,
+            role: 'user',
+            text,
+            turnIndex: turnIndexRef.current++,
+          });
+        }
         break;
       }
 
@@ -204,15 +228,27 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       case 'response.text.delta': {
         const delta = event.delta as string | undefined;
         if (delta) {
+          assistantBufferRef.current += delta;
           setStatus(prev => ({ ...prev, responseText: prev.responseText + delta }));
         }
         break;
       }
 
       case 'response.done': {
+        const isImmediate = (event.immediate as boolean | undefined) ?? false;
+        const buffered = assistantBufferRef.current;
+        assistantBufferRef.current = ''; // clear ref atomically before any async work
+        if (!isImmediate && sessionIdRef.current && buffered) {
+          postAnalytics('/api/analytics/transcript', {
+            sessionId: sessionIdRef.current,
+            role: 'assistant',
+            text: buffered,
+            turnIndex: turnIndexRef.current++,
+          });
+        }
+
         setPhase('listening');
 
-        const isImmediate = (event.immediate as boolean | undefined) ?? false;
         const ctx = playbackCtxRef.current;
         const gen = playGenRef.current;
 
@@ -255,6 +291,18 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       case 'error': {
         const msg = (event.message as string | undefined) ?? 'Unknown error from server';
         setStatus(prev => ({ ...prev, phase: 'error', error: msg }));
+        const id = sessionIdRef.current;
+        if (id) {
+          postAnalytics('/api/analytics/session', {
+            event: 'end',
+            sessionId: id,
+            durationMs: Date.now() - startedAtRef.current,
+            status: 'error',
+            errorCode: 'server_error',
+            errorMessage: msg,
+          });
+          sessionIdRef.current = null;
+        }
         break;
       }
     }
@@ -310,6 +358,24 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
         connectingRef.current = false;
         // Send session.start to initialize DashScope sessions on the server
         ws.send(JSON.stringify({ type: 'session.start' }));
+
+        // Analytics: start session once per user-initiated connect (not per auto-reconnect).
+        // sessionIdRef is only cleared by disconnect(), 'error' case, or pagehide/visibilitychange —
+        // so a reconnect keeps the same analytics sessionId and doesn't create a new row.
+        if (sessionIdRef.current === null) {
+          startedAtRef.current = Date.now();
+          turnIndexRef.current = 0;
+          assistantBufferRef.current = '';
+          fetch('/api/analytics/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ event: 'start' }),
+            keepalive: true,
+          })
+            .then(r => (r.ok ? r.json() : null))
+            .then(j => { if (j?.sessionId) sessionIdRef.current = j.sessionId; })
+            .catch(() => {});
+        }
 
         // Wire up audio processor — downsample mic audio to 16kHz and send as PCM16
         processor.onaudioprocess = (e) => {
@@ -438,6 +504,18 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     intentionalCloseRef.current = true;
     connectingRef.current = false;
 
+    // Analytics: end session on intentional disconnect
+    const analyticsId = sessionIdRef.current;
+    if (analyticsId) {
+      postAnalytics('/api/analytics/session', {
+        event: 'end',
+        sessionId: analyticsId,
+        durationMs: Date.now() - startedAtRef.current,
+        status: 'ended',
+      });
+      sessionIdRef.current = null;
+    }
+
     // Clear any pending reconnect timer
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
@@ -457,6 +535,41 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   }, [cleanupAudio, transitionTo]);
 
   const isConnected = status.phase !== 'idle' && status.phase !== 'error' && status.phase !== 'connecting';
+
+  // Analytics: flush session end on tab hide / pagehide using sendBeacon so the
+  // request survives the page being torn down. Any active session is marked
+  // 'abandoned' (user didn't click Disconnect).
+  useEffect(() => {
+    const flushEnd = (endStatus: 'ended' | 'abandoned') => {
+      const id = sessionIdRef.current;
+      if (!id) return;
+      const payload = JSON.stringify({
+        event: 'end',
+        sessionId: id,
+        durationMs: Date.now() - startedAtRef.current,
+        status: endStatus,
+      });
+      try {
+        navigator.sendBeacon(
+          '/api/analytics/session',
+          new Blob([payload], { type: 'application/json' }),
+        );
+      } catch {
+        // swallow — analytics must never interfere with unload
+      }
+      sessionIdRef.current = null;
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') flushEnd('abandoned');
+    };
+    const onPageHide = () => flushEnd('abandoned');
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', onPageHide);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', onPageHide);
+    };
+  }, []);
 
   return { status, analyserRef, connect, disconnect, isConnected };
 }
