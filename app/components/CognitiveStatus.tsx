@@ -21,7 +21,7 @@ const statusData: StatusRow[] = [
     right: { label: "GitHub", value: "GitHub", href: "https://github.com/Kaleb-Nim", external: true },
   },
   {
-    left:  { label: "Coffee Consumed", value: "4.2L today" },
+    left:  { label: "Build Walkthrough", value: "Watch [YouTube]", href: "https://youtu.be/WHKIfOb0V7Q", external: true },
     right: { label: "Side Projects", value: "\u221E (unfinished)" },
   },
   {
