@@ -8,6 +8,7 @@ import TerminalContent from './components/TerminalContent';
 import TypewriterLine from './components/TypewriterLine';
 import CognitiveStatus from './components/CognitiveStatus';
 import CommandInput from './components/CommandInput';
+import MobileVoiceButton from './components/MobileVoiceButton';
 import VoiceInterface from './components/VoiceInterface';
 import { useTerminalState } from './hooks/useTerminalState';
 
@@ -27,7 +28,18 @@ export default function Home() {
   const { state, metadata, transitionTo } = useTerminalState();
   const [welcomeComplete, setWelcomeComplete] = useState(false);
   const [statusComplete, setStatusComplete] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const processingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Detect coarse (touch) pointers — more idiomatic than viewport width for
+  // touch capability detection (covers tablets in landscape, etc.).
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: coarse)');
+    const update = () => setIsCoarsePointer(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   // BOOTING → STATUS
   useEffect(() => {
@@ -122,11 +134,17 @@ export default function Home() {
               <TypewriterLine text="Select an option:" speed={30} />
               <TypewriterLine text="  [1] Activate Voice Interface — Talk to Kaleb's AI clone" speed={30} />
               <br />
-              <div style={{ opacity: 0.5, fontSize: '0.75rem' }}>
-                {'  '}Type 1 and press Enter
-              </div>
-              <br />
-              <CommandInput onCommand={handleCommand} />
+              {isCoarsePointer ? (
+                <MobileVoiceButton onActivate={() => handleCommand('1')} />
+              ) : (
+                <>
+                  <div style={{ opacity: 0.5, fontSize: '0.75rem' }}>
+                    {'  '}Type 1 and press Enter
+                  </div>
+                  <br />
+                  <CommandInput onCommand={handleCommand} />
+                </>
+              )}
             </>
           )}
 
