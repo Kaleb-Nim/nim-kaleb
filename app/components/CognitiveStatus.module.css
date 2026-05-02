@@ -21,7 +21,9 @@
 
 .goldLink {
   color: #FFD700;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   cursor: pointer;
   text-shadow:
     0 0 4px rgba(255, 215, 0, 0.4),
@@ -29,8 +31,34 @@
 }
 
 .goldLink:hover {
-  text-decoration: underline;
   filter: brightness(1.2);
+}
+
+.externalGlyph {
+  margin-left: 0.25em;
+  font-size: 0.9em;
+}
+
+/* Mobile-only: full-row tap targets ≥48px */
+.singleColumn .goldLinkBlock {
+  display: block;
+  padding: 12px 0;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.singleColumn .goldLinkBlock:active {
+  background: rgba(255, 215, 0, 0.15);
+}
+
+/* Keep the row label phosphor-green even though it's inside the gold <a> */
+.singleColumn .goldLinkBlock .rowLabel {
+  color: #00FF00;
+  text-decoration: none;
+  text-shadow:
+    0 0 4px rgba(0, 255, 0, 0.4),
+    0 0 8px rgba(0, 255, 0, 0.2),
+    0 0 16px rgba(0, 255, 0, 0.1);
 }
 
 .internshipBanner {
