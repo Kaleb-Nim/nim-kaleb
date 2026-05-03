@@ -83,7 +83,7 @@ None yet.
 | 260415-l3w | Add links to terminal page (LinkedIn, GitHub, email, CV) | 2026-04-15 | fd793de | Verified | [260415-l3w](./quick/260415-l3w-add-important-links-to-terminal-page-lin/) |
 | 260415-mot | Fix mobile Connect button permission error | 2026-04-15 | a13b8d0 | Needs Review | [260415-mot-fix-mobile-connect-button-permission-err](./quick/260415-mot-fix-mobile-connect-button-permission-err/) |
 | 260421-l3f | Web analytics (Vercel Analytics + Neon transcripts) | 2026-04-21 | 4f0cdf4 | Needs Review | [260421-l3f](./quick/260421-l3f-create-web-analytics-i-want-to-view-numb/) |
-| 260502-r2r | Mobile-first link affordance (persistent underline, glyphs, tap targets, mobile activate button) | 2026-05-02 | (pending) | Needs Review | [260502-r2r](./quick/260502-r2r-mobile-first-link-affordance-persistent-/) |
+| 260502-r2r | Mobile-first link affordance (persistent underline, glyphs, tap targets, mobile activate button) | 2026-05-02 | d9c873a | Needs Review | [260502-r2r](./quick/260502-r2r-mobile-first-link-affordance-persistent-/) |
 
 ## Session Continuity
 
