@@ -22,7 +22,7 @@ const statusData: StatusRow[] = [
   },
   {
     left:  { label: "Build Walkthrough", value: "Watch [YouTube]", href: "https://youtu.be/WHKIfOb0V7Q", external: true },
-    right: { label: "Side Projects", value: "\u221E (unfinished)" },
+    right: { label: "Side Projects", value: "∞ (unfinished)" },
   },
   {
     left:  { label: "Email", value: "kaleb.nim@gmail.com", href: "mailto:kaleb.nim@gmail.com" },
@@ -36,6 +36,15 @@ const statusData: StatusRow[] = [
 
 interface CognitiveStatusProps {
   onComplete?: () => void;
+}
+
+// Determine the trailing glyph for a cell (↗ external, ⬇ download, none for email/non-link)
+function glyphFor(cell: StatusCell): string | null {
+  if (!cell.href) return null;
+  if (cell.href.startsWith('mailto:')) return null;
+  if (cell.href.endsWith('.pdf')) return '⬇'; // ⬇ download
+  if (cell.external) return '↗'; // ↗ external
+  return null;
 }
 
 export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
@@ -67,7 +76,12 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
   }, [visibleRows, onComplete]);
 
   const renderCell = (cell: StatusCell, padWidth: number, isLeft: boolean) => {
-    const displayValue = isLeft ? cell.value.padEnd(padWidth, ' ') : cell.value;
+    const glyph = glyphFor(cell);
+    // When a glyph will be appended, shrink the textual padding by 1 so total
+    // visual width (padded value + glyph) matches the original column width.
+    // Right column has no padding (padWidth=0), so no adjustment needed there.
+    const effectivePad = isLeft && glyph && padWidth > 0 ? padWidth - 1 : padWidth;
+    const displayValue = isLeft ? cell.value.padEnd(effectivePad, ' ') : cell.value;
     if (cell.href) {
       return (
         <a
@@ -77,6 +91,7 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
           rel={cell.external ? "noopener noreferrer" : undefined}
         >
           {displayValue}
+          {glyph && <span className={styles.externalGlyph}>{glyph}</span>}
         </a>
       );
     }
@@ -98,19 +113,21 @@ export default function CognitiveStatus({ onComplete }: CognitiveStatusProps) {
   };
 
   const renderSingleColumn = (cell: StatusCell): React.ReactNode => {
+    const glyph = glyphFor(cell);
     if (cell.href) {
+      // Wrap the entire row in <a> for full-row tap target on mobile.
+      // Label uses inner span styled phosphor-green to override link gold.
       return (
-        <>
-          {`  ${cell.label}: `}
-          <a
-            href={cell.href}
-            className={styles.goldLink}
-            target={cell.external ? "_blank" : undefined}
-            rel={cell.external ? "noopener noreferrer" : undefined}
-          >
-            {cell.value}
-          </a>
-        </>
+        <a
+          href={cell.href}
+          className={`${styles.goldLink} ${styles.goldLinkBlock}`}
+          target={cell.external ? "_blank" : undefined}
+          rel={cell.external ? "noopener noreferrer" : undefined}
+        >
+          <span className={styles.rowLabel}>{`  ${cell.label}: `}</span>
+          <span>{cell.value}</span>
+          {glyph && <span className={styles.externalGlyph}>{glyph}</span>}
+        </a>
       );
     }
     return `  ${cell.label}: ${cell.value}`;

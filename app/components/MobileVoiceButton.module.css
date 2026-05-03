@@ -1,0 +1,50 @@
+.button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  margin: 12px 0;
+  background: #000000;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 0;
+  font-family: var(--font-anonymous-pro), monospace;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  letter-spacing: 1px;
+  min-height: 48px;
+  text-shadow:
+    0 0 4px rgba(0, 255, 0, 0.5),
+    0 0 8px rgba(0, 255, 0, 0.3);
+  box-shadow:
+    0 0 6px rgba(0, 255, 0, 0.25),
+    inset 0 0 6px rgba(0, 255, 0, 0.08);
+  animation: pulse 2.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:active {
+  background: rgba(0, 255, 0, 0.15);
+  transform: scale(0.99);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 6px rgba(0, 255, 0, 0.25),
+      inset 0 0 6px rgba(0, 255, 0, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(0, 255, 0, 0.55),
+      inset 0 0 10px rgba(0, 255, 0, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    animation: none;
+  }
+}
