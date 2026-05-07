@@ -44,11 +44,16 @@ flowchart LR
         TTS["Qwen3-TTS-VC<br/>Voice-Cloned WS"]
     end
 
+    subgraph Data["Data"]
+        NEON[("Neon Postgres<br/>Drizzle ORM")]
+    end
+
     Mic -- "WebSocket<br/>audio.append" --> WS
     WS -- "transcript<br/>response deltas" --> Spk
     WS <--> ASR
     WS <--> LLM
     WS <--> TTS
+    UI -- "server actions<br/>session + transcripts" --> NEON
 ```
 
 ---
@@ -100,8 +105,13 @@ flowchart TB
         TTS2["Qwen3-TTS-VC"]
     end
 
+    subgraph NEON["Neon (managed Postgres)"]
+        DB[("nim-kaleb db<br/>Drizzle ORM")]
+    end
+
     User((User)) --> FE
     FE -- WSS --> NGX
+    FE -- "DATABASE_URL<br/>(serverless driver)" --> DB
     DNS --- NGX
     BUN --> ASR2
     BUN --> LLM2
@@ -122,11 +132,16 @@ flowchart TB
 
 ## Tech stack
 
+![Tech stack](./public/readme/tech-stack.png)
+
 - **Frontend:** Next.js 16 (App Router) · React 19.2 · TypeScript 5 · Tailwind CSS 4 · Anonymous Pro (Google Fonts)
 - **Edge server:** Bun · WebSocket streaming · Nginx + Let's Encrypt
 - **AI pipeline:** Alibaba DashScope — Qwen3-ASR · qwen-plus · Qwen3-TTS-VC
+- **Data:** Neon (serverless Postgres) · Drizzle ORM
 - **Infra:** Vercel (frontend) · Alibaba Cloud ECS Singapore (ws-server)
 - **Testing:** Playwright 1.58
+
+> Regenerate the stack image with `bun scripts/tech-stack-image.ts` — it renders an HTML logo grid via Playwright into `public/readme/tech-stack.png`.
 
 ---
 
@@ -142,6 +157,7 @@ Required for production.
 | `OPENAI_API_KEY`             | Vercel         | Legacy Realtime session route (`app/api/realtime/session`)           |
 | `PORT`                       | ws-server      | Listen port (default `8080`; Nginx terminates TLS in front)          |
 | `LOG_DIR`                    | ws-server      | Optional conversation log directory                                  |
+| `DATABASE_URL`               | Vercel         | Neon Postgres connection string (used by `@neondatabase/serverless` + Drizzle) |
 
 ---
 
