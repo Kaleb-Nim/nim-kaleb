@@ -168,7 +168,10 @@ Plans:
   6. Layout holds at 360px (logo chip + content stack readable, no horizontal scroll) and 1024px+ (rail aligned to text baseline)
 **Plans**: 2 plans
 Plans:
+**Wave 1**
 - [ ] 11-01-PLAN.md — Port WorkPage + WorkLogoChip components, extract workStatus helper, migrate WORK_ITEMS logo paths
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 11-02-PLAN.md — Wire WorkPage into hash-route dispatcher + human visual verification
 
 ## Progress
