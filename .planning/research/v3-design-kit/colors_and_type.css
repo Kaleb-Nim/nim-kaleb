@@ -1,0 +1,238 @@
+/* =========================================================================
+ * Kebab Neural Interface — Colors & Type
+ * A sci-fi phosphor-green terminal aesthetic for Kaleb Nim's AI voice portfolio.
+ * ========================================================================= */
+
+/* ── Font: Anonymous Pro (Google Fonts) ───────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+:root {
+  /* ── Core palette ─────────────────────────────────────────────────────── */
+  /* Background — deep space */
+  --kni-bg-deep:      #010810; /* page body, starfield canvas */
+  --kni-bg-terminal:  #000000; /* terminal window interior */
+  --kni-bg-header:    #333333; /* macOS-style chrome bar */
+
+  /* Phosphor green — the voice, the text, the life */
+  --kni-green:        #00FF00; /* primary phosphor */
+  --kni-green-dim:    #00CC00; /* pressed / disabled */
+  --kni-green-deep:   #008800; /* muted variant */
+
+  /* Gold — links, accents, CTAs */
+  --kni-gold:         #FFD700; /* yellow-accent in source */
+
+  /* Alert red */
+  --kni-red:          #FF4444; /* errors + recording state */
+
+  /* macOS traffic lights (decorative only) */
+  --kni-dot-red:      #FF5F56;
+  --kni-dot-yellow:   #FFBD2E;
+  --kni-dot-green:    #27C93F;
+
+  /* Neutrals */
+  --kni-white:        #FFFFFF; /* user input text */
+  --kni-gray-light:   #CCCCCC; /* header title */
+  --kni-gray-muted:   #888888;
+
+  /* ── Semantic foreground tokens ───────────────────────────────────────── */
+  --kni-fg-primary:   var(--kni-green);      /* default terminal text */
+  --kni-fg-input:     var(--kni-white);      /* what the user types */
+  --kni-fg-accent:    var(--kni-gold);       /* links, CTAs, banners */
+  --kni-fg-danger:    var(--kni-red);        /* error lines */
+  --kni-fg-muted:     rgba(0, 255, 0, 0.55); /* dim green metadata */
+  --kni-fg-faint:     rgba(0, 255, 0, 0.35); /* extra-faint hints */
+
+  /* ── Background tokens ────────────────────────────────────────────────── */
+  --kni-bg-page:      var(--kni-bg-deep);
+  --kni-bg-surface:   var(--kni-bg-terminal);
+  --kni-bg-chrome:    var(--kni-bg-header);
+
+  /* ── Borders ──────────────────────────────────────────────────────────── */
+  --kni-border-green: 1px solid var(--kni-green);
+  --kni-border-red:   1px solid var(--kni-red);
+  --kni-radius-sm:    0;          /* terminals are square */
+  --kni-radius-md:    10px;       /* terminal window outer */
+  --kni-radius-pill:  999px;
+
+  /* ── Phosphor glow (signature effect) ─────────────────────────────────── */
+  /* Apply to green text for the classic CRT-ghost halo */
+  --kni-glow-green:
+    0 0 4px rgba(0, 255, 0, 0.4),
+    0 0 8px rgba(0, 255, 0, 0.2),
+    0 0 16px rgba(0, 255, 0, 0.1);
+  --kni-glow-green-strong:
+    0 0 6px rgba(0, 255, 0, 0.7),
+    0 0 14px rgba(0, 255, 0, 0.35),
+    0 0 28px rgba(0, 255, 0, 0.18);
+  --kni-glow-gold:
+    0 0 4px rgba(255, 215, 0, 0.4),
+    0 0 8px rgba(255, 215, 0, 0.2);
+  --kni-glow-red:
+    0 0 4px rgba(255, 68, 68, 0.5),
+    0 0 8px rgba(255, 68, 68, 0.25);
+
+  /* Box-shadow halo for bordered elements (buttons, mic) */
+  --kni-halo-green:   0 0 6px rgba(0, 255, 0, 0.15);
+  --kni-halo-green-hover: 0 0 12px rgba(0, 255, 0, 0.35);
+  --kni-halo-red:     0 0 12px rgba(255, 68, 68, 0.4);
+
+  /* Outer window drop-shadow (dark; no glow) */
+  --kni-shadow-window: 0 25px 60px rgba(0, 0, 0, 0.6);
+
+  /* ── Spacing (8-pt-ish, tuned for terminal density) ───────────────────── */
+  --kni-space-1: 4px;
+  --kni-space-2: 8px;
+  --kni-space-3: 12px;
+  --kni-space-4: 16px;
+  --kni-space-5: 24px;
+  --kni-space-6: 32px;
+  --kni-space-7: 48px;
+
+  /* ── Type system ──────────────────────────────────────────────────────── */
+  --kni-font-mono: "Anonymous Pro", ui-monospace, "SF Mono",
+                   "JetBrains Mono", Menlo, Consolas, monospace;
+  --kni-font-body: var(--kni-font-mono); /* everything is mono */
+
+  /* Sizes (rem, 16px base) */
+  --kni-size-xs:    0.72rem;  /* ~11.5px — hints, faint */
+  --kni-size-sm:    0.78rem;  /* ~12.5px — status, meta */
+  --kni-size-base:  0.82rem;  /* ~13px   — terminal body (tight, authentic) */
+  --kni-size-md:    1rem;     /* 16px    — default */
+  --kni-size-lg:    1.25rem;  /* 20px    — section heads */
+  --kni-size-xl:    1.75rem;  /* 28px    — display */
+  --kni-size-2xl:   2.5rem;   /* 40px    — hero */
+
+  --kni-line-tight: 1.4;
+  --kni-line-body:  1.8;      /* terminal breathing room */
+
+  --kni-tracking-tight:  -0.01em;
+  --kni-tracking-normal: 0;
+  --kni-tracking-wide:   0.05em;
+  --kni-tracking-caps:   0.15em;  /* for uppercase banners */
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
+  --kni-ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+  --kni-dur-fast:  150ms;
+  --kni-dur-med:   300ms;
+  --kni-dur-slow:  600ms;
+}
+
+/* =========================================================================
+ * Semantic element defaults — opt in with .kni or on <body>
+ * ========================================================================= */
+
+.kni,
+body.kni {
+  background: var(--kni-bg-page);
+  color: var(--kni-fg-primary);
+  font-family: var(--kni-font-mono);
+  font-size: var(--kni-size-base);
+  line-height: var(--kni-line-body);
+  text-shadow: var(--kni-glow-green);
+  -webkit-font-smoothing: antialiased;
+}
+
+.kni h1, .kni .kni-h1 {
+  font-size: var(--kni-size-2xl);
+  font-weight: 700;
+  line-height: var(--kni-line-tight);
+  color: var(--kni-fg-primary);
+  text-shadow: var(--kni-glow-green-strong);
+  letter-spacing: var(--kni-tracking-tight);
+}
+
+.kni h2, .kni .kni-h2 {
+  font-size: var(--kni-size-xl);
+  font-weight: 700;
+  line-height: var(--kni-line-tight);
+  color: var(--kni-fg-primary);
+  text-shadow: var(--kni-glow-green);
+}
+
+.kni h3, .kni .kni-h3 {
+  font-size: var(--kni-size-lg);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--kni-fg-primary);
+  text-shadow: var(--kni-glow-green);
+}
+
+.kni p, .kni .kni-p {
+  font-size: var(--kni-size-base);
+  line-height: var(--kni-line-body);
+  color: var(--kni-fg-primary);
+  text-shadow: var(--kni-glow-green);
+}
+
+.kni a, .kni .kni-link {
+  color: var(--kni-fg-accent);
+  text-decoration: none;
+  text-shadow: var(--kni-glow-gold);
+  transition: filter var(--kni-dur-fast) var(--kni-ease-out);
+}
+.kni a:hover, .kni .kni-link:hover {
+  text-decoration: underline;
+  filter: brightness(1.2);
+}
+
+.kni code, .kni .kni-code, .kni pre {
+  font-family: var(--kni-font-mono);
+  font-size: var(--kni-size-base);
+  color: var(--kni-fg-primary);
+  white-space: pre;
+}
+
+/* Muted / meta line (e.g. "Last sync: ...") */
+.kni .kni-meta {
+  opacity: 0.7;
+  font-size: var(--kni-size-sm);
+}
+
+/* Faint hint (e.g. "Type 1 and press Enter") */
+.kni .kni-hint {
+  opacity: 0.45;
+  font-size: var(--kni-size-xs);
+}
+
+/* Danger / error line */
+.kni .kni-danger {
+  color: var(--kni-fg-danger);
+  text-shadow: var(--kni-glow-red);
+}
+
+/* Uppercase banner (e.g. "LOOKING FOR INTERNSHIPS") */
+.kni .kni-banner {
+  color: var(--kni-fg-accent);
+  text-shadow: var(--kni-glow-gold);
+  font-weight: 700;
+  letter-spacing: var(--kni-tracking-caps);
+  text-transform: uppercase;
+  font-size: var(--kni-size-sm);
+}
+
+/* Blinking cursor block */
+.kni-cursor {
+  display: inline-block;
+  color: var(--kni-white);
+  animation: kni-blink 1s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes kni-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* Prompt caret */
+.kni-prompt::before {
+  content: "> ";
+  color: var(--kni-green);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .kni *, .kni *::before, .kni *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

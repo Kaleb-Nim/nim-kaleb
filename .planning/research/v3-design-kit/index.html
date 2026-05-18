@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kaleb Nim — Kebab Neural Interface</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; min-height: 100vh; background: #010810; font-family: "Anonymous Pro", monospace; }
+  body {
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: clamp(12px, 3vw, 28px) 0 calc(80px + env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+  }
+  #root { position: relative; z-index: 1; width: 100%; }
+
+  @keyframes kniFadeIn { to { opacity: 1; } }
+  @keyframes kniBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes kniBars {
+    0%, 100% { transform: scaleY(0.25); }
+    50%      { transform: scaleY(1); }
+  }
+  @keyframes kniPanelOpen {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes kniPageIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes kniRecordPulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(255,68,68,0.45), 0 12px 28px rgba(0,0,0,0.55); }
+    50%      { box-shadow: 0 0 26px rgba(255,68,68,0.75), 0 12px 28px rgba(0,0,0,0.55); }
+  }
+  @keyframes kniFloatPulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(255,68,68,0.4), 0 12px 28px rgba(0,0,0,0.55); }
+    50%      { box-shadow: 0 0 26px rgba(255,68,68,0.7),  0 12px 28px rgba(0,0,0,0.55); }
+  }
+
+  .kni-blink { animation: kniBlink 1s step-end infinite; }
+  .kni-gold-link { color: #FFD700; text-decoration: none; text-shadow: 0 0 4px rgba(255,215,0,0.4), 0 0 8px rgba(255,215,0,0.2); transition: filter 150ms ease-out; }
+  .kni-gold-link:hover { text-decoration: underline; filter: brightness(1.25); }
+  .kni-mic-btn:hover:not(:disabled) { box-shadow: 0 0 12px rgba(0,255,0,0.35) !important; }
+
+  /* Directory row hover (desktop secondary affordance) */
+  @media (hover: hover) {
+    .kni-dir-row:hover { background: rgba(0,255,0,0.075) !important; border-left-color: #00FF00 !important; box-shadow: inset 0 0 18px rgba(0,255,0,0.10), 0 0 16px rgba(0,255,0,0.15) !important; }
+    .kni-dir-row:hover .kni-dir-icon { color: #00FF00 !important; }
+    .kni-tappable:hover { filter: brightness(1.15); }
+    .kni-crumb-home:hover { background: rgba(255,215,0,0.1); }
+    .kni-floating-mic:hover { transform: translateY(-2px); }
+  }
+
+  /* Hide chrome's quick-bar value text on very narrow screens */
+  @media (max-width: 480px) {
+    .quick-bar .quick-label { display: none; }
+  }
+  /* Floating mic shrinks to circle on narrow */
+  @media (max-width: 520px) {
+    .kni-floating-mic { padding: 14px !important; border-radius: 999px !important; }
+    .kni-floating-mic-label { display: none; }
+  }
+
+  .quick-bar a { color: #FFD700; text-decoration: none; text-shadow: 0 0 4px rgba(255,215,0,0.4); }
+  .quick-bar a:hover { text-decoration: underline; filter: brightness(1.2); }
+
+  /* Internship banner */
+  .kni-banner-row {
+    background: rgba(255,215,0,0.06);
+    border-top: 1px dashed rgba(255,215,0,0.5);
+    border-bottom: 1px dashed rgba(255,215,0,0.5);
+    color: #FFD700;
+    text-shadow: 0 0 4px rgba(255,215,0,0.4), 0 0 8px rgba(255,215,0,0.2);
+    font-size: clamp(0.66rem, 1.8vw, 0.8rem);
+    font-weight: 700;
+    letter-spacing: clamp(0.06em, 0.3vw, 0.12em);
+    text-align: center;
+    padding: 8px 12px;
+    margin: 14px 0 18px;
+  }
+
+  /* Page transition wrapper */
+  .kni-page { animation: kniPageIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="Starfield.jsx"></script>
+<script type="text/babel" src="Terminal.jsx"></script>
+<script type="text/babel" src="TerminalBody.jsx"></script>
+<script type="text/babel" src="Timeline.jsx"></script>
+<script type="text/babel" src="Directory.jsx"></script>
+<script type="text/babel" src="FloatingMic.jsx"></script>
+<script type="text/babel" src="VoicePanel.jsx"></script>
+<script type="text/babel" src="pages.jsx"></script>
+<script type="text/babel" src="index-data.jsx"></script>
+
+<script type="text/babel">
+// ── Hash router ─────────────────────────────────────────────────────────────
+function useHashRoute() {
+  const parse = () => {
+    const h = (window.location.hash || '#/').replace(/^#\/?/, '');
+    return h.split('/')[0] || '';
+  };
+  const [route, setRoute] = React.useState(parse());
+  React.useEffect(() => {
+    const handler = () => {
+      setRoute(parse());
+      window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+    };
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, []);
+  return route;
+}
+
+function nav(routeId) {
+  window.location.hash = routeId ? `#/${routeId}` : '#/';
+}
+
+// ── Home page ──────────────────────────────────────────────────────────────
+function HomePage({ onNav }) {
+  return (
+    <div className="kni-page">
+      {/* 1. Identity */}
+      <div>
+        <div style={{
+          color: '#00FF00', fontSize: 'clamp(1.05rem, 3.5vw, 1.2rem)', fontWeight: 700,
+          textShadow: '0 0 6px rgba(0,255,0,0.55), 0 0 14px rgba(0,255,0,0.25)',
+          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        }}>
+          Kaleb Nim
+          <span style={{ color: 'rgba(0,255,0,0.55)', fontWeight: 400 }}> @ </span>
+          <span style={{ color: 'rgba(0,255,0,0.85)', fontWeight: 400 }}>kebab-neural-interface</span>
+          <span className="kni-blink" style={{ color: '#FFFFFF', marginLeft: 4 }}>█</span>
+        </div>
+        <div style={{
+          color: 'rgba(0,255,0,0.7)', fontSize: 'clamp(0.74rem, 2vw, 0.82rem)',
+          textShadow: 'none', marginTop: 4,
+        }}>
+          AI engineer · Singapore · Operating Model{' '}
+          <span style={{ color: '#FFD700', textShadow: '0 0 4px rgba(255,215,0,0.4)' }}>kaleb-nim-400b-0706</span>
+        </div>
+      </div>
+
+      {/* 2. Quick-status row */}
+      <div className="quick-bar" style={{
+        display: 'flex', flexWrap: 'wrap', gap: '8px 18px',
+        fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
+        color: 'rgba(0,255,0,0.7)',
+        padding: '12px 0 0',
+      }}>
+        {LINKS.map((l, i) => (
+          <span key={i} style={{ whiteSpace: 'nowrap' }}>
+            <span className="quick-label" style={{ color: 'rgba(0,255,0,0.5)' }}>{l.label}: </span>
+            <a href={l.href} target="_blank" rel="noreferrer">{l.value}</a>
+          </span>
+        ))}
+      </div>
+
+      {/* 3. Internship banner — index only */}
+      <div className="kni-banner-row">
+        LOOKING FOR AI ENGINEERING INTERNSHIPS — STARTING AUG 2026
+      </div>
+
+      {/* 4. Section directory */}
+      <Directory rows={SECTIONS} onNav={onNav} />
+
+      {/* 5. Affordance hint for mobile (no hover, so make tappability undeniable) */}
+      <div style={{
+        marginTop: 14,
+        color: 'rgba(0,255,0,0.4)', fontSize: '0.7rem',
+        textShadow: 'none', letterSpacing: '0.04em',
+        textAlign: 'center',
+      }}>
+        ‹ tap any row above to open a section ·
+        tap <span style={{ color: '#FFD700', textShadow: '0 0 4px rgba(255,215,0,0.4)' }}>● talk to me</span> to chat with my voice clone ›
+      </div>
+    </div>
+  );
+}
+
+// ── Voice overlay (modal-ish) ──────────────────────────────────────────────
+function VoiceOverlay({ onClose }) {
+  // Click outside dismisses
+  return (
+    <div onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 25,
+        background: 'rgba(1,8,16,0.78)',
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+        padding: '20px 16px calc(100px + env(safe-area-inset-bottom, 0px))',
+        animation: 'kniPanelOpen 200ms ease-out both',
+      }}>
+      <div onClick={(e) => e.stopPropagation()}
+        style={{
+          background: '#000', maxWidth: 720, width: '100%',
+          border: '1px solid rgba(255,215,0,0.4)',
+          boxShadow: '0 0 24px rgba(255,215,0,0.18), 0 25px 60px rgba(0,0,0,0.7)',
+          borderRadius: 6,
+        }}>
+        <VoicePanel onClose={onClose} />
+      </div>
+    </div>
+  );
+}
+
+// ── Root App ───────────────────────────────────────────────────────────────
+function App() {
+  const route = useHashRoute();
+  const [voiceOpen, setVoiceOpen] = React.useState(false);
+
+  const onNav = (id) => nav(id);
+
+  // Close voice with Esc
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setVoiceOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const section = SECTIONS.find(s => s.id === route);
+  const isHome = !route;
+
+  return (
+    <>
+      <Starfield />
+      <Terminal>
+        <TerminalBody>
+          {isHome ? (
+            <HomePage onNav={onNav} />
+          ) : section ? (
+            <div className="kni-page">
+              <SectionPage section={section} />
+            </div>
+          ) : (
+            <NotFoundPage onNav={onNav} />
+          )}
+        </TerminalBody>
+      </Terminal>
+
+      {/* Floating mic — visible everywhere */}
+      <FloatingMic
+        active={voiceOpen}
+        onToggle={() => setVoiceOpen(v => !v)}
+      />
+
+      {/* Voice overlay */}
+      {voiceOpen && <VoiceOverlay onClose={() => setVoiceOpen(false)} />}
+    </>
+  );
+}
+
+function NotFoundPage({ onNav }) {
+  return (
+    <div className="kni-page">
+      <div style={{
+        color: '#FF4444', textShadow: '0 0 6px rgba(255,68,68,0.6)',
+        fontWeight: 700, fontSize: '1.1rem',
+      }}>
+        [SYSTEM] 404 — directory not found
+      </div>
+      <div style={{
+        color: 'rgba(0,255,0,0.7)', marginTop: 6, fontSize: '0.82rem',
+      }}>
+        That path doesn't exist. <a href="#/" style={{
+          color: '#FFD700', textShadow: '0 0 4px rgba(255,215,0,0.4)',
+          textDecoration: 'underline',
+        }}>← back to ~/kaleb</a>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

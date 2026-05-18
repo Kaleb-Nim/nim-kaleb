@@ -48,18 +48,21 @@ Browser (Vercel)          Alibaba Cloud ECS           DashScope APIs
 | AI greets first on connect | Better UX — visitor hears Kaleb immediately | v1.0 |
 | Alibaba Cloud ECS over Railway | User has $300 free credits, keeps infra on 2 providers | v1.0 |
 
-## Current Milestone: v2.0 Scholarship Video Production
+## Current Milestone: v3.0 Directory Home & Work Experience
 
-**Goal:** Create a punchy 1-2 minute TikTok-first scholarship application video showcasing the AI Voice Portfolio project — what was built, the context, what was tried, and what surprised Kaleb — using video-production storytelling skills for storyboarding and visual production.
+**Goal:** Re-skin the portfolio from a linear terminal boot sequence into a hash-routed directory home (Kebab Neural Interface design kit) with a dedicated work-experience timeline page, while preserving the existing voice clone as a floating overlay.
 
 **Target features:**
-- TikTok-style narrative script (hook → open loop → problem → mechanism → result → CTA) hitting scholarship pointers naturally
-- Beat-by-beat storyboard with visual briefs for Remotion-produced segments
-- Demo recording plan and production checklist for filming day
+- New `~/kaleb` home: identity header, quick-links bar, internship banner, tappable section directory (work, syai-meetups, hackathons, sidequests, hobbies, links)
+- `/work-experience` page: vertical timeline rail with company logo chips (RAiD, Tensorplex, ARTC) and status tags (ACTIVE / SHIPPED / ARCHIVED)
+- Floating "● talk to me" mic button that opens the existing voice pipeline as an overlay (replaces BOOTING → STATUS → MENU state machine for hero flow)
+- Hash router (`#/`, `#/work`) with 404 fallback; other sections (meetups, hackathons, sidequests, hobbies, links) stub to "coming soon" pending finalised UI
+
+**Source design:** `kebab-neural-interface-design-system/project/ui_kits/terminal/` (Anthropic design kit `pz0qDtAzozp6fFUWVhYlTg`)
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-04-15 after v2.0 milestone start*
+*Last updated: 2026-05-18 after v3.0 milestone start*

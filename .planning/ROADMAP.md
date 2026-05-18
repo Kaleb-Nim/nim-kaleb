@@ -4,7 +4,8 @@
 
 - ✅ **v1.0** — Phases 1-4 (shipped 2026-04-12)
 - 🚧 **v1.1 Observability, Testing & Bug Fixes** — Phases 5-7 (in progress)
-- 📋 **v2.0 Scholarship Video Production** — Phases 8-9 (planned)
+- ✅ **v2.0 Scholarship Video Production** — Phases 8-9 (complete)
+- 📋 **v3.0 Directory Home & Work Experience** — Phases 10-11 (planning)
 
 ## Phases
 
@@ -134,6 +135,39 @@ Plans:
 - [x] 09-01-PLAN.md — Create visual briefs for Remotion segments and demo recording plan
 - [x] 09-02-PLAN.md — Create shot list and production checklist for filming day
 
+### v3.0 Directory Home & Work Experience (Planning)
+
+**Milestone Goal:** Re-skin the portfolio from a linear terminal boot sequence into a hash-routed directory home (Kebab Neural Interface design kit) with a dedicated work-experience timeline page, while keeping the voice clone as a floating overlay.
+
+**Source design:** `kebab-neural-interface-design-system/project/ui_kits/terminal/` (design kit `pz0qDtAzozp6fFUWVhYlTg`).
+
+**Scope note:** Only the home directory and the work-experience page ship in v3.0. The other five sections (syai-meetups, hackathons, sidequests, hobbies, links) intentionally route to a "coming soon" stub while Kaleb finalises their UIs.
+
+#### Phase 10: Directory Home & Routing Shell
+**Goal**: Visiting `/` renders the Kebab Neural Interface home (identity, quick links, internship banner, 6 directory rows, floating "● talk to me" mic) and hash routing is in place so every section row has somewhere to land.
+**Depends on**: Phase 4 (UI preservation — reuse Starfield + Terminal chrome)
+**Requirements**: HOME-01, HOME-02, HOME-03, HOME-04, HOME-05, ROUTE-01, ROUTE-02, ROUTE-03, VOICE-01, VOICE-02, VOICE-03, MIG-01, MIG-02, MIG-03
+**Success Criteria** (what must be TRUE):
+  1. Loading `/` shows the identity header, quick-links bar, gold internship banner, six tappable directory rows, and the affordance hint — without ever running the BOOTING → STATUS → MENU typewriter sequence
+  2. Tapping any directory row navigates via hash (e.g. `#/work-experience`); back/forward and direct URL loads restore the correct view; unknown hashes render the red 404 page
+  3. Tapping the floating mic opens an overlay that connects to the existing DashScope voice pipeline; closing it (backdrop click or Esc) tears the session down cleanly with no audio overlap on next open
+  4. Site is functional on a 360px-wide phone: mic button collapses to a circle, quick-bar labels hide, directory rows stay ≥60px tall
+  5. `prefers-reduced-motion: reduce` disables fade-in / typewriter animations across the new shell
+**Plans**: TBD (drafted via `/gsd-plan-phase 10`)
+
+#### Phase 11: Work Experience Page
+**Goal**: `#/work-experience` renders the 4-role vertical timeline with company logos, status nodes, and descriptions matching the design kit pixel-faithfully.
+**Depends on**: Phase 10 (routing shell + PageHeader pattern must exist)
+**Requirements**: WORK-01, WORK-02, WORK-03, WORK-04, WORK-05, WORK-06
+**Success Criteria** (what must be TRUE):
+  1. Page header shows the breadcrumb, title "./work-experience — paid AI engineering", intro line, and gold "[4 entries]" chip
+  2. The vertical phosphor rail renders with 4 status nodes in the correct symbol/colour (◉ green ACTIVE for RAiD, ● green SHIPPED for Tensorplex + ARTC AI Engineer, ○ dim ARCHIVED for ARTC intern)
+  3. Each entry shows date, title, status tag, org, and the description note exactly as authored in `index-data.jsx`
+  4. Each entry shows a square logo chip with the correct image (raid.png, tensorplex.png, artc.png) on a white/light-cream chip with green border + halo
+  5. FooterMeta shows "[4 entries] · most recent first" and the "‹ tap ~/kaleb to return home" link works
+  6. Layout holds at 360px (logo chip + content stack readable, no horizontal scroll) and 1024px+ (rail aligned to text baseline)
+**Plans**: TBD (drafted via `/gsd-plan-phase 11`)
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -147,3 +181,5 @@ Plans:
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
 | 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
 | 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |
+| 10. Directory Home & Routing Shell | v3.0 | 0/TBD | Not started | - |
+| 11. Work Experience Page | v3.0 | 0/TBD | Not started | - |
