@@ -1,83 +1,34 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Starfield from './components/Starfield';
 import Terminal from './components/Terminal';
 import TerminalHeader from './components/TerminalHeader';
 import TerminalContent from './components/TerminalContent';
-import TypewriterLine from './components/TypewriterLine';
-import CognitiveStatus from './components/CognitiveStatus';
-import CommandInput from './components/CommandInput';
-import MobileVoiceButton from './components/MobileVoiceButton';
-import VoiceInterface from './components/VoiceInterface';
-import { useTerminalState } from './hooks/useTerminalState';
-
-// ── ConnectingEllipsis: animated "..." at 400ms intervals ──────────────────
-function ConnectingEllipsis() {
-  const [dots, setDots] = useState(1);
-  useEffect(() => {
-    const id = setInterval(() => setDots((d) => (d % 3) + 1), 400);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div>{'  '}Connecting{'.'.repeat(dots)}</div>
-  );
-}
+import HomePage from './components/HomePage';
+import StubSectionPage from './components/StubSectionPage';
+import NotFoundPage from './components/NotFoundPage';
+import FloatingMic from './components/FloatingMic';
+import VoiceOverlay from './components/VoiceOverlay';
+import { SECTIONS } from './lib/sections';
+import { useHashRoute } from './hooks/useHashRoute';
 
 export default function Home() {
-  const { state, metadata, transitionTo } = useTerminalState();
-  const [welcomeComplete, setWelcomeComplete] = useState(false);
-  const [statusComplete, setStatusComplete] = useState(false);
-  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
-  const processingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const route = useHashRoute();
+  const [voiceOpen, setVoiceOpen] = useState(false);
 
-  // Detect coarse (touch) pointers — more idiomatic than viewport width for
-  // touch capability detection (covers tablets in landscape, etc.).
+  // Esc closes the overlay (owned at root so it works regardless of focus)
   useEffect(() => {
-    const mq = window.matchMedia('(pointer: coarse)');
-    const update = () => setIsCoarsePointer(mq.matches);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
+    if (!voiceOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setVoiceOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [voiceOpen]);
 
-  // BOOTING → STATUS
-  useEffect(() => {
-    if (welcomeComplete && state === 'BOOTING') {
-      const t = setTimeout(() => transitionTo('STATUS'), 300);
-      return () => clearTimeout(t);
-    }
-  }, [welcomeComplete, state, transitionTo]);
-
-  // STATUS → MENU
-  useEffect(() => {
-    if (statusComplete && state === 'STATUS') {
-      const t = setTimeout(() => transitionTo('MENU'), 300);
-      return () => clearTimeout(t);
-    }
-  }, [statusComplete, state, transitionTo]);
-
-  // PROCESSING → CONNECTING → VOICE_IDLE
-  useEffect(() => {
-    if (state === 'PROCESSING') {
-      processingTimerRef.current = setTimeout(() => {
-        transitionTo('CONNECTING');
-        setTimeout(() => transitionTo('VOICE_IDLE'), 1400);
-      }, 800);
-      return () => {
-        if (processingTimerRef.current) clearTimeout(processingTimerRef.current);
-      };
-    }
-  }, [state, transitionTo]);
-
-  const handleCommand = (command: string) => {
-    if (command === '1' && state === 'MENU') {
-      transitionTo('PROCESSING');
-    }
-  };
-
-  const isVoiceState =
-    state === 'VOICE_IDLE' || state === 'VOICE_ACTIVE';
+  const isHome = route === '';
+  const section = isHome ? null : SECTIONS.find((s) => s.id === route);
 
   return (
     <>
@@ -85,106 +36,22 @@ export default function Home() {
       <Terminal>
         <TerminalHeader />
         <TerminalContent>
-          {/* Welcome text — always shown */}
-          <TypewriterLine
-            text="Welcome to the Kebab Neural Interface (Operating Model: kaleb-nim-400b-0706)"
-            speed={30}
-          />
-          <TypewriterLine
-            text="Powered by Kebab 10.24 (Elaborate Mind Edition)"
-            speed={30}
-            onComplete={() => setWelcomeComplete(true)}
-          />
-          <br />
-
-          {/* Cognitive management link */}
-          {welcomeComplete && (
-            <>
-              <div>
-                {'  '}* Cognitive Management:{' '}
-                <span style={{ color: 'var(--yellow-accent)' }}>
-                  https://app.kebab.ai
-                </span>
-              </div>
-              <br />
-            </>
-          )}
-
-          {/* Status dashboard */}
-          {state !== 'BOOTING' && (
-            <>
-              <div>
-                {'  '}Cognitive Status as of Thu Feb 13{' '}
-                {new Date().toLocaleTimeString('en-US', { hour12: false })} UTC 2026
-              </div>
-              <br />
-              <CognitiveStatus onComplete={() => setStatusComplete(true)} />
-              <br />
-              <div style={{ opacity: 0.7 }}>
-                Last sync: {new Date(process.env.NEXT_PUBLIC_LAST_SYNC!).toUTCString()}
-                {' '}via Kebab Cloud
-              </div>
-              <br />
-            </>
-          )}
-
-          {/* Menu */}
-          {state === 'MENU' && (
-            <>
-              <TypewriterLine text="Select an option:" speed={30} />
-              <TypewriterLine text="  [1] Activate Voice Interface — Talk to Kaleb's AI clone" speed={30} />
-              <br />
-              {isCoarsePointer ? (
-                <MobileVoiceButton onActivate={() => handleCommand('1')} />
-              ) : (
-                <>
-                  <div style={{ opacity: 0.5, fontSize: '0.75rem' }}>
-                    {'  '}Type 1 and press Enter
-                  </div>
-                  <br />
-                  <CommandInput onCommand={handleCommand} />
-                </>
-              )}
-            </>
-          )}
-
-          {/* PROCESSING */}
-          {state === 'PROCESSING' && (
-            <TypewriterLine
-              text="> Initiating voice protocol..."
-              speed={25}
-            />
-          )}
-
-          {/* CONNECTING */}
-          {state === 'CONNECTING' && (
-            <>
-              <div>{'  '}{'>'} Initiating voice protocol...</div>
-              <ConnectingEllipsis />
-            </>
-          )}
-
-          {/* VOICE_IDLE / VOICE_ACTIVE */}
-          {isVoiceState && (
-            <>
-              <div>{'  '}{'>'} Initiating voice protocol...</div>
-              <div>{'  '}Connection established.</div>
-              <br />
-              <VoiceInterface
-                terminalState={state}
-                transitionTo={transitionTo}
-              />
-            </>
-          )}
-
-          {/* Error display */}
-          {metadata.errorMessage && isVoiceState && (
-            <div style={{ color: '#ff4444', marginTop: 8 }}>
-              {'  '}[SYSTEM] {metadata.errorMessage}
-            </div>
+          {isHome ? (
+            <HomePage />
+          ) : section ? (
+            <StubSectionPage section={section} />
+          ) : (
+            <NotFoundPage />
           )}
         </TerminalContent>
       </Terminal>
+
+      <FloatingMic
+        active={voiceOpen}
+        onToggle={() => setVoiceOpen((v) => !v)}
+      />
+
+      {voiceOpen && <VoiceOverlay onClose={() => setVoiceOpen(false)} />}
     </>
   );
 }
