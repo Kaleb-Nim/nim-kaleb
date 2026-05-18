@@ -44,7 +44,8 @@ body {
   background: var(--bg-deep);
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-family: var(--font-anonymous-pro), monospace;
 }
 
