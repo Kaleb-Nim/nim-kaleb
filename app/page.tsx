@@ -7,6 +7,7 @@ import TerminalHeader from './components/TerminalHeader';
 import TerminalContent from './components/TerminalContent';
 import HomePage from './components/HomePage';
 import StubSectionPage from './components/StubSectionPage';
+import WorkPage from './components/WorkPage';
 import NotFoundPage from './components/NotFoundPage';
 import FloatingMic from './components/FloatingMic';
 import VoiceOverlay from './components/VoiceOverlay';
@@ -56,7 +57,11 @@ export default function Home() {
           {isHome ? (
             <HomePage />
           ) : section ? (
-            <StubSectionPage section={section} />
+            section.id === 'work-experience' ? (
+              <WorkPage section={section} />
+            ) : (
+              <StubSectionPage section={section} />
+            )
           ) : (
             <NotFoundPage />
           )}
