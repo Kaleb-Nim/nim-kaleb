@@ -77,8 +77,8 @@ Requirements for milestone v3.0: Directory Home & Work Experience.
 ### Floating Voice ("● talk to me")
 
 - [x] **VOICE-01**: Floating mic button anchored bottom-centre, visible on every route, shrinks to circular icon below 520px
-- [ ] **VOICE-02**: Tapping the mic opens a modal overlay containing the existing voice pipeline (VoiceInterface) — overlay dismisses on backdrop click or `Esc`
-- [ ] **VOICE-03**: Existing DashScope ASR → LLM → TTS pipeline continues to function inside the overlay without regression (greeting, barge-in, 20-turn memory)
+- [x] **VOICE-02**: Tapping the mic opens a modal overlay containing the existing voice pipeline (VoiceInterface) — overlay dismisses on backdrop click or `Esc`
+- [x] **VOICE-03**: Existing DashScope ASR → LLM → TTS pipeline continues to function inside the overlay without regression (greeting, barge-in, 20-turn memory)
 
 ### Compatibility & Migration
 
