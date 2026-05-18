@@ -169,10 +169,10 @@ Plans:
 **Plans**: 2 plans
 Plans:
 **Wave 1**
-- [ ] 11-01-PLAN.md — Port WorkPage + WorkLogoChip components, extract workStatus helper, migrate WORK_ITEMS logo paths
+- [x] 11-01-PLAN.md — Port WorkPage + WorkLogoChip components, extract workStatus helper, migrate WORK_ITEMS logo paths
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 11-02-PLAN.md — Wire WorkPage into hash-route dispatcher + human visual verification
+- [x] 11-02-PLAN.md — Wire WorkPage into hash-route dispatcher + human visual verification
 
 ## Progress
 
@@ -188,4 +188,4 @@ Plans:
 | 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
 | 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |
 | 10. Directory Home & Routing Shell | v3.0 | 8/8 | Complete    | 2026-05-18 |
-| 11. Work Experience Page | v3.0 | 0/TBD | Not started | - |
+| 11. Work Experience Page | v3.0 | 2/2 | Complete   | 2026-05-18 |
