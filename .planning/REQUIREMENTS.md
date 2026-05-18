@@ -56,7 +56,7 @@ Requirements for milestone v3.0: Directory Home & Work Experience.
 - [ ] **HOME-01**: Identity header renders "Kaleb Nim @ kebab-neural-interface" with blinking cursor, sub-line "AI engineer · Singapore · Operating Model kaleb-nim-400b-0706"
 - [ ] **HOME-02**: Quick-status bar with 5 links — github (Kaleb-Nim), linkedin (kaleb-nim), email (kaleb.nim@gmail), cv (PDF download), site (nim-kaleb.vercel) — labels collapse below 480px
 - [ ] **HOME-03**: Gold internship banner "LOOKING FOR AI ENGINEERING INTERNSHIPS — STARTING AUG 2026" (visible on home only)
-- [ ] **HOME-04**: Section directory lists 6 entries (work, syai-meetups, hackathons, sidequests, hobbies, links) with path · description · count badge · chevron; each row is a ≥60px tap target with pressed-state border + transform
+- [x] **HOME-04**: Section directory lists 6 entries (work, syai-meetups, hackathons, sidequests, hobbies, links) with path · description · count badge · chevron; each row is a ≥60px tap target with pressed-state border + transform
 - [ ] **HOME-05**: Mobile affordance hint line "‹ tap any row above to open a section · tap ● talk to me to chat with my voice clone ›" renders below the directory
 
 ### Routing
