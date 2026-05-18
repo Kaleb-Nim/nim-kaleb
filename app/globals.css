@@ -79,3 +79,61 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── KNI v3 design kit — utilities, hover, and responsive collapse ───── */
+
+/* Gold link utility */
+.kni-gold-link {
+  color: #FFD700;
+  text-decoration: none;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  transition: filter 150ms ease-out;
+}
+.kni-gold-link:hover { text-decoration: underline; filter: brightness(1.25); }
+
+/* Quick-bar inline links */
+.quick-bar a {
+  color: #FFD700;
+  text-decoration: none;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+}
+.quick-bar a:hover { text-decoration: underline; filter: brightness(1.2); }
+
+/* Internship banner row */
+.kni-banner-row {
+  background: rgba(255, 215, 0, 0.06);
+  border-top: 1px dashed rgba(255, 215, 0, 0.5);
+  border-bottom: 1px dashed rgba(255, 215, 0, 0.5);
+  color: #FFD700;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  font-size: clamp(0.66rem, 1.8vw, 0.8rem);
+  font-weight: 700;
+  letter-spacing: clamp(0.06em, 0.3vw, 0.12em);
+  text-align: center;
+  padding: 8px 12px;
+  margin: 14px 0 18px;
+}
+
+/* Hover-only affordances (skipped on touch devices) */
+@media (hover: hover) {
+  .kni-dir-row:hover {
+    background: rgba(0, 255, 0, 0.075) !important;
+    border-left-color: #00FF00 !important;
+    box-shadow: inset 0 0 18px rgba(0, 255, 0, 0.10), 0 0 16px rgba(0, 255, 0, 0.15) !important;
+  }
+  .kni-dir-row:hover .kni-dir-icon { color: #00FF00 !important; }
+  .kni-tappable:hover { filter: brightness(1.15); }
+  .kni-crumb-home:hover { background: rgba(255, 215, 0, 0.1); }
+  .kni-floating-mic:hover { transform: translateY(-2px); }
+}
+
+/* Hide quick-bar value labels on very narrow screens */
+@media (max-width: 480px) {
+  .quick-bar .quick-label { display: none; }
+}
+
+/* Floating mic collapses to circle on narrow screens */
+@media (max-width: 520px) {
+  .kni-floating-mic { padding: 14px !important; border-radius: 999px !important; }
+  .kni-floating-mic-label { display: none; }
+}
