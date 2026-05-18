@@ -7,7 +7,9 @@ import { useRealtimeVoice } from '@/app/hooks/useRealtimeVoice';
 
 interface VoiceInterfaceProps {
   terminalState?: TerminalState;
-  transitionTo: (state: TerminalState, meta?: TerminalStateMetadata) => void;
+  transitionTo?: (state: TerminalState, meta?: TerminalStateMetadata) => void;
+  mode?: 'inline' | 'overlay';
+  onClose?: () => void;
 }
 
 const PHASE_LABELS: Record<string, string> = {
@@ -21,12 +23,15 @@ const PHASE_LABELS: Record<string, string> = {
 export default function VoiceInterface({
   terminalState,
   transitionTo,
+  mode = 'inline',
+  onClose,
 }: VoiceInterfaceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
+  const safeTransitionTo = transitionTo ?? (() => {});
   const { status, analyserRef, connect, disconnect, isConnected } =
-    useRealtimeVoice({ transitionTo });
+    useRealtimeVoice({ transitionTo: safeTransitionTo });
 
   const [showTranscript, setShowTranscript] = useState(true);
 
@@ -77,8 +82,38 @@ export default function VoiceInterface({
     return () => cancelAnimationFrame(animFrameRef.current);
   }, [analyserRef, status.phase]);
 
+  // ── Auto-connect when running in overlay mode ──────────────────────────────
+  useEffect(() => {
+    if (mode !== 'overlay') return;
+    connect();
+    return () => { disconnect(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
   return (
     <div className={styles.container}>
+      {mode === 'overlay' && onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close voice panel"
+          data-overlay-close=""
+          style={{
+            alignSelf: 'flex-end',
+            background: 'transparent',
+            border: '1px solid rgba(255,215,0,0.5)',
+            color: '#FFD700',
+            textShadow: '0 0 4px rgba(255,215,0,0.4)',
+            fontFamily: '"Anonymous Pro", monospace',
+            fontSize: '0.78rem',
+            padding: '4px 10px',
+            cursor: 'pointer',
+            marginBottom: 8,
+          }}
+        >
+          [ESC] close ✕
+        </button>
+      )}
       {/* Status */}
       <div className={styles.statusLine}>
         {'  '}{PHASE_LABELS[status.phase] ?? 'Ready.'}
