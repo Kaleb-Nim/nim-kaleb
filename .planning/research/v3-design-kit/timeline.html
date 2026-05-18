@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Timeline — Kebab Neural Interface</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; min-height: 100vh; background: #010810; font-family: "Anonymous Pro", monospace; }
+  body { display: flex; align-items: flex-start; justify-content: center; padding: 28px 0 60px; box-sizing: border-box; }
+  #root { position: relative; z-index: 1; width: 100%; }
+  @keyframes kniFadeIn { to { opacity: 1; } }
+  @keyframes kniBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .kni-blink { animation: kniBlink 1s step-end infinite; }
+  .kni-gold-link { color: #FFD700; text-decoration: none; text-shadow: 0 0 4px rgba(255,215,0,0.4), 0 0 8px rgba(255,215,0,0.2); transition: filter 150ms ease-out; }
+  .kni-gold-link:hover { text-decoration: underline; filter: brightness(1.3); }
+
+  /* Tweaks panel */
+  .tweaks {
+    position: fixed; bottom: 16px; right: 16px; z-index: 10;
+    background: #000; border: 1px solid #00FF00;
+    padding: 12px 14px; font-family: "Anonymous Pro", monospace;
+    color: #00FF00; font-size: 0.75rem;
+    box-shadow: 0 0 12px rgba(0,255,0,0.25); min-width: 220px;
+  }
+  .tweaks-title { color: #FFD700; text-shadow: 0 0 4px rgba(255,215,0,0.4); font-weight: 700; margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tweak-row { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+  .tweak-lbl { color: rgba(0,255,0,0.6); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .tweak-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tweak-btn {
+    background: transparent; border: 1px solid rgba(0,255,0,0.35);
+    color: #00FF00; font-family: inherit; font-size: 0.72rem;
+    padding: 4px 8px; cursor: pointer;
+    text-shadow: 0 0 4px rgba(0,255,0,0.35);
+    transition: all 150ms ease-out;
+  }
+  .tweak-btn:hover { border-color: #00FF00; box-shadow: 0 0 6px rgba(0,255,0,0.3); }
+  .tweak-btn.active { background: rgba(0,255,0,0.12); border-color: #00FF00; box-shadow: 0 0 8px rgba(0,255,0,0.35); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="Starfield.jsx"></script>
+<script type="text/babel" src="Terminal.jsx"></script>
+<script type="text/babel" src="TerminalBody.jsx"></script>
+<script type="text/babel" src="Timeline.jsx"></script>
+
+<script type="text/babel">
+const SAMPLE_TIMELINE = [
+  {
+    date: 'Jan 2025 – Present',
+    title: 'AI Engineer',
+    org: 'RAID (RSAF Agile Innovation Digital)',
+    status: 'ACTIVE',
+    description: "Built a real-time speech diarization + transcription system for air traffic controllers, trialled in Exercise Wallaby. Led ASTRA — a next-gen ATC training simulator with autonomous sim-pilots.",
+    tags: ['speech', 'agentic-ai', 'digital-twin'],
+    links: [{ label: 'AAAI POSTER', href: '#' }],
+  },
+  {
+    date: 'Apr 2024 – Aug 2024',
+    title: 'AI Engineer',
+    org: 'Tensorplex Labs',
+    status: 'SHIPPED',
+    description: "LLM-powered community chatbot serving 10,000+ members across 4 Discord servers. Automated query responses, moderation, ticket handling.",
+    tags: ['llm', 'rag', 'web3'],
+  },
+  {
+    date: 'Jan 2024 – Apr 2024',
+    title: 'AI Engineer',
+    org: 'A*STAR (ARTC)',
+    status: 'SHIPPED',
+    description: "Led AI-driven supply chain risk research in partnership with a Fortune 50 medical company. Built an LLM-based early warning system for disruptions.",
+    tags: ['llm', 'supply-chain'],
+  },
+  {
+    date: 'Jan 2024',
+    title: 'NUS Hack&Roll — Best Pre-University Hack',
+    org: 'ABCD: A Brilliant Cobra Duel',
+    status: 'MILESTONE',
+    description: "Snake game variant where players use prompt engineering to battle AI cobras. Built the LLM combat system.",
+    tags: ['hackathon', 'llm-games'],
+  },
+  {
+    date: 'Mar 2023 – Jan 2024',
+    title: 'Development Scientist Intern',
+    org: 'A*STAR (ARTC)',
+    status: 'ARCHIVED',
+    description: "Built a Q&A LLM agent for hydrogen supply chain what-if scenarios. Custom knowledge retrieval + analytical visualisations.",
+    tags: ['llm', 'rag'],
+  },
+];
+
+const VARIANTS = [
+  { id: 'vertical-rail', label: 'rail' },
+  { id: 'ascii-tree',    label: 'tree' },
+  { id: 'commit-log',    label: 'git log' },
+];
+
+function App() {
+  const [variant, setVariant] = React.useState('vertical-rail');
+
+  return (
+    <>
+      <Starfield />
+      <Terminal>
+        <TerminalBody>
+          <div>Welcome to the Kebab Neural Interface (Operating Model: kaleb-nim-400b-0706)</div>
+          <br />
+          <div>{'  '}&gt; timeline --format={variant}</div>
+          <div style={{ opacity: 0.7, fontSize: '0.78rem' }}>{'  '}Loading 5 entries from ~/experience …</div>
+          <br />
+          <Timeline items={SAMPLE_TIMELINE} variant={variant} />
+          <br />
+          <div style={{ opacity: 0.45, fontSize: '0.72rem' }}>
+            {'  '}[{SAMPLE_TIMELINE.length} entries] · ordered most-recent first · toggle variant via Tweaks
+          </div>
+        </TerminalBody>
+      </Terminal>
+
+      <div className="tweaks">
+        <div className="tweaks-title">Tweaks</div>
+        <div className="tweak-row">
+          <div className="tweak-lbl">Timeline variation</div>
+          <div className="tweak-opts">
+            {VARIANTS.map(v => (
+              <button key={v.id}
+                className={`tweak-btn ${variant === v.id ? 'active' : ''}`}
+                onClick={() => setVariant(v.id)}>{v.label}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
