@@ -30,6 +30,7 @@ export interface WorkItem {
   logoBg: string;
   note: string;
   tag: 'ACTIVE' | 'SHIPPED' | 'ARCHIVED';
+  tagLabel?: string;
 }
 
 export interface MeetupItem {
@@ -105,6 +106,7 @@ export const WORK_ITEMS: WorkItem[] = [
     logoBg: '#FFFFFF',
     note: 'Real-time speech diarisation + transcription for ATC controllers; augmenting sim-pilots’ console ops with digital-twin + agentic solutions.',
     tag: 'ACTIVE',
+    tagLabel: 'Full-time (NS)',
   },
   {
     date: 'Apr 2024 – Aug 2024',
@@ -114,6 +116,7 @@ export const WORK_ITEMS: WorkItem[] = [
     logoBg: '#F4F1EB',
     note: 'LLM-powered community + helpdesk chatbot — auto-answers questions, moderates discussion, runs tickets across 4 Web3 Discord servers serving 10,000+ members.',
     tag: 'SHIPPED',
+    tagLabel: 'Intern',
   },
   {
     date: 'Jan 2024 – Apr 2024',
@@ -123,6 +126,7 @@ export const WORK_ITEMS: WorkItem[] = [
     logoBg: '#FFFFFF',
     note: 'Led AI-driven supply-chain risk research with a Fortune 50 medical client — early-warning system leveraging LLMs.',
     tag: 'SHIPPED',
+    tagLabel: 'Contract',
   },
   {
     date: 'Mar 2023 – Jan 2024',
@@ -132,6 +136,7 @@ export const WORK_ITEMS: WorkItem[] = [
     logoBg: '#FFFFFF',
     note: 'Q&A LLM agent surfacing what-if insights for hydrogen-supply-chain optimisation; custom knowledge-base RAG with analytical visualisations.',
     tag: 'ARCHIVED',
+    tagLabel: 'Intern',
   },
 ];
 

@@ -109,7 +109,7 @@ export default function WorkPage({ section }: { section: Section }) {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      [{it.tag || 'SHIPPED'}]
+                      [{it.tagLabel || it.tag || 'SHIPPED'}]
                     </span>
                   </div>
                   {/* Org */}
