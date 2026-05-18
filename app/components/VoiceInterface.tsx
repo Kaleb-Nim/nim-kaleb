@@ -2,12 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import styles from './VoiceInterface.module.css';
-import type { TerminalState, TerminalStateMetadata } from '@/app/hooks/useTerminalState';
 import { useRealtimeVoice } from '@/app/hooks/useRealtimeVoice';
 
 interface VoiceInterfaceProps {
-  terminalState?: TerminalState;
-  transitionTo?: (state: TerminalState, meta?: TerminalStateMetadata) => void;
   mode?: 'inline' | 'overlay';
   onClose?: () => void;
 }
@@ -21,17 +18,14 @@ const PHASE_LABELS: Record<string, string> = {
 };
 
 export default function VoiceInterface({
-  terminalState,
-  transitionTo,
   mode = 'inline',
   onClose,
 }: VoiceInterfaceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
-  const safeTransitionTo = transitionTo ?? (() => {});
   const { status, analyserRef, connect, disconnect, isConnected } =
-    useRealtimeVoice({ transitionTo: safeTransitionTo });
+    useRealtimeVoice({ transitionTo: () => {} });
 
   const [showTranscript, setShowTranscript] = useState(true);
 
