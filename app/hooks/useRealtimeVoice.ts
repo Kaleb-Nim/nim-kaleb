@@ -120,6 +120,10 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intentionalCloseRef = useRef(false);
   const connectingRef = useRef(false);
+  // Set true when disconnect() runs; in-flight connect() chains check this
+  // after each await and bail out, preventing ghost WS + AudioContext leaks
+  // when an overlay unmounts mid-connect.
+  const cancelledRef = useRef(false);
 
   // Analytics session tracking
   const sessionIdRef = useRef<string | null>(null);
@@ -461,6 +465,8 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     if (connectingRef.current) return;
     // Lock immediately to prevent double-tap on mobile spawning parallel connections
     connectingRef.current = true;
+    // New connect attempt — clear any cancel flag left over from a prior disconnect
+    cancelledRef.current = false;
 
     // Tear down any existing connection before starting fresh
     if (wsRef.current) {
@@ -490,6 +496,14 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
       return;
     }
 
+    // If the component unmounted (overlay closed) while awaiting getUserMedia,
+    // release the freshly-acquired mic and bail before opening WS/audio contexts.
+    if (cancelledRef.current) {
+      stream.getTracks().forEach(t => t.stop());
+      connectingRef.current = false;
+      return;
+    }
+
     // Reset intentionalClose AFTER getUserMedia succeeds and right before connectInternal,
     // so any pending onclose from the old WebSocket doesn't trigger auto-reconnect
     intentionalCloseRef.current = false;
@@ -499,12 +513,24 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     // connectInternal will manage connectingRef from here
     connectingRef.current = false;
     await connectInternal(stream);
+
+    // Final guard: if disconnect ran during connectInternal's awaits, tear down anything that landed
+    if (cancelledRef.current) {
+      // wsRef may have been re-assigned inside connectInternal after the narrowing above;
+      // read it back through the ref object to get the live value.
+      const live = wsRef.current as WebSocket | null;
+      wsRef.current = null;
+      live?.close();
+      cleanupAudio();
+    }
   }, [connectInternal, setPhase, cleanupAudio]);
 
   const disconnect = useCallback(() => {
     // Mark as intentional close so auto-reconnect does not trigger
     intentionalCloseRef.current = true;
     connectingRef.current = false;
+    // Signal any in-flight connect() chain to bail at its next await boundary
+    cancelledRef.current = true;
 
     // Analytics: end session on intentional disconnect.
     // Clear ref BEFORE posting so a racing visibilitychange/pagehide cannot
