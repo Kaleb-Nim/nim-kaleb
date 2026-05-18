@@ -166,7 +166,10 @@ Plans:
   4. Each entry shows a square logo chip with the correct image (raid.png, tensorplex.png, artc.png) on a white/light-cream chip with green border + halo
   5. FooterMeta shows "[4 entries] · most recent first" and the "‹ tap ~/kaleb to return home" link works
   6. Layout holds at 360px (logo chip + content stack readable, no horizontal scroll) and 1024px+ (rail aligned to text baseline)
-**Plans**: TBD (drafted via `/gsd-plan-phase 11`)
+**Plans**: 2 plans
+Plans:
+- [ ] 11-01-PLAN.md — Port WorkPage + WorkLogoChip components, extract workStatus helper, migrate WORK_ITEMS logo paths
+- [ ] 11-02-PLAN.md — Wire WorkPage into hash-route dispatcher + human visual verification
 
 ## Progress
 
