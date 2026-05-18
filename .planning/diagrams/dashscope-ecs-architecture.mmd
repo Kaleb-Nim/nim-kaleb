@@ -1,0 +1,55 @@
+    ---
+    title: "Alibaba Cloud ECS + DashScope Architecture (April 2026)"
+    ---
+    graph LR
+        subgraph Browser["🖥️ Browser"]
+            UI["Terminal UI<br/><i>VoiceInterface.tsx</i>"]
+            Mic["🎤 Microphone<br/><i>16kHz PCM</i>"]
+            Speaker["🔊 Speaker<br/><i>24kHz PCM</i>"]
+        end
+
+        subgraph ECS["🇸🇬 Alibaba Cloud ECS — Singapore"]
+            subgraph BunWS["Bun WS Server<br/><code>ws.kalebnim.dev</code>"]
+                Session["Session Manager<br/><i>per-client orchestrator</i>"]
+                History["Conversation History<br/><i>20-turn context</i>"]
+                BargeIn["Barge-in Handler<br/><i>AbortController</i>"]
+            end
+        end
+
+        subgraph DashScope["☁️ DashScope International"]
+            ASR["Qwen3-ASR Flash<br/><i>realtime WebSocket</i><br/><i>16kHz PCM input</i><br/><i>server-side VAD</i>"]
+            LLM["Qwen-Plus LLM<br/><i>OpenAI-compatible HTTP</i><br/><i>streaming response</i>"]
+            TTS["Qwen3-TTS VC<br/><i>realtime WebSocket</i><br/><i>24kHz PCM output</i><br/><i>Kaleb's cloned voice</i>"]
+        end
+
+        UI == "1. Open WebSocket<br/><code>wss://ws.kalebnim.dev/ws</code>" ==> Session
+
+        Mic -- "2. audio.append<br/><i>base64 PCM16 @ 16kHz</i>" --> Session
+        Session -- "3. Forward audio" --> ASR
+        ASR -. "4. transcript.final" .-> Session
+
+        Session -- "5. Stream prompt +<br/>conversation history" --> LLM
+        LLM -. "6. Text chunks<br/>(sentence-boundary split)" .-> Session
+
+        Session -- "7. input_text_buffer.append<br/><i>text chunks</i>" --> TTS
+        TTS -. "8. response.audio.delta<br/><i>base64 PCM16 @ 24kHz</i>" .-> Session
+
+        Session -- "9. response.audio.delta<br/><i>forwarded to browser</i>" --> Speaker
+        Session -. "response.text.delta" .-> UI
+
+        BargeIn -. "Cancel LLM + TTS<br/>on user interrupt" .-> LLM
+        BargeIn -. "Cancel LLM + TTS<br/>on user interrupt" .-> TTS
+
+        style Browser fill:#1a1a2e,stroke:#00ff00,color:#fff
+        style ECS fill:#1a1a2e,stroke:#00ff00,color:#fff
+        style BunWS fill:#2a2a3e,stroke:#00ff00,color:#fff
+        style DashScope fill:#1a1a2e,stroke:#4ecdc4,color:#fff
+        style Session fill:#333,stroke:#00ff00,color:#fff
+        style History fill:#333,stroke:#888,color:#ccc
+        style BargeIn fill:#333,stroke:#ff6b6b,color:#ccc
+        style ASR fill:#333,stroke:#4ecdc4,color:#fff
+        style LLM fill:#333,stroke:#4ecdc4,color:#fff
+        style TTS fill:#333,stroke:#4ecdc4,color:#fff
+        style UI fill:#333,stroke:#00ff00,color:#fff
+        style Mic fill:#333,stroke:#00ff00,color:#fff
+        style Speaker fill:#333,stroke:#00ff00,color:#fff

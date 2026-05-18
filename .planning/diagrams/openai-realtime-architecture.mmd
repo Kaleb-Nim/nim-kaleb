@@ -1,0 +1,50 @@
+---
+title: "OpenAI Realtime API Architecture (March 2026)"
+---
+graph LR
+    subgraph Browser["🖥️ Browser"]
+        UI["Terminal UI<br/><i>VoiceInterface.tsx</i>"]
+        Mic["🎤 Microphone<br/><i>24kHz PCM</i>"]
+        Speaker["🔊 Speaker<br/><i>24kHz PCM</i>"]
+    end
+
+    subgraph Vercel["☁️ Vercel"]
+        API["Next.js API Route<br/><code>/api/realtime/session</code>"]
+    end
+
+    subgraph OpenAI["🤖 OpenAI"]
+        TokenAPI["Token Endpoint<br/><i>/v1/realtime/sessions</i>"]
+        subgraph RealtimeWS["WebSocket: wss://api.openai.com/v1/realtime"]
+            VAD["Voice Activity<br/>Detection"]
+            ASR["Speech-to-Text"]
+            LLM["GPT-4o Realtime"]
+            TTS["Text-to-Speech<br/><i>voice: alloy</i>"]
+        end
+    end
+
+    UI -- "1. POST /api/realtime/session" --> API
+    API -- "2. Exchange OPENAI_API_KEY<br/>for ephemeral token" --> TokenAPI
+    TokenAPI -. "3. Return ephemeral token" .-> API
+    API -. "4. Return token to client" .-> UI
+
+    UI == "5. Open WebSocket<br/><i>subprotocol: openai-insecure-api-key.{token}</i>" ==> RealtimeWS
+
+    Mic -- "6. input_audio_buffer.append<br/><i>base64 PCM16 @ 24kHz</i>" --> VAD
+    VAD --> ASR
+    ASR --> LLM
+    LLM --> TTS
+    TTS -- "7. response.audio.delta<br/><i>base64 PCM16 @ 24kHz</i>" --> Speaker
+
+    style Browser fill:#1a1a2e,stroke:#00ff00,color:#fff
+    style Vercel fill:#1a1a2e,stroke:#ffbd2e,color:#fff
+    style OpenAI fill:#1a1a2e,stroke:#ff6b6b,color:#fff
+    style RealtimeWS fill:#2a2a3e,stroke:#ff6b6b,color:#fff
+    style VAD fill:#333,stroke:#888,color:#ccc
+    style ASR fill:#333,stroke:#888,color:#ccc
+    style LLM fill:#333,stroke:#888,color:#ccc
+    style TTS fill:#333,stroke:#888,color:#ccc
+    style API fill:#333,stroke:#ffbd2e,color:#fff
+    style TokenAPI fill:#333,stroke:#ff6b6b,color:#fff
+    style UI fill:#333,stroke:#00ff00,color:#fff
+    style Mic fill:#333,stroke:#00ff00,color:#fff
+    style Speaker fill:#333,stroke:#00ff00,color:#fff
