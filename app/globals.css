@@ -10,6 +10,24 @@
   --red-dot: #FF5F56;         /* macOS close */
   --yellow-dot: #FFBD2E;      /* macOS minimize */
   --green-dot: #27C93F;       /* macOS maximize */
+
+  /* ── Kebab Neural Interface (KNI) tokens — v3 design kit ──────────────── */
+  --kni-bg-deep: #010810;
+  --kni-bg-terminal: #000000;
+  --kni-bg-header: #333333;
+  --kni-green: #00FF00;
+  --kni-green-dim: #00CC00;
+  --kni-green-deep: #008800;
+  --kni-gold: #FFD700;
+  --kni-red: #FF4444;
+  --kni-white: #FFFFFF;
+  --kni-fg-muted: rgba(0, 255, 0, 0.55);
+  --kni-fg-faint: rgba(0, 255, 0, 0.35);
+  --kni-glow-green: 0 0 4px rgba(0, 255, 0, 0.4), 0 0 8px rgba(0, 255, 0, 0.2), 0 0 16px rgba(0, 255, 0, 0.1);
+  --kni-glow-green-strong: 0 0 6px rgba(0, 255, 0, 0.7), 0 0 14px rgba(0, 255, 0, 0.35), 0 0 28px rgba(0, 255, 0, 0.18);
+  --kni-glow-gold: 0 0 4px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  --kni-glow-red: 0 0 4px rgba(255, 68, 68, 0.5), 0 0 8px rgba(255, 68, 68, 0.25);
+  --kni-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -38,6 +56,18 @@ body {
     0 0 8px rgba(0, 255, 0, 0.2),
     0 0 16px rgba(0, 255, 0, 0.1);
 }
+
+/* ── KNI global keyframes (v3 design kit) ─────────────────────────────── */
+@keyframes kniFadeIn { to { opacity: 1; } }
+@keyframes kniBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes kniBars { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+@keyframes kniPanelOpen { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes kniPageIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes kniRecordPulse { 0%, 100% { box-shadow: 0 0 14px rgba(255,68,68,0.45), 0 12px 28px rgba(0,0,0,0.55); } 50% { box-shadow: 0 0 26px rgba(255,68,68,0.75), 0 12px 28px rgba(0,0,0,0.55); } }
+@keyframes kniFloatPulse { 0%, 100% { box-shadow: 0 0 14px rgba(255,68,68,0.4), 0 12px 28px rgba(0,0,0,0.55); } 50% { box-shadow: 0 0 26px rgba(255,68,68,0.7), 0 12px 28px rgba(0,0,0,0.55); } }
+
+.kni-page { animation: kniPageIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.kni-blink { animation: kniBlink 1s step-end infinite; }
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
