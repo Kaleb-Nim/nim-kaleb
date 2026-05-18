@@ -82,8 +82,8 @@ Requirements for milestone v3.0: Directory Home & Work Experience.
 
 ### Compatibility & Migration
 
-- [ ] **MIG-01**: BOOTING → STATUS → MENU state machine is retired; users no longer have to type `1 ⏎` to reach voice
-- [ ] **MIG-02**: Starfield + Terminal window chrome (860px max, 10px radius, macOS dots) are reused from the existing implementation
+- [x] **MIG-01**: BOOTING → STATUS → MENU state machine is retired; users no longer have to type `1 ⏎` to reach voice
+- [x] **MIG-02**: Starfield + Terminal window chrome (860px max, 10px radius, macOS dots) are reused from the existing implementation
 - [x] **MIG-03**: `prefers-reduced-motion` disables typewriter / fade-in animations site-wide
 
 ## v3.1+ Requirements
