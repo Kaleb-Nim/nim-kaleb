@@ -244,7 +244,7 @@ export const SECTIONS: Section[] = [
     count: 4,
     aliases: ['work', 'experience', 'roles'],
     desc: 'Internships and full-time roles',
-    title: './work-experience — paid AI engineering',
+    title: './work-experience — 3 years in AI Engineering Space',
     intro: 'Roles where someone gave me money to ship AI systems. Newest first.',
     items: WORK_ITEMS,
     footer: '[4 entries] · most recent first',
