@@ -181,5 +181,5 @@ Plans:
 | 7. Automated Testing | v1.1 | 0/TBD | Not started | - |
 | 8. Script & Storyboard | v2.0 | 1/1 | Complete   | 2026-04-15 |
 | 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |
-| 10. Directory Home & Routing Shell | v3.0 | 4/8 | In Progress|  |
+| 10. Directory Home & Routing Shell | v3.0 | 5/8 | In Progress|  |
 | 11. Work Experience Page | v3.0 | 0/TBD | Not started | - |

@@ -61,9 +61,9 @@ Requirements for milestone v3.0: Directory Home & Work Experience.
 
 ### Routing
 
-- [ ] **ROUTE-01**: Hash router resolves `#/` → home, `#/work-experience` → work page, unknown paths → 404 page (red "[SYSTEM] 404 — directory not found")
+- [x] **ROUTE-01**: Hash router resolves `#/` → home, `#/work-experience` → work page, unknown paths → 404 page (red "[SYSTEM] 404 — directory not found")
 - [x] **ROUTE-02**: Section directory rows navigate via `#/<path>`; browser back/forward and direct URL load both render correctly; scroll resets to top on navigation
-- [ ] **ROUTE-03**: Unfinished sections (meetups, hackathons, sidequests, hobbies, links) render a "coming soon" stub page rather than 404, so the directory entries remain clickable without dead-ending
+- [x] **ROUTE-03**: Unfinished sections (meetups, hackathons, sidequests, hobbies, links) render a "coming soon" stub page rather than 404, so the directory entries remain clickable without dead-ending
 
 ### Work Experience Page (`#/work-experience`)
 
