@@ -4,9 +4,15 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './VoiceInterface.module.css';
 import { useRealtimeVoice } from '@/app/hooks/useRealtimeVoice';
 
+export type VoiceContext = ReturnType<typeof useRealtimeVoice>;
+
 interface VoiceInterfaceProps {
   mode?: 'inline' | 'overlay';
   onClose?: () => void;
+  // When provided (overlay mode), the hook lives in the parent so it persists
+  // across overlay open/close cycles. When omitted (inline mode), the component
+  // owns its own hook instance for backward compat.
+  voice?: VoiceContext;
 }
 
 const PHASE_LABELS: Record<string, string> = {
@@ -20,12 +26,14 @@ const PHASE_LABELS: Record<string, string> = {
 export default function VoiceInterface({
   mode = 'inline',
   onClose,
+  voice,
 }: VoiceInterfaceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
-  const { status, analyserRef, connect, disconnect, isConnected } =
-    useRealtimeVoice({ transitionTo: () => {} });
+  // Inline mode: own the hook. Overlay mode: parent passes a persistent instance.
+  const ownVoice = useRealtimeVoice({ transitionTo: () => {} });
+  const { status, analyserRef, connect, disconnect, isConnected } = voice ?? ownVoice;
 
   const [showTranscript, setShowTranscript] = useState(true);
 
@@ -76,13 +84,9 @@ export default function VoiceInterface({
     return () => cancelAnimationFrame(animFrameRef.current);
   }, [analyserRef, status.phase]);
 
-  // ── Auto-connect when running in overlay mode ──────────────────────────────
-  useEffect(() => {
-    if (mode !== 'overlay') return;
-    connect();
-    return () => { disconnect(); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  // Overlay mode: parent (page.tsx) drives connect/disconnect via the voiceOpen
+  // toggle so the hook persists across open/close cycles. Inline mode keeps the
+  // legacy manual Connect-button flow — no auto-connect.
 
   return (
     <div className={styles.container}>

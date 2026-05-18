@@ -1,9 +1,15 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import VoiceInterface from './VoiceInterface';
+import VoiceInterface, { type VoiceContext } from './VoiceInterface';
 
-export default function VoiceOverlay({ onClose }: { onClose: () => void }) {
+export default function VoiceOverlay({
+  onClose,
+  voice,
+}: {
+  onClose: () => void;
+  voice: VoiceContext;
+}) {
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -48,7 +54,7 @@ export default function VoiceOverlay({ onClose }: { onClose: () => void }) {
           padding: 18,
         }}
       >
-        <VoiceInterface mode="overlay" onClose={onClose} />
+        <VoiceInterface mode="overlay" onClose={onClose} voice={voice} />
       </div>
     </div>
   );

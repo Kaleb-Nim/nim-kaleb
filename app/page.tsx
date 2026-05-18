@@ -12,10 +12,27 @@ import FloatingMic from './components/FloatingMic';
 import VoiceOverlay from './components/VoiceOverlay';
 import { SECTIONS } from './lib/sections';
 import { useHashRoute } from './hooks/useHashRoute';
+import { useRealtimeVoice } from './hooks/useRealtimeVoice';
 
 export default function Home() {
   const route = useHashRoute();
   const [voiceOpen, setVoiceOpen] = useState(false);
+
+  // Single persistent voice hook — survives overlay open/close cycles so we
+  // never race a fresh connect() against a previous instance's async teardown.
+  const voice = useRealtimeVoice({ transitionTo: () => {} });
+
+  // Drive connect/disconnect from the overlay toggle.
+  useEffect(() => {
+    if (voiceOpen) {
+      voice.connect();
+    } else {
+      voice.disconnect();
+    }
+    // voice.connect / voice.disconnect identities can change between renders;
+    // only the toggle should re-fire this effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [voiceOpen]);
 
   // Esc closes the overlay (owned at root so it works regardless of focus)
   useEffect(() => {
@@ -51,7 +68,9 @@ export default function Home() {
         onToggle={() => setVoiceOpen((v) => !v)}
       />
 
-      {voiceOpen && <VoiceOverlay onClose={() => setVoiceOpen(false)} />}
+      {voiceOpen && (
+        <VoiceOverlay voice={voice} onClose={() => setVoiceOpen(false)} />
+      )}
     </>
   );
 }
