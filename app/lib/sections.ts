@@ -33,11 +33,21 @@ export interface WorkItem {
   tagLabel?: string;
 }
 
+export interface Speaker {
+  name: string;
+  role: string;
+  linkedin: string;
+}
+
 export interface MeetupItem {
+  num: number;
   date: string;
   title: string;
-  note?: string;
-  link?: ItemLink;
+  desc: string;
+  speakers: Speaker[];
+  hero: string | null;
+  gallery: Array<string | null>;
+  signup?: string;
 }
 
 export interface HackItem {
@@ -143,17 +153,132 @@ export const WORK_ITEMS: WorkItem[] = [
 // ── SYAI MEETUPS (11) ──────────────────────────────────────────────────────
 
 export const SYAI_ITEMS: MeetupItem[] = [
-  { date: 'Apr 2026', title: 'Meetup #11 — Agentic Workflows in Production',                    note: '~80 attendees', link: { label: 'RECAP', href: '#' } },
-  { date: 'Feb 2026', title: 'Meetup #10 — Eval Harnesses for LLM Apps',                        note: 'panel + lightning talks' },
-  { date: 'Dec 2025', title: 'Meetup #9 — Voice Agents End-to-End',                             note: 'demo: live voice clone' },
-  { date: 'Oct 2025', title: 'Meetup #8 — Multimodal Models in the Wild',                       note: '6 demos' },
-  { date: 'Aug 2025', title: 'Meetup #7 — RAG: What Actually Ships',                            note: 'guest: ex-Anthropic' },
-  { date: 'Jun 2025', title: 'Meetup #6 — Fine-tuning vs Prompting',                            note: 'debate format' },
-  { date: 'Apr 2025', title: 'Meetup #5 — Local LLMs on Consumer Hardware',                     note: 'llama.cpp deep dive' },
-  { date: 'Feb 2025', title: 'Meetup #4 — Prompt Engineering for Junior Devs',                  note: '~120 attendees' },
-  { date: 'Dec 2024', title: 'Meetup #3 — Building Your First Agent',                           note: 'hands-on workshop' },
-  { date: 'Oct 2024', title: 'Meetup #2 — Vector DBs Explained',                                note: 'qdrant / pgvector / weaviate' },
-  { date: 'Aug 2024', title: 'Meetup #1 — Kickoff: LLMs from Scratch',                          note: 'inaugural session' },
+  {
+    num: 11, date: 'Apr 2026',
+    title: 'Agentic Workflows in Production',
+    desc: "What actually breaks when you ship an agent past 'works on my laptop'. Three speakers walked us through their war stories — retries, tool-call loops, eval drift — followed by Q&A over pizza.",
+    speakers: [
+      { name: 'Speaker Name', role: 'Staff AI Engineer @ Company', linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Founding Engineer @ Startup', linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Research Engineer @ Lab',     linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/agentic-workflows-hero.jpg',
+    gallery: [null, null, null],
+  },
+  {
+    num: 10, date: 'Feb 2026',
+    title: 'Eval Harnesses for LLM Apps',
+    desc: "Panel + lightning talks on how teams actually measure whether their LLM app is getting better. We covered offline eval suites, golden datasets, and the unreasonable effectiveness of \"vibe-checks done in public\".",
+    speakers: [
+      { name: 'Speaker Name', role: 'ML Platform Lead @ Company',  linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Applied Researcher @ Lab',    linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Senior PM @ Company',         linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Independent ML Consultant',   linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/eval-harnesses-hero.jpg',
+    gallery: [null, null],
+  },
+  {
+    num: 9, date: 'Dec 2025',
+    title: 'Voice Agents End-to-End',
+    desc: "ASR → LLM → TTS, all the latency tricks in between. Live demo of a voice clone built in a weekend. Q&A on prosody, interruption handling, and TTS provider trade-offs.",
+    speakers: [
+      { name: 'Speaker Name', role: 'Speech ML Engineer @ Company', linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Voice UX Designer',            linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/voice-agents-hero.jpg',
+    gallery: [null, null, null, null],
+  },
+  {
+    num: 8, date: 'Oct 2025',
+    title: 'Multimodal Models in the Wild',
+    desc: "Six live demos — vision-LLMs powering accessibility tools, document understanding, video search, and one chaotic-good attempt at refereeing a chess game from a phone camera.",
+    speakers: [
+      { name: 'Speaker Name', role: 'CV Engineer @ Company',        linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Founder @ Startup',            linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Research Scientist @ Lab',     linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/multimodal-hero.jpg',
+    gallery: [null, null, null],
+  },
+  {
+    num: 7, date: 'Aug 2025',
+    title: 'RAG: What Actually Ships',
+    desc: "Beyond demos. Two engineers who run RAG in prod broke down chunking, reranking, observability, and which 30% of the literature is worth reading.",
+    speakers: [
+      { name: 'Speaker Name', role: 'Search Eng @ Company (ex-Anthropic)', linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Founding Eng @ Startup',              linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/rag-ships-hero.jpg',
+    gallery: [null, null],
+  },
+  {
+    num: 6, date: 'Jun 2025',
+    title: 'Fine-tuning vs Prompting',
+    desc: "A live debate. Two engineers, two positions, one moderator with a timer. The room voted at the start and again at the end — and several people flipped sides.",
+    speakers: [
+      { name: 'Speaker Name', role: 'ML Engineer @ Company',        linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Prompt Engineer @ Company',    linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Moderator — Researcher @ Lab', linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/finetune-vs-prompt-hero.jpg',
+    gallery: [null, null, null],
+  },
+  {
+    num: 5, date: 'Mar 2025',
+    title: 'Networking & Resume Roasting (SYAI x CYS)',
+    desc: "SYAI teamed up with Cyber Youth Singapore at *SCAPE for a live resume critique evening with Lim Mei Yu (Get Ahead, ex-Meta/Google). Open networking, brutal-but-kind resume feedback in front of the room, and a long Q&A on breaking into tech. \"Bring-a-friend\" promo: free bubble tea for anyone who showed up with a +1.",
+    speakers: [
+      { name: 'Lim Mei Yu', role: 'Founder, Get Ahead (ex-Meta, ex-Google)', linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'CYS Rep',    role: 'Cyber Youth Singapore',                   linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/resume-roasting-2025-hero.jpg',
+    gallery: [null, null, null],
+    signup: 'https://forms.gle/FpKePiMijNLDtudV6',
+  },
+  {
+    num: 4, date: 'Feb 2025',
+    title: 'Prompt Engineering for Junior Devs',
+    desc: "A practitioner-led session on what actually works when you're 6 months into your career and the senior dev keeps saying \"just prompt it better\". ~120 attendees, mostly poly + uni students.",
+    speakers: [
+      { name: 'Speaker Name', role: 'Senior AI Eng @ Company',      linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Developer Advocate @ Company', linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/prompt-eng-juniors-hero.jpg',
+    gallery: [null, null, null, null],
+  },
+  {
+    num: 3, date: 'Dec 2024',
+    title: 'Building Your First Agent',
+    desc: "Hands-on workshop. Everyone left with a working tool-using agent. No slides — just terminal windows, an LLM API key, and a shared problem to solve.",
+    speakers: [
+      { name: 'Speaker Name', role: 'Agents Eng @ Company',         linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/first-agent-workshop-hero.jpg',
+    gallery: [null, null],
+  },
+  {
+    num: 2, date: 'Oct 2024',
+    title: 'Vector DBs Explained',
+    desc: "Qdrant vs pgvector vs Weaviate — when each is the right call. Followed by an open Q&A on hybrid search, metadata filtering, and how to not over-engineer your retrieval layer.",
+    speakers: [
+      { name: 'Speaker Name', role: 'DB Engineer @ Company',        linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Speaker Name', role: 'Search Eng @ Startup',         linkedin: 'https://www.linkedin.com/in/' },
+    ],
+    hero: '/meetups/vector-dbs-hero.jpg',
+    gallery: [null, null, null],
+  },
+  {
+    num: 1, date: 'Aug 2024',
+    title: 'Kickoff — LLMs from Scratch',
+    desc: "The inaugural SYAI meetup. Whiteboard walkthrough of how transformers actually work, then a community brainstorm on what people wanted SYAI to become. We've kept that doc alive.",
+    speakers: [
+      { name: 'Speaker Name', role: 'ML Researcher @ Lab',          linkedin: 'https://www.linkedin.com/in/' },
+      { name: 'Kaleb Nim',    role: 'Head of Community, SYAI',      linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
+    ],
+    hero: '/meetups/llms-from-scratch-hero.jpg',
+    gallery: [null, null, null],
+  },
 ];
 
 // ── HACKATHONS (15) ────────────────────────────────────────────────────────
