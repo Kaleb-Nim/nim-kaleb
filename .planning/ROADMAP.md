@@ -216,7 +216,7 @@ Plans:
 ### Phase 13: SYAI Meetups Page
 
 **Goal:** Replace the Phase 10 stub at `#/syai-meetups` with the real meetups page sourced from the new design kit (Anthropic design `UtNCPto_o8734VnTbs853w` → `ui_kits/terminal/index.html` / `Meetups.jsx`). Seed `SYAI_ITEMS` with real meetup data (including the March 22 2025 SYAI × CYS Resume Roasting event), copy meetup assets from the local `portfolio_info/` folder into `public/meetups/`, and wire the page into the hash-route dispatcher following the Phase 11 pattern.
-**Requirements**: TBD (SYAI-01..N — to be enumerated when speccing)
+**Requirements**: SYAI-01, SYAI-02, SYAI-03, SYAI-04, SYAI-05, SYAI-06, SYAI-07, SYAI-08, SYAI-09
 **Depends on:** Phase 11 (PageHeader / FooterMeta / route dispatcher pattern), Phase 12 (preview environment for safer iteration on stub-replacement pages)
 **Success Criteria** (what must be TRUE):
   1. `#/syai-meetups` route renders the real `MeetupsPage` component (no longer the Phase 10 stub)
@@ -226,7 +226,14 @@ Plans:
   5. Other section routes (`hackathons`, `sidequests`, `hobbies`, `links`) still render the Phase 10 stub — no regression
   6. `bun run build` exits 0
 **Source todo:** `.planning/todos/pending/syai-meetups-page-from-design-kit.md`
-**Plans:** 0 plans
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 13 to break down)
+**Wave 1**
+- [ ] 13-01-PLAN.md — Extend MeetupItem + Speaker types, replace SYAI_ITEMS with 11 real entries (incl. March 2025 Resume Roasting), append SYAI-01..09 to REQUIREMENTS.md
+
+**Wave 2** *(blocked on Wave 1 — consumes new MeetupItem + Speaker types)*
+- [ ] 13-02-PLAN.md — Port Meetups.jsx Layout B into 6 typed components (MeetupImage / MeetupRibbon / SpeakersBlock / MeetupCard / MeetupLightbox / MeetupsPage)
+
+**Wave 3** *(blocked on Waves 1 + 2 — wires the page into the dispatcher)*
+- [ ] 13-03-PLAN.md — Add syai-meetups branch to app/page.tsx dispatcher, create public/meetups/ directory, blocking human-verify checkpoint
