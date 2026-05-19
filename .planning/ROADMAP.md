@@ -250,7 +250,7 @@ Plans:
   4. LinkedIn URLs are added for speakers whose profile we have (Lim Mei Yu, Assel MT, Dr Ferdin Joe John Joseph, etc.); `in ↗` chip hides when URL is absent
   5. No layout / component changes — purely a `SYAI_ITEMS` data refresh
 **Source:** `.planning/research/portfolio_info/` text files + curation pass
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 14 to break down)
+- [ ] 14-01-PLAN.md — Remap SYAI_ITEMS to real past meetups + verbatim desc + real speakers; enumerate SYAI-CONTENT-01..03 in REQUIREMENTS.md
