@@ -8,6 +8,7 @@ import TerminalContent from './components/TerminalContent';
 import HomePage from './components/HomePage';
 import StubSectionPage from './components/StubSectionPage';
 import WorkPage from './components/WorkPage';
+import MeetupsPage from './components/MeetupsPage';
 import NotFoundPage from './components/NotFoundPage';
 import FloatingMic from './components/FloatingMic';
 import VoiceOverlay from './components/VoiceOverlay';
@@ -59,6 +60,8 @@ export default function Home() {
           ) : section ? (
             section.id === 'work-experience' ? (
               <WorkPage section={section} />
+            ) : section.id === 'syai-meetups' ? (
+              <MeetupsPage section={section} />
             ) : (
               <StubSectionPage section={section} />
             )
