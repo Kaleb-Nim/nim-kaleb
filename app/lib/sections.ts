@@ -156,96 +156,34 @@ export const SYAI_ITEMS: MeetupItem[] = [
   {
     num: 11, date: 'Nov 2025',
     title: 'AI Learning Journey with Alibaba Cloud (SYAI x YouthTechSG)',
-    desc: `🚀 Thank you for joining us at the November AI Monthly Meetup!
-
-Thank you to everyone who joined us on 1 November 2025 at for our Monthly AI Meetup, organised in collaboration with YouthTechSG. The afternoon was filled with insightful conversations, hands-on learning and meaningful connections around AI and cloud technologies.
-
-🙏 A special thank you to Dr Ferdin Joe John Joseph from Alibaba Cloud for leading the workshop "AI Learning Journey with Alibaba Cloud" and sharing practical guidance on building AI skills, navigating cloud tools and starting a career in tech.
-We would also like to thank *SCAPE SG for the venue and YouthTechSG.sg for partnering with us to empower youth in AI.
-
-🧾 What Went Down:
-• Workshop: Introduction to AI, Alibaba Cloud's AI ecosystem and real-world applications
-• Focus Group Discussion: "How to start your AI/tech journey"
-• Networking: Students and young professionals connected over shared interests in AI
-• Certification: Participants received a micro-credential from Alibaba Cloud
-
-📸 Photos & Highlights:
-Moments from the workshop, group sharing and discussions are featured above.
-
-📍 Next Meetup:
-Stay tuned for details on our upcoming AI Monthly Meetup!
-
-💭 Tell Us What You Thought:
-What was your biggest takeaway from this session? Share your reflections with us and help shape future meetups.
-
-Till next time, keep learning, keep building and see you at the next AIMM.`,
+    desc: "Workshop with Dr Ferdin Joe John Joseph (Alibaba Cloud) on building AI skills with the Alibaba Cloud ecosystem — practical tooling, a focus-group discussion on starting an AI career, and an Alibaba Cloud micro-credential for participants. Co-organised with YouthTechSG at *SCAPE.",
     speakers: [
       { name: 'Dr Ferdin Joe John Joseph', role: 'Alibaba Cloud — Workshop Lead', linkedin: '' },
     ],
     hero: '/meetups/2025-11-alibaba-cloud/hero.jpg',
-    gallery: [null, null, null],
+    gallery: [
+      '/meetups/2025-11-alibaba-cloud/g1.jpg',
+      '/meetups/2025-11-alibaba-cloud/g2.jpg',
+      '/meetups/2025-11-alibaba-cloud/g3.jpg',
+    ],
   },
   {
     num: 10, date: 'Sep 2025',
     title: 'AI in Job Markets: Building Future-Ready Skills (Fireside)',
-    desc: `🚀 THANK YOU for Joining Us at the September AI Meetup! 💡✨
-
-Thank you to everyone who joined us for the 9th Monthly AI Meetup on 20 September 2025 at SCAPE Orchard. The afternoon was filled with thought-provoking insights, interactive conversations, and meaningful networking around the future of AI in education and youth employability.
-
-🙏🏻 A special thank you to Assel MT, EdTech entrepreneur and founder of EDUTech Future, for leading our Fireside Chat and sharing her invaluable perspectives on AI's role in transforming education and preparing youth for the future job market.
-🚀We also thank *SCAPE SG for the collaborative space for collaboration with YouthTechSG
-
-🎧 What Went Down:
-🔥 Fireside Chat - " AI in Job Markets: Building Future-Ready Skills" with Assel Mussagaliyeva Tang
-❓ Interactive Q&A - Participants asked engaging questions on bridging academia and industry
-🤝 Networking - Students, educators, and innovators connected over shared interests in AI and EdTech
-
-From aspiring students to experienced educators, the community came together to explore how AI is shaping learning and future careers.
-
-📸 Photos and Highlights:
-Snapshots from the Fireside Chat and group photo will be shared soon on our socials!
-
-📅 Next Meetup:
-Stay tuned for the upcoming AI Meetup at google HQ!
-
-💬 Tell Us What You Thought:
-What was your key takeaway from the Fireside Chat? Share your reflections and help us shape future meetups.
-
-Till next time, keep learning, keep building, and we'll see you at the next AI Monthly Meetup! 💡🌍`,
+    desc: "Fireside chat with Assel Mussagaliyeva Tang (Founder, EDUTech Future) on how AI is reshaping education and what 'future-ready' actually means for students entering the job market. 9th edition of the monthly meetup, held at *SCAPE Orchard.",
     speakers: [
       { name: 'Assel Mussagaliyeva Tang', role: 'Founder, EDUTech Future', linkedin: '' },
     ],
     hero: '/meetups/2025-09-fireside/hero.jpg',
-    gallery: [null, null],
+    gallery: [
+      '/meetups/2025-09-fireside/g1.jpg',
+      '/meetups/2025-09-fireside/g2.jpg',
+    ],
   },
   {
     num: 9, date: 'Aug 2025',
     title: 'AI Startup Pitching (SMU Greenhouse)',
-    desc: `🚀 THANK YOU for Joining Us at the August AI Meetup! 💡✨
-
-Thank you to everyone who joined us for the 8th Monthly AI Meetup on 30 August 2025 at SMU Greenhouse. The afternoon was filled with inspiring startup pitches, exciting live demos, and valuable connections across the community.
-
-🙏🏻 A special thank you to SMU Artificial Intelligence Club for hosting us and providing such a supportive space for collaboration with YouthTechSG
-🚀 We also want to thank all the startups and student founders who pitched and demoed their projects. Your innovation and energy made this edition unforgettable.
-Hyperpod AI | 'Sup | AkitaVault | Nudge | Rehabify | OpenMentor
-
-🎧 What Went Down:
-🚀 AI Startup Pitching – Youth-led founders and innovators presented their bold ideas and projects
-💻 Live Demos and Insights – Attendees explored real SaaS products and heard the stories behind their development
-🤝 Networking and Collaboration – Builders, creators, and young professionals connected to share ideas and spark opportunities
-
-From students to professionals, the community came together to celebrate the future of youth-driven AI innovation.
-
-📸 Photos and Highlights:
-Our August group photo captured the collaborative spirit of the day. More snapshots and special demo moments will be shared soon on our socials.
-
-📅 Next Meetup: 20 September 2025
-Mark your calendars for the September AI Meetup. We will be back with more interactive sessions and fresh AI content. Stay tuned for the full details.
-
-💬 Tell Us What You Thought:
-Did you enjoy the startup pitches or a particular demo that stood out? Share your feedback and help us shape future meetups.
-
-Till next time, stay curious, stay creative, and we'll see you at the next AI Monthly Meetup! 💡🌍`,
+    desc: "Six youth-founded AI startups pitched and demoed at SMU Greenhouse — Hyperpod AI, 'Sup, AkitaVault, Nudge, Rehabify, and OpenMentor. Hosted by SMU Artificial Intelligence Club. Live SaaS demos plus Q&A with the founders behind them.",
     speakers: [
       { name: 'Hyperpod AI', role: 'Founder / Demo', linkedin: '' },
       { name: "'Sup",        role: 'Founder / Demo', linkedin: '' },
@@ -256,136 +194,63 @@ Till next time, stay curious, stay creative, and we'll see you at the next AI Mo
       { name: 'SMU AI Club', role: 'Host — SMU Greenhouse', linkedin: '' },
     ],
     hero: '/meetups/2025-08-startup-pitching/hero.jpg',
-    gallery: [null, null, null, null],
+    gallery: [
+      '/meetups/2025-08-startup-pitching/g1.jpg',
+      '/meetups/2025-08-startup-pitching/g2.jpg',
+      '/meetups/2025-08-startup-pitching/g3.jpg',
+      '/meetups/2025-08-startup-pitching/g4.jpg',
+    ],
   },
   {
     num: 8, date: 'Jul 2025',
     title: 'SG60 Edition — Multilingual Voice AI',
-    desc: `🇸🇬 THANK YOU for Celebrating SG60 with Us at the July AI Meetup! 🎙️🔊
-
-What a National Day edition! A massive thank you to everyone who joined our July Monthly AI Meetup. The vibes were patriotic, the conversations were deep, and the tech was next-level. ❤️🤍✨
-
-🎧 What Went Down:
-🗣️ A*STAR's MERaLiON team shared their journey building multilingual voice models in Singlish, Mandarin, Malay, Tamil, and more
-🧠 A deep dive into ElevenLabs V3 and how to spin up your own conversational AI with text-to-speech
-📱 A special preview of MerMurs, our broken-telephone-style voice game powered by multilingual AI
-💬 Open discussions on the future of local voice tech and language diversity in AI
-
-From curious first-timers to experienced builders, everyone came together to learn, question, and celebrate Singapore's unique voice 🗣️ in the world of AI. The energy in the room was unforgettable.
-
-📸 Photos & Highlights
-Our SG60 group photo captured the spirit of the day. More snapshots and special moments are coming soon on our socials!
-
-🙏 Special Thanks
-Huge thanks to Tarun Kumar from A*STAR - Agency for Science, Technology and Research and Thorsten Schaeff from ElevenLabs for sharing expertise and elevating the session.
-
-💬 Tell Us What You Thought
-Loved the voice tech content or the MerMurs sneak peek? Drop your feedback and help us shape future meetups.
-
-Till next time, stay curious, stay creative, and we'll see you at the next AI Monthly Meetup! 💡🌍`,
+    desc: "SG60 National Day edition. Tarun Kumar (A*STAR MERaLiON) on building multilingual voice models for Singlish, Mandarin, Malay, and Tamil; Thorsten Schaeff (ElevenLabs) on V3 and conversational TTS. We also previewed MerMurs — our broken-telephone voice game built on multilingual AI.",
     speakers: [
       { name: 'Tarun Kumar',      role: 'A*STAR — MERaLiON team', linkedin: '' },
       { name: 'Thorsten Schaeff', role: 'ElevenLabs',              linkedin: '' },
     ],
     hero: '/meetups/2025-07-sg60-multilingual/hero.jpg',
-    gallery: [null, null, null],
+    gallery: [
+      '/meetups/2025-07-sg60-multilingual/g1.jpg',
+      '/meetups/2025-07-sg60-multilingual/g2.jpg',
+      '/meetups/2025-07-sg60-multilingual/g3.jpg',
+    ],
   },
   {
     num: 7, date: 'Jun 2025',
     title: 'Vibe Coding with Claude Code (MicroSaaS in 45 min)',
-    desc: `🌈 THANK YOU for Vibing with Us at the June AI Meetup! 💻🎶
-
-What a session! A huge shoutout to everyone who vibed with us at our June Monthly AI Meetup. The energy was electric, and the vibes were immaculate. ✨
-
-🎧 What Went Down:
-💻 Vibe Coding with Claude Code to build MicroSaaS projects in just 45 minutes
-🧠 Live demos of AI-assisted coding that blended chill and productivity
-🌐 New friends, cool tech, and great conversations all in one space
-
-From first-time coders to seasoned hackers, it was inspiring to see everyone dive in and create together. The rhythm of keystrokes, laughs, and learning made this meetup something special. 🎵⚙️
-
-📅 Next Meetup: 26 July 2025
-Get ready for a National Day Edition. We're diving into multilingual AI and voice synthesis. 🇸🇬🗣 Stay tuned!
-
-Huge shoutout to everyone who stepped up and shared their builds. You made it awesome. 😝😝
-
-💬 Got thoughts? Let us know what you loved or what we can improve. We're building this with you.
-
-🔥 6 more AI meetups coming in 2025. Let's keep growing this together.`,
+    desc: "I ran a live 'vibe coding' session — building a MicroSaaS end-to-end with Claude Code in 45 minutes, then opening the floor for attendees to ship their own. Mix of first-time coders and seasoned hackers, all walking out with something built.",
     speakers: [
       { name: 'Kaleb Nim', role: 'Host — SYAI', linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
     ],
     hero: '/meetups/2025-06-vibe-coding/hero.jpg',
-    gallery: [null, null],
+    gallery: [
+      '/meetups/2025-06-vibe-coding/g1.jpg',
+    ],
   },
   {
     num: 6, date: 'Apr 2025',
     title: 'AI Meets Ambition — Youth Startup Pitches',
-    desc: `⚡️ AI Meets Ambition, April AI Meetup Recap! 💡🚀
-
-That's a wrap on our April AI Monthly Meetup with Singapore Youth AI at *SCAPE and it was such a vibe. From bold startup pitches to live demos, the whole place was buzzing with ideas and energy.
-
-⚡️ What went down:
-👀 Youth-led AI products live in action, from health tools to smart productivity hacks
-🎙️ Honest and unfiltered stories about the startup journey
-🤝 Chill convos, unexpected collabs, and new friends made (hello, LinkedIn requests 👋)
-
-Whether you were pitching, supporting a friend, or just came to explore the scene, we hope you left inspired and maybe with a few new ideas of your own.
-
-Huge shoutout to everyone who stepped up and shared their builds. You made it awesome.
-
-💬 Got thoughts? Let us know what you loved or what we can improve. We're building this with you.
-
-🔥 8 more AI meetups coming in 2025. Let's keep growing this together.`,
+    desc: "Youth-led AI startup pitches at *SCAPE — health tools, productivity products, and unfiltered stories from the founder journey. The room skewed toward first-time pitchers, which made the honest Q&A the best part of the afternoon.",
     speakers: [
       { name: 'TBD', role: 'Youth founders — pitch lineup', linkedin: '' },
     ],
     hero: '/meetups/2025-04-pitches/hero.jpg',
-    gallery: [null, null],
+    gallery: [
+      '/meetups/2025-04-pitches/g1.jpg',
+      '/meetups/2025-04-pitches/g2.jpg',
+    ],
   },
   {
     num: 5, date: 'Mar 2025',
     title: 'Networking & Resume Roasting (SYAI x CYS)',
-    desc: `🚀 Calling all AI enthusiasts!
-
-After an exciting February session, we're back with another Monthly AI Meetup, jointly organised by Cyber Youth Singapore (CYS) and SGYouthAI (SYAI)! This time, we're diving into Networking & Resume "Roasting" — perfect for those looking to refine their resumes and make meaningful career connections!
-
-📅 Date: 22 March 2025, Saturday
-⏰ Time: 2:00 PM - 5:00 PM
-📍 Location: *SCAPE, 2 Orchard Link, Singapore 237978
-
-✨ What's in Store?
- • 💼 Live Resume Roasting – Get honest, constructive feedback from Lim Mei Yu, Founder of Get Ahead and a seasoned talent acquisition professional (Meta, Google, etc.), helping you stand out in the job market.
- • 📢 Open Resume Review Session – Willing attendees can submit their resumes for a live critique on the projector, allowing everyone to learn from real-world examples.
- • 🤝 Networking with a Twist – Your resume isn't just a job application — it's a conversation starter. Meet peers, exchange insights, and potentially connect with your next career opportunity!
- • 💬 Career & Hiring Q&A – Learn what recruiters really look for, how to position yourself for AI & tech roles, and gain insider hiring tips.
-
-🎯 Who Should Attend?
-✔️ University & Polytechnic students
-✔️ Young professionals exploring AI & tech careers
-✔️ Anyone looking to refine their resume & expand their network
-
-🌟 Why Attend?
-✅ Honest, actionable resume feedback from an industry recruiter
-✅ Learn from real-world resume critiques in a supportive environment
-✅ Expand your network within the AI & tech community
-
-🧋 Bring a Friend, Get Bubble Tea!
-Good things are better when shared! Bring a friend along to the meetup, and both of you will enjoy a FREE Bubble Tea on us! Just make sure your friend signs up and attends — you'll receive your BBT during the event!
-
-🔗 Sign up here: https://forms.gle/FpKePiMijNLDtudV6
-(Successful registrants will receive a confirmation email before the event.)
-
-📩 Want to have your RESUME REVIEWED? Indicate it in the registration form!
-
-🤝 Network • Learn • Grow`,
+    desc: "Live resume 'roasting' with Lim Mei Yu (Founder, Get Ahead; ex-Meta, ex-Google) — attendees submitted their CVs for on-projector critique, plus a recruiter Q&A on positioning for AI/tech roles. Co-organised with Cyber Youth Singapore at *SCAPE.",
     speakers: [
       { name: 'Lim Mei Yu', role: 'Founder, Get Ahead (ex-Meta, ex-Google)', linkedin: '' },
       { name: 'CYS Rep',    role: 'Cyber Youth Singapore',                   linkedin: '' },
     ],
     hero: '/meetups/2025-03-resume-roasting/hero.jpg',
     gallery: [null, null, null],
-    signup: 'https://forms.gle/FpKePiMijNLDtudV6',
   },
   {
     num: 4, date: 'Feb 2025',
@@ -401,60 +266,18 @@ Good things are better when shared! Bring a friend along to the meetup, and both
   {
     num: 3, date: 'Jan 2025',
     title: 'Fireside Chat with Dr Mukundan A P (SYAI x CYS)',
-    desc: `I had the absolute pleasure of moderating the fireside chat at the Monthly AI Meetup, a collaborative event organized by Cyber Youth Singapore and Singapore Youth AI.
-
-A special thank you to Mukundan A P for taking the time to share your invaluable insights regarding AI and engage with our community.
-
-I love that these meetups foster important conversations in Singapore's growing AI ecosystem, bringing together young passionate minds and creating opportunities for knowledge exchange.
-Looking forward to more enriching sessions ahead!
-
----
-
-🌟 Empowering the Next Generation with AI 🌟 — by Dr. Mukundan A P (1st)
-
-This weekend, I had the incredible opportunity to be the speaker at the #AI #Monthly #Meetup 2025 – Session 1 on 26th Jan 25 at Hilliview CC, #Singapore, hosted by #SGYouthAI x #CyberYouthSingapore. The #fireside chat was all about preparing young professionals and students to collaborate with AI and leverage its power for their careers and businesses.
-
-💡 Key Discussion Highlights:
-🔹 AI's role in software engineering & data science – how it's shaping industries.
-🔹 AI & Productivity – automating tasks to let humans focus on creativity & strategy.
-🔹 Champion Group's transformation – using AI to streamline workflows.
-🔹 AI & SDLC Automation – integrating AI to optimize deployment, monitoring, security, compliance, and creating self-healing software.
-🔹 Funding & Business Strategy for AI startups – taking ideas to market with impact.
-
-🔹 The most important takeaway?
-
-➡️ Even if you are a great person, your product must add value!
-The energy in the room was inspiring – from students exploring AI careers to entrepreneurs discussing how AI can revolutionize business and software development. Seeing young minds question, challenge, and innovate reinforces the importance of mentorship and community-driven learning.
-A huge thank you to the organizers, participants, and fellow AI enthusiasts for making this session a success! 🙌 Excited to continue these discussions and see how AI evolves in 2025.
-
-📢 How do you see AI transforming your industry? Let's discuss in the comments!`,
+    desc: "I moderated the fireside with Dr Mukundan A P (Champion Group) on practical AI in the SDLC — automation across deployment, monitoring, and security, plus how funded startups actually take AI products to market. Session 1 of the 2025 series, co-organised with Cyber Youth Singapore at Hillview CC.",
     speakers: [
       { name: 'Dr Mukundan A P', role: 'Champion Group — Fireside Speaker', linkedin: '' },
       { name: 'Kaleb Nim',       role: 'Moderator — SYAI',                  linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
     ],
     hero: '/meetups/2025-01-fireside/hero.jpg',
-    gallery: [null, null],
+    gallery: [],
   },
   {
     num: 2, date: 'Dec 2024',
     title: 'Claude Code Workshop (SYAI x YouthTechSG)',
-    desc: `I thought I knew Claude Code. Then I had to teach it to 60 people.
-
-Yesterday's workshop, co-organised by Singapore Youth AI and YouthTechSG was a reminder that "I use this every day" and "I can explain this to a beginner" are completely different skill levels.
-
-We covered the fundamentals of how Claude Skills, hooks, and subagents actually work. Each one looked simple on my screen at home. Each one required 3x more clarity when 60 people needed to follow along.
-
-Some mishaps at the workshop:
-→ Simply distributing API keys to 60 people is a workflow nobody documents
-→ Claude Code setup on Windows was pure debugging hell
-→ Content taught might have been too technical for participants who just started using Claude code
-
-Big shout-out to my good friends Jesse Sng, Javerine Tan, Darwin Ho, Moiz Khambhati, Hu Bowen and many more for stepping in as mentors and unblocking participants throughout the session — the workshop wouldn't have run half as smoothly without you.
-
-Sharing the full workshop slides here for anyone who wants to dive in or run their own session: https://lnkd.in/g_GVUYxE
-Slides: https://syai-claude-workshop.vercel.app/1
-
-Round 2 is already on my mind — I want to rework the content and make the next workshop even more value-packed for participants. If you're curious about Claude Code, or you're an organisation/community keen to co-host the next one, let's talk.`,
+    desc: "I taught Claude Code to 60 people — Skills, hooks, and subagents from the ground up, co-organised with YouthTechSG. The hard lesson: 'I use this every day' and 'I can teach it' are completely different skill levels. Full slides at https://syai-claude-workshop.vercel.app/1.",
     speakers: [
       { name: 'Kaleb Nim',       role: 'Workshop Lead — SYAI', linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
       { name: 'Jesse Sng',       role: 'Mentor',               linkedin: '' },
