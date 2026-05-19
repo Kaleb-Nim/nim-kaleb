@@ -205,6 +205,8 @@ async function main() {
         tagline: '',
         thumbnail_url: card.image_url ?? '',
         thumbnail_local: localImg,
+        date: null,
+        date_iso: null,
         event_name: null,
         event_url: null,
         organizer: null,

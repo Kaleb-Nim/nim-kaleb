@@ -21,6 +21,8 @@ type Project = {
   tagline: string;
   thumbnail_url: string;
   thumbnail_local: string | null;
+  date: string | null;          // human "MMM YYYY" (e.g. "Jan 2024")
+  date_iso: string | null;      // ISO 8601 timestamp from devpost
   event_name: string | null;
   event_url: string | null;
   organizer: string | null; // derived: usually the hackathon host (best-effort from event name)
@@ -139,6 +141,20 @@ function extractBuiltWith(h: string): string[] {
   return matchAll(sec[1], /<span class="cp-tag[^"]*">([\s\S]*?)<\/span>/g).map(stripTags).filter(Boolean);
 }
 
+function extractDate(h: string): { iso: string | null; pretty: string | null } {
+  // First <time datetime="..."> on the page is the project's earliest "started" update,
+  // which is the most reliable proxy for hackathon date.
+  const isos = matchAll(h, /<time[^>]*datetime="([^"]+)"/g);
+  if (isos.length === 0) return { iso: null, pretty: null };
+  // Pick the earliest (timeline order = earliest first on devpost update feed but be defensive).
+  const sorted = [...isos].sort();
+  const iso = sorted[0];
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return { iso, pretty: null };
+  const pretty = d.toLocaleString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+  return { iso, pretty };
+}
+
 function extractGallery(h: string): string[] {
   const sec = h.match(/<div id="gallery">([\s\S]*?)<\/article>/);
   if (!sec) return [];
@@ -225,6 +241,7 @@ async function main() {
       const built_with = extractBuiltWith(h);
       const description_md = extractDescription(h);
       const gallery = extractGallery(h);
+      const dateInfo = extractDate(h);
       const is_winner = prizes.length > 0;
       const thumbnail_local = thumbnail_url ? await downloadImage(thumbnail_url, slug) : null;
 
@@ -235,6 +252,8 @@ async function main() {
         tagline,
         thumbnail_url,
         thumbnail_local,
+        date: dateInfo.pretty,
+        date_iso: dateInfo.iso,
         event_name: event.name,
         event_url: event.url,
         organizer: event.name, // best-effort; devpost rarely separates host from event
