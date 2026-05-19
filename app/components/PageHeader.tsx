@@ -13,6 +13,37 @@ const pgStyles = {
   goldGlow:   '0 0 4px rgba(255,215,0,0.45), 0 0 8px rgba(255,215,0,0.22)',
 };
 
+// Parses `[label](href)` inline markdown links — used only for the intro line.
+function renderIntroWithLinks(text: string) {
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const out: Array<string | React.ReactElement> = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    const [, label, href] = m;
+    out.push(
+      <a
+        key={`${href}-${m.index}`}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: pgStyles.gold,
+          textShadow: pgStyles.goldGlow,
+          textDecoration: 'underline',
+          fontWeight: 700,
+        }}
+      >
+        {label}
+      </a>,
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
 export default function PageHeader({ section }: { section: Section }) {
   return (
     <div style={{ fontFamily: '"Anonymous Pro", monospace' }}>
@@ -59,7 +90,7 @@ export default function PageHeader({ section }: { section: Section }) {
           lineHeight: 1.55,
           maxWidth: 620,
         }}>
-          {section.intro}
+          {renderIntroWithLinks(section.intro)}
         </div>
       )}
 

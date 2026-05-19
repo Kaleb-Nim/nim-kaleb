@@ -169,7 +169,6 @@ export const SYAI_ITEMS: MeetupItem[] = [
     gallery: [
       '/meetups/2026-05-claude-code/g1.jpg',
       '/meetups/2026-05-claude-code/g2.jpg',
-      '/meetups/2026-05-claude-code/g3.jpg',
     ],
   },
   {
@@ -407,7 +406,7 @@ export const SECTIONS: Section[] = [
     desc: 'AIMM — the monthly AI meetup I head at Singapore Youth AI',
     title: './syai-meetups — running SYAI\'s monthly AI meetup',
     intro:
-      "I head AIMM — SYAI's monthly AI meetup — end-to-end: content strategy, speaker outreach, venue, publicity, structure. 11 events to date, each drawing 30–60 students from polytechnics, universities, and JCs. Format mixes hands-on workshops, fireside chats with industry leaders, and open networking.",
+      "I head AIMM — [SYAI](https://sgyouthai.org)'s monthly AI meetup — end-to-end: content strategy, speaker outreach, venue, publicity, structure. 11 events to date, each drawing 30–60 students from polytechnics, universities, and JCs. Format mixes hands-on workshops, fireside chats with industry leaders, and open networking.",
     items: SYAI_ITEMS,
     footer: '[11 sessions] · 30–60 attendees per event · open to all',
   },
