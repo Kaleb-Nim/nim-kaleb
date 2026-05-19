@@ -109,8 +109,8 @@ Replace the Phase 10 stub at `#/syai-meetups` with a rich, real-data meetups pag
 
 - [ ] `#/syai-meetups` no longer renders the Phase 10 stub copy ("this section is being finalised")
 - [ ] All entries in `SYAI_ITEMS` are real meetups (≥ 11, no fictional placeholders)
-- [ ] March 22 2025 Resume Roasting meetup is present with verbatim event copy + Lim Mei Yu speaker
-- [ ] Every meetup has at least one speaker entry rendered on the page
+- [ ] March 22 2025 Resume Roasting meetup is present with title + date + `forms.gle` sign-up link (verbatim long-form copy + full Lim Mei Yu speaker bio deferred to future content-population phase)
+- [ ] Every meetup has at least one speaker entry rendered on the page (placeholder `TBD` values acceptable in this phase; real speaker data populated in a follow-up phase)
 - [ ] Every meetup has a hero image OR renders a styled placeholder (never a browser broken-image icon)
 - [ ] Every meetup has at least one gallery thumbnail OR the gallery section is omitted gracefully
 - [ ] Tapping a gallery thumbnail on mobile (touch) opens the lightbox
