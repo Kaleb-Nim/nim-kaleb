@@ -4,14 +4,14 @@ milestone: v3.0
 milestone_name: Directory Home & Work Experience
 status: executing
 stopped_at: Completed 10-02-PLAN.md
-last_updated: "2026-05-18T06:51:56.409Z"
-last_activity: 2026-05-18 -- Phase 11 planning complete
+last_updated: "2026-05-19T04:30:10.767Z"
+last_activity: 2026-05-19 -- Phase 12 execution started
 progress:
-  total_phases: 2
-  completed_phases: 1
-  total_plans: 10
-  completed_plans: 8
-  percent: 80
+  total_phases: 4
+  completed_phases: 2
+  total_plans: 12
+  completed_plans: 10
+  percent: 83
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-18)
 
 **Core value:** Visitors can have a natural, human-sounding voice conversation with an AI clone of Kaleb that authentically represents his experience and personality.
-**Current focus:** Phase 10 — directory-home-routing-shell
+**Current focus:** Phase 12 — create-dev-branch-for-live-preview-environment-separate-from
 
 ## Current Position
 
-Phase: 11
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-05-18 -- Phase 11 planning complete
+Phase: 12 (create-dev-branch-for-live-preview-environment-separate-from) — EXECUTING
+Plan: 1 of 2
+Status: Executing Phase 12
+Last activity: 2026-05-19 -- Phase 12 execution started
 
 Progress: [██████████] 100%
 
@@ -55,6 +55,10 @@ Progress: [██████████] 100%
 | Phase 10 P08 | 15min | 2 tasks | 3 files |
 
 ## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 12 added: Create dev branch for live preview environment separate from production kalebnim.dev
 
 ### Decisions (carried)
 
