@@ -130,6 +130,25 @@ flowchart TB
 
 ---
 
+## Branching & deployment
+
+Three-tier git workflow, each branch type maps to a distinct Vercel deployment:
+
+| Branch                 | Deploys to                              | URL                                                            | Notes                                                              |
+| ---------------------- | --------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `main`                 | **Production**                          | https://kalebnim.dev · https://nim-kaleb.vercel.app            | Push to `main` ⇒ production deploy. Protected — merge via PR only. |
+| `dev`                  | **Stable preview** (long-lived)         | https://nim-kaleb-git-dev-kaleb-nims-projects.vercel.app       | Push to `dev` ⇒ auto-deploys to the same stable URL.               |
+| `feat/*`, `fix/*`, etc | **Ephemeral PR preview** (per branch)   | `nim-kaleb-git-<branch>-kaleb-nims-projects.vercel.app`        | Each push gets a unique preview URL via Vercel Git Integration.    |
+
+**Working flow:**
+- Land production-ready work on `main` (via PR).
+- Use `dev` for shareable in-progress work and integration testing — no impact on production.
+- Use short-lived feature branches for isolated PR previews.
+
+**Environment variables** are scoped per environment in Vercel: Production vars live in the Production scope, `dev` and PR previews read from the Preview scope. See [Environment variables](#environment-variables) below for the keys each scope needs.
+
+---
+
 ## Tech stack
 
 ![Tech stack](./public/readme/tech-stack.png)
