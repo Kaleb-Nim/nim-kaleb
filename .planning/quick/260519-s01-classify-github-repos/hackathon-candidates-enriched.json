@@ -149,28 +149,118 @@
     },
 
     {
-      "slug": "lifehack-2023",
+      "slug": "sutdwth23",
       "project_url": null,
-      "title": "LifeHack 2023 (TODO: real project name)",
-      "tagline": "streamlit",
+      "title": "SUTDWTH23 (TODO: real project name)",
+      "tagline": null,
       "thumbnail_url": null,
       "thumbnail_local": null,
-      "event_name": "LifeHack 2023",
-      "date": "2023-05-28",
+      "event_name": "SUTD What The Hack 2023",
+      "date": "2023-08-23",
+      "event_url": null,
+      "organizer": "SUTD",
+      "prizes": [],
+      "team": [
+        { "github": "kenJPG", "name": null },
+        { "github": "UltraRaptorYT", "name": "Soh Hong Yu" },
+        { "github": "vineesh12344", "name": null },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" }
+      ],
+      "built_with": [],
+      "description_md": "TODO — repo has no README. SUTD What The Hack 2023 submission.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": ["https://github.com/UltraRaptorYT/SUTDWTH23"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_owner": "UltraRaptorYT", "repo_created": "2023-08-23", "repo_pushed": "2023-08-28", "private": false, "needs_manual_review": true }
+    },
+
+    {
+      "slug": "sutdwth22-zoom-clone",
+      "project_url": null,
+      "title": "Zoom Clone",
+      "tagline": "WebRTC + PeerJS Zoom-clone built at SUTD What The Hack 2022",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "SUTD What The Hack 2022",
+      "date": "2022-12-18",
+      "event_url": null,
+      "organizer": "SUTD",
+      "prizes": [],
+      "team": [
+        { "github": "UltraRaptorYT", "name": "Soh Hong Yu" },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" },
+        { "github": "junnjiee", "name": null }
+      ],
+      "built_with": ["nodejs", "webrtc", "peerjs"],
+      "description_md": "A Zoom-clone built during SUTD What The Hack 2022 using WebRTC (PeerJS) for peer-to-peer video and a Node.js web server.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": ["https://github.com/UltraRaptorYT/SUTDWTH22"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_owner": "UltraRaptorYT", "repo_created": "2022-12-18", "repo_pushed": "2022-12-20", "private": false }
+    },
+
+    {
+      "slug": "batey",
+      "project_url": null,
+      "title": "Batey (TODO: real project name)",
+      "tagline": null,
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "TODO — unknown hackathon (private repo, no README)",
+      "date": "2022-09-09",
       "event_url": null,
       "organizer": null,
       "prizes": [],
-      "team": [{ "github": "Kaleb-Nim", "name": "Kaleb Nim" }],
-      "built_with": ["streamlit"],
-      "description_md": "TODO — repo is empty. Either abandoned submission or work happened elsewhere. Possibly worth deleting unless project details can be recovered.",
+      "team": [
+        { "github": "UltraRaptorYT", "name": "Soh Hong Yu" },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" }
+      ],
+      "built_with": [],
+      "description_md": "TODO — private repo with no README. Need to retrieve event and project details manually.",
       "gallery": [],
       "is_winner": false,
       "extra_links": [],
       "extra_images": [],
       "sources": ["github"],
-      "_meta": { "repo_created": "2023-05-28", "repo_pushed": "2023-05-28", "private": false, "empty": true, "needs_manual_review": true, "recommend_delete": true }
+      "_meta": { "repo_owner": "UltraRaptorYT", "repo_created": "2022-09-09", "repo_pushed": "2023-01-16", "private": true, "needs_manual_review": true }
+    },
+
+    {
+      "slug": "fit-hackathon-2021",
+      "project_url": null,
+      "title": "FIT Hackathon 2021 (TODO: real project name)",
+      "tagline": null,
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "FIT Hackathon 2021",
+      "date": "2021-12-09",
+      "event_url": null,
+      "organizer": "FIT (Future Innovators of Tomorrow?)",
+      "prizes": [],
+      "team": [
+        { "github": "UltraRaptorYT", "name": "Soh Hong Yu" },
+        { "github": "Xyl0w", "name": null },
+        { "github": "yn56yyh", "name": null },
+        { "github": "SaTayx", "name": null },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" }
+      ],
+      "built_with": [],
+      "description_md": "TODO — repo has no README. Kaleb's earliest hackathon entry on GitHub (Dec 2021).",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": ["https://github.com/UltraRaptorYT/FITHackathon"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_owner": "UltraRaptorYT", "repo_created": "2021-12-09", "repo_pushed": "2021-12-11", "private": false, "needs_manual_review": true }
     }
   ],
+
+  "_note_about_lifehack_2023": "The Kaleb-Nim/lifehack2023 empty repo IS the same hackathon as the existing 'cotton-pickers-eduplay' entry in hackathons.json — confirmed by the EduPlay README at UltraRaptorYT/EduPlay which says 'Repository contains hack for NUS Hackathon Lifehack 2023' and links to devpost.com/software/cotton-pickers-eduplay. The empty Kaleb-Nim/lifehack2023 repo is safe to delete; see merge below.",
+
 
   "github_repos_to_link_into_existing_devpost_entries": [
     {
@@ -191,6 +281,27 @@
       ],
       "merge_action": "append unique repo URLs into projects[slug=foodr-ihad3c].extra_links",
       "notes": "VERIFY first: SMU .Hack and .HACKathon may be different events — these repos could be a separate 2025 hackathon entry that deserves its own row instead of merging"
+    },
+    {
+      "merges_into_slug": "cotton-pickers-eduplay",
+      "repos": [
+        "https://github.com/UltraRaptorYT/EduPlay",
+        "https://github.com/Kaleb-Nim/lifehack2023"
+      ],
+      "merge_action": "append UltraRaptorYT/EduPlay to projects[slug=cotton-pickers-eduplay].extra_links; delete the empty Kaleb-Nim/lifehack2023 repo on GitHub",
+      "notes": "EduPlay README explicitly links to devpost.com/software/cotton-pickers-eduplay. NUS LifeHack 2023 submission. Team: UltraRaptorYT, junnjiee, vineesh12344, Kaleb-Nim."
+    },
+    {
+      "merges_into_slug": "a-brilliant-cobra-duel",
+      "repos": ["https://github.com/UltraRaptorYT/A-Brilliant-Cobra-Duel_NUS-Hack-Roll-2024"],
+      "merge_action": "append repo URL into projects[slug=a-brilliant-cobra-duel].extra_links",
+      "notes": "NUS HackAndRoll 2024 entry. Next.js project."
+    },
+    {
+      "merges_into_slug": "beacons-tether",
+      "repos": ["https://github.com/UltraRaptorYT/Tether"],
+      "merge_action": "append repo URL into projects[slug=beacons-tether].extra_links",
+      "notes": "Appetizer Hackathon project (Jan 2022). Team: UltraRaptorYT + 3 others incl. Kaleb-Nim."
     }
   ]
 }

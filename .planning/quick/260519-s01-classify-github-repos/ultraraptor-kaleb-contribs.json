@@ -1,0 +1,113 @@
+[
+{"repo":"A-Brilliant-Cobra-Duel_NUS-Hack-Roll-2024","contributors":["UltraRaptorYT","Kaleb-Nim"],"meta":{
+  "createdAt": "2024-01-20T04:29:00Z",
+  "description": "",
+  "diskUsage": 600,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "A-Brilliant-Cobra-Duel_NUS-Hack-Roll-2024",
+  "primaryLanguage": {
+    "name": "TypeScript"
+  },
+  "pushedAt": "2024-01-21T05:16:39Z",
+  "stargazerCount": 0,
+  "url": "https://github.com/UltraRaptorYT/A-Brilliant-Cobra-Duel_NUS-Hack-Roll-2024"
+}}
+,
+{"repo":"EduPlay","contributors":["UltraRaptorYT","Messiah64","Kaleb-Nim"],"meta":{
+  "createdAt": "2023-05-28T01:40:33Z",
+  "description": "",
+  "diskUsage": 202050,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "EduPlay",
+  "primaryLanguage": {
+    "name": "Python"
+  },
+  "pushedAt": "2023-09-19T06:16:51Z",
+  "stargazerCount": 0,
+  "url": "https://github.com/UltraRaptorYT/EduPlay"
+}}
+,
+{"repo":"SUTDWTH23","contributors":["kenJPG","UltraRaptorYT","vineesh12344","Kaleb-Nim"],"meta":{
+  "createdAt": "2023-08-23T01:08:38Z",
+  "description": "",
+  "diskUsage": 951,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "SUTDWTH23",
+  "primaryLanguage": {
+    "name": "Jupyter Notebook"
+  },
+  "pushedAt": "2023-08-28T05:50:11Z",
+  "stargazerCount": 0,
+  "url": "https://github.com/UltraRaptorYT/SUTDWTH23"
+}}
+,
+{"repo":"Batey","contributors":["UltraRaptorYT","Kaleb-Nim"],"meta":{
+  "createdAt": "2022-09-09T17:48:48Z",
+  "description": "",
+  "diskUsage": 55853,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": true,
+  "name": "Batey",
+  "primaryLanguage": {
+    "name": "Jupyter Notebook"
+  },
+  "pushedAt": "2023-01-16T08:36:57Z",
+  "stargazerCount": 0,
+  "url": "https://github.com/UltraRaptorYT/Batey"
+}}
+,
+{"repo":"SUTDWTH22","contributors":["UltraRaptorYT","Kaleb-Nim","junnjiee"],"meta":{
+  "createdAt": "2022-12-18T16:25:36Z",
+  "description": "",
+  "diskUsage": 37941,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "SUTDWTH22",
+  "primaryLanguage": {
+    "name": "Python"
+  },
+  "pushedAt": "2022-12-20T08:26:03Z",
+  "stargazerCount": 2,
+  "url": "https://github.com/UltraRaptorYT/SUTDWTH22"
+}}
+,
+{"repo":"Tether","contributors":["UltraRaptorYT","timothyckl","Xyl0w","Kaleb-Nim"],"meta":{
+  "createdAt": "2022-01-08T15:24:45Z",
+  "description": "",
+  "diskUsage": 89330,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "Tether",
+  "primaryLanguage": {
+    "name": "JavaScript"
+  },
+  "pushedAt": "2022-01-17T17:07:43Z",
+  "stargazerCount": 1,
+  "url": "https://github.com/UltraRaptorYT/Tether"
+}}
+,
+{"repo":"FITHackathon","contributors":["UltraRaptorYT","Xyl0w","yn56yyh","SaTayx","Kaleb-Nim"],"meta":{
+  "createdAt": "2021-12-09T06:46:12Z",
+  "description": "",
+  "diskUsage": 4518,
+  "isArchived": false,
+  "isFork": false,
+  "isPrivate": false,
+  "name": "FITHackathon",
+  "primaryLanguage": {
+    "name": "HTML"
+  },
+  "pushedAt": "2021-12-11T07:12:36Z",
+  "stargazerCount": 1,
+  "url": "https://github.com/UltraRaptorYT/FITHackathon"
+}}
+]
