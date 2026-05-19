@@ -86,6 +86,13 @@ Requirements for milestone v3.0: Directory Home & Work Experience.
 - [x] **MIG-02**: Starfield + Terminal window chrome (860px max, 10px radius, macOS dots) are reused from the existing implementation
 - [x] **MIG-03**: `prefers-reduced-motion` disables typewriter / fade-in animations site-wide
 
+## v3.0.1 Requirements — Dev Preview Environment (Phase 12)
+
+- [ ] **DEV-01**: Long-lived `dev` branch exists on `origin`, branched from `main`
+- [ ] **DEV-02**: Pushes to `dev` deploy to a stable Vercel preview URL (custom subdomain `dev.kalebnim.dev` if attainable, otherwise the Vercel `git-dev` branch alias) — production deploys from `main` are unaffected
+- [ ] **DEV-03**: Vercel Preview environment has the runtime env vars needed for the deployed site to function (at minimum `OPENAI_API_KEY`); no secrets are committed to the repo
+- [ ] **DEV-04**: README documents the three-tier branching/deploy model (`main` = production, `dev` = stable preview, feature branches = ephemeral PR previews) and lists the dev preview URL
+
 ## v3.1+ Requirements
 
 Deferred to future release.
