@@ -154,7 +154,26 @@ export const WORK_ITEMS: WorkItem[] = [
 
 export const SYAI_ITEMS: MeetupItem[] = [
   {
-    num: 11, date: 'Nov 2025',
+    num: 11, date: 'May 2026',
+    title: 'Claude Code Workshop (SYAI x YouthTechSG)',
+    desc: "I taught Claude Code to 60 people — Skills, hooks, and subagents from the ground up, co-organised with YouthTechSG. The hard lesson: 'I use this every day' and 'I can teach it' are completely different skill levels. Full slides at https://syai-claude-workshop.vercel.app/1.",
+    speakers: [
+      { name: 'Kaleb Nim',       role: 'Workshop Lead — SYAI', linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
+      { name: 'Jesse Sng',       role: 'Mentor',               linkedin: '' },
+      { name: 'Javerine Tan',    role: 'Mentor',               linkedin: '' },
+      { name: 'Darwin Ho',       role: 'Mentor',               linkedin: '' },
+      { name: 'Moiz Khambhati',  role: 'Mentor',               linkedin: '' },
+      { name: 'Hu Bowen',        role: 'Mentor',               linkedin: '' },
+    ],
+    hero: '/meetups/2026-05-claude-code/hero.jpg',
+    gallery: [
+      '/meetups/2026-05-claude-code/g1.jpg',
+      '/meetups/2026-05-claude-code/g2.jpg',
+      '/meetups/2026-05-claude-code/g3.jpg',
+    ],
+  },
+  {
+    num: 10, date: 'Nov 2025',
     title: 'AI Learning Journey with Alibaba Cloud (SYAI x YouthTechSG)',
     desc: "Workshop with Dr Ferdin Joe John Joseph (Alibaba Cloud) on building AI skills with the Alibaba Cloud ecosystem — practical tooling, a focus-group discussion on starting an AI career, and an Alibaba Cloud micro-credential for participants. Co-organised with YouthTechSG at *SCAPE.",
     speakers: [
@@ -168,7 +187,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 10, date: 'Sep 2025',
+    num: 9, date: 'Sep 2025',
     title: 'AI in Job Markets: Building Future-Ready Skills (Fireside)',
     desc: "Fireside chat with Assel Mussagaliyeva Tang (Founder, EDUTech Future) on how AI is reshaping education and what 'future-ready' actually means for students entering the job market. 9th edition of the monthly meetup, held at *SCAPE Orchard.",
     speakers: [
@@ -181,7 +200,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 9, date: 'Aug 2025',
+    num: 8, date: 'Aug 2025',
     title: 'AI Startup Pitching (SMU Greenhouse)',
     desc: "Six youth-founded AI startups pitched and demoed at SMU Greenhouse — Hyperpod AI, 'Sup, AkitaVault, Nudge, Rehabify, and OpenMentor. Hosted by SMU Artificial Intelligence Club. Live SaaS demos plus Q&A with the founders behind them.",
     speakers: [
@@ -202,7 +221,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 8, date: 'Jul 2025',
+    num: 7, date: 'Jul 2025',
     title: 'SG60 Edition — Multilingual Voice AI',
     desc: "SG60 National Day edition. Tarun Kumar (A*STAR MERaLiON) on building multilingual voice models for Singlish, Mandarin, Malay, and Tamil; Thorsten Schaeff (ElevenLabs) on V3 and conversational TTS. We also previewed MerMurs — our broken-telephone voice game built on multilingual AI.",
     speakers: [
@@ -217,7 +236,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 7, date: 'Jun 2025',
+    num: 6, date: 'Jun 2025',
     title: 'Vibe Coding with Claude Code (MicroSaaS in 45 min)',
     desc: "I ran a live 'vibe coding' session — building a MicroSaaS end-to-end with Claude Code in 45 minutes, then opening the floor for attendees to ship their own. Mix of first-time coders and seasoned hackers, all walking out with something built.",
     speakers: [
@@ -229,7 +248,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 6, date: 'Apr 2025',
+    num: 5, date: 'Apr 2025',
     title: 'AI Meets Ambition — Youth Startup Pitches',
     desc: "Youth-led AI startup pitches at *SCAPE — health tools, productivity products, and unfiltered stories from the founder journey. The room skewed toward first-time pitchers, which made the honest Q&A the best part of the afternoon.",
     speakers: [
@@ -242,7 +261,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
   },
   {
-    num: 5, date: 'Mar 2025',
+    num: 4, date: 'Mar 2025',
     title: 'Networking & Resume Roasting (SYAI x CYS)',
     desc: "Live resume 'roasting' with Lim Mei Yu (Founder, Get Ahead; ex-Meta, ex-Google) — attendees submitted their CVs for on-projector critique, plus a recruiter Q&A on positioning for AI/tech roles. Co-organised with Cyber Youth Singapore at *SCAPE.",
     speakers: [
@@ -253,7 +272,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     gallery: [null, null, null],
   },
   {
-    num: 4, date: 'Feb 2025',
+    num: 3, date: 'Feb 2025',
     title: 'Prompt Engineering for Junior Devs',
     desc: "A practitioner-led session on what actually works when you're 6 months into your career and the senior dev keeps saying \"just prompt it better\". ~120 attendees, mostly poly + uni students.",
     speakers: [
@@ -264,7 +283,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     gallery: [null, null, null, null],
   },
   {
-    num: 3, date: 'Jan 2025',
+    num: 2, date: 'Jan 2025',
     title: 'Fireside Chat with Dr Mukundan A P (SYAI x CYS)',
     desc: "I moderated the fireside with Dr Mukundan A P (Champion Group) on practical AI in the SDLC — automation across deployment, monitoring, and security, plus how funded startups actually take AI products to market. Session 1 of the 2025 series, co-organised with Cyber Youth Singapore at Hillview CC.",
     speakers: [
@@ -273,21 +292,6 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
     hero: '/meetups/2025-01-fireside/hero.jpg',
     gallery: [],
-  },
-  {
-    num: 2, date: 'Dec 2024',
-    title: 'Claude Code Workshop (SYAI x YouthTechSG)',
-    desc: "I taught Claude Code to 60 people — Skills, hooks, and subagents from the ground up, co-organised with YouthTechSG. The hard lesson: 'I use this every day' and 'I can teach it' are completely different skill levels. Full slides at https://syai-claude-workshop.vercel.app/1.",
-    speakers: [
-      { name: 'Kaleb Nim',       role: 'Workshop Lead — SYAI', linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
-      { name: 'Jesse Sng',       role: 'Mentor',               linkedin: '' },
-      { name: 'Javerine Tan',    role: 'Mentor',               linkedin: '' },
-      { name: 'Darwin Ho',       role: 'Mentor',               linkedin: '' },
-      { name: 'Moiz Khambhati',  role: 'Mentor',               linkedin: '' },
-      { name: 'Hu Bowen',        role: 'Mentor',               linkedin: '' },
-    ],
-    hero: '/meetups/2024-12-claude-code/hero.jpg',
-    gallery: [null, null, null],
   },
   {
     num: 1, date: 'Aug 2024',
@@ -400,12 +404,12 @@ export const SECTIONS: Section[] = [
     path: 'syai-meetups',
     count: 11,
     aliases: ['meetups', 'syai'],
-    desc: 'workshops I hosted at Singapore Youth AI',
-    title: './syai-meetups — talks I hosted at SYAI',
+    desc: 'AIMM — the monthly AI meetup I head at Singapore Youth AI',
+    title: './syai-meetups — running SYAI\'s monthly AI meetup',
     intro:
-      'Singapore Youth AI — a community I co-run for high-schoolers + early-uni students. Each meetup is a hands-on session.',
+      "I head AIMM — SYAI's monthly AI meetup — end-to-end: content strategy, speaker outreach, venue, publicity, structure. 11 events to date, each drawing 30–60 students from polytechnics, universities, and JCs. Format mixes hands-on workshops, fireside chats with industry leaders, and open networking.",
     items: SYAI_ITEMS,
-    footer: '[11 sessions] · ~80 avg attendance · open to all',
+    footer: '[11 sessions] · 30–60 attendees per event · open to all',
   },
   {
     id: 'hackathons',
