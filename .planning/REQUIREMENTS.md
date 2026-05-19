@@ -116,6 +116,12 @@ Deferred to future release.
 - [x] **SYAI-08**: Page holds at 360px (no horizontal scroll) and 1024px+ (kit-faithful layout); `bun run build` exits 0; no Layout A / C / D code, no Tweaks panel, no filter / search UI, no SYAI signup CTA, no new routes
 - [x] **SYAI-09**: Home page, floating mic button, voice overlay, and all other section routes (work-experience and the four remaining stubs) continue to function with no regression
 
+### SYAI Meetups Content Population (Phase 14)
+
+- [ ] **SYAI-CONTENT-01**: Every meetup in `SYAI_ITEMS` whose source recap exists in `.planning/research/portfolio_info/*.txt` carries the full verbatim multi-paragraph description from that source (no Phase-13 one-liner remains for entries backed by a source file)
+- [ ] **SYAI-CONTENT-02**: Every speaker for whom a real name is known (at minimum: Lim Mei Yu, Dr Mukundan A P, Tarun Kumar, Thorsten Schaeff, Assel Mussagaliyeva Tang, Dr Ferdin Joe John Joseph, Kaleb Nim) replaces the Phase-13 `'Speaker Name'` placeholder; LinkedIn URLs are populated when a real profile is known and left as `''` otherwise so the `in ↗` chip hides per SYAI-06
+- [ ] **SYAI-CONTENT-03**: No file under `app/components/**` is modified, the `MeetupItem` / `Speaker` type shape is unchanged, the SECTIONS `syai-meetups` count remains 11, and `bun run build` exits 0 (purely a `SYAI_ITEMS` data refresh)
+
 ## Out of Scope (v3.0)
 
 | Feature | Reason |
@@ -135,12 +141,13 @@ Deferred to future release.
 | MIG-01..03 | Phase 10 | Planned |
 | WORK-01..06 | Phase 11 | Planned |
 | SYAI-01..09 | Phase 13 | Complete (2026-05-19) |
+| SYAI-CONTENT-01..03 | Phase 14 | Planned |
 
 **Coverage (v3.0):**
-- Requirements: 17 total
-- Mapped to phases: 17
+- Requirements: 20 total
+- Mapped to phases: 20
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-15 (v2.0), 2026-05-18 (v3.0)*
-*Last updated: 2026-05-18 after v3.0 milestone start*
+*Last updated: 2026-05-19 after Phase 14 planning*
