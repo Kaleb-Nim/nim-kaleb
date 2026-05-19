@@ -237,3 +237,20 @@ Plans:
 
 **Wave 3** *(blocked on Waves 1 + 2 — wires the page into the dispatcher)*
 - [ ] 13-03-PLAN.md — Add syai-meetups branch to app/page.tsx dispatcher, create public/meetups/ directory, blocking human-verify checkpoint
+
+### Phase 14: SYAI Meetups — Content Population
+
+**Goal:** Replace the placeholder speaker entries (`TBD`) and short one-line descriptions seeded in Phase 13 with the full content from `.planning/research/portfolio_info/*.txt`. Each meetup gets its verbatim long-form description, real speaker rosters with names + roles + LinkedIn URLs (where known), and any additional curation discovered during Phase 13's visual review.
+**Requirements**: SYAI-CONTENT-01..03 (to be enumerated)
+**Depends on:** Phase 13
+**Success Criteria** (what must be TRUE):
+  1. Every meetup with a known speaker shows their real name + role (no `TBD` placeholders remain for events with confirmed speaker data)
+  2. The March 22 2025 Resume Roasting entry shows the full verbatim event description (multi-paragraph copy from `March_AIMM.txt`) — not the short one-liner from Phase 13
+  3. Other meetups (June Vibe Coding, SG60 July, August AI Startup Pitching, September Fireside, November Alibaba Cloud workshop, etc.) get their real descriptions populated from the `_AIMM.txt` files
+  4. LinkedIn URLs are added for speakers whose profile we have (Lim Mei Yu, Assel MT, Dr Ferdin Joe John Joseph, etc.); `in ↗` chip hides when URL is absent
+  5. No layout / component changes — purely a `SYAI_ITEMS` data refresh
+**Source:** `.planning/research/portfolio_info/` text files + curation pass
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 14 to break down)
