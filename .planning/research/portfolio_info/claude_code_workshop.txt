@@ -1,0 +1,17 @@
+I thought I knew Claude Code. Then I had to teach it to 60 people.
+
+Yesterday's workshop, co-organised by Singapore Youth AI and YouthTechSG was a reminder that "I use this every day" and "I can explain this to a beginner" are completely different skill levels.
+
+We covered the fundamentals of how Claude Skills, hooks, and subagents actually work. Each one looked simple on my screen at home. Each one required 3x more clarity when 60 people needed to follow along.
+
+Some mishaps at the workshop:
+→ Simply distributing API keys to 60 people is a workflow nobody documents
+→ Claude Code setup on Windows was pure debugging hell
+→ Content taught might have been too technical for participants who just started using Claude code
+
+Big shout-out to my good friends Jesse Sng, Javerine Tan, Darwin Ho, Moiz Khambhati, Hu Bowen and many more for stepping in as mentors and unblocking participants throughout the session — the workshop wouldn't have run half as smoothly without you.
+
+Sharing the full workshop slides here for anyone who wants to dive in or run their own session: https://lnkd.in/g_GVUYxE
+Slides: https://syai-claude-workshop.vercel.app/1
+
+Round 2 is already on my mind — I want to rework the content and make the next workshop even more value-packed for participants. If you're curious about Claude Code, or you're an organisation/community keen to co-host the next one, let's talk.
