@@ -1,7 +1,7 @@
 {
   "source": "https://devpost.com/kaleb-nim",
-  "scraped_at": "2026-05-19T11:52:07.007Z",
-  "count": 13,
+  "scraped_at": "2026-05-19T12:06:45.698Z",
+  "count": 22,
   "projects": [
     {
       "slug": "arcademy-at32jn",
@@ -50,7 +50,17 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/623/417/datas/original.jpeg",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/623/419/datas/original.jpeg"
       ],
-      "is_winner": true
+      "is_winner": true,
+      "extra_links": [
+        "https://github.com/UltraRaptorYT/ARcademy"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/f78cc87d-b7c8-46a0-9a23-e1f214a2e461__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__56e3efd9-c8e9-458b-b5fb-295f17373e38__5ee1db93-e9e1-48f8-a397-0bd03e7ee811.jpg?t=1708494994098"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "foodr-ihad3c",
@@ -111,7 +121,10 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/234/datas/original.jpg",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/235/datas/original.jpg"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "sources": [
+        "devpost"
+      ]
     },
     {
       "slug": "art-ificial-failure",
@@ -161,7 +174,10 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/256/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/220/datas/original.png"
       ],
-      "is_winner": true
+      "is_winner": true,
+      "sources": [
+        "devpost"
+      ]
     },
     {
       "slug": "aivy",
@@ -213,7 +229,10 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/247/datas/original.jpeg",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/248/datas/original.jpeg"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "sources": [
+        "devpost"
+      ]
     },
     {
       "slug": "tunein-eqm0c5",
@@ -250,7 +269,10 @@
       ],
       "description_md": "## Inspiration\n\nThe spark for TuneIn came from a common pain point: the monotony and difficulty of memorizing dense educational material 📚. We recognized the power of music 🎶 and visuals 🎨 in making emotional connections and enhancing memory retention. By combining these elements, we aimed to revolutionize the traditional learning process, making it not just more effective but also genuinely enjoyable and engaging for users.\n\n## What it does\n\nTuneIn transforms educational topics into memorable, catchy songs 🎵, complete with custom-generated background videos 📹. Users simply input a topic they wish to memorise and keywords to include, and TuneIn does the rest, creating a personalized, music-backed video to make learning and memorization a breeze. It’s like having a study buddy who knows how to make any topic fun and easy to remember.\n\n## How we built it\n\nTuneIn harnesses the power of SunoAI for dynamic music generation 🎵, enabling the creation of unique and catchy tunes tailored to each educational topic. The user interface is powered by NextJS, offering a fast and intuitive experience 🖥️ for users to input topics and receive their personalized songs. Alongside, we employed video generation technology 📹 to produce visuals to keep the users engaged.\n\n## Challenges we ran into\n\nWe faced two big challenges: limited time ⏳ and technical difficulties 🛠️. We only had three days to finish everything, which meant we had to work very fast. Also, making SunoAI create the kind of music we wanted for our lessons was tough and took a lot of effort to get it right.\n\n## Accomplishments that we're proud of\n\nWe are immensely proud of TuneIn's ability to make memorizing enjoyable and effective 🌟. Our tool has not only facilitated easier learning but hopefully will spark a newfound love for education amongst users ❤️, breaking down barriers to knowledge acquisition.\n\nUsing Stanford EDGE, ControlNets, ComfyUI, SD VAE, OpenPose and little to no money to generate a decent video!\n\n## What we learned\n\nWe learned a lot about using SunoAI for music creation 🎶 and video generation techniques 🎬. This experience taught us how to blend AI with educational content effectively.\n\n## What's next for TuneIn\n\nWe plan to expand our platform with a library of pre-generated content 📚 for quicker access and to introduce more customization options 🔧, allowing users to tailor the learning experience even more closely to their needs.\n\nJupyter Notebook: [https://github.com/kenJPG/animate](https://github.com/kenJPG/animate)",
       "gallery": [],
-      "is_winner": false
+      "is_winner": false,
+      "sources": [
+        "devpost"
+      ]
     },
     {
       "slug": "a-brilliant-cobra-duel",
@@ -298,7 +320,17 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/603/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/602/datas/original.png"
       ],
-      "is_winner": true
+      "is_winner": true,
+      "extra_links": [
+        "https://a-brilliant-cobra-duel.vercel.app/"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/aaaae46f-0a3f-4109-8a4a-4b873a96d531__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__a8e91b47-d561-43cd-8a1d-c434ce39c2b6__f144169c-b374-4abf-a92b-00af35b65edc.jpg?t=1708499037068"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "test-82nad3",
@@ -335,7 +367,10 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/672/224/datas/original.jpeg",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/672/220/datas/original.jpeg"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "sources": [
+        "devpost"
+      ]
     },
     {
       "slug": "daaarubi",
@@ -384,7 +419,17 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/154/datas/original.jpeg",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/171/datas/original.jpeg"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [
+        "https://sustainabite.onrender.com/"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/c6d3e70f-a39b-4085-9946-a1c17d07c396__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__13307cbc-212a-406a-b9ee-37cf05bb79a0__adffc31f-66e9-4af3-99fd-d055bff06e4b.jpg?t=1708495036295"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "cotton-pickers-eduplay",
@@ -430,7 +475,15 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/492/711/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/492/781/datas/original.png"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/59ac5250-89b2-4a84-979e-bfcb6789e828.png"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "dr-go-61fybu",
@@ -467,7 +520,17 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/398/695/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/398/762/datas/original.jpg"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [
+        "https://drgo.onrender.com/"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/11b4b797-f55b-44b7-9931-cbc3f010edf0__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__8bf17a82-d837-4d9c-b755-e1d7576ae49e__f1b1a45b-801c-4a22-9b84-9aa82570dbc1.jpg?t=1708494942763"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "a-unicorn-s-treasure",
@@ -506,7 +569,17 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/029/422/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/029/426/datas/original.png"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [
+        "https://devpost.com/software/a-unicorn-s-treasure?ref_content=user-portfolio&ref_feature=in_progress"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/79f36671-4cb7-4152-a5ee-5a4c6a7e003f.png?t=1657785134391"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "sofri",
@@ -549,7 +622,15 @@
       ],
       "description_md": "## Inspiration\n\nAs an active road user, I often feel that trips take *unnecessarily* long, sometimes running into *multiple* red lights in a single trip. I believe this is on account of the *suboptimal* GPS that almost all drivers use.\n\n## What it does\n\nUnlike traditional GPS, we plan to incorporate a trip planning feature that takes into account traffic light states. This helps to provide the user with a *matchless* route such that they will run into fewer red lights and arrive at their destination as soon as possible *ASAP*.\n\n## How we built it\n\nWe stuck to our python and javascript routes using simple python logic and javascript *magic* to create the brains of our operation including the Traffic light detector and Pattern Recognition. That was all then applied in conjunction with our website-building skills that allowed us to make use of HTML, CSS, and JS to display our data in a very user-friendly way.\n\n## Challenges we ran into\n\n~the team name~ Coordinating our work schedules especially since it's our holidays and many of us are busy on weekdays. However, we came around to it and managed to find time where we all could discuss in detail our solution.\n\n## Accomplishments that we're proud of\n\nThe Cohesion and energetic attitude of our team. We managed to work together with each other to bring you something we are *proud* and *confident* of.\n\n## What we learned\n\nTo schedule meetings and spread out work efficiently and in a meaningful way\n\n## What's next for SoEnviroFri\n\nWe plan on bringing the technology used for SoEnvirofri to other countries, integrating it with their road systems which may vary greatly from that of the urban landscape present in Singapore.",
       "gallery": [],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/67ef0e39-d910-49c2-9fbe-9d23e9a89dc9.png?t=1657787039268"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
     },
     {
       "slug": "sofri-025",
@@ -590,7 +671,217 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/001/607/146/datas/original.png",
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/001/607/147/datas/original.png"
       ],
-      "is_winner": false
+      "is_winner": false,
+      "extra_links": [
+        "https://devpost.com/software/sofri-025?ref_content=my-projects-tab&ref_feature=my_projects"
+      ],
+      "extra_images": [
+        "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/f0fba4d7-cdf8-47e2-b6c5-190b08bf8405.png?t=1657786544899"
+      ],
+      "sources": [
+        "devpost",
+        "beacons"
+      ]
+    },
+    {
+      "slug": "beacons-singen-ai",
+      "project_url": "https://www.sp.edu.sg/soc/news/soc/school-of-computing-students-wins-1st-runner-up-in-polyfintech100-api-hackathon-grand-finals",
+      "title": "SinGEN AI",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/bfcf1eb7-5e25-459c-9891-58ef89338f9a__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__a5e604bf-61b7-4951-9fcb-778c9d201581__16321e6f-76f5-49be-a1b3-91caee2bc693.jpg?t=1708494154673",
+      "thumbnail_local": "/hackathons/beacons-singen-ai.jpg",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-cargolingo-advisor-psacodesprint",
+      "project_url": "https://youtu.be/5z0uDr3kPW4?si=Ht9v-OR8rYdOwoAj",
+      "title": "CargoLingo Advisor -PSACodeSprint",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/66fd7758-be6a-48d3-8689-599a95c5d725.jpg",
+      "thumbnail_local": "/hackathons/beacons-cargolingo-advisor-psacodesprint.jpg",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-journalink",
+      "project_url": "https://github.com/Thaddeusleewj/MindfulHacks_23/tree/main",
+      "title": "JournaLink",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/6112e87c-45d7-4cee-8bad-d2ede7fd0375.png",
+      "thumbnail_local": "/hackathons/beacons-journalink.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-shiok",
+      "project_url": "https://shiok.web.app/",
+      "title": "Shiok!",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/762420e3-5f2b-4174-8e70-18699b109a2f.png?t=1668065228334",
+      "thumbnail_local": "/hackathons/beacons-shiok.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-xpress-call",
+      "project_url": "https://express-call.onrender.com/",
+      "title": "Xpress Call",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/3a7dd127-d594-48b0-b161-67b74bfa85ec__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__8b1782e9-e80f-4427-af59-8f816bd6478b__839880db-1e44-49a7-9f14-0dbc7e7a8e8b.jpg?t=1708492782163",
+      "thumbnail_local": "/hackathons/beacons-xpress-call.jpg",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-health-insurance-cost-predictor",
+      "project_url": "https://kaleb-health-cost.onrender.com/forms",
+      "title": "Health Insurance cost predictor",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/eb7e8702-41c5-4b8f-9d0f-84644ed65bd7.png?t=1670174987107",
+      "thumbnail_local": "/hackathons/beacons-health-insurance-cost-predictor.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-storyage",
+      "project_url": "https://github.com/UltraRaptorYT/FITHackathon",
+      "title": "StoryAge",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/afe15d28-1dc5-4758-a46c-df0caadc39d5.png?t=1657787063681",
+      "thumbnail_local": "/hackathons/beacons-storyage.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-give-me-a-brieck",
+      "project_url": "https://github.com/UltraRaptorYT/Give-me-a-brieck",
+      "title": "Give me a brieck",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/b9968088-a74c-4c1f-8918-44ab49077b79.png?t=1657787078027",
+      "thumbnail_local": "/hackathons/beacons-give-me-a-brieck.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
+    },
+    {
+      "slug": "beacons-tether",
+      "project_url": "https://github.com/UltraRaptorYT/Tether",
+      "title": "Tether",
+      "tagline": "",
+      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/97d6dfe5-a145-4865-b16c-1020f0ea492d.png?t=1657787163835",
+      "thumbnail_local": "/hackathons/beacons-tether.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [],
+      "built_with": [],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": false,
+      "sources": [
+        "beacons"
+      ],
+      "extra_links": [],
+      "extra_images": []
     }
-  ]
+  ],
+  "beacons_source": "https://beacons.ai/kaleb_nim",
+  "merged_at": "2026-05-19T12:06:57.072Z"
 }
