@@ -189,7 +189,7 @@ Plans:
 | 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |
 | 10. Directory Home & Routing Shell | v3.0 | 8/8 | Complete    | 2026-05-18 |
 | 11. Work Experience Page | v3.0 | 2/2 | Complete   | 2026-05-18 |
-| 12. Dev Branch / Live Preview Env | v3.0 | 0/TBD | Not started | - |
+| 12. Dev Branch / Live Preview Env | v3.0 | 0/2 | Not started | - |
 | 13. SYAI Meetups Page | v3.0 | 0/TBD | Not started | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
@@ -204,10 +204,14 @@ Plans:
   4. Environment variables for the Preview environment are populated (at minimum `OPENAI_API_KEY` and any Realtime/voice keys mirror what production needs to function); secrets are NOT committed
   5. README / contributor docs document the branching model: `main` → production, `dev` → preview, feature branches → PR previews (one-off URLs)
   6. The dev preview loads the home directory page and `/work-experience` route without console errors when smoke-tested in a browser
-**Plans:** 0 plans
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 12 to break down)
+**Wave 1**
+- [ ] 12-01-PLAN.md — Create dev branch + mirror env vars to Vercel Preview scope + trigger first dev deploy + capture stable preview URL (covers DEV-01, DEV-02, DEV-03)
+
+**Wave 2** *(blocked on Wave 1 completion — needs captured PREVIEW_URL)*
+- [ ] 12-02-PLAN.md — Add "Branching & deployment" section to README.md with three-tier model + captured preview URL (covers DEV-04)
 
 ### Phase 13: SYAI Meetups Page
 
