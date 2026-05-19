@@ -191,6 +191,7 @@ Plans:
 | 11. Work Experience Page | v3.0 | 2/2 | Complete   | 2026-05-18 |
 | 12. Dev Branch / Live Preview Env | v3.0 | 0/2 | Not started | - |
 | 13. SYAI Meetups Page | v3.0 | 3/3 | Complete   | 2026-05-19 |
+| 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -253,4 +254,4 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 14-01-PLAN.md — Remap SYAI_ITEMS to real past meetups + verbatim desc + real speakers; enumerate SYAI-CONTENT-01..03 in REQUIREMENTS.md
+- [x] 14-01-PLAN.md — Remap SYAI_ITEMS to real past meetups + verbatim desc + real speakers; enumerate SYAI-CONTENT-01..03 in REQUIREMENTS.md
