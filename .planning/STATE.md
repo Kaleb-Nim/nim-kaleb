@@ -93,6 +93,7 @@ None at milestone start.
 | 260421-l3f | Web analytics (Vercel Analytics + Neon transcripts) | 2026-04-21 | 4f0cdf4 | Needs Review | [260421-l3f](./quick/260421-l3f-create-web-analytics-i-want-to-view-numb/) |
 | 260502-r2r | Mobile-first link affordance | 2026-05-02 | d9c873a | Needs Review | [260502-r2r](./quick/260502-r2r-mobile-first-link-affordance-persistent-/) |
 | 260519-re1 | Scrape Devpost → hackathons staging JSON + thumbnails | 2026-05-19 | 0f66a70 | Done | [260519-re1](./quick/260519-re1-scrape-devpost-com-kaleb-nim-for-hackath/) |
+| 260519-s01 | Classify 101 GitHub repos + extract 6 new hackathon candidates | 2026-05-19 | 94cf3e5 | Done | [260519-s01](./quick/260519-s01-classify-github-repos/) |
 
 ## Session Continuity
 
