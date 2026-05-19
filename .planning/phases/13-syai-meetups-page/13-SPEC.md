@@ -35,7 +35,7 @@ Replace the Phase 10 stub at `#/syai-meetups` with a rich, real-data meetups pag
 
 - **Layout cycler / Tweaks panel (A / C / D variants).** Layout B is the only shipped layout. — Reason: adds dev surface without user benefit; matches Phase 11's "no toggles" stance.
 - **Filter / search across meetups.** No year filter, no tag filter, no full-text search. — Reason: the list is bounded (~11 items) and chronological; filtering is not a user need at this scale.
-- **Backlink to SYAI signup / community / Eventbrite page.** No external CTA on this page. — Reason: page is content-only; community CTAs belong on home or a future Phase.
+- **Page-level "Join SYAI community" CTA / persistent signup banner.** No persistent CTA promoting general SYAI community signup at the page top/bottom. — Reason: page is content-only; community CTAs belong on home or a future Phase. **Per-event sign-up links (rendered inside an individual `MeetupCard` for events still accepting registrations, e.g. the March 22 2025 Resume Roasting `forms.gle/...`) are explicitly IN scope** — they are a property of the event entry, not a page-level CTA. Add `signup?: string` to `MeetupItem` for this.
 - **Replacing other section stubs** (`#/hackathons`, `#/sidequests`, `#/hobbies`, `#/links`). Those remain Phase 10 stubs. — Reason: each is its own future phase.
 - **New routes** (e.g. `#/syai-meetups/{slug}` per-meetup detail pages). — Reason: lightbox handles drill-in; no need to add routing complexity.
 
