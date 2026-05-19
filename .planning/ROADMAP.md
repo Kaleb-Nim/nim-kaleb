@@ -189,3 +189,40 @@ Plans:
 | 9. Visual Production & Demo Plan | v2.0 | 2/3 | In Progress|  |
 | 10. Directory Home & Routing Shell | v3.0 | 8/8 | Complete    | 2026-05-18 |
 | 11. Work Experience Page | v3.0 | 2/2 | Complete   | 2026-05-18 |
+| 12. Dev Branch / Live Preview Env | v3.0 | 0/TBD | Not started | - |
+| 13. SYAI Meetups Page | v3.0 | 0/TBD | Not started | - |
+
+### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
+
+**Goal:** Establish a long-lived `dev` branch that auto-deploys to a stable Vercel preview URL (e.g. `dev.kalebnim.dev` or `nim-kaleb-dev.vercel.app`) so in-progress work can be shared and tested without affecting the production deployment served at `kalebnim.dev` / `nim-kaleb.vercel.app` (which continues to deploy from `main`).
+**Requirements**: DEV-01, DEV-02, DEV-03, DEV-04
+**Depends on:** Phase 11
+**Success Criteria** (what must be TRUE):
+  1. A `dev` branch exists on `origin` and is set as the "preview branch" for stable preview deployments (Vercel auto-deploys every push to `dev`)
+  2. Pushing to `dev` produces a deployment that is reachable at a predictable, stable URL (custom subdomain like `dev.kalebnim.dev` OR Vercel's git-branch alias `nim-kaleb-git-dev-*.vercel.app`) — NOT a one-off SHA URL
+  3. Production deployment behaviour from `main` is unchanged: pushes to `main` still deploy to `kalebnim.dev` and `nim-kaleb.vercel.app`
+  4. Environment variables for the Preview environment are populated (at minimum `OPENAI_API_KEY` and any Realtime/voice keys mirror what production needs to function); secrets are NOT committed
+  5. README / contributor docs document the branching model: `main` → production, `dev` → preview, feature branches → PR previews (one-off URLs)
+  6. The dev preview loads the home directory page and `/work-experience` route without console errors when smoke-tested in a browser
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 12 to break down)
+
+### Phase 13: SYAI Meetups Page
+
+**Goal:** Replace the Phase 10 stub at `#/syai-meetups` with the real meetups page sourced from the new design kit (Anthropic design `UtNCPto_o8734VnTbs853w` → `ui_kits/terminal/index.html` / `Meetups.jsx`). Seed `SYAI_ITEMS` with real meetup data (including the March 22 2025 SYAI × CYS Resume Roasting event), copy meetup assets from the local `portfolio_info/` folder into `public/meetups/`, and wire the page into the hash-route dispatcher following the Phase 11 pattern.
+**Requirements**: TBD (SYAI-01..N — to be enumerated when speccing)
+**Depends on:** Phase 11 (PageHeader / FooterMeta / route dispatcher pattern), Phase 12 (preview environment for safer iteration on stub-replacement pages)
+**Success Criteria** (what must be TRUE):
+  1. `#/syai-meetups` route renders the real `MeetupsPage` component (no longer the Phase 10 stub)
+  2. `SYAI_ITEMS` in `app/lib/sections.ts` contains real meetup entries — at minimum the March 22 2025 Resume Roasting meetup is present with verbatim copy + sign-up link
+  3. Meetup images from `portfolio_info/` are served from `public/meetups/` (or equivalent public path) and load with HTTP 200
+  4. Page holds at 360px (no horizontal scroll) and 1024px+ (kit-faithful layout)
+  5. Other section routes (`hackathons`, `sidequests`, `hobbies`, `links`) still render the Phase 10 stub — no regression
+  6. `bun run build` exits 0
+**Source todo:** `.planning/todos/pending/syai-meetups-page-from-design-kit.md`
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 13 to break down)
