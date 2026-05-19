@@ -190,7 +190,7 @@ Plans:
 | 10. Directory Home & Routing Shell | v3.0 | 8/8 | Complete    | 2026-05-18 |
 | 11. Work Experience Page | v3.0 | 2/2 | Complete   | 2026-05-18 |
 | 12. Dev Branch / Live Preview Env | v3.0 | 0/2 | Not started | - |
-| 13. SYAI Meetups Page | v3.0 | 0/TBD | Not started | - |
+| 13. SYAI Meetups Page | v3.0 | 1/3 | In Progress|  |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -226,11 +226,11 @@ Plans:
   5. Other section routes (`hackathons`, `sidequests`, `hobbies`, `links`) still render the Phase 10 stub — no regression
   6. `bun run build` exits 0
 **Source todo:** `.planning/todos/pending/syai-meetups-page-from-design-kit.md`
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 13-01-PLAN.md — Extend MeetupItem + Speaker types, replace SYAI_ITEMS with 11 real entries (incl. March 2025 Resume Roasting), append SYAI-01..09 to REQUIREMENTS.md
+- [x] 13-01-PLAN.md — Extend MeetupItem + Speaker types, replace SYAI_ITEMS with 11 real entries (incl. March 2025 Resume Roasting), append SYAI-01..09 to REQUIREMENTS.md
 
 **Wave 2** *(blocked on Wave 1 — consumes new MeetupItem + Speaker types)*
 - [ ] 13-02-PLAN.md — Port Meetups.jsx Layout B into 6 typed components (MeetupImage / MeetupRibbon / SpeakersBlock / MeetupCard / MeetupLightbox / MeetupsPage)
