@@ -1,0 +1,190 @@
+{
+  "generated_at": "2026-05-19",
+  "source": "GitHub repo scrape of Kaleb-Nim/* (101 repos) cross-referenced with .planning/research/hackathons/hackathons.json (22 devpost entries)",
+  "merge_target": ".planning/research/hackathons/hackathons.json",
+  "instructions": "These entries are GitHub-sourced hackathon projects NOT yet in hackathons.json. Schema matches existing entries. Fields marked TODO need devpost lookup or manual verification before merging.",
+
+  "new_candidates": [
+    {
+      "slug": "jtac-trainer",
+      "project_url": null,
+      "title": "JTAC Trainer",
+      "tagline": "Voice-first Close Air Support 9-line trainer — speak a 9-line CAS brief, the bomb lands wherever your transmission said it should",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "AIE Open Canvas Hackathon",
+      "event_url": "https://luma.com/aie-hack",
+      "organizer": "AIE",
+      "prizes": ["Best use of gpt-realtime-2 (track)"],
+      "team": [
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" },
+        { "github": "junnjiee", "name": null }
+      ],
+      "built_with": [
+        "nextjs", "react-three-fiber", "tailwindcss", "zustand",
+        "openai-gpt-4o-transcribe", "qwen-plus", "dashscope",
+        "openai-gpt-realtime-2", "bun", "websockets", "vercel", "ecs"
+      ],
+      "description_md": "Real-time voice procedure sim for CAS (close air support) trainees. The trainee surveys a 3D battlefield, speaks a 9-line CAS brief to hog1 — an A-10 pilot agent — and watches the bomb land wherever the transmission said it should. Misread a grid? You get a visible, consequential miss. End the run for an instructor-style debrief.\n\nAir control and CAS voice procedures are critical — they decide life-or-death situations. Realistic training is expensive: live-fire ranges, real aircraft, and instructor time are all bottlenecks. A voice agent removes that bottleneck so trainees can drill scenarios and manoeuvres on demand, no instructor or jet required.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": ["https://github.com/Kaleb-Nim/jtac-trainer"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2026-05-09", "repo_pushed": "2026-05-09", "private": false }
+    },
+
+    {
+      "slug": "hackomania-contextguard",
+      "project_url": null,
+      "title": "ContextGuard",
+      "tagline": "AI-Powered Rumour Pre-Mortem Engine for Singapore — predicts misinformation before it spreads, arms community leaders with multilingual counter-narratives",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "HackOMania 2026",
+      "event_url": "https://hackomania.geekshacking.com/",
+      "organizer": "GeeksHacking",
+      "prizes": ["Winner — HackOMania 2026"],
+      "team": [
+        { "github": "dariusKoh", "name": null },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" },
+        { "github": "CJJ-2", "name": null },
+        { "github": "uunwen", "name": null }
+      ],
+      "built_with": [
+        "nextjs", "react", "typescript", "tailwindcss",
+        "gemini-2.5-flash", "gemini-embedding-001",
+        "clickhouse", "firecrawl", "telegram-bot-api",
+        "pdfjs-dist", "react-pdf", "bun", "vercel"
+      ],
+      "description_md": "ContextGuard is a proactive misinformation defense system. Every existing solution — POFMA, CNA fact-checks, chatbots — is reactive: they correct misinformation after it has already spread. ContextGuard predicts what misinformation will emerge before it spreads, and arms trusted community leaders with pre-written counter-narratives in all 4 official Singapore languages.\n\nSingapore's misinformation follows patterns — the same emotional triggers (financial anxiety, racial tension, health fear), the same language communities targeted, the same gap between official communication and public fear. A decade of POFMA notices, MOH corrections, and CNA fact-checks prove this. ContextGuard turns those patterns into predictions.",
+      "gallery": [],
+      "is_winner": true,
+      "extra_links": ["https://github.com/Kaleb-Nim/hackomania_contextguard"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2026-03-07", "repo_pushed": "2026-03-09", "private": false, "stars": 1 }
+    },
+
+    {
+      "slug": "singlife-polyfintech-2023",
+      "project_url": null,
+      "title": "Singlife PolyFinTech 2023",
+      "tagline": "Fine-tuned LLM + Stable Diffusion + AI voice-over infomercial generator for Singlife",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "PolyFinTech Hackathon 2023",
+      "event_url": null,
+      "organizer": "Singlife (challenge sponsor)",
+      "prizes": [],
+      "team": [
+        { "github": "UltraRaptorYT", "name": "Soh Hong Yu" },
+        { "github": "Kaleb-Nim", "name": "Kaleb Nim" },
+        { "github": "Elliott-Chong", "name": null },
+        { "github": "Thaddeusleewj", "name": null }
+      ],
+      "built_with": [
+        "python", "jupyter", "langchain", "pinecone",
+        "stable-diffusion", "ai-voice-over", "lc-serve"
+      ],
+      "description_md": "Singlife PolyFinTech 2023 entry: an infomercial generator pipeline that scrapes Singlife product content (including PDFs), fine-tunes an LLM with Pinecone vector storage and prompt engineering, then renders short-form infomercials by composing Stable Diffusion image assets with AI voice-over.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": ["https://github.com/Kaleb-Nim/SingLife-Polyfintech2023"],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2023-06-26", "repo_pushed": "2023-11-16", "private": false, "stars": 1 }
+    },
+
+    {
+      "slug": "streamlit-llms-arena",
+      "project_url": null,
+      "title": "The LLMs Arena",
+      "tagline": "Streamlit app for comparing LLMs head-to-head — submitted to the Streamlit LLMs Hackathon Sep 2023",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "Streamlit LLMs Hackathon",
+      "event_url": null,
+      "organizer": "Streamlit",
+      "prizes": [],
+      "team": [{ "github": "Kaleb-Nim", "name": "Kaleb Nim" }],
+      "built_with": ["python", "streamlit", "openai"],
+      "description_md": "Submission to the Streamlit LLMs Hackathon (September 2023). Hosted at llms-arena.streamlit.app — pit LLMs against each other in a side-by-side arena interface.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": [
+        "https://github.com/Kaleb-Nim/st_llms_arena",
+        "https://llms-arena.streamlit.app"
+      ],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2023-10-09", "repo_pushed": "2023-10-09", "private": false, "is_fork": true }
+    },
+
+    {
+      "slug": "ntu-hackathon-2023",
+      "project_url": null,
+      "title": "NTU Hackathon 2023 (TODO: real project name)",
+      "tagline": null,
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "NTU Hackathon 2023",
+      "event_url": null,
+      "organizer": "NTU",
+      "prizes": [],
+      "team": [{ "github": "Kaleb-Nim", "name": "Kaleb Nim" }],
+      "built_with": ["html"],
+      "description_md": "TODO — repo is private with no README. Need to retrieve project name and details manually.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": [],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2023-02-25", "repo_pushed": "2023-02-25", "private": true, "needs_manual_review": true }
+    },
+
+    {
+      "slug": "lifehack-2023",
+      "project_url": null,
+      "title": "LifeHack 2023 (TODO: real project name)",
+      "tagline": "streamlit",
+      "thumbnail_url": null,
+      "thumbnail_local": null,
+      "event_name": "LifeHack 2023",
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [{ "github": "Kaleb-Nim", "name": "Kaleb Nim" }],
+      "built_with": ["streamlit"],
+      "description_md": "TODO — repo is empty. Either abandoned submission or work happened elsewhere. Possibly worth deleting unless project details can be recovered.",
+      "gallery": [],
+      "is_winner": false,
+      "extra_links": [],
+      "extra_images": [],
+      "sources": ["github"],
+      "_meta": { "repo_created": "2023-05-28", "repo_pushed": "2023-05-28", "private": false, "empty": true, "needs_manual_review": true, "recommend_delete": true }
+    }
+  ],
+
+  "github_repos_to_link_into_existing_devpost_entries": [
+    {
+      "merges_into_slug": "art-ificial-failure",
+      "repos": [
+        "https://github.com/Kaleb-Nim/art-tificial-failure-hackandroll",
+        "https://github.com/Kaleb-Nim/Art-ificialFailure-backend",
+        "https://github.com/Kaleb-Nim/art-ificialfailure-hackroll-beta"
+      ],
+      "merge_action": "append unique repo URLs into projects[slug=art-ificial-failure].extra_links",
+      "notes": "3 repos for NUS HackAndRoll 2025 entry — main, backend (o1 + fly.io), beta build"
+    },
+    {
+      "merges_into_slug": "foodr-ihad3c",
+      "repos": [
+        "https://github.com/Kaleb-Nim/foodr-smu-dot-hack",
+        "https://github.com/Kaleb-Nim/smu-hack-food-tinder"
+      ],
+      "merge_action": "append unique repo URLs into projects[slug=foodr-ihad3c].extra_links",
+      "notes": "VERIFY first: SMU .Hack and .HACKathon may be different events — these repos could be a separate 2025 hackathon entry that deserves its own row instead of merging"
+    }
+  ]
+}
