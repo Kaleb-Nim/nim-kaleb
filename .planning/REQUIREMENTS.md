@@ -99,11 +99,22 @@ Deferred to future release.
 
 ### Remaining Section Pages
 
-- **MEET-01**: SYAI meetups page (numbered card stack)
 - **HACK-01**: Hackathons grid with WON/FINALIST gold cards
 - **SIDE-01**: Sidequests dense log with role inference
 - **HOB-01**: Hobbies expressive blocks
 - **LINK-01**: Links big-button page
+
+### SYAI Meetups Page (Phase 13)
+
+- [ ] **SYAI-01**: `#/syai-meetups` route renders the real `MeetupsPage` component (no longer the Phase 10 stub); other section routes (`hackathons`, `sidequests`, `hobbies`, `links`) still render the Phase 10 stub — no regression
+- [ ] **SYAI-02**: `MeetupItem` type in `app/lib/sections.ts` carries `num`, `date`, `title`, `desc`, `speakers: Speaker[]`, `hero: string | null`, `gallery: Array<string | null>`, and optional `signup` URL; a `Speaker` type with `name`, `role`, `linkedin` is exported
+- [ ] **SYAI-03**: `SYAI_ITEMS` contains exactly 11 real meetup entries (numbered 1..11, most-recent first), including the March 22 2025 SYAI x CYS Resume Roasting entry with speaker Lim Mei Yu and the verbatim sign-up URL `https://forms.gle/FpKePiMijNLDtudV6`
+- [ ] **SYAI-04**: Each meetup card uses Layout B — hero image LEFT, description RIGHT (2-col), speakers full-width below, gallery thumbs below speakers; missing hero/gallery images render the styled `[ no media ]` placeholder (no broken-image icon)
+- [ ] **SYAI-05**: Tapping a hero or gallery thumb opens a fullscreen lightbox overlay; lightbox closes on Esc or backdrop click but NOT on click of the inner image; ArrowLeft/ArrowRight navigate across all images in the flat list
+- [ ] **SYAI-06**: Each meetup with `speakers.length >= 1` renders the Speakers block (name + role + LinkedIn `in ↗` chip per speaker)
+- [ ] **SYAI-07**: Meetup image assets are served from `public/meetups/` (paths starting with `/meetups/`) — when present they return HTTP 200; when absent the placeholder renders without console errors
+- [ ] **SYAI-08**: Page holds at 360px (no horizontal scroll) and 1024px+ (kit-faithful layout); `bun run build` exits 0; no Layout A / C / D code, no Tweaks panel, no filter / search UI, no SYAI signup CTA, no new routes
+- [ ] **SYAI-09**: Home page, floating mic button, voice overlay, and all other section routes (work-experience and the four remaining stubs) continue to function with no regression
 
 ## Out of Scope (v3.0)
 
@@ -123,6 +134,7 @@ Deferred to future release.
 | VOICE-01..03 | Phase 10 | Planned |
 | MIG-01..03 | Phase 10 | Planned |
 | WORK-01..06 | Phase 11 | Planned |
+| SYAI-01..09 | Phase 13 | Planned |
 
 **Coverage (v3.0):**
 - Requirements: 17 total
