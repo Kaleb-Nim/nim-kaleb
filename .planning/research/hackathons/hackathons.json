@@ -1,0 +1,596 @@
+{
+  "source": "https://devpost.com/kaleb-nim",
+  "scraped_at": "2026-05-19T11:52:07.007Z",
+  "count": 13,
+  "projects": [
+    {
+      "slug": "arcademy-at32jn",
+      "project_url": "https://devpost.com/software/arcademy-at32jn",
+      "title": "ARcademy",
+      "tagline": "Make learning fun by bringing STEM content to life through AR technology",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/619/790/datas/medium.png",
+      "thumbnail_local": "/hackathons/arcademy-at32jn.png",
+      "event_name": "LearnHacks",
+      "event_url": "https://colearn-hacks.devpost.com/",
+      "organizer": "LearnHacks",
+      "prizes": [
+        "Winner — $50 Amazon Gift Card",
+        "Winner — 2nd Place – Excellence Award"
+      ],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/Ducksss",
+          "name": "Chai Pin Zheng"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/TangJiaYi01",
+          "name": "Jia Yi Tang"
+        }
+      ],
+      "built_with": [
+        "ar.js",
+        "css3",
+        "html5",
+        "javascript",
+        "mindar",
+        "sparkar",
+        "tailwind"
+      ],
+      "description_md": "## ✨ Inspiration\n\nThe inspiration behind ARcademy was the current lack of Student Engagement in today's Post-Covid Era. With the increased reliance on technology for learning, we recognized the opportunity to create an application that would provide a comprehensive and engaging educational experience for students across all levels of education. It solves the challenge of complex STEM word problems by offering immersive visualizations. This bridges the gap between theory and application, making STEM subjects more accessible, and enabling better learning.\n\n## 👩🏽‍🎓 What it does\n\nARcademy is a one-stop education platform that digitalizes classroom learning. You can bring textbooks of ANY subject to life with our Interactive AR. We use augmented reality (AR) technology to enable students to explore 360-degree, 3D animated diagrams from their textbooks using their phone camera. Students can then bring their textbooks to life, exploring interactive 3D Models of their lesson materials from Biology to Chemistry to Physics to Math!\n\n## 👨🏽‍💻 How we built it\n\nThe team behind ARcademy built the application using a combination of software development technologies and educational expertise. The interactive lessons and augmented reality features were developed using AR development frameworks and 3D modelling tools such as open-source MindAR and AR.js for web apps. The application was designed to be compatible with mobile devices, ensuring accessibility for students. No fuss about downloading anything\n\n## 💥 Challenges we ran into\n\nDuring the development of ARcademy, the team faced several challenges. One of the challenges was integrating the augmented reality technology seamlessly into the application to provide an immersive and interactive experience. We overcame technical hurdles and optimised the performance of the AR features by using open-source MindAR framework. We decided to use existing infrastructure like textbooks to ensure seamless usage of our AR and AI, without the need to buy/download anything else.\n\n## 😄 Accomplishments that we're proud of\n\nThe team at ARcademy is proud of several accomplishments. Firstly, We successfully developed an application that combines education and entertainment, making the learning journey more enjoyable for young students. The integration of augmented reality technology and the creation of visually stimulating 3D animated diagrams were significant achievements. Lastly, we are proud of every bug we fixed. Reading through the documentation several times surely got us a solid understanding of the technologies to use in our future projects!😁\n\n## 🎓 What we learned\n\nDuring the development of ARcademy, the team gained valuable insights and knowledge. We learned about the technical aspects of integrating augmented reality into educational applications and the challenges in optimizing performance and user experience. They also deepened their understanding of how to create engaging and interactive lessons catering to young students' needs.\n\n## 👀 What's next for ARcademy\n\nFor ARcademy, the future holds exciting possibilities. The team plans to expand the application with more features to cater to students of all grade levels and difficulties. They aim to diversify the subjects and topics covered, introducing Math, Geography and History.\n\nAdditionally, the team intends to make this project into a startup, after consulting educators and business mentors. We envision ARcademy to be everywhere, from pre-schools, and primary schools to even tertiary institutions. Every boring chapter becomes fun with AR visualization and AI interactability. One sector we want to target specifically is Tuition Centers in Singapore. Given the small classroom size, we can be sure ARcademy can introduce play into education for every child",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/623/418/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/623/417/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/623/419/datas/original.jpeg"
+      ],
+      "is_winner": true
+    },
+    {
+      "slug": "foodr-ihad3c",
+      "project_url": "https://devpost.com/software/foodr-ihad3c",
+      "title": "Foodr",
+      "tagline": "Just eat lah",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/003/659/048/datas/medium.png",
+      "thumbnail_local": "/hackathons/foodr-ihad3c.png",
+      "event_name": ".HACKathon",
+      "event_url": "https://dothackathon.devpost.com/",
+      "organizer": ".HACKathon",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/dillionlim",
+          "name": "Dillion Lim"
+        },
+        {
+          "devpost_url": "https://devpost.com/tewenhao",
+          "name": "Tew En Hao"
+        },
+        {
+          "devpost_url": "https://devpost.com/nicholas-zhengkai-ong",
+          "name": "Nicholas Ong"
+        },
+        {
+          "devpost_url": "https://devpost.com/sayglenn",
+          "name": "Glenn Say"
+        }
+      ],
+      "built_with": [
+        "gemini",
+        "nextjs",
+        "prisma",
+        "redis",
+        "scikit-learn",
+        "shadcn",
+        "supabase",
+        "tailwind",
+        "typescript",
+        "vercel"
+      ],
+      "description_md": "## Problem AHHHHHHHH I'm crashing out\n\nThe first world problem of indecisiveness of choosing what to eat in a group setting. Imagine yourself after work/school and you’re going out with your friends/colleagues for dinner. You ask the group,\n\n\"Hey what do y'all want to eat?\" → \"Anything\" → \"Chicken rice?\" → \"Anything\" → \"McDonald's?\" → \"Oh I ate that yesterday\"\n\nThis simple yet frustrating situation is one Singaporeans know all to well, eating up our time and patience.\n\n## Stats\n\n10-30 minutes spent by Singaporeans deciding what to eat daily, 14% spend more than 30 minutes deciding. (According to a 2022 Deliveroo Survey)\n\n## What it does\n\nFoodr transforms group food decision-making into an engaging, GRINDR-like LIKE SWIPING process where everyone's preferences matter. Through individual swiping and AI scoring algorithms, groups reach consensus efficiently + FUN.\n\n## How we built it\n\nLook at the README for technical details.\n\n## Challenges we ran into\n\nSMU guest wifi firewall blocking supabase\n\n## Accomplishments that we're proud of\n\nour front-end works better on laptop desipte being a mobile first app\n\n## What we learned\n\nTwo TikTok engineers can fix vibe code slop.\n\n## What's next for Foodr\n\nIntegrate into Grindr",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/056/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/227/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/257/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/258/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/228/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/229/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/232/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/230/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/231/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/234/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/659/235/datas/original.jpg"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "art-ificial-failure",
+      "project_url": "https://devpost.com/software/art-ificial-failure",
+      "title": "Art-ificial Failure",
+      "tagline": "Skribble.io BUT drawing things that other players will get, but an AI won't!",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/003/219/988/datas/medium.png",
+      "thumbnail_local": "/hackathons/art-ificial-failure.png",
+      "event_name": "Hack&Roll 2025",
+      "event_url": "https://hacknroll2025.devpost.com/",
+      "organizer": "Hack&Roll 2025",
+      "prizes": [
+        "Winner — Best Pre-University Hack"
+      ],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/rezky-adrianshah",
+          "name": "Rezky Adrianshah"
+        },
+        {
+          "devpost_url": "https://devpost.com/thaddeusleewj",
+          "name": "Thaddeus Lee"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [
+        "docker",
+        "fly.io",
+        "react",
+        "supabase",
+        "tailwindcss",
+        "typescript",
+        "vite"
+      ],
+      "description_md": "## DRAW PICTURES. FOOL AI.\n\n Human vs AI party game: Draw things that humans will get, but an AI won't! \n\nPushing your creativity to outdraw the latest overpowered AI models. \n\n### Creativity.\n\n🤖 Inspiration\n\nAdvancements in AI have sparked massive debates in the prevalence of these technologies in creative sectors, like digital art, literature and media. This begs the question:\n\n**What makes human art different?**\n\nBy combining the fun of classic party games like Skribble.io, we want to highlight the uniqueness and charm in art that only fleshy, *non-metallic* brains can make.\n\n❓WHAT IT DOES:\n\nAt its core, we've flipped the script on traditional Pictionary, where people compete against each other, to one where human players have to band together to outwit the smartest AI models available.\n\n- **Forcing new, Roundabout Approaches:** In having to face an unfamiliar artificial opponent, players have no choice but to find novel ways to get their messages across to their fellow blood-filled brethren.\n\n🏗️ HOW WE BUILT IT:\n\nWe broke down our development roadmap into its core features:\n\n- **AI Implementation**: Deployed custom API wrapper around openai GPT-4o and Gemini for zero-shot image prediction\n\n- **Creating the Canvas:** We created our canvas from scratch, to have the freedom to implement our unique twist.\n\n- **Multiplayer Networks:** We created a robust online multiplayer system by utilizing sockets and Supabase Realtime.\n\n**Tech Stack:**\n\n- Server hosting: Vercel\n\n- Frontend: React + TailwindCSS + Vite\n\n- Backend: FastAPI\n\n- Database: Supabase\n\n- AI models: OpenAI GPT-4o + Google Gemini\n\n🚧CHALLENGES WE CAME ACROSS:\n\n- **Multiplayer Functionality:** Web sockets are a pain in the ass.\n\n- **Deployment:** *Page build failed to deploy* | staring in our faces throughout the night\n\n- **Time Constraints:** To squeeze out a polished product in just 24-hours took intensive efforts and consulting.\n\nHOW TO PLAY:\n\n- Game Setup: Each round begins with a prompt that only the Artist can see (e.g., \"Football\").\n\n- The Challenge: The artist has 60 seconds to draw their interpretation of the prompt. Here's the twist: they must make their drawing clear for the human Guessers, but obscure or misleading enough to fool the AI.\n\n- The AI Judge: The Guessers and Judge have 60 seconds to guess the phrase while the drawing progresses.\n\n- Scoring: the Artist gets points for every correct Guesser, while the Guessers score for correct answers. However, if the Judge guesses correctly, everybody loses points!\n\n- Win Condition: After the final round, the player with the most points wins! KEY FEATURES:\n\n- **AI Antagonist:** Competing against the AI sparks creativity and adds a layer of complexity to gameplay!\n\n- **Engaging UI/UX:** A fun and accessible interface for both drawing and guessing, with vibrant visuals and intuitive controls.\n\n- **Always Replayable:** Randomized prompts and unpredictable AI interpretations keep the game fresh and exciting every time.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/219/873/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/249/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/253/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/256/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/220/datas/original.png"
+      ],
+      "is_winner": true
+    },
+    {
+      "slug": "aivy",
+      "project_url": "https://devpost.com/software/aivy",
+      "title": "AiVY [Team apt-get trophy]",
+      "tagline": "Blockchain DRM system with AI poisoning offences against Generative AI",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/912/140/datas/medium.jpg",
+      "thumbnail_local": "/hackathons/aivy.jpg",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/thaddeusleewj",
+          "name": "Thaddeus Lee"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/rezky-adrianshah",
+          "name": "Rezky Adrianshah"
+        }
+      ],
+      "built_with": [
+        "blockchain",
+        "etherium",
+        "flask",
+        "metamask",
+        "pinata",
+        "react",
+        "solidity",
+        "tensorflow",
+        "vite",
+        "web3"
+      ],
+      "description_md": "## 🌟 Inspiration\n\nWith the advent of digitization, accessing digital content has become incredibly convenient, transforming media consumption. However, this ease of access has introduced significant challenges in safeguarding the intellectual property rights of digital content creators and distributors.\n\nInspired by Nightshade's popularity among artists for protecting digital artworks from AI scraping by rendering image data useless for AI training, we developed a two-pronged solution to preserve content authenticity.\n\n## 🔍 What it does\n\nWe add artwork images to the blockchain to create an immutable record such that any member of the public can trace the origin owner which assists in legal disputes and prevents poisoning unlicensed images\n\nOur 2-prong solution includes:\n\n- Minting on Ethereum Blockchain: We mint AI-generated content as NFTs on the Ethereum blockchain, creating a secure and immutable record of ownership and authenticity.\n\n- Image Poisoning API: We implement an image poisoning API to embed subtle alterations into images, making them resistant to unauthorized AI reproduction and manipulation.\n\n## 🛠️ How we built it\n\nOur development involved many steps:\n\n### 1. Conceptualization and Planning\n\nWe began by identifying the key issues faced by digital content creators, particularly the challenges related to intellectual property rights and unauthorized AI reproduction. This led to the development of our two-pronged solution: minting NFTs on the blockchain and implementing an image poisoning API.\n\n### 2. Tech Stack Selection\n\nWe carefully selected a tech stack that would allow us to build a robust and scalable platform:\n\n- **Frontend:** ReactJS and TypeScript were chosen for their powerful capabilities in building dynamic and interactive user interfaces. ShadCN was utilized for styling, ensuring a modern and user-friendly design.\n\n- **Backend:** Flask was selected as our backend framework due to its simplicity and flexibility, which allowed us to rapidly develop and deploy our APIs.\n\n- **Blockchain Integration:** Ethereum blockchain was chosen for its widespread adoption and strong support for NFT standards.\n\n### 3. Blockchain Integration\n\nWe integrated blockchain technology to create a secure and immutable record of ownership and authenticity for digital content:\n\n- **Smart Contract Development:** We developed smart contracts using Solidity to mint NFTs on the Ethereum blockchain. These smart contracts handle the creation, transfer, and verification of ownership for digital artworks.\n\n- **NFT Minting:** We implemented the minting process, allowing users to create NFTs representing their digital artworks. Each NFT contains metadata that includes the artwork’s details and proof of ownership.\n\n### 4. Image Poisoning API Development\n\nTo protect images from unauthorized AI reproduction, we developed an image poisoning API:\n\n- **Algorithm Design:** We researched and designed algorithms that embed subtle, imperceptible alterations into images. These alterations are designed to confuse AI models, rendering the images less useful for training purposes.\n\n- **API Implementation:** Using Flask, we built an API that allows users to upload images and receive poisoned versions in return. The API processes the images, applies the poisoning algorithm, and returns the protected images to the user.\n\n### Tech Stack\n\nOur project is built using:\n\n- **Frontend:** ReactJS, TypeScript, ShadCN\n\n- **Backend:** Flask\n\n- **Blockchain Integration:** Ethereum Blockchain\n\n## 🚧 Challenges we ran into\n\n- Time Constraints and Idea Pivot: Our initial concept had to be adjusted to fit the hackathon timeline.\n\n- Learning Web3 Concepts: We faced challenges in understanding Web3 concepts, particularly blockchain technology and its various applications such as minting and decentralized systems.\n\n- Image Poisoning Implementation: It was difficult to generate poisoned images within the limited time available, as this process required complex algorithms and precise execution.\n\n## 🏆 Accomplishments that we're proud of\n\nWe overcame the steep learning curve associated with Web3 concepts and successfully implemented blockchain technology, including minting NFTs on the Ethereum blockchain\n\n## 📚 What we learned\n\nWeb3 Integration: Whilst developing Aivy, we delved deep into blockchain technology, gaining a solid understanding of its mechanisms and applications. We successfully implemented blockchain-based solutions, including minting NFTs on the Ethereum blockchain. This allowed us to create a secure and immutable record of ownership and authenticity for digital content, showcasing the potential of blockchain to revolutionize digital rights management.\n\n## 🔮 What's next for AiVY\n\nThere are many future approaches that we can use to improve AiVY.\n\n- Enhance Image Poisoning Algorithms We aim to refine and enhance our image-poisoning algorithms to ensure even greater resistance against unauthorized AI reproduction. Integrating more sophisticated techniques can make our images more robust while preserving their visual quality.\n\n- Expanding Blockchain Integration and Introduction to zk-SNARKs We plan to explore additional blockchain platforms to mint the NFTs, ensuring our solution remains adaptable and versatile. Incorporating zk-SNARKs into AiVY will significantly enhance the privacy of our users. When verifying ownership of digital artwork on the blockchain, zk-SNARKs can provide proof of ownership without disclosing any sensitive details. This ensures that the verification process is secure and private, protecting the identities and privacy of our users.\n\n## How does your hack answer the problem statement\n\nThe hack addresses the problem statement by providing a comprehensive solution to strengthen Digital Rights Management (DRM) and protect the intellectual property rights of digital content creators and distributors. Here's how:\n\nBlockchain-based NFT Minting: By minting AI-generated content as Non-Fungible Tokens (NFTs) on the Ethereum blockchain, the hack creates a secure and immutable record of ownership and authenticity. This ensures that the digital content is uniquely owned and cannot be duplicated or distributed without authorization. Each NFT contains metadata that includes the artwork's details and proof of ownership, allowing creators to assert their rights over their work.\n\nImage Poisoning API: The implementation of an image poisoning API adds an additional layer of protection against unauthorized reproduction and manipulation of digital images. By embedding subtle alterations into images, the API makes them resistant to AI-based scraping and reproduction. This helps prevent unauthorized access and distribution of digital content by rendering the images less useful for training AI models or creating derivative works.\n\nOverall, the combination of blockchain-based NFT minting and image poisoning technology provides a robust DRM solution that addresses the challenges of unauthorized access, distribution, and reproduction of digital content in today's digitized world. It empowers content creators and distributors to assert control over their intellectual property rights and safeguard their digital assets effectively.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/233/datas/original.jpg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/244/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/245/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/246/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/247/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/912/248/datas/original.jpeg"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "tunein-eqm0c5",
+      "project_url": "https://devpost.com/software/tunein-eqm0c5",
+      "title": "TuneIn",
+      "tagline": "Turn dry topics into unforgettable melodies with TuneIn. Learn & retain information effortlessly through engaging tunes.",
+      "thumbnail_url": "https://d2dmyh35ffsxbl.cloudfront.net/assets/shared/devpost_social_icon_200_200-f56e5af715a1d95e0209bb37e899b7c18c6e7e3b933a3c1f52456a6e2ee85d09.jpg",
+      "thumbnail_local": "/hackathons/tunein-eqm0c5.jpg",
+      "event_name": "Deep Learning Week Submission",
+      "event_url": "https://deep-learning-week.devpost.com/",
+      "organizer": "Deep Learning Week Submission",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/TangJiaYi01",
+          "name": "Jia Yi Tang"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kenJPG",
+          "name": "Kenneth Chen"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [
+        "nextjs",
+        "sunoai"
+      ],
+      "description_md": "## Inspiration\n\nThe spark for TuneIn came from a common pain point: the monotony and difficulty of memorizing dense educational material 📚. We recognized the power of music 🎶 and visuals 🎨 in making emotional connections and enhancing memory retention. By combining these elements, we aimed to revolutionize the traditional learning process, making it not just more effective but also genuinely enjoyable and engaging for users.\n\n## What it does\n\nTuneIn transforms educational topics into memorable, catchy songs 🎵, complete with custom-generated background videos 📹. Users simply input a topic they wish to memorise and keywords to include, and TuneIn does the rest, creating a personalized, music-backed video to make learning and memorization a breeze. It’s like having a study buddy who knows how to make any topic fun and easy to remember.\n\n## How we built it\n\nTuneIn harnesses the power of SunoAI for dynamic music generation 🎵, enabling the creation of unique and catchy tunes tailored to each educational topic. The user interface is powered by NextJS, offering a fast and intuitive experience 🖥️ for users to input topics and receive their personalized songs. Alongside, we employed video generation technology 📹 to produce visuals to keep the users engaged.\n\n## Challenges we ran into\n\nWe faced two big challenges: limited time ⏳ and technical difficulties 🛠️. We only had three days to finish everything, which meant we had to work very fast. Also, making SunoAI create the kind of music we wanted for our lessons was tough and took a lot of effort to get it right.\n\n## Accomplishments that we're proud of\n\nWe are immensely proud of TuneIn's ability to make memorizing enjoyable and effective 🌟. Our tool has not only facilitated easier learning but hopefully will spark a newfound love for education amongst users ❤️, breaking down barriers to knowledge acquisition.\n\nUsing Stanford EDGE, ControlNets, ComfyUI, SD VAE, OpenPose and little to no money to generate a decent video!\n\n## What we learned\n\nWe learned a lot about using SunoAI for music creation 🎶 and video generation techniques 🎬. This experience taught us how to blend AI with educational content effectively.\n\n## What's next for TuneIn\n\nWe plan to expand our platform with a library of pre-generated content 📚 for quicker access and to introduce more customization options 🔧, allowing users to tailor the learning experience even more closely to their needs.\n\nJupyter Notebook: [https://github.com/kenJPG/animate](https://github.com/kenJPG/animate)",
+      "gallery": [],
+      "is_winner": false
+    },
+    {
+      "slug": "a-brilliant-cobra-duel",
+      "project_url": "https://devpost.com/software/a-brilliant-cobra-duel",
+      "title": "A Brilliant Cobra Duel",
+      "tagline": "Classic game of 1v1 Snake but re-imagined in 2024 with LLM spice",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/723/444/datas/medium.png",
+      "thumbnail_local": "/hackathons/a-brilliant-cobra-duel.png",
+      "event_name": "Hack&Roll 2024",
+      "event_url": "https://hacknroll2024.devpost.com/",
+      "organizer": "Hack&Roll 2024",
+      "prizes": [
+        "Winner — Best Pre-University Hack"
+      ],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/thaddeusleewj",
+          "name": "Thaddeus Lee"
+        },
+        {
+          "devpost_url": "https://devpost.com/TangJiaYi01",
+          "name": "Jia Yi Tang"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [
+        "next",
+        "openai",
+        "shadcn",
+        "supabase",
+        "typescript"
+      ],
+      "description_md": "## 🌟 Inspiration\n\nThe recent advancements in Language Model (LM) technologies, including ChatGPT, have sparked our creativity. We aimed to blend the classic charm of the *Nokia Snake Game* with the cutting-edge capabilities of LMs. Our two-fold objective was:\n\n- **Revitalizing the Classic**: Transforming the timeless Nokia Snake Game into a 2024 version, infused with LM innovations.\n\n- **Educational and Fun Competition**: Introducing a platform to teach the significance of effective Prompt Engineering in an entertaining, competitive setting with friends.\n\n## 👩🏽‍🎓 What It Does\n\nIn a nutshell, we've transformed the classic 1v1 Snake game into a battle of LMs. Instead of playing traditionally, players craft a strategic prompt that dictates the game's AI behavior. This approach turns the game into a test of skill in prompt engineering, offering a unique challenge to determine who among your friends is the superior prompt engineer.\n\n## 👨🏽‍💻 How We Built It\n\nOur development process involved several key steps:\n\n- **Re-creating the Snake Game**: We developed our version from scratch to fit our unique concept, which wasn't possible with existing clones.\n\n- **Advanced Multiplayer Networking**: Utilizing socket programming, we created a robust system for multiplayer interactions.\n\n- **LM Integration**: We wrapped the OpenAI API within our system, allowing for prompt-driven gameplay.\n\n**Tech Stack**: Our project is built using NextJs, Typescript, ShadCn, Supabase, and the OpenAI API.\n\n## 🚧 Challenges We Ran Into\n\n- **Time Constraints and Idea Pivot**: Our initial concept had to be adjusted to fit the hackathon timeline.\n\n- **Socket Implementation**: Developing a real-time, multiplayer game environment with smooth synchronization posed a significant technical challenge.\n\n- **Full-Stack Integration**: Combining different technologies like OpenAI API and Supabase required meticulous coordination for seamless operation.\n\n## 💪 Accomplishments We're Proud Of\n\n- **Innovative Recreation of Snake Game**: Successfully adding a unique, AI-driven twist to the classic game.\n\n- **Seamless Multiplayer Experience**: Our integration of real-time multiplayer gameplay stands out as a significant achievement.\n\n## 🚀 What's Next for A Brilliant Cobra Duel\n\n- **Introduction of a Ranked System**: To add a competitive edge to the gameplay.\n\n- **Model Options**: Providing players with a choice of different LM models for varied strategies and gameplay experiences.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/723/446/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/076/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/077/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/603/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/724/602/datas/original.png"
+      ],
+      "is_winner": true
+    },
+    {
+      "slug": "test-82nad3",
+      "project_url": "https://devpost.com/software/test-82nad3",
+      "title": "NutriDash",
+      "tagline": "NutriDash is an innovative game that blends the thrill of endless runner gameplay with a meaningful twist on health education.",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/672/226/datas/medium.png",
+      "thumbnail_local": "/hackathons/test-82nad3.png",
+      "event_name": "The Green Plan 2030 Challenge",
+      "event_url": "https://the-green-plan-2030-challenge.devpost.com/",
+      "organizer": "The Green Plan 2030 Challenge",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/TangJiaYi01",
+          "name": "Jia Yi Tang"
+        }
+      ],
+      "built_with": [
+        "microbit",
+        "scratch"
+      ],
+      "description_md": "## Inspiration\n\nThe inspiration for NutriDash comes from the desire to combine the excitement and engagement of endless runner games with a meaningful message about healthy eating. By integrating the concept of avoiding unhealthy foods and collecting healthy ones, the game aims to subtly educate players about nutrition and healthy lifestyle choices, while engaging the players in a fun, action-packed experience.\n\n## What it does\n\nIn NutriDash players control a character who runs through various environments, dodging unhealthy foods like sweets, fast food, and sodas. The objective is to collect healthy food items, like fruits, vegetables, and grains, which score points. The game's mechanics encourage quick reflexes and decision-making, mirroring the real-life choices we make in our diets.\n\n## How we built it\n\nThe game was developed using Scratch and micro:bit, tools known for their accessibility and educational value. Our project leveraged Scratch's intuitive drag-and-drop interface to animate the gameplay and micro:bit's interactive hardware capabilities for physical engagement. The design emphasized user-friendly navigation, captivating visuals, and scalable challenges to engage a diverse audience of players.\n\n## Challenges we ran into\n\nBalancing educational content with engaging gameplay was a significant challenge. Ensuring the game was fun without being preachy about healthy eating required careful design and testing. Technical challenges included optimizing the game for various devices and creating an adaptive difficulty level that could cater to everyone.\n\n## Accomplishments that we're proud of\n\nWe are particularly proud of creating a game that is not only entertaining but also serves an educational purpose. The positive feedback from players who found the game helpful in making better food choices in real life has been incredibly rewarding. Additionally, the game's ability to appeal to a wide audience, regardless of age or gaming experience, stands as a testament to its accessibility and universal appeal.\n\n## What we learned\n\nThis project taught us the importance of interdisciplinary collaboration - combining skills in gaming, education, and nutrition led to a more impactful product. We learned that educational content can be effectively integrated into games to create an engaging and informative experience. The development process also provided insights into user behavior and preferences in mobile gaming.\n\n## What's next for NutriDash\n\nThe future plans for NutriDash include expanding the game with more levels, diverse environments, and additional healthy food options. We are also exploring partnerships with educational institutions and health organizations to use the game as a tool for promoting healthy eating habits among children and teenagers. Additionally, we're looking into incorporating more interactive educational content, possibly through mini-games or quizzes integrated into the gameplay.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/672/221/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/672/224/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/672/220/datas/original.jpeg"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "daaarubi",
+      "project_url": "https://devpost.com/software/daaarubi",
+      "title": "SustainaBite - DAAARubi",
+      "tagline": "RUBI",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/572/497/datas/medium.png",
+      "thumbnail_local": "/hackathons/daaarubi.png",
+      "event_name": "What The Hack 2023",
+      "event_url": "https://wth-2023.devpost.com/",
+      "organizer": "What The Hack 2023",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/kenJPG",
+          "name": "Kenneth Chen"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/vineesh12344",
+          "name": "vineesh12344"
+        }
+      ],
+      "built_with": [
+        "docker",
+        "fastapi",
+        "huggingface",
+        "langchain",
+        "node.js",
+        "react",
+        "render",
+        "tailwindcss"
+      ],
+      "description_md": "## Inspiration\n\nAs we students are more accustomed to having meals prepared by someone else than doing so ourselves, we are not the best at keeping track of ingredients’ expiration dates. As a consequence, money is wasted and food waste is produced. This pattern not only affects us personally but also contributes to the global problem of food waste and its associated environmental impact. Additionally, as novices to cooking, we want a seamless guide on how we can fully cook the groceries that are going to expire\n\n## What it does\n\nOur solution, \"Sustainabite,\" is a user-friendly platform designed to seamlessly integrate into the routines of modern households for groceries. Here's how it works:\n\n### Groceries / Recipe Scan:\n\nUsers can either capture an image of their grocery receipt or directly photograph the items they've purchased. Our platform employs Document Understanding Transformers and Zero-Shot Foundational Vision Models to accurately identify limitless food items.\n\n### Smart Expiration Estimation:\n\nUsing database of perishable food as a reference material for an LLMs to generate an estimated expiration date for each food item\n\n### Personalized Recipe Generation:\n\nTo further encourage sustainable practices, Sustainabite automatically generates recipes based on the soon-to-expire ingredients. This not only helps users utilize their groceries efficiently but also enhances their culinary skills by suggesting creative recipes. Utilized edamam API, which is a repository of Food recipes to extract recipe and LLMs to condense information.\n\n### Accessible Grocery Management:\n\nWe provide users with a web-based application to manage their groceries. This application is seamlessly connected to a cloud-based database, ensuring users can easily track the status and estimated expiration dates of their items from any device.\n\n## Challenges we ran into\n\nTrying to deploy large-scale foundational models (Donut, RecognizeAnything, GroundingDINO,CLIP) was a challenge due to expense costs. We managed to find a solution, running a 24GB NVIDIA RTX 3090 for less than 30 cents per hour.\n\n## Accomplishments that we're proud of\n\n### Utilization of Language Models\n\nIntegrating LLMs (Language Models) for both estimating expiration dates of ingredients and generating personalized recipes was a significant accomplishment. Leveraging the capabilities of these models allowed us to provide users with valuable insights into their groceries and inspire them to cook creatively with soon-to-expire items. This achievement demonstrated our aptitude for harnessing state-of-the-art AI technologies to solve real-world problems.\n\n### Micro-service Integration\n\nIntegrating multiple micro-services, including OCR, expiry date estimation, and recipe generation, into a coherent application was another challenge. Ensuring that these disparate components communicated effectively and produced accurate results required meticulous coordination. We learned the significance of designing clear API specifications protocols between services. This experience enhanced our understanding of scalable and modular software architecture.\n\n## What's next for SustainaBite\n\n- Ability to integrate leftover ingredients after meals\n\n- Smart refrigerator for even more seamless integration\n\nSubmitting project",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/172/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/170/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/153/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/154/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/571/171/datas/original.jpeg"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "cotton-pickers-eduplay",
+      "project_url": "https://devpost.com/software/cotton-pickers-eduplay",
+      "title": "Cotton Pickers EduPlay",
+      "tagline": "An “Engagement-First” Education Application to engage students on a Behavioural and Cognitive level, through the leverage of AR + CV technologies.",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/492/600/datas/medium.png",
+      "thumbnail_local": "/hackathons/cotton-pickers-eduplay.png",
+      "event_name": "LifeHack 2023",
+      "event_url": "https://lifehack-23.devpost.com/",
+      "organizer": "LifeHack 2023",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/mohammedkhambhati2020",
+          "name": "Mo Khambhati"
+        },
+        {
+          "devpost_url": "https://devpost.com/Ray27th",
+          "name": "Raymond Loong Ng"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [
+        "css",
+        "html",
+        "javascript",
+        "mindframe",
+        "opencv",
+        "python",
+        "streamlit"
+      ],
+      "description_md": "## ✨ Inspiration\n\nThe inspiration behind Cotton Pickers EduPlay was the current lack of Student Engagement in todays Post-Covid Era. With the increased reliance on technology for learning, we recognized the opportunity to create an application that would provide a comprehensive and engaging educational experience for students across all levels of education.\n\n## 👩🏽‍🎓 What it does\n\nCotton Pickers EduPlay is a one-stop education platform that digitalizes classroom learning. You can bring MOE textbooks of ANY subject to life with our Interactive AR. We use augmented reality (AR) technology to enable students to explore 360-degree, 3D animated diagrams from their textbooks using their phone camera.\n\nWe also have made a Virtually Unlimited Interactive Whiteboard using AI. EduPlay provides Behavioral and Cognitive engagement of students through its drawing tools. Students and Teachers can now interact on a whole new plane.\n\nImagine a classroom, where the teacher can just draw equations and explain lessons using just their fingers and laptop webcam! Imagine a student who can just raise their hand, and draw on the whiteboard right from their seat. Writing in the air feels magical. Students can then bring their MOE textbooks to life, exploring interactive 3d Models of their lesson materials from Biology to Chemistry to Physics!\n\n## 👨🏽‍💻 How we built it\n\nThe team behind Cotton Pickers EduPlay built the application using a combination of software development technologies and educational expertise. The interactive lessons and augmented reality features were developed using AR development frameworks and 3D modeling tools such as open source MindFrame and Streamlit for web apps. The engaging drawing tools incorporated computer vision and AI technology to enable gesture-based interactions. We built the gesture detection AI first from scratch, then using MediaPipe to transfer learn and fine tune the detection. The application was designed to be compatible with mobile devices, ensuring accessibility for students. No fuss of downloading anything\n\n## 💥 Challenges we ran into\n\nDuring the development of Cotton Pickers EduPlay, the team faced several challenges. One of the challenges was integrating the augmented reality technology seamlessly into the application to provide an immersive and interactive experience. We overcame technical hurdles and optimizing the performance of the AR features by using opensource MindFrame framework.\n\nAnother challenge was developing the drawing tools to accurately interpret hand gestures and provide a smooth user experience. We transfer learned our Gesture Detection with MediaPipe to make a responsive AI. Balancing the educational content with engaging gamified activities was also a challenge. We decided to use existing infrastructure like MOE textbooks to ensure seamless usage of our AR and AI, without the need to buy/download anything else.\n\n## 😄 Accomplishments that we're proud of\n\nThe team at Cotton Pickers EduPlay is proud of several accomplishments. Firstly, We successfully developed an application that combines education and entertainment, making the learning journey more enjoyable for young students. The integration of augmented reality technology and the creation of visually stimulating 3D animated diagrams were significant achievements. The team also takes pride in developing drawing tools that utilize computer vision and AI, enabling students to express their creativity while learning. Lastly, we are proud of every bug we fixed. Reading through the documentation several times surely got us a solid understanding of the technologies to use in our future projects!😁\n\n## 🎓 What we learned\n\nDuring the development of Cotton Pickers EduPlay, the team gained valuable insights and knowledge. We learned about the technical aspects of integrating augmented reality into educational applications and the challenges involved in optimizing performance and user experience. They also deepened their understanding of how to create engaging and interactive lessons that cater to the needs of young students. Additionally, the team learned about the potential of computer vision and AI technology in enhancing educational tools and fostering creativity.\n\n## 👀 What's next for Cotton Pickers EduPlay\n\nFor Cotton Pickers EduPlay, the future holds exciting possibilities. The team plans to expand the application with more features to cater to students of all grade levels and difficulties. They aim to diversify the subjects and topics covered, introducing Math, Geography and History.\n\nAdditionally, the team intends to make this project into a startup, after consulting educators and business mentors. We envision EduPlay to be everywhere, from Pre-schools, to Primary schools to even Polytechnics. Every boring chapter becomes fun with AR visualization and AI interactability. One sector we want to target specifically is Tuition Centers in Singapore. Given the small classroom size, we can be sure EduPlay can introduce Play into Education for every child",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/492/222/datas/original.jpeg",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/492/711/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/492/781/datas/original.png"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "dr-go-61fybu",
+      "project_url": "https://devpost.com/software/dr-go-61fybu",
+      "title": "DR GO",
+      "tagline": "Medical Research TLDR",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/398/490/datas/medium.jpeg",
+      "thumbnail_local": "/hackathons/dr-go-61fybu.jpeg",
+      "event_name": "iNTUition v9.0",
+      "event_url": "https://intuition-v9-0.devpost.com/",
+      "organizer": "iNTUition v9.0",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [
+        "cheerio",
+        "css",
+        "html",
+        "javascript",
+        "node.js",
+        "python",
+        "thebloodsweatandtearsofsmallchildren"
+      ],
+      "description_md": "## Inspiration\n\nDoctors now a days have so much information to filter through, with leaps and bounds being made each year in the medical industry.\n\nNew Diseases, cures, and medications are all very hard for them to cram, especially as doctors get a larger workload.\n\nThus our application was made to give doctors a quick summary and reference to research papers online.\n\n## What it does\n\nProvides doctors/medical researchers streamlined platform to access latest news in a TLDR manner\n\n## How we built it\n\nThere's 3 main components to our web application.\n\n- **Webscraping** We needed a way to continuously extract medical research papers being released. We made use of cheerio library to extract the title, abstract, methodology, conclusion from sources like [medical research archives](https://esmed.org/MRA/mra) and [The BMJ](https://www.bmj.com/research/research).\n\n- **Summarization + topic labelling** Perform summarization using bart model on title, abstract, methodology, conclusion of each research paper. Zero shot classification to predict topic labels ( Brain, heart , eyes etc )\n\n- **Full Stack Deployment** Front-end, dynamic image map. In back-end, pass webscraped data to cloud hosted bart model through Node.js endpoint. Get out sumarized title + text to display\n\n## Challenges we ran into\n\nCreating a dynamic image map was partiularly difficult, needing to track each image and its appropriate reference areas. Webscraping the appropriate content dynamically. We also had lots of trouble setting up our APIs to work as intended.\n\n## Accomplishments that we're proud of\n\nWe managed to submit a minimum viable product that has the core features of what we wanted to accomplish in time.\n\n## What we learned\n\nTime management is vital in 24h hackathons and stop feature creep AKA being too ambitious to implement 1001 features and focus on the simple core features\n\n## What's next for DR GO\n\nIn future development, we plan on expanding the amount of content we can recieve and contact working professionals to get their opinion on our application so it can be refined to a stage that we can help real doctors with.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/398/695/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/398/762/datas/original.jpg"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "a-unicorn-s-treasure",
+      "project_url": "https://devpost.com/software/a-unicorn-s-treasure",
+      "title": "(The Rainbow Unicorn) A Unicorn's Treasure",
+      "tagline": "Trash to you, is treasure to Unicorn",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/002/029/468/datas/medium.png",
+      "thumbnail_local": "/hackathons/a-unicorn-s-treasure.png",
+      "event_name": null,
+      "event_url": null,
+      "organizer": null,
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/huekoh",
+          "name": "Hue Koh"
+        }
+      ],
+      "built_with": [
+        "firebase",
+        "flask",
+        "next",
+        "python",
+        "tensorflow"
+      ],
+      "description_md": "## Inspiration\n\nWe were inspired by the quote \"One person's trash, is another one's treasure\". With this, we set out to bring to life a unicorn who loves what most would deem as trash - recyclables.\n\n## What it does\n\nOur game follows a unicorn that collects his treasures in designated treasure chests around Singapore. This chests mark the real life locations of recycling bins and recycling vending machines. The user will be required to upload a photo of the objects they intend to recycle to our app, which will then identify and convert into in-game items stored in the inventory. The user will then be required to travel to a recycling point to drop off their recyclables in real life, as well as store their treasures in game. The items that players have treasured over the past month will be captured in game and can be used to compete in neighborhood leaderboards. Be warned though, the unicorn is not the only one who loves recyclables around here.\n\n## How we built it\n\nThe frontend is built with NextJS, which is a wrapper around ReactJS, a JS library to simplify frontend development. We chose NextJS for its simplicity and built in routing system.\n\nThe backend is built with flask, a python web framework. The flask app was mainly used as a REST API to interact with the tensorflow api and run the AI.\n\n## Challenges we ran into\n\nLinkage backend of Tensorflow Model using Flask\n\n## Accomplishments that we're proud of\n\nWe manage to integrate all the features we wanted to add\n\n## What we learned\n\nTime management is very important\n\n## What's next for A Unicorn's Treasure\n\nIn the future, we may add recycling events such as beach clean ups that users can participate in with one another. They event will require users to be at a certain beach in Singapore to collect washed up or littered objects to discard or recycle.",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/029/422/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/029/426/datas/original.png"
+      ],
+      "is_winner": false
+    },
+    {
+      "slug": "sofri",
+      "project_url": "https://devpost.com/software/sofri",
+      "title": "SoEnviroFri",
+      "tagline": "Trip planning in the finer lens. A useful tool to help drivers and car lovers to plan trips that take less time as compared to conventional GPS! Revolutionize the current GPS market with us!",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/001/656/693/datas/medium.png",
+      "thumbnail_local": "/hackathons/sofri.png",
+      "event_name": "What The Hack 2021",
+      "event_url": "https://sutdwth21.devpost.com/",
+      "organizer": "What The Hack 2021",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/elden-str",
+          "name": "Elden Sim"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        },
+        {
+          "devpost_url": "https://devpost.com/flouro",
+          "name": "Jones"
+        },
+        {
+          "devpost_url": "https://devpost.com/thatdavidguy",
+          "name": "David"
+        }
+      ],
+      "built_with": [
+        "css",
+        "html5",
+        "javascript",
+        "python"
+      ],
+      "description_md": "## Inspiration\n\nAs an active road user, I often feel that trips take *unnecessarily* long, sometimes running into *multiple* red lights in a single trip. I believe this is on account of the *suboptimal* GPS that almost all drivers use.\n\n## What it does\n\nUnlike traditional GPS, we plan to incorporate a trip planning feature that takes into account traffic light states. This helps to provide the user with a *matchless* route such that they will run into fewer red lights and arrive at their destination as soon as possible *ASAP*.\n\n## How we built it\n\nWe stuck to our python and javascript routes using simple python logic and javascript *magic* to create the brains of our operation including the Traffic light detector and Pattern Recognition. That was all then applied in conjunction with our website-building skills that allowed us to make use of HTML, CSS, and JS to display our data in a very user-friendly way.\n\n## Challenges we ran into\n\n~the team name~ Coordinating our work schedules especially since it's our holidays and many of us are busy on weekdays. However, we came around to it and managed to find time where we all could discuss in detail our solution.\n\n## Accomplishments that we're proud of\n\nThe Cohesion and energetic attitude of our team. We managed to work together with each other to bring you something we are *proud* and *confident* of.\n\n## What we learned\n\nTo schedule meetings and spread out work efficiently and in a meaningful way\n\n## What's next for SoEnviroFri\n\nWe plan on bringing the technology used for SoEnvirofri to other countries, integrating it with their road systems which may vary greatly from that of the urban landscape present in Singapore.",
+      "gallery": [],
+      "is_winner": false
+    },
+    {
+      "slug": "sofri-025",
+      "project_url": "https://devpost.com/software/sofri-025",
+      "title": "Sofri(025) - Jurassic Rush",
+      "tagline": "In this game you will have to make it through various dungeons and work your way to the final boss.To defeat the bosses, players will have to answer questions to defeat the bosses.",
+      "thumbnail_url": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/001/607/203/datas/medium.gif",
+      "thumbnail_local": "/hackathons/sofri-025.gif",
+      "event_name": "LifeHack 2021",
+      "event_url": "https://lifehack-2021.devpost.com/",
+      "organizer": "LifeHack 2021",
+      "prizes": [],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/flouro",
+          "name": "Jones"
+        },
+        {
+          "devpost_url": "https://devpost.com/elden-str",
+          "name": "Elden Sim"
+        },
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        },
+        {
+          "devpost_url": "https://devpost.com/UltraRaptorYT",
+          "name": "Soh Hong Yu"
+        }
+      ],
+      "built_with": [
+        "css",
+        "html",
+        "javascript"
+      ],
+      "description_md": "## Inspiration\n\nAs students ourselves, we struggled with recent events that happened. Thus our learning has shifted online and more can be done to ensure greater utilization of current technology through gaming.\n\n## What it does\n\nIn this game, you will have to make it through various dungeons and work your way to the final boss. To defeat the bosses, players will have to answer questions to defeat the bosses.\n\n## How we built it\n\n## Challenges we ran into\n\nWe are year 1 poly students and is our first 24-hour hackathon, thus we didn't have the skills needed to create what we originally planned\n\n## Accomplishments that we're proud of\n\nBeing able to make a game on the browser using pure JavaScript\n\n## What we learned\n\nWe learnt more about the javascript language and its capabilities it offers and also how to better work together under stressful situation and seeing our project through no matter the deadline.\n\n## What's next for Sofri(025)\n\nFuture Development for Jurassic Rush and make it server-wide with multiplayer functionality",
+      "gallery": [
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/001/607/146/datas/original.png",
+        "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/001/607/147/datas/original.png"
+      ],
+      "is_winner": false
+    }
+  ]
+}
