@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Directory Home & Work Experience
 status: executing
-stopped_at: Completed 14-01-PLAN.md (Phase 14 complete — SYAI content populated)
-last_updated: "2026-05-19T12:47:16Z"
-last_activity: 2026-05-19 -- Phase 14 complete
+stopped_at: Completed 15-01-PLAN.md (hackathons data layer + Phase 15 requirements enumerated)
+last_updated: "2026-05-20T04:47:12Z"
+last_activity: 2026-05-20 -- Phase 15 Plan 01 complete
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 5
-  total_plans: 16
-  completed_plans: 16
-  percent: 100
+  total_plans: 20
+  completed_plans: 17
+  percent: 85
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-18)
 
 **Core value:** Visitors can have a natural, human-sounding voice conversation with an AI clone of Kaleb that authentically represents his experience and personality.
-**Current focus:** Phase 14 — syai-meetups-content-population
+**Current focus:** Phase 15 — build-hackathon-page-with-hackathon-json-data-images-smart-u
 
 ## Current Position
 
-Phase: 14 (syai-meetups-content-population) — COMPLETE
-Plan: 1 of 1 complete
-Status: Phase 14 complete
-Last activity: 2026-05-19 -- Phase 14 complete
+Phase: 15 (build-hackathon-page-with-hackathon-json-data-images-smart-u) — EXECUTING
+Plan: 2 of 4 (15-01 complete; ready for 15-02 URL classifier)
+Status: Executing Phase 15
+Last activity: 2026-05-20 -- Phase 15 Plan 01 complete (hackathons data + requirements)
 
-Progress: [██████████] 100%
+Progress: [████████▌─] 85%
 
 ## Performance Metrics
 
@@ -57,12 +57,14 @@ Progress: [██████████] 100%
 | Phase 13 P02 | 3min | 3 tasks | 6 files |
 | Phase 13 P03 | 1min | 2 tasks | 2 files |
 | Phase 14 P01 | 6min | 2 tasks | 2 files |
+| Phase 15 P01 | 6min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
 ### Roadmap Evolution
 
 - Phase 12 added: Create dev branch for live preview environment separate from production kalebnim.dev
+- Phase 15 added: Build hackathon page with hackathon.json data, images, smart URL routing, and prize money display for winning hackathons
 
 ### Decisions (carried)
 
@@ -75,6 +77,8 @@ Progress: [██████████] 100%
 - [v3.0]: Voice clone becomes a floating overlay ("● talk to me") instead of being gated behind a `1 ⏎` boot sequence — voice still ships, just demoted from hero
 - [v3.0]: Hash router (`#/`, `#/work-experience`) over Next.js App Router routes — keeps the single-page terminal illusion intact
 - [v3.0]: This milestone only ships home + work-experience pages; meetups / hackathons / sidequests / hobbies / links stay stubbed (UI being finalised)
+- [Phase 15 P01]: Source HACK_ITEMS from `.planning/research/hackathons/hackathons.json` (22 projects) as a zero-cost cast; drive hackathons Section count/title/footer from HACK_STATS aggregator
+- [Phase 15 P01]: CV-vs-JSON winner reconciliation = Case C (no JSON patch). CV's 4 wins (POLYFINTECH 2023, Hack&Roll 2024, Hack&Roll 2025, HackOmania 2026) only partially overlap JSON's 3 winners (ARcademy, Hack&Roll 2024, Hack&Roll 2025); 2 CV wins are non-Devpost and out of scope for this dataset
 
 ### Pending Todos
 
@@ -98,6 +102,6 @@ None at milestone start.
 
 ## Session Continuity
 
-Last session: 2026-05-19T12:47:16Z
-Stopped at: Completed 14-01-PLAN.md (Phase 14 complete — SYAI content populated)
+Last session: 2026-05-20T04:47:12Z
+Stopped at: Completed 15-01-PLAN.md (Phase 15 data layer + requirements enumerated)
 Resume file: None
