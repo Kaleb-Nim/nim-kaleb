@@ -9,15 +9,18 @@ import HomePage from './components/HomePage';
 import StubSectionPage from './components/StubSectionPage';
 import WorkPage from './components/WorkPage';
 import MeetupsPage from './components/MeetupsPage';
+import HackathonsPage from './components/HackathonsPage';
+import HackathonLinksPage from './components/HackathonLinksPage';
 import NotFoundPage from './components/NotFoundPage';
 import FloatingMic from './components/FloatingMic';
 import VoiceOverlay from './components/VoiceOverlay';
 import { SECTIONS } from './lib/sections';
-import { useHashRoute } from './hooks/useHashRoute';
+import { useHashRoute, useHashSubRoute } from './hooks/useHashRoute';
 import { useRealtimeVoice } from './hooks/useRealtimeVoice';
 
 export default function Home() {
   const route = useHashRoute();
+  const subRoute = useHashSubRoute();
   const [voiceOpen, setVoiceOpen] = useState(false);
 
   // Single persistent voice hook — survives overlay open/close cycles so we
@@ -62,6 +65,8 @@ export default function Home() {
               <WorkPage section={section} />
             ) : section.id === 'syai-meetups' ? (
               <MeetupsPage section={section} />
+            ) : section.id === 'hackathons' ? (
+              subRoute ? <HackathonLinksPage /> : <HackathonsPage section={section} />
             ) : (
               <StubSectionPage section={section} />
             )
