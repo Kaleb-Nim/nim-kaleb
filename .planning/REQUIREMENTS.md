@@ -122,6 +122,18 @@ Deferred to future release.
 - [ ] **SYAI-CONTENT-02**: Every speaker for whom a real name is known (at minimum: Lim Mei Yu, Dr Mukundan A P, Tarun Kumar, Thorsten Schaeff, Assel Mussagaliyeva Tang, Dr Ferdin Joe John Joseph, Kaleb Nim) replaces the Phase-13 `'Speaker Name'` placeholder; LinkedIn URLs are populated when a real profile is known and left as `''` otherwise so the `in ↗` chip hides per SYAI-06
 - [ ] **SYAI-CONTENT-03**: No file under `app/components/**` is modified, the `MeetupItem` / `Speaker` type shape is unchanged, the SECTIONS `syai-meetups` count remains 11, and `bun run build` exits 0 (purely a `SYAI_ITEMS` data refresh)
 
+### Hackathons Page (Phase 15)
+
+- [ ] **HACK-DATA-01**: `HackathonItem` type in `app/lib/sections.ts` (or sibling `app/lib/hackathons.ts`) captures every field from `.planning/research/hackathons/hackathons.json` (slug, project_url, title, tagline, thumbnail_url, thumbnail_local, date, date_iso, event_name, event_url, organizer, prizes, team, built_with, description_md, gallery, is_winner, extra_links, sources); `Section.items` union accepts `HackathonItem[]`
+- [ ] **HACK-DATA-02**: `HACK_ITEMS` is sourced from `hackathons.json` (not the legacy 15-item placeholder); the hackathons `Section.count` and `Section.footer` are derived from `HACK_STATS` (total + wins + prizes) so future JSON updates flow through automatically
+- [ ] **HACK-DATA-03**: CV "4 hackathon winnings" claim is reconciled against the JSON's 3 `is_winner: true` projects — either a 4th winner is added with verbatim prize text from `public/kaleb-cv.pdf`, OR the discrepancy is documented in the Phase 15 plan SUMMARY (no prize data invented)
+- [ ] **HACK-URL-01**: A pure utility (`app/lib/hackathonLinks.ts`) classifies each project's combined `project_url` + `extra_links[]` set into labelled link entries `{ label: 'DEVPOST' | 'GITHUB' | 'LINKEDIN' | 'LIVE DEMO', href }`, de-duplicates the URL list, and exposes a helper count for the routing decision (0 / 1 / 2+ branches)
+- [ ] **HACK-URL-02**: Row click behaviour matches the smart-routing decision: 0 URLs → non-interactive row, 1 URL → opens that URL in a new tab (`target="_blank" rel="noopener noreferrer"`), 2+ URLs → routes to a chooser sub-page (`#/hackathons/<slug>`) listing every classified link with its source label
+- [ ] **HACK-UI-01**: `HackathonsPage` renders the breadcrumb / title / intro / `[N entries]` count chip via `PageHeader`, one row per `HACK_ITEMS` entry, and `FooterMeta` — visually consistent with WorkPage / MeetupsPage (phosphor green, Anonymous Pro, no Tailwind for terminal styles)
+- [ ] **HACK-UI-02**: For every `is_winner: true` row the full `prizes[]` text renders alongside the title in gold (`#FFD700`) per the CLAUDE.md palette; non-winner rows do not render any gold prize affordance
+- [ ] **HACK-UI-03**: Each row is a ≥44px tap target with visible focus ring, a pressed-state border / transform consistent with the HOME-04 directory pattern, and a thumbnail rendered from `thumbnail_local` (subtle — fixed width chip ~56–76px responsive); outbound link clicks use `target="_blank" rel="noopener noreferrer"`
+- [ ] **HACK-UI-04**: The multi-link chooser sub-route (`#/hackathons/<slug>`) renders the project title + each classified link as a tappable row labelled with its source (`DEVPOST` / `GITHUB` / `LINKEDIN` / `LIVE DEMO`) and a back-link returning to `#/hackathons`; `useHashRoute` is extended additively so the existing single-segment callers (`work-experience`, `syai-meetups`, `sidequests`, `hobbies`, `links`) continue to function unchanged
+
 ## Out of Scope (v3.0)
 
 | Feature | Reason |
@@ -142,12 +154,13 @@ Deferred to future release.
 | WORK-01..06 | Phase 11 | Planned |
 | SYAI-01..09 | Phase 13 | Complete (2026-05-19) |
 | SYAI-CONTENT-01..03 | Phase 14 | Planned |
+| HACK-DATA-01..03, HACK-URL-01..02, HACK-UI-01..04 | Phase 15 | Planned |
 
 **Coverage (v3.0):**
-- Requirements: 20 total
-- Mapped to phases: 20
+- Requirements: 29 total
+- Mapped to phases: 29
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-15 (v2.0), 2026-05-18 (v3.0)*
-*Last updated: 2026-05-19 after Phase 14 planning*
+*Last updated: 2026-05-19 after Phase 15 planning*
