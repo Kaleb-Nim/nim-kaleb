@@ -11,54 +11,44 @@ interface Props {
   project: HackathonItem;
 }
 
-export type HackathonTagTone = 'green' | 'gold';
-
-export interface HackathonTag {
-  label: string;
-  tone: HackathonTagTone;
+export interface HackathonWinnerTag {
+  /** Full prize text(s), joined when multiple. Rendered after a "WON · " prefix. */
+  prizeText: string;
 }
 
 /**
- * Derive a status tag from a hackathon item.
+ * Derive a winner tag from a hackathon item.
  *
- * - Winners (`is_winner: true`) → gold `WON · <PRIZE-SHORT>` (or bare `WON`
- *   when no prize text is present).
- * - Non-winners → green `BUILT`.
+ * Design (post-checkpoint revision):
+ * - Winners (`is_winner: true`) → gold tag containing the FULL prize text from
+ *   `prizes[]` (joined with " · " when there are multiple). The truncated
+ *   `<PRIZE-SHORT>` code is no longer used — the actual prize description is
+ *   the primary content on the card.
+ * - Non-winners → no tag (returns `null`).
  *
- * Reserved values 'WIP' and 'FINALIST' belong to the green-tone label space
- * but the JSON does not currently express them. Future enrichment may set
- * them; today we default to 'BUILT'.
+ * Caveat: non-Devpost CV wins (HackOmania, Batey, POLYFINTECH) are not in
+ * `hackathons.json` and intentionally do not surface here. This grid only
+ * shows Devpost-tracked wins.
  */
 export function deriveHackathonTag(
   item: Pick<HackathonItem, 'is_winner' | 'prizes'>,
-): HackathonTag {
-  if (!item.is_winner) {
-    return { label: 'BUILT', tone: 'green' };
+): HackathonWinnerTag | null {
+  if (!item.is_winner) return null;
+  const prizes = item.prizes.map((p) => cleanPrize(p)).filter(Boolean);
+  if (prizes.length === 0) {
+    return { prizeText: '' };
   }
-  const first = item.prizes[0];
-  if (!first) {
-    return { label: 'WON', tone: 'gold' };
-  }
-  return { label: `WON · ${shortenPrize(first)}`, tone: 'gold' };
+  return { prizeText: prizes.join(' · ') };
 }
 
 /**
- * Compress a verbose prize string like "Winner — Best Pre-University Hack"
- * into a short uppercase tag suffix like "BEST PRE-U".
- *
- * Rules:
- * - Strip a leading "Winner — " / "Winner - " / "Winner: " prefix if present.
- * - Convert "Pre-University" → "Pre-U" and drop trailing " Hack".
- * - Collapse whitespace, uppercase, cap at 18 chars (no ellipsis — keeps the
- *   monospace tag tidy).
+ * Normalize a verbose prize string for display next to the WON prefix.
+ * Strips a leading "Winner — " / "Winner - " / "Winner: " prefix if present
+ * and collapses whitespace. Preserves original casing (no uppercasing) so
+ * full prize descriptions read naturally.
  */
-function shortenPrize(prize: string): string {
-  let s = prize.replace(/^Winner\s*[—\-:]\s*/i, '').trim();
-  s = s.replace(/\bPre-University\b/gi, 'Pre-U');
-  s = s.replace(/\s+Hack$/i, '');
-  s = s.replace(/\s+/g, ' ').toUpperCase();
-  if (s.length > 18) s = s.slice(0, 18).trimEnd();
-  return s;
+function cleanPrize(prize: string): string {
+  return prize.replace(/^Winner\s*[—\-:]\s*/i, '').replace(/\s+/g, ' ').trim();
 }
 
 export default function HackathonRow({ project }: Props) {
@@ -69,7 +59,7 @@ export default function HackathonRow({ project }: Props) {
   if (linkCount === 0) {
     return (
       <div className={`${styles.card} ${styles.cardStatic}`}>
-        <CardBody project={project} tag={tag} chip={null} />
+        <CardBody project={project} tag={tag} />
       </div>
     );
   }
@@ -85,7 +75,7 @@ export default function HackathonRow({ project }: Props) {
         rel="noopener noreferrer"
         aria-label={`${project.title} — open ${only.label.toLowerCase()} in new tab`}
       >
-        <CardBody project={project} tag={tag} chip={`[ ${only.label} ↗ ]`} />
+        <CardBody project={project} tag={tag} />
       </a>
     );
   }
@@ -97,7 +87,7 @@ export default function HackathonRow({ project }: Props) {
       href={`#/hackathons/${project.slug}`}
       aria-label={`${project.title} — ${linkCount} links, open chooser`}
     >
-      <CardBody project={project} tag={tag} chip={`[ LINKS (${linkCount}) ↗ ]`} />
+      <CardBody project={project} tag={tag} />
     </a>
   );
 }
@@ -105,23 +95,23 @@ export default function HackathonRow({ project }: Props) {
 function CardBody({
   project,
   tag,
-  chip,
 }: {
   project: HackathonItem;
-  tag: HackathonTag;
-  chip: string | null;
+  tag: HackathonWinnerTag | null;
 }) {
-  const tagClass = `${styles.tag} ${tag.tone === 'gold' ? styles.tagGold : styles.tagGreen}`;
   return (
     <>
       <div className={styles.topRow}>
         <span className={styles.date}>{project.date}</span>
-        <span className={tagClass}>[{tag.label}]</span>
+        {tag && (
+          <span className={`${styles.tag} ${styles.tagGold}`}>
+            {tag.prizeText ? `[WON · ${tag.prizeText}]` : '[WON]'}
+          </span>
+        )}
       </div>
       <div className={styles.title}>{project.title}</div>
       {project.tagline && <div className={styles.tagline}>{project.tagline}</div>}
       {project.event_name && <div className={styles.event}>{project.event_name}</div>}
-      {chip && <div className={styles.linkChip}>{chip}</div>}
     </>
   );
 }

@@ -71,12 +71,9 @@
   padding: 3px 8px;
   border: 1px solid currentColor;
   border-radius: 2px;
-  white-space: nowrap;
-}
-
-.tagGreen {
-  color: #00FF00;
-  text-shadow: 0 0 4px rgba(0, 255, 0, 0.4);
+  max-width: 70%;
+  text-align: right;
+  line-height: 1.35;
 }
 
 .tagGold {
@@ -103,19 +100,6 @@
   color: rgba(0, 255, 0, 0.55);
   font-size: 0.7rem;
   letter-spacing: 0.04em;
-}
-
-.linkChip {
-  align-self: flex-start;
-  color: #FFD700;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  border: 1px solid rgba(255, 215, 0, 0.5);
-  padding: 4px 10px;
-  border-radius: 2px;
-  text-shadow: 0 0 4px rgba(255, 215, 0, 0.45);
-  margin-top: 2px;
 }
 
 .chooserBack {
