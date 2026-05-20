@@ -261,7 +261,7 @@ Plans:
 **Goal:** Replace the Phase 10 stub at `#/hackathons` with the real hackathons page sourced from `.planning/research/hackathons/hackathons.json` (22 Devpost projects, 3+ winners). Surface smart URL routing on row click (1 URL → redirect, multiple URLs → chooser sub-route `#/hackathons/<slug>` with DEVPOST / GITHUB / LINKEDIN / LIVE DEMO labels), display prize text in gold for `is_winner: true` projects, and derive the Section count + footer from data so future JSON updates flow through automatically.
 **Requirements**: HACK-DATA-01, HACK-DATA-02, HACK-DATA-03, HACK-URL-01, HACK-URL-02, HACK-UI-01, HACK-UI-02, HACK-UI-03, HACK-UI-04
 **Depends on:** Phase 14
-**Plans:** 4 plans
+**Plans:** 3/4 plans executed
 
 Plans:
 **Wave 1** *(parallel — no file conflicts)*
@@ -269,7 +269,7 @@ Plans:
 - [x] 15-02-PLAN.md — Pure URL classifier utility (`app/lib/hackathonLinks.ts`) with `classifyHackathonLinks` + `hackathonLinkCount` + 12 unit tests covering dedupe, host classification, and ordering
 
 **Wave 2** *(blocked on Waves 1 — consumes HACK_ITEMS + classifier)*
-- [ ] 15-03-PLAN.md — Extend `useHashRoute` with additive `useHashSubRoute`, build `HackathonsPage` + `HackathonRow` + `HackathonsPage.module.css` (smart row click 0/1/2+ branches, gold prize text for winners, ≥44px tap targets) + `HackathonLinksPage` chooser
+- [x] 15-03-PLAN.md — Extend `useHashRoute` with additive `useHashSubRoute`, build `HackathonsPage` + `HackathonRow` + `HackathonsPage.module.css` (smart row click 0/1/2+ branches, gold prize text for winners, ≥44px tap targets) + `HackathonLinksPage` chooser
 
 **Wave 3** *(blocked on Wave 2 — wires the dispatcher)*
 - [ ] 15-04-PLAN.md — Add `hackathons` branch to `app/page.tsx` (delegates to `HackathonLinksPage` when sub-route present, else `HackathonsPage`) + blocking human-verify checkpoint

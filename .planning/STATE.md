@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Directory Home & Work Experience
 status: executing
-stopped_at: Completed 15-02-PLAN.md (URL classifier utility + 12-case bun:test suite)
-last_updated: "2026-05-20T04:55:30Z"
-last_activity: 2026-05-20 -- Phase 15 Plan 02 complete
+stopped_at: "Completed 15-02-PLAN.md (URL classifier utility + 12-case bun:test suite)"
+last_updated: "2026-05-20T05:01:47.835Z"
+last_activity: 2026-05-20
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 20
-  completed_plans: 18
-  percent: 90
+  completed_plans: 19
+  percent: 95
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-18)
 ## Current Position
 
 Phase: 15 (build-hackathon-page-with-hackathon-json-data-images-smart-u) — EXECUTING
-Plan: 3 of 4 (15-01 + 15-02 complete; ready for 15-03 HackathonsPage component)
-Status: Executing Phase 15
-Last activity: 2026-05-20 -- Phase 15 Plan 02 complete (URL classifier + bun:test suite)
+Plan: 4 of 4 (15-01 + 15-02 complete; ready for 15-03 HackathonsPage component)
+Status: Ready to execute
+Last activity: 2026-05-20
 
-Progress: [█████████─] 90%
+Progress: [██████████] 95%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [█████████─] 90%
 | Phase 14 P01 | 6min | 2 tasks | 2 files |
 | Phase 15 P01 | 6min | 3 tasks | 3 files |
 | Phase 15 P02 | 4min | 2 tasks | 4 files |
+| Phase 15 P03 | 3min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Progress: [█████████─] 90%
 - [Phase 15 P01]: CV-vs-JSON winner reconciliation = Case C (no JSON patch). CV's 4 wins (POLYFINTECH 2023, Hack&Roll 2024, Hack&Roll 2025, HackOmania 2026) only partially overlap JSON's 3 winners (ARcademy, Hack&Roll 2024, Hack&Roll 2025); 2 CV wins are non-Devpost and out of scope for this dataset
 - [Phase 15 P02]: URL classifier (`app/lib/hackathonLinks.ts`) ships as a pure module with structural Pick<>-typed input — decoupled from `HackathonItem` so Plan 03 can pass items directly via TypeScript structural typing. Distribution across 22 real projects = 18 single-link / 4 two-link / 0 three-link → Plan 03 can deprioritise the 0-link non-interactive UI branch
 - [Phase 15 P02]: Did NOT change `package.json` scripts.test (already wired to `bunx playwright test`); Bun's native test runner runs `bun test <file>` directly without a scripts entry. Added `@types/bun` devDep so `bunx tsc --noEmit` resolves the `bun:test` import.
+- [Phase 15 P03]: `useHashSubRoute` added as additive sibling export — preserves single-segment contract for all existing section pages (work, syai-meetups, sidequests, hobbies, links). Sub-route hook does NOT scroll on hashchange (scroll belongs to primary route only). `#//foo` divergence in `parseHashSegments()` (`.filter(Boolean)`) is accepted — app never emits double-slash hashes via `navigateTo`.
+- [Phase 15 P03]: Multi-prize winner card tag shows only the FIRST prize's short form via `shortenPrize()` (full prize list rendered in `HackathonLinksPage` chooser). 18-char cap with no ellipsis keeps the monospace tag tidy. Thumbnails deferred per locked `<design>` — zero `<img>` / `next/image` in any plan-15-03 file. `event_name` conditionally rendered (string | null per Plan 01).
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ None at milestone start.
 
 ## Session Continuity
 
-Last session: 2026-05-20T04:55:30Z
+Last session: 2026-05-20T05:01:41.284Z
 Stopped at: Completed 15-02-PLAN.md (URL classifier utility + 12-case bun:test suite)
 Resume file: None
