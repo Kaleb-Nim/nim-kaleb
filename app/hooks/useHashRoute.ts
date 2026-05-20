@@ -2,10 +2,18 @@
 
 import { useState, useEffect } from 'react';
 
-function parseHash(): string {
-  if (typeof window === 'undefined') return '';
+function parseHashSegments(): string[] {
+  if (typeof window === 'undefined') return [];
   const h = (window.location.hash || '#/').replace(/^#\/?/, '');
-  return h.split('/')[0] || '';
+  return h.split('/').filter(Boolean);
+}
+
+function parseHash(): string {
+  return parseHashSegments()[0] || '';
+}
+
+function parseHashSub(): string {
+  return parseHashSegments()[1] || '';
 }
 
 /**
@@ -24,7 +32,6 @@ export function useHashRoute(): string {
   const [route, setRoute] = useState<string>('');
 
   useEffect(() => {
-    // Initialise from current hash on mount (avoids hydration mismatch)
     setRoute(parseHash());
     const handler = () => {
       setRoute(parseHash());
@@ -35,6 +42,30 @@ export function useHashRoute(): string {
   }, []);
 
   return route;
+}
+
+/**
+ * useHashSubRoute — returns the SECOND path segment or ''.
+ *
+ * Examples:
+ *   '#/hackathons/arcademy-at32jn' → 'arcademy-at32jn'
+ *   '#/hackathons'                  → ''
+ *   '#/'                            → ''
+ *
+ * Additive — does NOT affect existing single-segment callers. Does NOT
+ * scroll on hashchange; scroll behaviour belongs to the primary route hook.
+ */
+export function useHashSubRoute(): string {
+  const [sub, setSub] = useState<string>('');
+
+  useEffect(() => {
+    setSub(parseHashSub());
+    const handler = () => setSub(parseHashSub());
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, []);
+
+  return sub;
 }
 
 /**
