@@ -1,10 +1,10 @@
 // app/lib/hackathons.ts — typed loader for hackathons.json.
 //
-// Source of truth: .planning/research/hackathons/hackathons.json (22 projects).
+// Source of truth: app/data/hackathons.json (22 projects).
 // This module imports the JSON, casts it to HackathonItem[], and exposes a
 // HACK_STATS summary the Section footer can render from data.
 
-import hackathonsData from '@/.planning/research/hackathons/hackathons.json';
+import hackathonsData from '@/app/data/hackathons.json';
 
 export interface HackathonTeamMember {
   name: string;
