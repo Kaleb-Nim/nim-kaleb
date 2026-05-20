@@ -47,6 +47,7 @@ export default function MeetupCard({ event, cardIndex, openLightbox }: MeetupCar
         <MeetupImage
           src={event.hero}
           aspect="4 / 3"
+          fit="contain"
           onClick={event.hero ? () => openLightbox(cardIndex, 0) : undefined}
           label="hero photo"
         />

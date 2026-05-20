@@ -17,6 +17,9 @@
 
 .singleColumn .statusLine {
   white-space: normal;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
 }
 
 .goldLink {
@@ -39,10 +42,11 @@
   font-size: 0.9em;
 }
 
-/* Mobile-only: full-row tap targets ≥48px */
+/* Mobile-only: full-row tap targets ≥48px (height comes from .statusLine baseline) */
 .singleColumn .goldLinkBlock {
-  display: block;
-  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
   min-height: 48px;
   box-sizing: border-box;
 }

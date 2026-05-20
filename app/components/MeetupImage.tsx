@@ -21,9 +21,10 @@ interface MeetupImageProps {
   onClick?: () => void;
   label?: string;
   dim?: boolean;
+  fit?: 'cover' | 'contain';
 }
 
-export default function MeetupImage({ src, aspect, alt, onClick, label, dim }: MeetupImageProps) {
+export default function MeetupImage({ src, aspect, alt, onClick, label, dim, fit = 'cover' }: MeetupImageProps) {
   const ratio = aspect || '16 / 10';
   const isPlaceholder = !src;
   const interactive = !!onClick && !isPlaceholder;
@@ -49,7 +50,7 @@ export default function MeetupImage({ src, aspect, alt, onClick, label, dim }: M
         <img src={src as string} alt={alt || ''}
           style={{
             width: '100%', height: '100%',
-            objectFit: 'cover', display: 'block',
+            objectFit: fit, display: 'block',
             filter: 'saturate(0.95) contrast(1.02)',
           }}
           onError={(e: SyntheticEvent<HTMLImageElement>) => { e.currentTarget.style.display = 'none'; }}

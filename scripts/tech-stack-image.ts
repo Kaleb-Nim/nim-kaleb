@@ -1,10 +1,14 @@
 import { chromium } from 'playwright';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const OUT_DIR = resolve(process.cwd(), 'public/readme');
 
-type Logo = { name: string; slug?: string; svg?: string; color?: string };
+type Logo = { name: string; slug?: string; svg?: string; color?: string; src?: string };
+
+const neonLogoB64 = await readFile(
+  resolve(process.cwd(), 'public/readme/logos/neon.jpeg'),
+).then((b) => `data:image/jpeg;base64,${b.toString('base64')}`);
 
 const drizzleSvg = `
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +54,7 @@ const groups: { title: string; items: Logo[] }[] = [
   {
     title: 'Data',
     items: [
-      { name: 'Neon Postgres', slug: 'neon', color: '00E599' },
+      { name: 'Neon Postgres', src: neonLogoB64 },
       { name: 'Drizzle ORM', svg: drizzleSvg },
     ],
   },
@@ -73,7 +77,9 @@ const groups: { title: string; items: Logo[] }[] = [
 function logoHtml(item: Logo): string {
   const inner = item.svg
     ? item.svg
-    : `<img src="https://cdn.simpleicons.org/${item.slug}/${item.color ?? 'ffffff'}" alt="${item.name}" />`;
+    : item.src
+      ? `<img src="${item.src}" alt="${item.name}" />`
+      : `<img src="https://cdn.simpleicons.org/${item.slug}/${item.color ?? 'ffffff'}" alt="${item.name}" />`;
   return `
     <div class="logo">
       <div class="icon">${inner}</div>
