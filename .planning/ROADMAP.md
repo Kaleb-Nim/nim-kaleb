@@ -266,7 +266,7 @@ Plans:
 Plans:
 **Wave 1** *(parallel — no file conflicts)*
 - [x] 15-01-PLAN.md — Add `HackathonItem` type + JSON-backed `HACK_ITEMS` loader (`app/lib/hackathons.ts`), refresh hackathons Section (count + footer from `HACK_STATS`), reconcile CV "4 winnings" gap, enumerate HACK-* requirements
-- [ ] 15-02-PLAN.md — Pure URL classifier utility (`app/lib/hackathonLinks.ts`) with `classifyHackathonLinks` + `hackathonLinkCount` + 12 unit tests covering dedupe, host classification, and ordering
+- [x] 15-02-PLAN.md — Pure URL classifier utility (`app/lib/hackathonLinks.ts`) with `classifyHackathonLinks` + `hackathonLinkCount` + 12 unit tests covering dedupe, host classification, and ordering
 
 **Wave 2** *(blocked on Waves 1 — consumes HACK_ITEMS + classifier)*
 - [ ] 15-03-PLAN.md — Extend `useHashRoute` with additive `useHashSubRoute`, build `HackathonsPage` + `HackathonRow` + `HackathonsPage.module.css` (smart row click 0/1/2+ branches, gold prize text for winners, ≥44px tap targets) + `HackathonLinksPage` chooser
