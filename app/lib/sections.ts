@@ -6,8 +6,20 @@
 // etc.). The source-of-truth `id` ('work', 'meetups') is intentionally NOT
 // used as the route slug.
 //
-// Counts must match user spec: Work (4), SYAI Meetups (11), Hackathons (15),
+// Counts must match user spec: Work (4), SYAI Meetups (11),
+// Hackathons (data-derived from .planning/research/hackathons/hackathons.json),
 // Sidequests (30+), Hobbies (5), Links (5).
+
+import { HACK_ITEMS, HACK_STATS, type HackathonItem } from './hackathons';
+
+// Re-export from the JSON-backed module so consumers can keep importing
+// HACK_ITEMS / HackathonItem from '@/app/lib/sections' if they prefer.
+export type {
+  HackathonItem,
+  HackathonTeamMember,
+  HackStats,
+} from './hackathons';
+export { HACK_ITEMS, HACK_STATS } from './hackathons';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -50,14 +62,6 @@ export interface MeetupItem {
   signup?: string;
 }
 
-export interface HackItem {
-  date: string;
-  title: string;
-  note?: string;
-  tag?: string;
-  link?: ItemLink;
-}
-
 export interface SideItem {
   date: string;
   title: string;
@@ -87,7 +91,7 @@ export interface Section {
   items:
     | WorkItem[]
     | MeetupItem[]
-    | HackItem[]
+    | HackathonItem[]
     | SideItem[]
     | HobbyItem[]
     | LinkPageItem[];
@@ -305,25 +309,11 @@ export const SYAI_ITEMS: MeetupItem[] = [
   },
 ];
 
-// ── HACKATHONS (15) ────────────────────────────────────────────────────────
-
-export const HACK_ITEMS: HackItem[] = [
-  { date: 'Apr 2026', title: 'NUS Lifehack 2026',         note: 'agentic event-planner',           tag: 'WIP' },
-  { date: 'Feb 2026', title: 'AI Tinkerers SG Hackday',   note: '24h voice-clone toolkit',         tag: 'BUILT' },
-  { date: 'Nov 2025', title: 'TikTok TechJam',            note: 'multimodal moderation pipeline',  tag: 'BUILT' },
-  { date: 'Sep 2025', title: 'Govtech STACK 2025',        note: 'gov-services Q&A bot',            tag: 'BUILT' },
-  { date: 'Jul 2025', title: 'NUS Orbital Apollo',        note: 'AI tutor for primary-school math',tag: 'BUILT' },
-  { date: 'May 2025', title: 'BuildClub SG Hackathon',    note: 'browser-agent for clinical notes',tag: 'BUILT' },
-  { date: 'Mar 2025', title: 'AngelHack SG',              note: 'LLM-powered grant matcher',       tag: 'BUILT' },
-  { date: 'Jan 2025', title: 'NUS Hack&Roll 2025',        note: 'real-time karaoke transcriber',   tag: 'BUILT' },
-  { date: 'Nov 2024', title: 'SUTD What The Hack',        note: 'agentic D&D dungeon master',      tag: 'BUILT' },
-  { date: 'Sep 2024', title: 'BrainHack TIL-AI',          note: 'speech ASR + diarisation',        link: { label: 'WRITEUP', href: '#' } },
-  { date: 'Jul 2024', title: 'Junction Asia',             note: 'whatsapp-native LLM helpdesk',    tag: 'BUILT' },
-  { date: 'May 2024', title: 'NTU iNTUition v9',          note: 'AI essay-rubric grader',          tag: 'BUILT' },
-  { date: 'Mar 2024', title: 'SMU Ellipsis',              note: 'meal-plan optimiser w/ LLM',      tag: 'BUILT' },
-  { date: 'Jan 2024', title: 'NUS Hack&Roll 2024',        note: '"A Brilliant Cobra Duel"',        tag: 'WON · BEST PRE-U' },
-  { date: 'Aug 2023', title: 'Code::XtremeApps',          note: 'first hackathon — finalist',      tag: 'FINALIST' },
-];
+// ── HACKATHONS ─────────────────────────────────────────────────────────────
+// HACK_ITEMS + HACK_STATS now live in ./hackathons (sourced from
+// .planning/research/hackathons/hackathons.json) and are re-exported at the
+// top of this file. The legacy 15-item hand-curated placeholder array has been
+// removed in favour of the JSON-backed dataset.
 
 // ── SIDEQUESTS (30+) ───────────────────────────────────────────────────────
 // Talks, meetups attended, conferences, IRL things. Render dense.
@@ -413,13 +403,13 @@ export const SECTIONS: Section[] = [
   {
     id: 'hackathons',
     path: 'hackathons',
-    count: 15,
+    count: HACK_STATS.total,
     aliases: ['hacks', 'hackathon'],
     desc: 'weekends I traded for shipping demos',
-    title: './hackathons — 15 weekends, 15 demos',
+    title: `./hackathons — ${HACK_STATS.total} weekends, ${HACK_STATS.total} demos`,
     intro: 'Things I built between Friday night and Sunday afternoon. Most still work.',
     items: HACK_ITEMS,
-    footer: '[15 entries] · 1 win · 1 finalist · 0 regrets',
+    footer: `[${HACK_STATS.total} entries] · ${HACK_STATS.wins} win${HACK_STATS.wins === 1 ? '' : 's'} · ${HACK_STATS.prizes} prize${HACK_STATS.prizes === 1 ? '' : 's'}`,
   },
   {
     id: 'sidequests',
