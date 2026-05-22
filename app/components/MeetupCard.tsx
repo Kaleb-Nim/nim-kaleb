@@ -67,12 +67,14 @@ export default function MeetupCard({ event, cardIndex, openLightbox }: MeetupCar
       </div>
       <SpeakersBlock speakers={event.speakers} />
       {gallery.length > 0 && (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${gallery.length}, 1fr)`,
-          gap: 8,
-          marginTop: 12,
-        }}>
+        <div
+          className="kni-meetup-gallery"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${gallery.length}, 1fr)`,
+            gap: 8,
+            marginTop: 12,
+          }}>
           {gallery.map((src, i) => (
             <MeetupImage
               key={i}

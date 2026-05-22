@@ -139,3 +139,13 @@ body {
   .kni-floating-mic { padding: 14px !important; border-radius: 999px !important; }
   .kni-floating-mic-label { display: none; }
 }
+
+/* Meetup cards: stack hero + description on mobile, wrap gallery to 2 cols */
+@media (max-width: 768px) {
+  .kni-meetup-2col {
+    grid-template-columns: 1fr !important;
+  }
+  .kni-meetup-gallery {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
