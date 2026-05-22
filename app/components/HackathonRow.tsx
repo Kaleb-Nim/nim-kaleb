@@ -54,6 +54,7 @@ function cleanPrize(prize: string): string {
 export default function HackathonRow({ project }: Props) {
   const linkCount = hackathonLinkCount(project);
   const tag = deriveHackathonTag(project);
+  const headline = project.event_name ?? project.title;
 
   // 0 links → static (non-interactive) card
   if (linkCount === 0) {
@@ -73,7 +74,7 @@ export default function HackathonRow({ project }: Props) {
         href={only.href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${project.title} — open ${only.label.toLowerCase()} in new tab`}
+        aria-label={`${headline} — open ${only.label.toLowerCase()} in new tab`}
       >
         <CardBody project={project} tag={tag} />
       </a>
@@ -85,7 +86,7 @@ export default function HackathonRow({ project }: Props) {
     <a
       className={styles.card}
       href={`#/hackathons/${project.slug}`}
-      aria-label={`${project.title} — ${linkCount} links, open chooser`}
+      aria-label={`${headline} — ${linkCount} links, open chooser`}
     >
       <CardBody project={project} tag={tag} />
     </a>
@@ -99,6 +100,9 @@ function CardBody({
   project: HackathonItem;
   tag: HackathonWinnerTag | null;
 }) {
+  const headline = project.event_name ?? project.title;
+  const showProduct =
+    project.event_name != null && project.title !== project.event_name;
   return (
     <>
       <div className={styles.topRow}>
@@ -109,9 +113,9 @@ function CardBody({
           </span>
         )}
       </div>
-      <div className={styles.title}>{project.title}</div>
+      <div className={styles.title}>{headline}</div>
+      {showProduct && <div className={styles.product}>{project.title}</div>}
       {project.tagline && <div className={styles.tagline}>{project.tagline}</div>}
-      {project.event_name && <div className={styles.event}>{project.event_name}</div>}
     </>
   );
 }

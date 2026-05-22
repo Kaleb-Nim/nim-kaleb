@@ -1,8 +1,74 @@
 {
   "source": "https://devpost.com/kaleb-nim",
   "scraped_at": "2026-05-19T12:36:25.874Z",
-  "count": 22,
+  "count": 23,
   "projects": [
+    {
+      "slug": "polyfintech-100-2023",
+      "project_url": "https://www.linkedin.com/posts/kaleb-nim_im-thrilled-to-celebrate-our-achievement-ugcPost-7139877908990349312-DEsq?utm_source=share&utm_medium=member_desktop&rcm=ACoAADhj2nEBPjRdG50hdZ7JfDswdJQDJvn200Q",
+      "title": "PolyFinTech 100 API Hackathon 2023",
+      "tagline": "Champion team — developed a FinTech prototype solving a real-world problem statement.",
+      "thumbnail_url": "",
+      "thumbnail_local": "",
+      "date": "Nov 2023",
+      "date_iso": "2023-11-15T12:00:00+08:00",
+      "event_name": "PolyFinTech 100 API Hackathon 2023",
+      "event_url": "https://www.polyfintech100.sg/",
+      "organizer": "PolyFinTech 100",
+      "prizes": [
+        "Winner — Champion ($2500)"
+      ],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [],
+      "description_md": "## PolyFinTech 100 API Hackathon 2023 — Champion\n\nChampion team ($2500 prize). Built a FinTech prototype to address a real-world problem statement using industry partner APIs.\n\nSee the writeup on [LinkedIn](https://www.linkedin.com/posts/kaleb-nim_im-thrilled-to-celebrate-our-achievement-ugcPost-7139877908990349312-DEsq).",
+      "gallery": [],
+      "is_winner": true,
+      "extra_links": [
+        "https://www.linkedin.com/posts/kaleb-nim_im-thrilled-to-celebrate-our-achievement-ugcPost-7139877908990349312-DEsq?utm_source=share&utm_medium=member_desktop&rcm=ACoAADhj2nEBPjRdG50hdZ7JfDswdJQDJvn200Q"
+      ],
+      "sources": [
+        "linkedin"
+      ]
+    },
+    {
+      "slug": "hackomania-2026",
+      "project_url": "https://github.com/Kaleb-Nim/hackomania_contextguard",
+      "title": "ContextGuard",
+      "tagline": "AI-powered rumour pre-mortem engine for Singapore — 1st place at HackOmania 2026 (24h, 320+ participants).",
+      "thumbnail_url": "",
+      "thumbnail_local": "",
+      "date": "Mar 2026",
+      "date_iso": "2026-03-26T12:00:00+08:00",
+      "event_name": "HackOmania 2026",
+      "event_url": "https://hackomania.geekshacking.com/",
+      "organizer": "GeeksHacking",
+      "prizes": [
+        "Winner — 1st Place ($1000 cash + $2100 AI credits)"
+      ],
+      "team": [
+        {
+          "devpost_url": "https://devpost.com/kaleb-nim",
+          "name": "Kaleb Nim"
+        }
+      ],
+      "built_with": [],
+      "description_md": "## ContextGuard — HackOmania 2026 winner\n\nAI-powered rumour pre-mortem engine for Singapore. Won 1st place at HackOmania 2026 ($1000 cash + $2100 AI credits), a 24-hour hackathon with 320+ participants.\n\n- [GitHub repo](https://github.com/Kaleb-Nim/hackomania_contextguard)\n- [Live demo](https://hackomaniacontextguard.vercel.app)\n- [LinkedIn writeup](https://www.linkedin.com/posts/kaleb-nim_hackomania2026-innovation-techcommunity-activity-7437985849541292032-26m4)",
+      "gallery": [],
+      "is_winner": true,
+      "extra_links": [
+        "https://hackomaniacontextguard.vercel.app",
+        "https://www.linkedin.com/posts/kaleb-nim_hackomania2026-innovation-techcommunity-activity-7437985849541292032-26m4?utm_source=share&utm_medium=member_desktop&rcm=ACoAADhj2nEBPjRdG50hdZ7JfDswdJQDJvn200Q"
+      ],
+      "sources": [
+        "github",
+        "linkedin"
+      ]
+    },
     {
       "slug": "arcademy-at32jn",
       "project_url": "https://devpost.com/software/arcademy-at32jn",
@@ -181,8 +247,12 @@
         "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/221/220/datas/original.png"
       ],
       "is_winner": true,
+      "extra_links": [
+        "https://www.linkedin.com/posts/kaleb-nim_excited-to-share-that-our-team-has-secured-activity-7287331636180922368-1BDb?utm_source=share&utm_medium=member_desktop&rcm=ACoAADhj2nEBPjRdG50hdZ7JfDswdJQDJvn200Q"
+      ],
       "sources": [
-        "devpost"
+        "devpost",
+        "linkedin"
       ]
     },
     {
@@ -710,41 +780,17 @@
       ]
     },
     {
-      "slug": "beacons-singen-ai",
-      "project_url": "https://www.sp.edu.sg/soc/news/soc/school-of-computing-students-wins-1st-runner-up-in-polyfintech100-api-hackathon-grand-finals",
-      "title": "SinGEN AI",
-      "tagline": "",
-      "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/referenced_images/bfcf1eb7-5e25-459c-9891-58ef89338f9a__link-in-bio__links-block__home__bd576e4b-65a6-47df-897d-fc17d30b7dc6__a5e604bf-61b7-4951-9fcb-778c9d201581__16321e6f-76f5-49be-a1b3-91caee2bc693.jpg?t=1708494154673",
-      "thumbnail_local": "/hackathons/beacons-singen-ai.jpg",
-      "date": null,
-      "date_iso": null,
-      "event_name": null,
-      "event_url": null,
-      "organizer": null,
-      "prizes": [],
-      "team": [],
-      "built_with": [],
-      "description_md": "",
-      "gallery": [],
-      "is_winner": false,
-      "sources": [
-        "beacons"
-      ],
-      "extra_links": [],
-      "extra_images": []
-    },
-    {
       "slug": "beacons-cargolingo-advisor-psacodesprint",
       "project_url": "https://youtu.be/5z0uDr3kPW4?si=Ht9v-OR8rYdOwoAj",
-      "title": "CargoLingo Advisor -PSACodeSprint",
+      "title": "CargoLingo Advisor",
       "tagline": "",
       "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/66fd7758-be6a-48d3-8689-599a95c5d725.jpg",
       "thumbnail_local": "/hackathons/beacons-cargolingo-advisor-psacodesprint.jpg",
       "date": null,
       "date_iso": null,
-      "event_name": null,
+      "event_name": "PSA Code Sprint",
       "event_url": null,
-      "organizer": null,
+      "organizer": "PSA Code Sprint",
       "prizes": [],
       "team": [],
       "built_with": [],
@@ -764,11 +810,11 @@
       "tagline": "",
       "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/6112e87c-45d7-4cee-8bad-d2ede7fd0375.png",
       "thumbnail_local": "/hackathons/beacons-journalink.png",
-      "date": null,
-      "date_iso": null,
-      "event_name": null,
-      "event_url": null,
-      "organizer": null,
+      "date": "Sep 2023",
+      "date_iso": "2023-09-28T12:18:28Z",
+      "event_name": "MindfulHacks 2023",
+      "event_url": "https://mindful-hacks-23.vercel.app",
+      "organizer": "MindfulHacks 2023",
       "prizes": [],
       "team": [],
       "built_with": [],
@@ -860,11 +906,11 @@
       "tagline": "",
       "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/afe15d28-1dc5-4758-a46c-df0caadc39d5.png?t=1657787063681",
       "thumbnail_local": "/hackathons/beacons-storyage.png",
-      "date": null,
-      "date_iso": null,
-      "event_name": null,
-      "event_url": null,
-      "organizer": null,
+      "date": "Dec 2021",
+      "date_iso": "2021-12-09T06:46:12Z",
+      "event_name": "FIT Hackathon",
+      "event_url": "https://ultraraptoryt.github.io/FITHackathon/",
+      "organizer": "FIT Hackathon",
       "prizes": [],
       "team": [],
       "built_with": [],
@@ -881,11 +927,11 @@
       "slug": "beacons-give-me-a-brieck",
       "project_url": "https://github.com/UltraRaptorYT/Give-me-a-brieck",
       "title": "Give me a brieck",
-      "tagline": "",
+      "tagline": "Microsoft Teams attendance tracker for teachers/lecturers, built on TagUI RPA.",
       "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/b9968088-a74c-4c1f-8918-44ab49077b79.png?t=1657787078027",
       "thumbnail_local": "/hackathons/beacons-give-me-a-brieck.png",
-      "date": null,
-      "date_iso": null,
+      "date": "Oct 2021",
+      "date_iso": "2021-10-06T12:33:36Z",
       "event_name": null,
       "event_url": null,
       "organizer": null,
@@ -908,11 +954,11 @@
       "tagline": "",
       "thumbnail_url": "https://cdn.beacons.ai/user_content/10zEfpkgy1baliIb120REtdcJ7g1/link_images/97d6dfe5-a145-4865-b16c-1020f0ea492d.png?t=1657787163835",
       "thumbnail_local": "/hackathons/beacons-tether.png",
-      "date": null,
-      "date_iso": null,
-      "event_name": null,
-      "event_url": null,
-      "organizer": null,
+      "date": "Jan 2022",
+      "date_iso": "2022-01-08T15:24:45Z",
+      "event_name": "Appetizer Hackathon",
+      "event_url": "https://ultraraptoryt.github.io/Tether/",
+      "organizer": "Appetizer Hackathon",
       "prizes": [],
       "team": [],
       "built_with": [],

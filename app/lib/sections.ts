@@ -6,7 +6,7 @@
 // etc.). The source-of-truth `id` ('work', 'meetups') is intentionally NOT
 // used as the route slug.
 //
-// Counts must match user spec: Work (4), SYAI Meetups (11),
+// Counts must match user spec: Work (4), SYAI Meetups (9),
 // Hackathons (data-derived from .planning/research/hackathons/hackathons.json),
 // Sidequests (30+), Hobbies (5), Links (5).
 
@@ -154,7 +154,7 @@ export const WORK_ITEMS: WorkItem[] = [
   },
 ];
 
-// ── SYAI MEETUPS (11) ──────────────────────────────────────────────────────
+// ── SYAI MEETUPS (9) ───────────────────────────────────────────────────────
 
 export const SYAI_ITEMS: MeetupItem[] = [
   {
@@ -272,18 +272,11 @@ export const SYAI_ITEMS: MeetupItem[] = [
       { name: 'CYS Rep',    role: 'Cyber Youth Singapore',                   linkedin: '' },
     ],
     hero: '/meetups/2025-03-resume-roasting/hero.jpg',
-    gallery: [null, null, null],
-  },
-  {
-    num: 3, date: 'Feb 2025',
-    title: 'Prompt Engineering for Junior Devs',
-    desc: "A practitioner-led session on what actually works when you're 6 months into your career and the senior dev keeps saying \"just prompt it better\". ~120 attendees, mostly poly + uni students.",
-    speakers: [
-      { name: 'TBD', role: 'Senior AI Eng @ Company',      linkedin: '' },
-      { name: 'TBD', role: 'Developer Advocate @ Company', linkedin: '' },
+    gallery: [
+      '/meetups/2025-03-resume-roasting/g1.jpg',
+      '/meetups/2025-03-resume-roasting/g2.jpg',
+      '/meetups/2025-03-resume-roasting/g3.jpg',
     ],
-    hero: '/meetups/prompt-eng-juniors-hero.jpg',
-    gallery: [null, null, null, null],
   },
   {
     num: 2, date: 'Jan 2025',
@@ -295,17 +288,6 @@ export const SYAI_ITEMS: MeetupItem[] = [
     ],
     hero: '/meetups/2025-01-fireside/hero.jpg',
     gallery: [],
-  },
-  {
-    num: 1, date: 'Aug 2024',
-    title: 'Kickoff — LLMs from Scratch',
-    desc: "The inaugural SYAI meetup. Whiteboard walkthrough of how transformers actually work, then a community brainstorm on what people wanted SYAI to become. We've kept that doc alive.",
-    speakers: [
-      { name: 'TBD',       role: 'ML Researcher @ Lab',          linkedin: '' },
-      { name: 'Kaleb Nim', role: 'Head of Community, SYAI',      linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
-    ],
-    hero: '/meetups/llms-from-scratch-hero.jpg',
-    gallery: [null, null, null],
   },
 ];
 
@@ -390,15 +372,15 @@ export const SECTIONS: Section[] = [
   },
   {
     id: 'syai-meetups',
-    path: 'syai-meetups',
-    count: 11,
+    path: 'ai-community-events',
+    count: 9,
     aliases: ['meetups', 'syai'],
-    desc: 'AIMM — the monthly AI meetup I head at Singapore Youth AI',
-    title: './syai-meetups — running SYAI\'s monthly AI meetup',
+    desc: 'Organizing AI monthly meetups for Youths as Head of Community of Singapore Youth AI',
+    title: './ai-community-events — running SYAI\'s monthly AI meetup',
     intro:
-      "I head AIMM — [SYAI](https://sgyouthai.org)'s monthly AI meetup — end-to-end: content strategy, speaker outreach, venue, publicity, structure. 11 events to date, each drawing 30–60 students from polytechnics, universities, and JCs. Format mixes hands-on workshops, fireside chats with industry leaders, and open networking.",
+      'Heading the planning and execution of monthly AI meetups islandwide, featuring networking sessions, hands-on AI workshops, and fireside chats with industry leaders. Successfully organised 10 events to date, each engaging 30–60 youths from polytechnics, universities, and junior colleges. [sgyouthai.org/programs#AIMM](https://sgyouthai.org/programs#AIMM)',
     items: SYAI_ITEMS,
-    footer: '[11 sessions] · 30–60 attendees per event · open to all',
+    footer: '[9 sessions] · 30–60 attendees per event · open to all',
   },
   {
     id: 'hackathons',
