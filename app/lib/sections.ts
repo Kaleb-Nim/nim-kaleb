@@ -163,11 +163,11 @@ export const SYAI_ITEMS: MeetupItem[] = [
     desc: "I taught Claude Code to 60 people — Skills, hooks, and subagents from the ground up, co-organised with YouthTechSG. The hard lesson: 'I use this every day' and 'I can teach it' are completely different skill levels. Full slides at https://syai-claude-workshop.vercel.app/1.",
     speakers: [
       { name: 'Kaleb Nim',       role: 'Workshop Lead — SYAI', linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
-      { name: 'Jesse Sng',       role: 'Mentor',               linkedin: '' },
-      { name: 'Javerine Tan',    role: 'Mentor',               linkedin: '' },
-      { name: 'Darwin Ho',       role: 'Mentor',               linkedin: '' },
-      { name: 'Moiz Khambhati',  role: 'Mentor',               linkedin: '' },
-      { name: 'Hu Bowen',        role: 'Mentor',               linkedin: '' },
+      { name: 'Jesse Sng',       role: 'Mentor',               linkedin: 'https://www.linkedin.com/in/jesse-sng-05ab7944/' },
+      { name: 'Javerine Tan',    role: 'Mentor',               linkedin: 'https://sg.linkedin.com/in/javerine-tan-a79231242' },
+      { name: 'Darwin Ho',       role: 'Mentor',               linkedin: 'https://www.linkedin.com/in/hoshengxiandarwin/' },
+      { name: 'Moiz Khambhati',  role: 'Mentor',               linkedin: 'https://in.linkedin.com/in/moiz-khambhati-57a5b2118' },
+      { name: 'Hu Bowen',        role: 'Mentor',               linkedin: 'https://www.linkedin.com/in/hubowen/' },
     ],
     hero: '/meetups/2026-05-claude-code/hero.jpg',
     gallery: [
@@ -180,7 +180,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'AI Learning Journey with Alibaba Cloud (SYAI x YouthTechSG)',
     desc: "Workshop with Dr Ferdin Joe John Joseph (Alibaba Cloud) on building AI skills with the Alibaba Cloud ecosystem — practical tooling, a focus-group discussion on starting an AI career, and an Alibaba Cloud micro-credential for participants. Co-organised with YouthTechSG at *SCAPE.",
     speakers: [
-      { name: 'Dr Ferdin Joe John Joseph', role: 'Alibaba Cloud — Workshop Lead', linkedin: '' },
+      { name: 'Dr Ferdin Joe John Joseph', role: 'Alibaba Cloud — Workshop Lead', linkedin: 'https://www.linkedin.com/in/ferdinjoe/' },
     ],
     hero: '/meetups/2025-11-alibaba-cloud/hero.jpg',
     gallery: [
@@ -194,7 +194,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'AI in Job Markets: Building Future-Ready Skills (Fireside)',
     desc: "Fireside chat with Assel Mussagaliyeva Tang (Founder, EDUTech Future) on how AI is reshaping education and what 'future-ready' actually means for students entering the job market. 9th edition of the monthly meetup, held at *SCAPE Orchard.",
     speakers: [
-      { name: 'Assel Mussagaliyeva Tang', role: 'Founder, EDUTech Future', linkedin: '' },
+      { name: 'Assel Mussagaliyeva Tang', role: 'Founder, EDUTech Future', linkedin: 'https://www.linkedin.com/in/asselmussa' },
     ],
     hero: '/meetups/2025-09-fireside/hero.jpg',
     gallery: [
@@ -228,8 +228,8 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'SG60 Edition — Multilingual Voice AI',
     desc: "SG60 National Day edition. Tarun Kumar (A*STAR MERaLiON) on building multilingual voice models for Singlish, Mandarin, Malay, and Tamil; Thorsten Schaeff (ElevenLabs) on V3 and conversational TTS. We also previewed MerMurs — our broken-telephone voice game built on multilingual AI.",
     speakers: [
-      { name: 'Tarun Kumar',      role: 'A*STAR — MERaLiON team', linkedin: '' },
-      { name: 'Thorsten Schaeff', role: 'ElevenLabs',              linkedin: '' },
+      { name: 'Tarun Kumar',      role: 'A*STAR — MERaLiON team', linkedin: 'https://sg.linkedin.com/in/tarunkv' },
+      { name: 'Thorsten Schaeff', role: 'ElevenLabs',              linkedin: 'https://www.linkedin.com/in/thorwebdev/' },
     ],
     hero: '/meetups/2025-07-sg60-multilingual/hero.jpg',
     gallery: [
@@ -268,7 +268,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'Networking & Resume Roasting (SYAI x CYS)',
     desc: "Live resume 'roasting' with Lim Mei Yu (Founder, Get Ahead; ex-Meta, ex-Google) — attendees submitted their CVs for on-projector critique, plus a recruiter Q&A on positioning for AI/tech roles. Co-organised with Cyber Youth Singapore at *SCAPE.",
     speakers: [
-      { name: 'Lim Mei Yu', role: 'Founder, Get Ahead (ex-Meta, ex-Google)', linkedin: '' },
+      { name: 'Lim Mei Yu', role: 'Founder, Get Ahead (ex-Meta, ex-Google)', linkedin: 'https://sg.linkedin.com/in/limmeiyu' },
       { name: 'CYS Rep',    role: 'Cyber Youth Singapore',                   linkedin: '' },
     ],
     hero: '/meetups/2025-03-resume-roasting/hero.jpg',
@@ -290,7 +290,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'Fireside Chat with Dr Mukundan A P (SYAI x CYS)',
     desc: "I moderated the fireside with Dr Mukundan A P (Champion Group) on practical AI in the SDLC — automation across deployment, monitoring, and security, plus how funded startups actually take AI products to market. Session 1 of the 2025 series, co-organised with Cyber Youth Singapore at Hillview CC.",
     speakers: [
-      { name: 'Dr Mukundan A P', role: 'Champion Group — Fireside Speaker', linkedin: '' },
+      { name: 'Dr Mukundan A P', role: 'Champion Group — Fireside Speaker', linkedin: 'https://www.linkedin.com/in/mukundanap/' },
       { name: 'Kaleb Nim',       role: 'Moderator — SYAI',                  linkedin: 'https://www.linkedin.com/in/kaleb-nim/' },
     ],
     hero: '/meetups/2025-01-fireside/hero.jpg',
