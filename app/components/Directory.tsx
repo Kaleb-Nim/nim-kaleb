@@ -43,20 +43,19 @@ export function DirRow({ row, onNav }: DirRowProps) {
       onPointerDown={() => setPressed(true)}
       onPointerUp={() => setPressed(false)}
       onPointerLeave={() => setPressed(false)}
-      className="kni-dir-row"
+      className="kni-dir-row kni-dir-card"
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr auto auto',
-        columnGap: 'clamp(8px, 2vw, 14px)',
-        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
         textDecoration: 'none',
         color: 'inherit',
-        padding: '14px clamp(12px, 3vw, 18px)',
-        minHeight: 60,
+        padding: '16px clamp(14px, 3vw, 18px)',
+        minHeight: 132,
         background: pressed
           ? 'rgba(0,255,0,0.10)'
           : 'rgba(0,255,0,0.035)',
-        borderTop: '1px solid rgba(0,255,0,0.18)',
+        border: '1px solid rgba(0,255,0,0.18)',
         borderLeft: `3px solid ${pressed ? dirStyles.green : 'rgba(0,255,0,0.45)'}`,
         boxShadow: pressed
           ? 'inset 0 0 18px rgba(0,255,0,0.12), 0 0 16px rgba(0,255,0,0.18)'
@@ -68,63 +67,78 @@ export function DirRow({ row, onNav }: DirRowProps) {
         fontFamily: '"Anonymous Pro", monospace',
       }}
     >
-      {/* Leading marker — opens directory style */}
-      <span style={{
-        color: dirStyles.greenMute,
-        fontSize: 'clamp(0.75rem, 2vw, 0.82rem)',
-        letterSpacing: '0.04em',
-        textShadow: 'none',
-        whiteSpace: 'nowrap',
-      }}>
-        <span className="kni-dir-icon" style={{
-          color: dirStyles.greenFaint, textShadow: 'none', marginRight: 6,
-        }}>▸</span>
-        <span style={{
-          color: dirStyles.green,
-          textShadow: dirStyles.glow,
-          fontWeight: 700,
-        }}>./{row.path}</span>
-        <span style={{ color: dirStyles.greenFaint, fontWeight: 400 }}>/</span>
-      </span>
-
-      {/* Description — wraps on mobile, hidden under medium width if needed */}
-      <span className="kni-dir-desc" style={{
-        color: dirStyles.greenDim,
-        fontSize: 'clamp(0.74rem, 1.8vw, 0.82rem)',
-        textShadow: 'none',
-        lineHeight: 1.4,
+      {/* Header row — path + count */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        gap: 8,
         minWidth: 0,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
       }}>
-        — {row.desc}
-      </span>
+        <span style={{
+          color: dirStyles.greenMute,
+          fontSize: 'clamp(0.78rem, 2vw, 0.88rem)',
+          letterSpacing: '0.04em',
+          textShadow: 'none',
+          minWidth: 0,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}>
+          <span className="kni-dir-icon" style={{
+            color: dirStyles.greenFaint, textShadow: 'none', marginRight: 6,
+          }}>▸</span>
+          <span style={{
+            color: dirStyles.green,
+            textShadow: dirStyles.glow,
+            fontWeight: 700,
+          }}>./{row.path}</span>
+          <span style={{ color: dirStyles.greenFaint, fontWeight: 400 }}>/</span>
+        </span>
 
-      {/* Count badge */}
+        <span style={{
+          color: dirStyles.gold,
+          textShadow: dirStyles.goldGlow,
+          fontSize: 'clamp(0.78rem, 1.8vw, 0.88rem)',
+          fontWeight: 700,
+          letterSpacing: '0.04em',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
+        }}>
+          [{row.count}]
+        </span>
+      </div>
+
+      {/* Description — wraps inside the card on all breakpoints */}
       <span style={{
-        color: dirStyles.gold,
-        textShadow: dirStyles.goldGlow,
-        fontSize: 'clamp(0.78rem, 1.8vw, 0.88rem)',
-        fontWeight: 700,
-        letterSpacing: '0.04em',
-        whiteSpace: 'nowrap',
+        color: dirStyles.greenDim,
+        fontSize: 'clamp(0.74rem, 1.6vw, 0.8rem)',
+        textShadow: 'none',
+        lineHeight: 1.45,
+        flex: 1,
       }}>
-        [{row.count}]
+        {row.desc}
       </span>
 
-      {/* Right chevron — primary affordance for "tappable" */}
-      <span aria-hidden="true" style={{
-        color: pressed ? dirStyles.green : dirStyles.greenMute,
-        textShadow: pressed ? dirStyles.glow : '0 0 4px rgba(0,255,0,0.3)',
-        fontSize: '1.1rem',
-        fontWeight: 700,
-        lineHeight: 1,
-        transition: 'color 120ms ease-out, transform 120ms ease-out',
-        transform: pressed ? 'translateX(4px)' : 'translateX(0)',
+      {/* Footer — chevron affordance, right-aligned */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginTop: 'auto',
       }}>
-        ›
-      </span>
+        <span aria-hidden="true" style={{
+          color: pressed ? dirStyles.green : dirStyles.greenMute,
+          textShadow: pressed ? dirStyles.glow : '0 0 4px rgba(0,255,0,0.3)',
+          fontSize: '1.15rem',
+          fontWeight: 700,
+          lineHeight: 1,
+          transition: 'color 120ms ease-out, transform 120ms ease-out',
+          transform: pressed ? 'translateX(4px)' : 'translateX(0)',
+        }}>
+          open ›
+        </span>
+      </div>
     </a>
   );
 }
@@ -153,10 +167,15 @@ export default function Directory({ rows, onNav }: DirectoryProps) {
         <span>{rows.length} dirs · tap any to open</span>
       </div>
 
-      <div className="kni-dir-list" style={{
-        borderBottom: '1px solid rgba(0,255,0,0.18)',
-        background: '#000',
-      }}>
+      <div
+        className="kni-dir-list"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
+          gap: 'clamp(10px, 1.6vw, 14px)',
+          background: 'transparent',
+        }}
+      >
         {rows.map((row) => (
           <DirRow key={row.id} row={row} onNav={onNav} />
         ))}

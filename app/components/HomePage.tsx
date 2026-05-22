@@ -14,6 +14,12 @@ import Directory from './Directory';
 import { LINKS, SECTIONS } from '@/app/lib/sections';
 import { navigateTo } from '@/app/hooks/useHashRoute';
 
+// Sections temporarily hidden from the home directory. The underlying data
+// and SECTIONS entries are intact (hash routes still resolve via the
+// dispatcher in app/page.tsx). To bring them back, remove the ID from this
+// set. See .planning/quick/260522-3cl-remove-side-hobbies-links-temp/PLAN.md.
+const HIDDEN_SECTION_IDS = new Set(['sidequests', 'hobbies', 'links']);
+
 export default function HomePage() {
   return (
     <div className="kni-page">
@@ -59,7 +65,10 @@ export default function HomePage() {
       </div>
 
       {/* Block 4 — Directory */}
-      <Directory rows={SECTIONS} onNav={navigateTo} />
+      <Directory
+        rows={SECTIONS.filter((s) => !HIDDEN_SECTION_IDS.has(s.id))}
+        onNav={navigateTo}
+      />
 
       {/* Block 5 — Affordance hint */}
       <div style={{
