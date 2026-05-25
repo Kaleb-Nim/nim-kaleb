@@ -8,6 +8,7 @@ interface VoiceCTAProps {
 
 export default function VoiceCTA({ onActivate }: VoiceCTAProps) {
   const [showNudge, setShowNudge] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const seen = localStorage.getItem('kni-voice-nudge-seen');
@@ -24,13 +25,22 @@ export default function VoiceCTA({ onActivate }: VoiceCTAProps) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={handleActivate}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleActivate(); } }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        border: '1px solid rgba(0,255,0,0.25)',
-        borderLeft: '3px solid #00FF00',
-        background: 'rgba(0,255,0,0.04)',
+        border: hovered ? '1px solid rgba(0,255,0,0.5)' : '1px solid rgba(0,255,0,0.25)',
+        borderLeft: hovered ? '3px solid #00FF00' : '3px solid #00FF00',
+        background: hovered ? 'rgba(0,255,0,0.08)' : 'rgba(0,255,0,0.04)',
+        boxShadow: hovered ? '0 0 20px rgba(0,255,0,0.12), inset 0 0 12px rgba(0,255,0,0.04)' : 'none',
         padding: 'clamp(14px, 3vw, 20px)',
         fontFamily: '"Anonymous Pro", monospace',
         margin: '14px 0 18px',
+        cursor: 'pointer',
+        transition: 'background 200ms ease, border-color 200ms ease, box-shadow 200ms ease',
         animation: showNudge ? 'kniCTAEntrance 600ms ease-out both' : 'none',
       }}
     >
@@ -55,24 +65,16 @@ export default function VoiceCTA({ onActivate }: VoiceCTAProps) {
         Talk to my AI voice clone — it knows my work, my projects, and answers like I would.
       </div>
 
-      {/* Action */}
-      <button
-        onClick={handleActivate}
-        style={{
-          background: 'none',
-          border: 'none',
-          color: '#FFD700',
-          textShadow: '0 0 4px rgba(255,215,0,0.55), 0 0 8px rgba(255,215,0,0.3)',
-          fontFamily: '"Anonymous Pro", monospace',
-          fontSize: 'clamp(0.78rem, 2vw, 0.88rem)',
-          fontWeight: 700,
-          cursor: 'pointer',
-          padding: '8px 0',
-          letterSpacing: '0.04em',
-        }}
-      >
+      {/* Action hint */}
+      <div style={{
+        color: '#FFD700',
+        textShadow: '0 0 4px rgba(255,215,0,0.55), 0 0 8px rgba(255,215,0,0.3)',
+        fontSize: 'clamp(0.78rem, 2vw, 0.88rem)',
+        fontWeight: 700,
+        letterSpacing: '0.04em',
+      }}>
         ▸ start conversation
-      </button>
+      </div>
     </div>
   );
 }
