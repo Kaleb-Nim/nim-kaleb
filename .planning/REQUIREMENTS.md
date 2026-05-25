@@ -141,6 +141,14 @@ Deferred to future release.
 - [x] **VOICE-VIS-03**: First-time visitors see a one-time attention nudge that does not repeat on subsequent visits
 - [x] **VOICE-VIS-04**: Voice CTA click/tap triggers the same VoiceOverlay connection flow as FloatingMic
 
+### Meetups Page UX Redesign (Phase 17)
+
+- [ ] **MEETUP-UX-01**: Stats hero section renders aggregate impact numbers (events count, total attendees "500+", active months) with a one-liner establishing Kaleb as the organizer — visible without scrolling
+- [ ] **MEETUP-UX-02**: Events display in a responsive photo-forward grid (3 columns at 900px+, 2 at tablet, 1 below 480px) where hero images are the dominant visual with event title and date overlaid via bottom gradient
+- [ ] **MEETUP-UX-03**: Speaker information is completely removed from the page — not in grid cards, not in detail overlay
+- [ ] **MEETUP-UX-04**: Clicking a grid card opens an expanded detail overlay showing event description and gallery photos; overlay closes on Escape key or backdrop click; background scroll is locked while overlay is open
+- [ ] **MEETUP-UX-05**: Layout holds at 360px mobile (1-col grid, no horizontal scroll) and 1024px+ desktop (3-col grid); terminal aesthetic (phosphor green, Anonymous Pro, dark background) preserved throughout; `bun run build` exits 0
+
 ## Out of Scope (v3.0)
 
 | Feature | Reason |
@@ -153,7 +161,7 @@ Deferred to future release.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCRIPT-01..03, STORY-01..03, PROD-01..02 | Phases 8–9 | Complete (v2.0) |
+| SCRIPT-01..03, STORY-01..03, PROD-01..02 | Phases 8-9 | Complete (v2.0) |
 | HOME-01..05 | Phase 10 | Planned |
 | ROUTE-01..03 | Phase 10 | Planned |
 | VOICE-01..03 | Phase 10 | Planned |
@@ -163,12 +171,13 @@ Deferred to future release.
 | SYAI-CONTENT-01..03 | Phase 14 | Planned |
 | HACK-DATA-01..03, HACK-URL-01..02, HACK-UI-01..04 | Phase 15 | Planned |
 | VOICE-VIS-01..04 | Phase 16 | Complete |
+| MEETUP-UX-01..05 | Phase 17 | Planned |
 
 **Coverage (v3.0):**
-- Requirements: 33 total
-- Mapped to phases: 33
+- Requirements: 38 total
+- Mapped to phases: 38
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-15 (v2.0), 2026-05-18 (v3.0)*
-*Last updated: 2026-05-19 after Phase 15 planning*
+*Last updated: 2026-05-25 after Phase 17 planning*

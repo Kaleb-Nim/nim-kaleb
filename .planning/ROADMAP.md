@@ -99,7 +99,14 @@ Plans:
   3. An automated test sends text to DashScope TTS and asserts PCM audio bytes are returned with a byte-level sanity check
   4. An automated E2E test exercises the full round-trip (audio input → ASR transcript → LLM response → TTS audio output) and asserts the pipeline completes successfully
   5. All tests run in CI without requiring a real microphone (audio injected at the WebSocket level)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
+
+**Wave 2** *(blocked on Wave 1 — needs CSS Module + MeetupGridCard)*
+- [ ] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
 
 ### v2.0 Scholarship Video Production (Planned)
 
@@ -192,7 +199,7 @@ Plans:
 | 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
 | 15. Hackathons Page | v3.0 | 3/4 | In Progress | - |
 | 16. Voice CTA Visibility | v3.0 | 2/2 | Checkpoint pending | - |
-| 17. Meetups Page UX Redesign | v3.0 | 0/TBD | Not started | - |
+| 17. Meetups Page UX Redesign | v3.0 | 0/2 | Not started | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -312,5 +319,12 @@ Plans:
   5. Layout holds at 360px mobile (1-2 col grid) and 1024px+ desktop (3 col grid) without horizontal scroll
   6. Terminal aesthetic (phosphor green, Anonymous Pro, dark background) is preserved throughout
   7. `bun run build` exits 0
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
+
+**Wave 2** *(blocked on Wave 1 — needs CSS Module + MeetupGridCard)*
+- [ ] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
 
