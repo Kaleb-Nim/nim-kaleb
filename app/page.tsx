@@ -59,7 +59,7 @@ export default function Home() {
         <TerminalHeader />
         <TerminalContent>
           {isHome ? (
-            <HomePage />
+            <HomePage onVoiceOpen={() => setVoiceOpen(true)} />
           ) : section ? (
             section.id === 'work-experience' ? (
               <WorkPage section={section} />

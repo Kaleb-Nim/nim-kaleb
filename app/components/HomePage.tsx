@@ -11,16 +11,15 @@
 //   Block 5 — Affordance hint
 
 import Directory from './Directory';
+import VoiceCTA from './VoiceCTA';
 import { LINKS, SECTIONS } from '@/app/lib/sections';
 import { navigateTo } from '@/app/hooks/useHashRoute';
 
-// Sections temporarily hidden from the home directory. The underlying data
-// and SECTIONS entries are intact (hash routes still resolve via the
-// dispatcher in app/page.tsx). To bring them back, remove the ID from this
-// set. See .planning/quick/260522-3cl-remove-side-hobbies-links-temp/PLAN.md.
-const HIDDEN_SECTION_IDS = new Set(['sidequests', 'hobbies', 'links']);
+interface HomePageProps {
+  onVoiceOpen?: () => void;
+}
 
-export default function HomePage() {
+export default function HomePage({ onVoiceOpen }: HomePageProps) {
   return (
     <div className="kni-page">
       {/* Block 1 — Identity */}
@@ -64,11 +63,11 @@ export default function HomePage() {
         LOOKING FOR AI ENGINEERING INTERNSHIPS — STARTING AUG 2026
       </div>
 
+      {/* Block 3.5 — Voice CTA */}
+      <VoiceCTA onActivate={onVoiceOpen} />
+
       {/* Block 4 — Directory */}
-      <Directory
-        rows={SECTIONS.filter((s) => !HIDDEN_SECTION_IDS.has(s.id))}
-        onNav={navigateTo}
-      />
+      <Directory rows={SECTIONS} onNav={navigateTo} />
 
       {/* Block 5 — Affordance hint */}
       <div style={{
