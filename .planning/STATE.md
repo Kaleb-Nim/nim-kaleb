@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-18)
 
 **Core value:** Visitors can have a natural, human-sounding voice conversation with an AI clone of Kaleb that authentically represents his experience and personality.
-**Current focus:** Phase 15 — build-hackathon-page-with-hackathon-json-data-images-smart-u
+**Current focus:** Phase 16 — voice-cta-visibility-make-talk-to-me-unmissable
 
 ## Current Position
 
-Phase: 15 (build-hackathon-page-with-hackathon-json-data-images-smart-u) — EXECUTING
-Plan: 4 of 4 (15-01 + 15-02 complete; ready for 15-03 HackathonsPage component)
-Status: Ready to execute
-Last activity: 2026-05-20
+Phase: 16 (voice-cta-visibility-make-talk-to-me-unmissable) — EXECUTING
+Plan: 1 of 1 complete (16-01 VoiceCTA done)
+Status: Plan 01 complete
+Last activity: 2026-05-25
 
 Progress: [██████████] 95%
 
@@ -60,6 +60,7 @@ Progress: [██████████] 95%
 | Phase 15 P01 | 6min | 3 tasks | 3 files |
 | Phase 15 P02 | 4min | 2 tasks | 4 files |
 | Phase 15 P03 | 3min | 3 tasks | 5 files |
+| Phase 16 P01 | 2min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,6 @@ None at milestone start.
 
 ## Session Continuity
 
-Last session: 2026-05-20T05:01:41.284Z
-Stopped at: Completed 15-02-PLAN.md (URL classifier utility + 12-case bun:test suite)
+Last session: 2026-05-25T09:10:03Z
+Stopped at: Completed 16-01-PLAN.md (VoiceCTA component + onVoiceOpen wiring + keyframes)
 Resume file: None

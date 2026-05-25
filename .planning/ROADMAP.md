@@ -103,9 +103,9 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
+- [x] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
 
-**Wave 2** *(blocked on Wave 1 — needs VoiceCTA + keyframes)*
+**Wave 2** *(unblocked — Wave 1 complete)*
 - [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
 
 Plans: TBD
@@ -201,6 +201,7 @@ Plans:
 | 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
 | 15. Hackathons Page | v3.0 | 3/4 | In Progress | - |
 | 16. Voice CTA Visibility | v3.0 | 0/2 | Not started | - |
+| 17. Meetups Page UX Redesign | v3.0 | 0/TBD | Not started | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -301,8 +302,8 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
+- [x] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
 
-**Wave 2** *(blocked on Wave 1 — needs VoiceCTA + keyframes)*
+**Wave 2** *(unblocked — Wave 1 complete)*
 - [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
 

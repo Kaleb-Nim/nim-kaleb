@@ -136,10 +136,10 @@ Deferred to future release.
 
 ### Voice CTA Visibility (Phase 16)
 
-- [ ] **VOICE-VIS-01**: Home page includes a dedicated voice CTA element visually distinct from directory rows that communicates "you can talk to an AI clone of Kaleb"
+- [x] **VOICE-VIS-01**: Home page includes a dedicated voice CTA element visually distinct from directory rows that communicates "you can talk to an AI clone of Kaleb"
 - [ ] **VOICE-VIS-02**: FloatingMic button is more eye-catching — improved contrast, size, or visual treatment
-- [ ] **VOICE-VIS-03**: First-time visitors see a one-time attention nudge that does not repeat on subsequent visits
-- [ ] **VOICE-VIS-04**: Voice CTA click/tap triggers the same VoiceOverlay connection flow as FloatingMic
+- [x] **VOICE-VIS-03**: First-time visitors see a one-time attention nudge that does not repeat on subsequent visits
+- [x] **VOICE-VIS-04**: Voice CTA click/tap triggers the same VoiceOverlay connection flow as FloatingMic
 
 ## Out of Scope (v3.0)
 
