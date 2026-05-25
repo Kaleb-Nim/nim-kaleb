@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-05-18)
 ## Current Position
 
 Phase: 16 (voice-cta-visibility-make-talk-to-me-unmissable) — EXECUTING
-Plan: 1 of 1 complete (16-01 VoiceCTA done)
-Status: Plan 01 complete
+Plan: 2 of 2 (16-02 FloatingMic improvements — auto tasks done, checkpoint pending)
+Status: Plan 02 checkpoint:human-verify pending
 Last activity: 2026-05-25
 
 Progress: [██████████] 95%
@@ -61,6 +61,7 @@ Progress: [██████████] 95%
 | Phase 15 P02 | 4min | 2 tasks | 4 files |
 | Phase 15 P03 | 3min | 3 tasks | 5 files |
 | Phase 16 P01 | 2min | 3 tasks | 5 files |
+| Phase 16 P02 | 1min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,7 @@ Progress: [██████████] 95%
 - [Phase 15 P02]: Did NOT change `package.json` scripts.test (already wired to `bunx playwright test`); Bun's native test runner runs `bun test <file>` directly without a scripts entry. Added `@types/bun` devDep so `bunx tsc --noEmit` resolves the `bun:test` import.
 - [Phase 15 P03]: `useHashSubRoute` added as additive sibling export — preserves single-segment contract for all existing section pages (work, syai-meetups, sidequests, hobbies, links). Sub-route hook does NOT scroll on hashchange (scroll belongs to primary route only). `#//foo` divergence in `parseHashSegments()` (`.filter(Boolean)`) is accepted — app never emits double-slash hashes via `navigateTo`.
 - [Phase 15 P03]: Multi-prize winner card tag shows only the FIRST prize's short form via `shortenPrize()` (full prize list rendered in `HackathonLinksPage` chooser). 18-char cap with no ellipsis keeps the monospace tag tidy. Thumbnails deferred per locked `<design>` — zero `<img>` / `next/image` in any plan-15-03 file. `event_name` conditionally rendered (string | null per Plan 01).
+- [Phase 16 P02]: matchMedia approach for mobile FloatingMic label (avoids CSS display:none, keeps label visible with short text). Tooltip uses position:fixed with calc() offset above the fixed button.
 
 ### Pending Todos
 
@@ -109,6 +111,6 @@ None at milestone start.
 
 ## Session Continuity
 
-Last session: 2026-05-25T09:10:03Z
-Stopped at: Completed 16-01-PLAN.md (VoiceCTA component + onVoiceOpen wiring + keyframes)
+Last session: 2026-05-25T09:13:31Z
+Stopped at: Completed 16-02-PLAN.md auto tasks (FloatingMic improvements); checkpoint:human-verify pending
 Resume file: None

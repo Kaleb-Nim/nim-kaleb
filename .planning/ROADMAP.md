@@ -99,16 +99,7 @@ Plans:
   3. An automated test sends text to DashScope TTS and asserts PCM audio bytes are returned with a byte-level sanity check
   4. An automated E2E test exercises the full round-trip (audio input → ASR transcript → LLM response → TTS audio output) and asserts the pipeline completes successfully
   5. All tests run in CI without requiring a real microphone (audio injected at the WebSocket level)
-**Plans**: 2 plans
-
-Plans:
-**Wave 1**
-- [x] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
-
-**Wave 2** *(unblocked — Wave 1 complete)*
-- [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
-
-Plans: TBD
+**Plans**: TBD
 
 ### v2.0 Scholarship Video Production (Planned)
 
@@ -200,7 +191,7 @@ Plans:
 | 13. SYAI Meetups Page | v3.0 | 3/3 | Complete   | 2026-05-19 |
 | 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
 | 15. Hackathons Page | v3.0 | 3/4 | In Progress | - |
-| 16. Voice CTA Visibility | v3.0 | 0/2 | Not started | - |
+| 16. Voice CTA Visibility | v3.0 | 2/2 | Checkpoint pending | - |
 | 17. Meetups Page UX Redesign | v3.0 | 0/TBD | Not started | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
@@ -305,5 +296,21 @@ Plans:
 - [x] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
 
 **Wave 2** *(unblocked — Wave 1 complete)*
-- [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
+- [x] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
+
+### Phase 17: Meetups Page UX Redesign — Photo-Forward Stats Grid
+
+**Goal:** Redesign the `#/syai-meetups` page from a long scrollable card list into a photo-forward stats hero + compact image grid that immediately communicates "Kaleb organized 11 AI events for 500+ youth" within the first 3 seconds — without requiring scrolling to understand his role.
+**Depends on:** Phase 14 (SYAI_ITEMS data fully populated)
+**UI hint:** yes
+**Requirements**: MEETUP-UX-01, MEETUP-UX-02, MEETUP-UX-03, MEETUP-UX-04, MEETUP-UX-05
+**Success Criteria** (what must be TRUE):
+  1. Page opens with a stats hero section showing aggregate impact numbers (events count, total attendees, active months) and a one-liner establishing Kaleb as the organizer — visible without scrolling
+  2. Events are displayed in a 2-3 column photo grid (responsive) where hero images are the dominant visual, with event title and date overlaid on the image
+  3. Speaker information is removed from the default grid view (only visible on expand/detail interaction if at all)
+  4. Clicking a grid card opens an expanded view (inline expand or lightbox) showing description and gallery photos — photo-forward, minimal text
+  5. Layout holds at 360px mobile (1-2 col grid) and 1024px+ desktop (3 col grid) without horizontal scroll
+  6. Terminal aesthetic (phosphor green, Anonymous Pro, dark background) is preserved throughout
+  7. `bun run build` exits 0
+**Plans**: TBD
 

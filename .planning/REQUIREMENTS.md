@@ -137,7 +137,7 @@ Deferred to future release.
 ### Voice CTA Visibility (Phase 16)
 
 - [x] **VOICE-VIS-01**: Home page includes a dedicated voice CTA element visually distinct from directory rows that communicates "you can talk to an AI clone of Kaleb"
-- [ ] **VOICE-VIS-02**: FloatingMic button is more eye-catching — improved contrast, size, or visual treatment
+- [x] **VOICE-VIS-02**: FloatingMic button is more eye-catching — improved contrast, size, or visual treatment
 - [x] **VOICE-VIS-03**: First-time visitors see a one-time attention nudge that does not repeat on subsequent visits
 - [x] **VOICE-VIS-04**: Voice CTA click/tap triggers the same VoiceOverlay connection flow as FloatingMic
 
@@ -162,7 +162,7 @@ Deferred to future release.
 | SYAI-01..09 | Phase 13 | Complete (2026-05-19) |
 | SYAI-CONTENT-01..03 | Phase 14 | Planned |
 | HACK-DATA-01..03, HACK-URL-01..02, HACK-UI-01..04 | Phase 15 | Planned |
-| VOICE-VIS-01..04 | Phase 16 | Planned |
+| VOICE-VIS-01..04 | Phase 16 | Complete |
 
 **Coverage (v3.0):**
 - Requirements: 33 total
