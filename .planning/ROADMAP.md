@@ -99,7 +99,14 @@ Plans:
   3. An automated test sends text to DashScope TTS and asserts PCM audio bytes are returned with a byte-level sanity check
   4. An automated E2E test exercises the full round-trip (audio input → ASR transcript → LLM response → TTS audio output) and asserts the pipeline completes successfully
   5. All tests run in CI without requiring a real microphone (audio injected at the WebSocket level)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
+
+**Wave 2** *(blocked on Wave 1 — needs VoiceCTA + keyframes)*
+- [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
 
 Plans: TBD
 
@@ -192,6 +199,8 @@ Plans:
 | 12. Dev Branch / Live Preview Env | v3.0 | 0/2 | Not started | - |
 | 13. SYAI Meetups Page | v3.0 | 3/3 | Complete   | 2026-05-19 |
 | 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
+| 15. Hackathons Page | v3.0 | 3/4 | In Progress | - |
+| 16. Voice CTA Visibility | v3.0 | 0/2 | Not started | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -273,4 +282,27 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 — wires the dispatcher)*
 - [ ] 15-04-PLAN.md — Add `hackathons` branch to `app/page.tsx` (delegates to `HackathonLinksPage` when sub-route present, else `HackathonsPage`) + blocking human-verify checkpoint
+
+### Phase 16: Voice CTA Visibility — Make "Talk to Me" Unmissable
+
+**Goal:** Visitors who land on the home page notice and understand the voice clone feature within their first 10 seconds — through a prominent home page CTA element plus an improved floating mic button with a first-visit attention nudge — without feeling intrusive or breaking the terminal aesthetic.
+**Depends on:** Phase 10 (FloatingMic + HomePage + VoiceOverlay exist)
+**UI hint:** yes
+**Requirements**: VOICE-VIS-01, VOICE-VIS-02, VOICE-VIS-03, VOICE-VIS-04
+**Success Criteria** (what must be TRUE):
+  1. Home page includes a dedicated voice CTA element (card, banner, or section) that is visually distinct from directory rows and clearly communicates "you can talk to an AI clone of Kaleb"
+  2. FloatingMic button is more eye-catching than the current gold pill — improved contrast, size, or visual treatment
+  3. First-time visitors see a one-time attention nudge (animation, tooltip, or visual pulse) on the voice CTA that does not repeat on subsequent visits
+  4. The voice CTA click/tap triggers the same VoiceOverlay connection flow as the current FloatingMic
+  5. All changes hold at 360px mobile and 1024px+ desktop without horizontal scroll
+  6. `prefers-reduced-motion: reduce` disables any attention animations
+  7. `bun run build` exits 0
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 16-01-PLAN.md — VoiceCTA component (terminal system message), HomePage wiring, page.tsx callback threading, globals.css keyframes, VOICE-VIS requirements
+
+**Wave 2** *(blocked on Wave 1 — needs VoiceCTA + keyframes)*
+- [ ] 16-02-PLAN.md — FloatingMic visual improvements (idle glow, 2px border, gold tint, mobile label, 44px tap target) + first-visit tooltip + human-verify checkpoint
 
