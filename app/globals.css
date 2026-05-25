@@ -143,10 +143,9 @@ body {
   .quick-bar .quick-label { display: none; }
 }
 
-/* Floating mic collapses to circle on narrow screens */
+/* Floating mic: compact pill on narrow screens (label stays visible via matchMedia short text) */
 @media (max-width: 520px) {
-  .kni-floating-mic { padding: 14px !important; border-radius: 999px !important; }
-  .kni-floating-mic-label { display: none; }
+  .kni-floating-mic { padding: 10px 14px !important; border-radius: 999px !important; }
 }
 
 /* Meetup cards: stack hero + description on mobile, wrap gallery to 2 cols */
