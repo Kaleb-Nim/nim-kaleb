@@ -1,0 +1,352 @@
+/* MeetupsPage.module.css — Phase 17 meetups page UX redesign */
+
+/* ── Stats Hero ──────────────────────────────────────────── */
+
+.statsHero {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.statBlock {
+  text-align: center;
+  padding: 12px 20px;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  min-width: 100px;
+}
+
+.statValue {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  color: var(--kni-green);
+  text-shadow: var(--kni-glow-green);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.statsTagline {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.78rem, 2vw, 0.86rem);
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  line-height: 1.55;
+}
+
+/* ── Grid ────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* ── Grid Card ───────────────────────────────────────────── */
+
+.gridCard {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  cursor: pointer;
+  transition: border-color 120ms ease-out, transform 120ms ease-out;
+  background: #000;
+}
+
+.gridCard:hover,
+.gridCard:focus-visible {
+  border-color: rgba(0, 255, 0, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px rgba(0, 255, 0, 0.18);
+}
+
+.gridCard:focus-visible {
+  outline: 2px solid var(--kni-gold);
+  outline-offset: 2px;
+}
+
+.gridCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 14px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardNum {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.cardTitle {
+  color: var(--kni-green);
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.8);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.82rem, 2.2vw, 0.96rem);
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardDate {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 480px) {
+  .gridCard {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* ── Grid Card Placeholder ───────────────────────────────── */
+
+.gridCardPlaceholder {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  background-image:
+    linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+/* ── Detail Overlay ──────────────────────────────────────── */
+
+@keyframes kniPanelOpen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.detailBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(1, 8, 16, 0.92);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 40px);
+  animation: kniPanelOpen 200ms ease-out both;
+}
+
+.detailPanel {
+  background: #000;
+  border: 1px solid rgba(0, 255, 0, 0.45);
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.15), 0 20px 50px rgba(0, 0, 0, 0.7);
+  max-width: min(800px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(16px, 3vw, 28px);
+  width: 100%;
+  position: relative;
+}
+
+.detailPanel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.detailPanel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.detailPanel::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 0, 0.25);
+}
+
+.detailPanel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 0, 0.25) transparent;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.detailClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.55);
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.detailClose:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.detailNum {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.detailTitle {
+  color: var(--kni-green);
+  text-shadow: var(--kni-glow-green);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.detailDate {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.76rem;
+}
+
+.detailHero {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  margin-bottom: 14px;
+}
+
+.detailDesc {
+  color: var(--kni-green);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.78rem, 2vw, 0.86rem);
+  line-height: 1.65;
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.25), 0 0 8px rgba(0, 255, 0, 0.1);
+  margin-bottom: 14px;
+}
+
+.detailGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.detailThumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  cursor: pointer;
+  transition: border-color 120ms ease-out;
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.detailThumb:hover {
+  border-color: rgba(0, 255, 0, 0.55);
+}
+
+.detailSignup {
+  display: inline-block;
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.detailSignup:hover {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .gridCard,
+  .detailThumb {
+    transition: none;
+  }
+
+  .gridCard:hover,
+  .gridCard:focus-visible {
+    transform: none;
+  }
+
+  .detailBackdrop {
+    animation: none;
+  }
+}
