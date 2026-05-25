@@ -103,10 +103,10 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
+- [x] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
 
 **Wave 2** *(blocked on Wave 1 — needs CSS Module + MeetupGridCard)*
-- [ ] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
+- [x] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
 
 ### v2.0 Scholarship Video Production (Planned)
 
@@ -199,7 +199,7 @@ Plans:
 | 14. SYAI Meetups — Content Population | v3.0 | 1/1 | Complete   | 2026-05-19 |
 | 15. Hackathons Page | v3.0 | 3/4 | In Progress | - |
 | 16. Voice CTA Visibility | v3.0 | 2/2 | Checkpoint pending | - |
-| 17. Meetups Page UX Redesign | v3.0 | 0/2 | Not started | - |
+| 17. Meetups Page UX Redesign | v3.0 | 2/2 | Checkpoint pending | - |
 
 ### Phase 12: Create dev branch for live preview environment separate from production kalebnim.dev
 
@@ -323,8 +323,8 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
+- [x] 17-01-PLAN.md — Create MeetupsPage.module.css (stats hero, grid, card overlay, detail overlay, responsive breakpoints) + MeetupGridCard component (photo-forward image card with gradient overlay text)
 
 **Wave 2** *(blocked on Wave 1 — needs CSS Module + MeetupGridCard)*
-- [ ] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
+- [x] 17-02-PLAN.md — Create MeetupDetail overlay, rewrite MeetupsPage (stats hero + grid + detail + no speakers), human-verify checkpoint at 360px + 1024px
 

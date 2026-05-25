@@ -3,29 +3,71 @@
 import { useState } from 'react';
 import type { Section, MeetupItem } from '@/app/lib/sections';
 import PageHeader, { FooterMeta } from './PageHeader';
-import MeetupCard from './MeetupCard';
-import MeetupLightbox, { type LightboxOpen } from './MeetupLightbox';
+import MeetupGridCard from './MeetupGridCard';
+import MeetupDetail from './MeetupDetail';
+import styles from './MeetupsPage.module.css';
 
 export default function MeetupsPage({ section }: { section: Section }) {
   const items = section.items as MeetupItem[];
-  const [open, setOpen] = useState<LightboxOpen>(null);
-  const openLightbox = (cardIdx: number, imgIdx: number) =>
-    setOpen({ cardIdx, imgIdx });
-  const closeLightbox = () => setOpen(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const selectedEvent = selectedIdx !== null ? items[selectedIdx] : null;
+
+  // Stats computation
+  const eventsCount = items.length;
+  const uniqueMonths = new Set(items.map((i) => i.date)).size;
+  const monthsStr = `${uniqueMonths}+`;
+
+  const stats = [
+    { value: eventsCount, label: 'EVENTS' },
+    { value: '500+', label: 'ATTENDEES' },
+    { value: monthsStr, label: 'ACTIVE MONTHS' },
+  ];
 
   return (
     <div>
       <PageHeader section={section} />
-      {items.map((ev, i) => (
-        <MeetupCard
-          key={ev.num}
-          event={ev}
-          cardIndex={i}
-          openLightbox={openLightbox}
-        />
-      ))}
+
+      {/* Stats Hero */}
+      <div className={styles.statsHero}>
+        {stats.map((s) => (
+          <div key={s.label} className={styles.statBlock}>
+            <div className={styles.statValue}>{s.value}</div>
+            <div className={styles.statLabel}>{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <div className={styles.statsTagline}>
+        I organized {eventsCount} AI meetups for 500+ youth across Singapore
+      </div>
+
+      {/* Divider */}
+      <div
+        style={{
+          height: 1,
+          margin: '16px 0',
+          background:
+            'linear-gradient(90deg, rgba(0,255,0,0.45), rgba(0,255,0,0.05))',
+        }}
+      />
+
+      {/* Grid */}
+      <div className={styles.grid}>
+        {items.map((ev, i) => (
+          <MeetupGridCard
+            key={ev.num}
+            event={ev}
+            index={i}
+            featured={i === 0}
+            onClick={() => setSelectedIdx(i)}
+          />
+        ))}
+      </div>
+
       <FooterMeta section={section} />
-      <MeetupLightbox items={items} open={open} onClose={closeLightbox} />
+      <MeetupDetail
+        event={selectedEvent}
+        onClose={() => setSelectedIdx(null)}
+      />
     </div>
   );
 }
