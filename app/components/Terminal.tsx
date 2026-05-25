@@ -9,7 +9,7 @@ interface TerminalProps {
 
 export default function Terminal({ children }: TerminalProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen relative z-10 p-4">
+    <div className="flex items-start justify-center min-h-screen relative z-10" style={{ padding: '4rem 1rem 1rem' }}>
       <div className={styles.terminal}>
         {children}
       </div>

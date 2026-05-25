@@ -105,8 +105,8 @@ export const LINKS: Link[] = [
   { label: 'github',   value: 'Kaleb-Nim',         href: 'https://github.com/Kaleb-Nim' },
   { label: 'linkedin', value: 'kaleb-nim',         href: 'https://www.linkedin.com/in/kaleb-nim/' },
   { label: 'email',    value: 'kaleb.nim@gmail',   href: 'mailto:kaleb.nim@gmail.com' },
-  { label: 'cv',       value: 'download [PDF]',    href: '#' },
-  { label: 'site',     value: 'nim-kaleb.vercel',  href: 'https://nim-kaleb.vercel.app' },
+  { label: 'cv',       value: 'download',           href: '/kaleb-cv.pdf' },
+  { label: 'youtube',  value: 'how I built this',   href: 'https://youtu.be/WHKIfOb0V7Q' },
 ];
 
 // ── WORK EXPERIENCE (4) ────────────────────────────────────────────────────
@@ -352,7 +352,6 @@ export const LINK_ITEMS: LinkPageItem[] = [
   { title: 'LinkedIn', note: 'linkedin.com/in/kaleb-nim',               link: { label: 'OPEN', href: 'https://www.linkedin.com/in/kaleb-nim/' } },
   { title: 'Email',    note: 'kaleb.nim@gmail.com',                     link: { label: 'COPY', href: 'mailto:kaleb.nim@gmail.com' } },
   { title: 'Resume',   note: 'one-pager — updated quarterly',           link: { label: 'PDF',  href: '#' } },
-  { title: 'Site',     note: 'nim-kaleb.vercel.app (production build)', link: { label: 'OPEN', href: 'https://nim-kaleb.vercel.app' } },
 ];
 
 // ── SECTIONS ───────────────────────────────────────────────────────────────
@@ -419,11 +418,11 @@ export const SECTIONS: Section[] = [
   {
     id: 'links',
     path: 'links',
-    count: 5,
+    count: 4,
     aliases: ['contact', 'cv'],
-    desc: 'github · linkedin · email · cv · prod site',
+    desc: 'github · linkedin · email · cv',
     title: './links — where to find me',
-    intro: 'The five ways to reach me or read more.',
+    intro: 'The four ways to reach me or read more.',
     items: LINK_ITEMS,
   },
 ];

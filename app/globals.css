@@ -105,10 +105,17 @@ body {
 /* Quick-bar inline links */
 .quick-bar a {
   color: #FFD700;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
 }
-.quick-bar a:hover { text-decoration: underline; filter: brightness(1.2); }
+.quick-bar a:hover { filter: brightness(1.2); }
+
+.quick-glyph {
+  margin-left: 0.2em;
+  font-size: 0.85em;
+}
 
 /* Internship banner row */
 .kni-banner-row {

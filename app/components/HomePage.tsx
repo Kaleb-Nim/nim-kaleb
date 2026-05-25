@@ -45,17 +45,24 @@ export default function HomePage({ onVoiceOpen }: HomePageProps) {
 
       {/* Block 2 — Quick-bar */}
       <div className="quick-bar" style={{
-        display: 'flex', flexWrap: 'wrap', gap: '8px 18px',
+        display: 'flex', flexWrap: 'wrap', gap: '2px 12px',
         fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
         color: 'rgba(0,255,0,0.7)',
         padding: '12px 0 0',
       }}>
-        {LINKS.map((l, i) => (
-          <span key={i} style={{ whiteSpace: 'nowrap' }}>
-            <span className="quick-label" style={{ color: 'rgba(0,255,0,0.5)' }}>{l.label}: </span>
-            <a href={l.href} target="_blank" rel="noreferrer">{l.value}</a>
-          </span>
-        ))}
+        {LINKS.map((l, i) => {
+          const glyph = l.href.startsWith('mailto:') ? ''
+            : l.href.endsWith('.pdf') ? ' ⬇'
+            : ' ↗';
+          return (
+            <span key={i} style={{ whiteSpace: 'nowrap' }}>
+              <span className="quick-label" style={{ color: 'rgba(0,255,0,0.5)' }}>{l.label}: </span>
+              <a href={l.href} target={l.href.startsWith('mailto:') ? undefined : '_blank'} rel="noreferrer">
+                [{l.value}]{glyph && <span className="quick-glyph">{glyph}</span>}
+              </a>
+            </span>
+          );
+        })}
       </div>
 
       {/* Block 3 — Internship banner */}
