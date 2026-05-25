@@ -134,6 +134,13 @@ Deferred to future release.
 - [x] **HACK-UI-03**: Each row is a ≥44px tap target with visible focus ring, a pressed-state border / transform consistent with the HOME-04 directory pattern, and a thumbnail rendered from `thumbnail_local` (subtle — fixed width chip ~56–76px responsive); outbound link clicks use `target="_blank" rel="noopener noreferrer"`
 - [x] **HACK-UI-04**: The multi-link chooser sub-route (`#/hackathons/<slug>`) renders the project title + each classified link as a tappable row labelled with its source (`DEVPOST` / `GITHUB` / `LINKEDIN` / `LIVE DEMO`) and a back-link returning to `#/hackathons`; `useHashRoute` is extended additively so the existing single-segment callers (`work-experience`, `syai-meetups`, `sidequests`, `hobbies`, `links`) continue to function unchanged
 
+### Voice CTA Visibility (Phase 16)
+
+- [ ] **VOICE-VIS-01**: Home page includes a dedicated voice CTA element visually distinct from directory rows that communicates "you can talk to an AI clone of Kaleb"
+- [ ] **VOICE-VIS-02**: FloatingMic button is more eye-catching — improved contrast, size, or visual treatment
+- [ ] **VOICE-VIS-03**: First-time visitors see a one-time attention nudge that does not repeat on subsequent visits
+- [ ] **VOICE-VIS-04**: Voice CTA click/tap triggers the same VoiceOverlay connection flow as FloatingMic
+
 ## Out of Scope (v3.0)
 
 | Feature | Reason |
@@ -155,10 +162,11 @@ Deferred to future release.
 | SYAI-01..09 | Phase 13 | Complete (2026-05-19) |
 | SYAI-CONTENT-01..03 | Phase 14 | Planned |
 | HACK-DATA-01..03, HACK-URL-01..02, HACK-UI-01..04 | Phase 15 | Planned |
+| VOICE-VIS-01..04 | Phase 16 | Planned |
 
 **Coverage (v3.0):**
-- Requirements: 29 total
-- Mapped to phases: 29
+- Requirements: 33 total
+- Mapped to phases: 33
 - Unmapped: 0
 
 ---
