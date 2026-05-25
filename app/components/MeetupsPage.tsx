@@ -57,6 +57,7 @@ export default function MeetupsPage({ section }: { section: Section }) {
             key={ev.num}
             event={ev}
             index={i}
+            featured={i === 0}
             onClick={() => setSelectedIdx(i)}
           />
         ))}

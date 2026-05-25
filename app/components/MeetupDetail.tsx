@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { MeetupItem } from '@/app/lib/sections';
 import styles from './MeetupsPage.module.css';
 
@@ -29,11 +29,28 @@ export default function MeetupDetail({ event, onClose }: MeetupDetailProps) {
     return () => window.removeEventListener('keydown', onKey);
   }, [event, onClose]);
 
-  if (!event) return null;
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  const galleryImages = event.gallery.filter(
-    (src): src is string => src !== null,
-  );
+  const galleryImages = event
+    ? event.gallery.filter((src): src is string => src !== null)
+    : [];
+
+  const closeLightbox = useCallback(() => setLightboxIdx(null), []);
+
+  useEffect(() => {
+    if (lightboxIdx === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight' && lightboxIdx < galleryImages.length - 1)
+        setLightboxIdx(lightboxIdx + 1);
+      if (e.key === 'ArrowLeft' && lightboxIdx > 0)
+        setLightboxIdx(lightboxIdx - 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightboxIdx, galleryImages.length, closeLightbox]);
+
+  if (!event) return null;
 
   return (
     <div className={styles.detailBackdrop} onClick={onClose}>
@@ -78,8 +95,49 @@ export default function MeetupDetail({ event, onClose }: MeetupDetailProps) {
                 alt=""
                 className={styles.detailThumb}
                 loading="lazy"
+                onClick={() => setLightboxIdx(i)}
               />
             ))}
+          </div>
+        )}
+
+        {lightboxIdx !== null && (
+          <div className={styles.lightboxBackdrop} onClick={closeLightbox}>
+            <div className={styles.lightboxInner} onClick={(e) => e.stopPropagation()}>
+              {lightboxIdx > 0 && (
+                <button
+                  className={`${styles.lightboxNav} ${styles.lightboxPrev}`}
+                  onClick={() => setLightboxIdx(lightboxIdx - 1)}
+                  aria-label="Previous image"
+                >
+                  ‹
+                </button>
+              )}
+              <img
+                src={galleryImages[lightboxIdx]}
+                alt=""
+                className={styles.lightboxImg}
+              />
+              {lightboxIdx < galleryImages.length - 1 && (
+                <button
+                  className={`${styles.lightboxNav} ${styles.lightboxNext}`}
+                  onClick={() => setLightboxIdx(lightboxIdx + 1)}
+                  aria-label="Next image"
+                >
+                  ›
+                </button>
+              )}
+              <button
+                className={styles.lightboxClose}
+                onClick={closeLightbox}
+                aria-label="Close lightbox"
+              >
+                ×
+              </button>
+              <span className={styles.lightboxCounter}>
+                {lightboxIdx + 1} / {galleryImages.length}
+              </span>
+            </div>
           </div>
         )}
 

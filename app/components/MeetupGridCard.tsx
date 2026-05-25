@@ -6,12 +6,14 @@ import styles from './MeetupsPage.module.css';
 interface MeetupGridCardProps {
   event: MeetupItem;
   index: number;
+  featured?: boolean;
   onClick: () => void;
 }
 
 export default function MeetupGridCard({
   event,
   index,
+  featured,
   onClick,
 }: MeetupGridCardProps) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -41,9 +43,13 @@ export default function MeetupGridCard({
     );
   }
 
+  const cardClass = featured
+    ? `${styles.gridCard} ${styles.featuredCard}`
+    : styles.gridCard;
+
   return (
     <article
-      className={styles.gridCard}
+      className={cardClass}
       role="button"
       tabIndex={0}
       onClick={onClick}
@@ -54,9 +60,10 @@ export default function MeetupGridCard({
         alt=""
         loading={index >= 3 ? 'lazy' : 'eager'}
       />
-      <div className={styles.cardOverlay}>
+      <div className={featured ? styles.featuredOverlay : styles.cardOverlay}>
+        {featured && <span className={styles.featuredBadge}>▶ LATEST</span>}
         <span className={styles.cardNum}>{numLabel}</span>
-        <div className={styles.cardTitle}>{event.title}</div>
+        <div className={featured ? styles.featuredTitle : styles.cardTitle}>{event.title}</div>
         <div className={styles.cardDate}>{event.date}</div>
       </div>
     </article>
