@@ -27,6 +27,7 @@ export interface Link {
   label: string;
   value: string;
   href: string;
+  dest: string;   // capitalized destination word shown in place of `value` on mobile (≤480px)
 }
 
 export interface ItemLink {
@@ -102,11 +103,11 @@ export interface Section {
 // ── LINKS (5) ──────────────────────────────────────────────────────────────
 
 export const LINKS: Link[] = [
-  { label: 'github',   value: 'Kaleb-Nim',         href: 'https://github.com/Kaleb-Nim' },
-  { label: 'linkedin', value: 'kaleb-nim',         href: 'https://www.linkedin.com/in/kaleb-nim/' },
-  { label: 'email',    value: 'kaleb.nim@gmail',   href: 'mailto:kaleb.nim@gmail.com' },
-  { label: 'cv',       value: 'download',           href: '/kaleb-cv.pdf' },
-  { label: 'youtube',  value: 'how I built this',   href: 'https://youtu.be/WHKIfOb0V7Q' },
+  { label: 'github',   value: 'Kaleb-Nim',         href: 'https://github.com/Kaleb-Nim',           dest: 'GitHub' },
+  { label: 'linkedin', value: 'kaleb-nim',         href: 'https://www.linkedin.com/in/kaleb-nim/', dest: 'LinkedIn' },
+  { label: 'email',    value: 'kaleb.nim@gmail',   href: 'mailto:kaleb.nim@gmail.com',             dest: 'Email' },
+  { label: 'cv',       value: 'download',           href: '/kaleb-cv.pdf',                          dest: 'Resume' },
+  { label: 'youtube',  value: 'how I built this',   href: 'https://youtu.be/WHKIfOb0V7Q',           dest: 'YouTube' },
 ];
 
 // ── WORK EXPERIENCE (4) ────────────────────────────────────────────────────

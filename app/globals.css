@@ -145,9 +145,16 @@ body {
   .kni-floating-mic:hover { transform: translateY(-2px); }
 }
 
-/* Hide quick-bar value labels on very narrow screens */
+/* Default: show the handle value, hide the destination word.
+   The destination word only surfaces on narrow screens (below). */
+.quick-bar .quick-dest { display: none; }
+
+/* On very narrow screens, drop the lowercase prefix + handle and show the
+   literal destination word instead (e.g. [Kaleb-Nim] → [GitHub]). */
 @media (max-width: 480px) {
   .quick-bar .quick-label { display: none; }
+  .quick-bar .quick-value { display: none; }
+  .quick-bar .quick-dest { display: inline; }
 }
 
 /* Floating mic: compact pill on narrow screens (label stays visible via matchMedia short text) */

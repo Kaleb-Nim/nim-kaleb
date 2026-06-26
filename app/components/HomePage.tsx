@@ -58,7 +58,7 @@ export default function HomePage({ onVoiceOpen }: HomePageProps) {
             <span key={i} style={{ whiteSpace: 'nowrap' }}>
               <span className="quick-label" style={{ color: 'rgba(0,255,0,0.5)' }}>{l.label}: </span>
               <a href={l.href} target={l.href.startsWith('mailto:') ? undefined : '_blank'} rel="noreferrer">
-                [{l.value}]{glyph && <span className="quick-glyph">{glyph}</span>}
+                [<span className="quick-value">{l.value}</span><span className="quick-dest">{l.dest}</span>]{glyph && <span className="quick-glyph">{glyph}</span>}
               </a>
             </span>
           );
