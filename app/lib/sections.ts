@@ -8,7 +8,7 @@
 //
 // Counts must match user spec: Work (4), SYAI Meetups (9),
 // Hackathons (data-derived from .planning/research/hackathons/hackathons.json),
-// Sidequests (30+), Hobbies (5), Links (5).
+// Products (1), Hobbies (5), Links (5).
 
 import { HACK_ITEMS, HACK_STATS, type HackathonItem } from './hackathons';
 
@@ -63,11 +63,22 @@ export interface MeetupItem {
   signup?: string;
 }
 
-export interface SideItem {
-  date: string;
-  title: string;
-  note?: string;
-  link?: ItemLink;
+export interface ProductItem {
+  slug: string;
+  name: string;
+  kind: string;
+  status: 'LIVE' | 'MAINTAINED' | 'ARCHIVED';
+  version?: string;
+  installs?: number;
+  installsAsOf?: string;
+  published: string;
+  tagline: string;
+  narrative: string;
+  features: string[];
+  stack: string[];
+  hero: string;
+  gallery: string[];
+  links: ItemLink[];
 }
 
 export interface HobbyItem {
@@ -93,11 +104,13 @@ export interface Section {
     | WorkItem[]
     | MeetupItem[]
     | HackathonItem[]
-    | SideItem[]
+    | ProductItem[]
     | HobbyItem[]
     | LinkPageItem[];
   dense?: boolean;
   footer?: string;
+  /** Optional override for the PageHeader count chip (defaults to `N entries`). */
+  countLabel?: string;
 }
 
 // ── LINKS (5) ──────────────────────────────────────────────────────────────
@@ -298,42 +311,70 @@ export const SYAI_ITEMS: MeetupItem[] = [
 // top of this file. The legacy 15-item hand-curated placeholder array has been
 // removed in favour of the JSON-backed dataset.
 
-// ── SIDEQUESTS (30+) ───────────────────────────────────────────────────────
-// Talks, meetups attended, conferences, IRL things. Render dense.
+// ── PRODUCTS (1) ───────────────────────────────────────────────────────────
+// Things I shipped that are still live and serving real users.
 
-export const SIDE_ITEMS: SideItem[] = [
-  { date: 'May 2026', title: 'GovTech AI Summit',           note: 'attendee · panel notes' },
-  { date: 'Apr 2026', title: 'Anthropic Builder Day SG',    note: 'workshop participant' },
-  { date: 'Mar 2026', title: 'Voice-Agent Open Mic',        note: 'lightning talk on TTS pipelines', link: { label: 'SLIDES', href: '#' } },
-  { date: 'Feb 2026', title: 'Singapore AI Trustathon',     note: 'red-team panellist' },
-  { date: 'Jan 2026', title: 'AAAI 2026 — Philadelphia',    note: 'co-author poster · ASTRA',        link: { label: 'POSTER', href: '#' } },
-  { date: 'Dec 2025', title: 'NeurIPS 2025 — Vancouver',    note: 'attended workshops' },
-  { date: 'Nov 2025', title: 'SG AI Week 2025',             note: 'speaker — voice cloning ethics' },
-  { date: 'Oct 2025', title: 'PyCon SG 2025',               note: 'lightning talk · agent eval' },
-  { date: 'Sep 2025', title: 'AI Tinkerers Build Night',    note: 'demo: AI portfolio voice clone' },
-  { date: 'Aug 2025', title: 'SUTD AI Symposium',           note: 'student speaker' },
-  { date: 'Jul 2025', title: 'GitHub Universe Watch Party', note: 'organised local watch party' },
-  { date: 'Jun 2025', title: 'Bun + Vercel meetup',         note: 'lightning · ws server patterns' },
-  { date: 'May 2025', title: 'Modular MAX SG meetup',       note: 'attendee · perf notes' },
-  { date: 'Apr 2025', title: 'NUS AI Career Panel',         note: 'panellist — internships' },
-  { date: 'Mar 2025', title: 'Open-source Friday',          note: 'maintainer office hours' },
-  { date: 'Feb 2025', title: 'SG AI Tinkerers Demo Night',  note: 'demo · ATC simulator slice' },
-  { date: 'Jan 2025', title: 'AAAI 2025 — Vancouver',       note: 'student volunteer' },
-  { date: 'Dec 2024', title: 'EMNLP 2024 — Miami',          note: 'attended · paper trail' },
-  { date: 'Nov 2024', title: 'Anthropic Singapore Office Visit', note: 'student visit' },
-  { date: 'Oct 2024', title: 'NUS Computing Open Day',      note: 'student mentor' },
-  { date: 'Sep 2024', title: 'GovTech LLM Bootcamp',        note: 'completed · cert' },
-  { date: 'Aug 2024', title: 'AI Tinkerers SG Launch',      note: 'co-organiser' },
-  { date: 'Jul 2024', title: 'Tensorplex Community AMA',    note: 'co-host' },
-  { date: 'Jun 2024', title: 'PyTorch SG meetup',           note: 'attended' },
-  { date: 'May 2024', title: 'JuniorDevSG Mentor Night',    note: 'mentor' },
-  { date: 'Apr 2024', title: 'NUS NES Career Fair',         note: 'representing Tensorplex' },
-  { date: 'Mar 2024', title: 'GovTech STACK preview',       note: 'visitor' },
-  { date: 'Feb 2024', title: 'BuildClub Demo Night',        note: 'demo · LLM-coded snake game' },
-  { date: 'Jan 2024', title: 'NUS Hack&Roll prize night',   note: 'attended' },
-  { date: 'Dec 2023', title: 'A*STAR Year-end Showcase',    note: 'presented intern project' },
-  { date: 'Nov 2023', title: 'AI Singapore Tech Talk',      note: 'attended' },
-  { date: '2022 – 2023', title: 'Misc. uni guest lectures', note: '5+ over the year' },
+/**
+ * Builds the status line shown on the card and the detail page, joining only
+ * the parts that exist: `LIVE · v1.1.1 · 47 installs`. A product without a
+ * version or an install count silently drops that segment.
+ */
+export function formatProductStatus(p: ProductItem): string {
+  const parts: string[] = [p.status];
+  if (p.version) parts.push(`v${p.version}`);
+  if (typeof p.installs === 'number') parts.push(`${p.installs} installs`);
+  return parts.join(' · ');
+}
+
+export const PRODUCT_ITEMS: ProductItem[] = [
+  {
+    slug: 'overlay-notes',
+    name: 'Overlay Notes',
+    kind: 'Chrome Extension',
+    status: 'LIVE',
+    version: '1.1.1',
+    installs: 47,
+    installsAsOf: 'Jul 2026',
+    published: 'Jul 2026',
+    tagline:
+      'Sketch freehand Excalidraw-style notes over any webpage. Anchored to the content, saved per page, 100% local.',
+    narrative:
+      'Started while studying for NUS CS2030 — course material in the browser, notes in Apple Notes off to the side, constant context-switching. I already used Excalidraw for mind-mapping, so the idea was to put that canvas directly on the page instead of beside it. My first published Chrome extension.',
+    features: [
+      'Full Excalidraw toolset — pen, shapes, arrows, hand-drawn text',
+      'Works on strict-CSP sites like GitHub',
+      'Annotate ↔ browse (click-through) modes, toggled with Alt+Shift+E',
+      'Scroll-anchored drawings that stay pinned to the content',
+      "Autosave per normalized URL into the extension's own IndexedDB",
+      'Auto-restore across SPA navigations',
+      'Badge + popup for per-page state at a glance',
+      'Local-first — no account, fully offline',
+    ],
+    stack: [
+      'WXT',
+      'TypeScript',
+      'React 19',
+      '@excalidraw/excalidraw 0.18.1',
+      'Dexie (IndexedDB)',
+      'Playwright validation CLI',
+    ],
+    hero: '/products/overlay-notes/hero.png',
+    gallery: [
+      '/products/overlay-notes/g1.png',
+      '/products/overlay-notes/g2.png',
+    ],
+    links: [
+      {
+        label: 'CHROME STORE',
+        href: 'https://chromewebstore.google.com/detail/overlay-notes/ogekdbffoapphpabjphfgeppildcleck',
+      },
+      { label: 'GITHUB', href: 'https://github.com/Kaleb-Nim/overlay-notes' },
+      {
+        label: 'LINKEDIN',
+        href: 'https://www.linkedin.com/posts/kaleb-nim_chromeextension-buildinpublic-ugcPost-7484554047480328192-ghZg/',
+      },
+    ],
+  },
 ];
 
 // ── HOBBIES (5) ────────────────────────────────────────────────────────────
@@ -394,17 +435,17 @@ export const SECTIONS: Section[] = [
     footer: `[${HACK_STATS.total} entries] · ${HACK_STATS.wins} win${HACK_STATS.wins === 1 ? '' : 's'} · ${HACK_STATS.prizes} prize${HACK_STATS.prizes === 1 ? '' : 's'}`,
   },
   {
-    id: 'sidequests',
-    path: 'sidequests',
-    count: '30+',
-    aliases: ['events', 'sidequest', 'side-quests', 'talks'],
-    desc: 'talks, conferences, demo nights, IRL pings',
-    title: './sidequests — where I showed up',
+    id: 'products',
+    path: 'products',
+    count: PRODUCT_ITEMS.length,
+    countLabel: `${PRODUCT_ITEMS.length} product${PRODUCT_ITEMS.length === 1 ? '' : 's'}`,
+    aliases: ['product', 'sidequests', 'side-quests', 'events', 'apps', 'extensions'],
+    desc: 'products I built that people actually use',
+    title: './products — things I shipped that are still running',
     intro:
-      'Talks attended, given, organised. Demo nights, panels, office visits — anything not a job and not a hackathon.',
-    items: SIDE_ITEMS,
-    dense: true,
-    footer: `[${SIDE_ITEMS.length}+ entries] · log truncated · tail -f for more`,
+      'Products I built and still maintain — live, installable, serving real users. Not demos, not hackathon weekends.',
+    items: PRODUCT_ITEMS,
+    footer: `[${PRODUCT_ITEMS.length} product${PRODUCT_ITEMS.length === 1 ? '' : 's'}] · live · more shipping soon`,
   },
   {
     id: 'hobbies',
@@ -427,3 +468,20 @@ export const SECTIONS: Section[] = [
     items: LINK_ITEMS,
   },
 ];
+
+// ── ROUTE RESOLUTION ───────────────────────────────────────────────────────
+
+/**
+ * resolveSection — maps a first hash segment to its Section.
+ *
+ * Exact `id` matching runs first so no declared alias can ever shadow a real
+ * route slug; `aliases` are the fallback. Returns `undefined` for the home
+ * route (`''`) and for anything unknown, so callers can render the 404 page.
+ */
+export function resolveSection(route: string): Section | undefined {
+  if (!route) return undefined;
+  return (
+    SECTIONS.find((s) => s.id === route) ??
+    SECTIONS.find((s) => s.aliases.includes(route))
+  );
+}
