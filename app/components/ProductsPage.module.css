@@ -1,0 +1,472 @@
+/* ProductsPage.module.css — products grid + detail page (quick 260723-vbf).
+   Mirrors the meetups visual language (MeetupsPage.module.css) without
+   coupling to it. */
+
+/* ── Grid ────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* ── Grid Card ───────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  min-height: 60px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  background: #000;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 180ms ease-out, transform 180ms ease-out,
+    box-shadow 180ms ease-out;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: rgba(0, 255, 0, 0.7);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 18px rgba(0, 255, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--kni-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .card {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 14px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTitle {
+  color: var(--kni-green);
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.8);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.82rem, 2.2vw, 0.96rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cardKind {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.cardStatus {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ── Detail: breadcrumb + heading ────────────────────────── */
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  border-radius: 4px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+
+.back:hover,
+.back:focus-visible {
+  background: rgba(255, 215, 0, 0.08);
+  outline: none;
+}
+
+.title {
+  color: var(--kni-green);
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.55), 0 0 12px rgba(0, 255, 0, 0.25);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(1.05rem, 3.6vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  padding: 3px 10px;
+}
+
+.metaLine {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+}
+
+.installsNote {
+  color: rgba(0, 255, 0, 0.38);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 14px;
+}
+
+.tagline {
+  color: rgba(0, 255, 0, 0.82);
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.22);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  font-weight: 600;
+  line-height: 1.55;
+  max-width: 620px;
+  margin-bottom: 12px;
+}
+
+.narrative {
+  color: rgba(0, 255, 0, 0.72);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.78rem, 2vw, 0.86rem);
+  line-height: 1.65;
+  max-width: 620px;
+  margin-bottom: 18px;
+}
+
+.sectionLabel {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 18px 0 8px;
+}
+
+/* ── Features + stack ────────────────────────────────────── */
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 620px;
+}
+
+.featureItem {
+  position: relative;
+  padding-left: 18px;
+  color: rgba(0, 255, 0, 0.78);
+  font-family: "Anonymous Pro", monospace;
+  font-size: clamp(0.76rem, 1.9vw, 0.84rem);
+  line-height: 1.55;
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.2);
+}
+
+.featureItem::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--kni-green);
+  text-shadow: var(--kni-glow-green);
+  font-weight: 700;
+}
+
+.stackRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.stackChip {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
+/* ── Hero + gallery ──────────────────────────────────────── */
+
+.hero {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: border-color 120ms ease-out;
+}
+
+.hero:hover {
+  border-color: rgba(0, 255, 0, 0.55);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(0, 255, 0, 0.25);
+  cursor: pointer;
+  transition: border-color 120ms ease-out;
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.thumb:hover {
+  border-color: rgba(0, 255, 0, 0.55);
+}
+
+/* ── Outbound link chips ─────────────────────────────────── */
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.linkChip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 60px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  border-radius: 3px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 120ms ease-out, transform 120ms ease-out;
+}
+
+.linkChip:hover,
+.linkChip:focus-visible {
+  background: rgba(255, 215, 0, 0.08);
+  transform: translateX(2px);
+  outline: none;
+}
+
+.linkLabel {
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.linkHost {
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.72rem;
+  word-break: break-all;
+}
+
+/* ── Gallery Lightbox ────────────────────────────────────── */
+
+@keyframes kniPanelOpen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: kniPanelOpen 150ms ease-out both;
+}
+
+.lightboxInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 92vw;
+  max-height: 90vh;
+}
+
+.lightboxImg {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+.lightboxClose {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.55);
+  color: var(--kni-gold);
+  text-shadow: var(--kni-glow-gold);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+
+.lightboxClose:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 255, 0, 0.35);
+  color: var(--kni-green);
+  text-shadow: var(--kni-glow-green);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 2rem;
+  line-height: 1;
+  padding: 8px 14px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.lightboxNav:hover {
+  background: rgba(0, 255, 0, 0.08);
+  border-color: rgba(0, 255, 0, 0.55);
+}
+
+.lightboxPrev {
+  left: -60px;
+}
+
+.lightboxNext {
+  right: -60px;
+}
+
+.lightboxCounter {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--kni-fg-muted);
+  font-family: "Anonymous Pro", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 768px) {
+  .lightboxPrev {
+    left: 4px;
+  }
+  .lightboxNext {
+    right: 4px;
+  }
+  .lightboxNav {
+    font-size: 1.4rem;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .thumb,
+  .hero,
+  .linkChip {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-visible,
+  .linkChip:hover,
+  .linkChip:focus-visible {
+    transform: none;
+  }
+
+  .lightboxBackdrop {
+    animation: none;
+  }
+}
