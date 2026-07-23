@@ -358,11 +358,10 @@ export const PRODUCT_ITEMS: ProductItem[] = [
       'Dexie (IndexedDB)',
       'Playwright validation CLI',
     ],
-    hero: '/products/overlay-notes/hero.png',
-    gallery: [
-      '/products/overlay-notes/g1.png',
-      '/products/overlay-notes/g2.png',
-    ],
+    // Sourced from the LinkedIn launch post rather than the Chrome Web Store
+    // listing — the hero is the actual CS2030 page that prompted the build.
+    hero: '/products/overlay-notes/hero.jpg',
+    gallery: ['/products/overlay-notes/g1.jpg'],
     links: [
       {
         label: 'CHROME STORE',
