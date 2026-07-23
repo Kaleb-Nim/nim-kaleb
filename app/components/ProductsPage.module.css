@@ -67,10 +67,14 @@
   left: 0;
   right: 0;
   padding: 12px 14px;
+  /* Product heroes are bright screenshots of white web pages, unlike the dark
+     event photos the meetups grid was tuned for — the scrim has to reach near
+     opacity at the text band or green-on-white washes out. */
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.94) 60%,
+    rgba(0, 0, 0, 0.72) 85%,
     transparent 100%
   );
   display: flex;
