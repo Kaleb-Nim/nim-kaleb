@@ -144,6 +144,36 @@ line washed out and effectively unreadable. Raised the gradient to near-opaque
 (`0.97 / 0.94 / 0.72`) at the text band, with a comment recording why it
 diverges from the meetups value. Re-verified visually; `bunx tsc --noEmit` clean.
 
-Still worth a human eye (not scriptable here): lightbox keyboard nav
-(Escape / ArrowLeft / ArrowRight, counter reading `1 / 3`), the three outbound
-links actually landing on the right pages, and the hover/press feel of the card.
+Still worth a human eye (not scriptable here): the three outbound links actually
+landing on the right pages, and the hover/press feel of the card.
+
+## Follow-up — media swapped to the LinkedIn launch post (`a41f508`)
+
+User asked to drop all three Chrome Web Store screenshots and use the images
+from the LinkedIn launch post instead. The post
+(`ugcPost-7484554047480328192`) carries **two** images, pulled from its signed
+`media.licdn.com` URLs via the public post page's OpenGraph markup:
+
+| Source | Role | Content |
+|--------|------|---------|
+| `D5622AQG9dtHIRu4MXw` | `hero.jpg` | the real CS2030 "Unit 2: Variable and Type" page with handwritten annotations |
+| `D5622AQHxOlfds077wg` | `g1.jpg` | the Chrome Web Store listing for Overlay Notes |
+
+Hero choice is deliberate: the annotated CS2030 page *is* the origin story the
+detail copy tells, so the image and the narrative now reinforce each other
+instead of the generic MDN screenshot sitting next to an unrelated anecdote.
+`.jpg` matches the existing `public/meetups/<slug>/hero.jpg` convention.
+
+`gallery` drops from two entries to one; `PRODUCT_ITEMS.gallery` is a plain
+array so no type change was needed.
+
+**Known limitation:** LinkedIn re-encodes uploads, so both images come back at
+**800px wide**. The detail hero renders at ~810px on desktop, so it is displayed
+at roughly 1:1 and will look soft on a 2× display — and softer again in the
+lightbox. The originals (`store/screenshots/*.png`, 1280px+) are still in the
+overlay-notes repo if a sharper hero is wanted later.
+
+Re-verified after the swap: `bunx tsc --noEmit` clean, `bun run build`
+succeeds, scoped eslint 0 errors, zero failed `/products/` asset requests (no
+dangling `.png` references), lightbox counter reads `1 / 2` → `2 / 2` with
+ArrowRight/ArrowLeft and closes on Escape.
