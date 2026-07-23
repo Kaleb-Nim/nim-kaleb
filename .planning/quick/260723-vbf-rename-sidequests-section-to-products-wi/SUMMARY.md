@@ -121,7 +121,29 @@ redirect). The plan calls this out as intentional. Verified safe: every alias is
 unique across `SECTIONS` and none collides with an existing `id`, and id
 matching runs first so no route can be shadowed.
 
-## Not done — Task 8 (human verification)
+## Task 8 — verification run (orchestrator, Playwright against `bun dev`)
 
-Blocking checkpoint, deliberately left for the user. See the checklist in
-`PLAN.md` Task 8.
+Ran the Task 8 checklist headlessly rather than leaving it entirely manual.
+
+| Check | Result |
+|-------|--------|
+| `#/products` grid — 1 card, thumbnail, `[LIVE · v1.1.1 · 47 installs]` | pass |
+| Header chip reads `[1 product]` (not `[1 entries]`) | pass |
+| `#/products/overlay-notes` — hero, meta line, qualifier, origin story, features, stack chips, gallery, 3 link chips | pass |
+| `#/sidequests` resolves to the products grid (breadcrumb reads `products`) | pass |
+| `#/does-not-exist` → 404 | pass |
+| `#/products/does-not-exist` → 404 | pass |
+| 375px: single column, horizontal overflow `0px` on both routes | pass |
+| Link chip tap targets at 375px | 93px / 73px / 114px — all ≥60px |
+
+**One defect found and fixed — commit `c45cd89`.** The grid card's `.cardOverlay`
+scrim was ported from `MeetupsPage.module.css`, which is calibrated for dark
+event photography. Product heroes are screenshots of white web pages, so the
+`0.55–0.85` black gradient left the green title and the `Chrome Extension` kind
+line washed out and effectively unreadable. Raised the gradient to near-opaque
+(`0.97 / 0.94 / 0.72`) at the text band, with a comment recording why it
+diverges from the meetups value. Re-verified visually; `bunx tsc --noEmit` clean.
+
+Still worth a human eye (not scriptable here): lightbox keyboard nav
+(Escape / ArrowLeft / ArrowRight, counter reading `1 / 3`), the three outbound
+links actually landing on the right pages, and the hover/press feel of the card.
