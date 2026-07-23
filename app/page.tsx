@@ -11,10 +11,12 @@ import WorkPage from './components/WorkPage';
 import MeetupsPage from './components/MeetupsPage';
 import HackathonsPage from './components/HackathonsPage';
 import HackathonLinksPage from './components/HackathonLinksPage';
+import ProductsPage from './components/ProductsPage';
+import ProductDetail from './components/ProductDetail';
 import NotFoundPage from './components/NotFoundPage';
 import FloatingMic from './components/FloatingMic';
 import VoiceOverlay from './components/VoiceOverlay';
-import { SECTIONS } from './lib/sections';
+import { resolveSection } from './lib/sections';
 import { useHashRoute, useHashSubRoute } from './hooks/useHashRoute';
 import { useRealtimeVoice } from './hooks/useRealtimeVoice';
 
@@ -50,7 +52,9 @@ export default function Home() {
   }, [voiceOpen]);
 
   const isHome = route === '';
-  const section = isHome ? null : SECTIONS.find((s) => s.id === route);
+  // resolveSection matches on `id` first, then falls back to `aliases`, so
+  // every declared alias is a live route (e.g. #/work → work-experience).
+  const section = isHome ? null : resolveSection(route);
 
   return (
     <>
@@ -67,6 +71,8 @@ export default function Home() {
               <MeetupsPage section={section} />
             ) : section.id === 'hackathons' ? (
               subRoute ? <HackathonLinksPage /> : <HackathonsPage section={section} />
+            ) : section.id === 'products' ? (
+              subRoute ? <ProductDetail /> : <ProductsPage section={section} />
             ) : (
               <StubSectionPage section={section} />
             )

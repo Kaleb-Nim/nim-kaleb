@@ -103,7 +103,7 @@ export default function PageHeader({ section }: { section: Section }) {
         border: '1px solid rgba(255,215,0,0.4)',
         padding: '3px 10px',
       }}>
-        [{section.count} entries]
+        [{section.countLabel ?? `${section.count} entries`}]
       </div>
 
       {/* Divider */}
