@@ -1,138 +1,163 @@
 # External Integrations
 
-**Analysis Date:** 2025-04-09
+**Analysis Date:** 2026-07-27
 
 ## APIs & External Services
 
-**OpenAI Realtime API:**
-- Service: OpenAI GPT-4 Realtime API for bidirectional voice communication
-- What it's used for: Real-time speech-to-text transcription, LLM responses, and text-to-speech audio generation via voice interface
-- SDK/Client: `openai` package (v6.32.0)
-- Auth: `OPENAI_API_KEY` environment variable (required)
-- Model: `gpt-4o-realtime-preview-2024-12-17`
-- Voice: `alloy`
-- Endpoints:
-  - Session creation: `https://api.openai.com/v1/realtime/sessions` (POST) → returns ephemeral token
-  - WebSocket connection: `wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17`
-  - Protocols: Realtime WebSocket with audio codecs (PCM16 format)
+**Alibaba Cloud DashScope (Voice Pipeline):**
+- Speech-to-Text (ASR): `qwen3-asr-flash-realtime` model
+  - WebSocket: `wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime?model=qwen3-asr-flash-realtime`
+  - SDK/Client: WebSocket (native, Bun server-side)
+  - Auth: `DASHSCOPE_API_KEY` (server-side secret, never exposed to browser)
+  - Input: PCM16 16kHz mono audio
+  - Output: Real-time transcription with server VAD
+  - Implementation: `ws-server/src/dashscope/asr.ts`
 
-**Anthropic Claude API:**
-- SDK: `@anthropic-ai/sdk` package (v0.78.0) installed
-- Auth: Reads from `ANTHROPIC_API_KEY` environment variable (optional - SDK supports this)
-- Status: SDK installed but not currently integrated into application logic
-- Potential use case: Could be used for alternative LLM inference
+- Large Language Model (LLM): `qwen-plus` model via OpenAI-compatible API
+  - Endpoint: `https://dashscope-intl.aliyuncs.com/compatible-mode/v1` (OpenAI-compatible)
+  - SDK/Client: `openai` npm package (configured with DashScope base URL)
+  - Auth: `DASHSCOPE_API_KEY` (server-side secret)
+  - Input: Chat completion messages with system prompt + conversation history
+  - Output: Streaming text responses with sentence-level chunking
+  - Implementation: `ws-server/src/dashscope/llm.ts`
+  - System Prompt: Loaded from `prompts/system-prompt.md`
 
-**Google Fonts API:**
-- Service: Anonymous Pro monospace font delivery
-- What it's used for: Terminal UI typography (13px monospace font for authenticity)
-- Implementation: `next/font/google` loader in `app/layout.tsx`
-- Font: Anonymous Pro with weights 400 and 700
-- CSS Variable: `--font-anonymous-pro` (used in root layout body className)
-- Display strategy: `swap` (prevents FOUT during initial load)
+- Text-to-Speech (TTS): `qwen3-tts-vc-realtime-2026-01-15` model with voice cloning
+  - WebSocket: `wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime?model=qwen3-tts-vc-realtime-2026-01-15`
+  - SDK/Client: WebSocket (native, Bun server-side)
+  - Auth: `DASHSCOPE_API_KEY` (server-side secret)
+  - Voice: `DASHSCOPE_VOICE_ID` (server-side secret, Kaleb's cloned voice)
+  - Input: Text chunks for synthesis
+  - Output: PCM audio at 24kHz sample rate (base64-encoded)
+  - Mode: `server_commit` (auto-commits segments for low-latency playback)
+  - Implementation: `ws-server/src/dashscope/tts.ts`
 
 ## Data Storage
 
-**File Storage:**
-- Local filesystem only
-- `memory/context.json` - Application memory/context data loaded at runtime
-- Loaded via `lib/memory.ts` functions: `loadContext()`, `buildSystemPrompt()`
-
 **Databases:**
-- None configured (stateless application)
+- PostgreSQL (Neon serverless)
+  - Connection: `DATABASE_URL` env var (server-side secret)
+  - Client: `@neondatabase/serverless` (HTTP-based connection)
+  - ORM: drizzle-orm with TypeScript schema
+  - Tables:
+    - `sessions` - User session metadata (startedAt, endedAt, durationMs, status, errorCode, errorMessage, userAgent)
+    - `transcripts` - Conversation turns (sessionId, turnIndex, role, text, createdAt)
+  - Indexes: `sessions_started_at_idx` (for analytics queries), `transcripts_session_created_idx` (for conversation replay)
+  - Schema: `lib/schema.ts`
+  - Migrations: Auto-managed by drizzle-kit, stored in `drizzle/` directory
+
+**File Storage:**
+- Local filesystem only (no cloud file storage)
+  - Server logs: `~/.local/share/kaleb-voice/logs/` (configurable via `LOG_DIR` env var)
 
 **Caching:**
-- None explicit (Next.js build-time caching)
+- None (stateless microservice architecture)
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- Custom: No external auth provider
-- Application: All users access the same interface (personal portfolio)
-- OpenAI: API key-based authentication for Realtime API
-- WebSocket Authentication: Uses ephemeral tokens from session endpoint
-
-**Session Management:**
-- Ephemeral tokens: 24-hour limited-use tokens from OpenAI session endpoint
-- Token flow: 
-  1. Client calls `POST /api/realtime/session`
-  2. Server exchanges `OPENAI_API_KEY` for ephemeral `client_secret.value`
-  3. Client uses token in WebSocket connection header as `openai-insecure-api-key.{token}`
+- Custom (none) - This is a public portfolio with no user authentication
+- Session tracking: UUID-based session IDs generated server-side
+- Browser-to-server: Anonymous WebSocket connections via `NEXT_PUBLIC_WS_SERVER_URL`
+- Server-to-DashScope: API key-based authentication (`DASHSCOPE_API_KEY`)
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- None detected (no Sentry, DataDog, or similar)
+- None (no external error tracking service)
 
 **Logs:**
-- Console-based only (browser console for client-side)
-- No centralized logging service
-
-**Analytics:**
-- None detected
+- Server logs: Console output to stdout (captured by ECS/Kubernetes container runtime)
+- Session logs: Structured JSON files written to `~/.local/share/kaleb-voice/logs/` for debugging
+  - Implementation: `ws-server/src/logger.ts`
+- Analytics database: Transcript and session events stored in PostgreSQL for analysis
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Vercel - Serverless platform for Next.js
-- Project ID: `prj_26Zk2jxE6tNDTX1lDwmoGCr0qY4c`
-- Organization ID: `team_4iQmmqqTVw6sdJ6eJrGYrWej`
-- Project Name: `nim-kaleb`
-- Config location: `.vercel/project.json`
+- Frontend: Vercel (nim-kaleb.vercel.app)
+  - Deployment: Next.js App Router with Node.js runtime
+  - Analytics: Vercel Web Analytics SDK integration
+  - Environment: Managed by Vercel dashboard
+
+- WebSocket Server: Amazon ECS (Bun runtime)
+  - Hostname: wss://ws.kalebnim.dev (production)
+  - Default development: ws://localhost:8080
+  - Runtime: Bun compiled binary
+  - Build: `bun build --target=bun src/index.ts --outdir=dist`
+  - Health check endpoint: GET /health
 
 **CI Pipeline:**
-- GitHub (inferred from git history in prompt)
-- No explicit CI configuration files detected (no GitHub Actions workflows)
-- Build command: `bun run build`
-- Start command: `bun start`
-- Environment variables configured in Vercel dashboard
+- Not detected (manual deployment or git-hook based)
 
 ## Environment Configuration
 
-**Required env vars:**
-- `OPENAI_API_KEY` - OpenAI API key for Realtime API access (required at runtime)
-- `ANTHROPIC_API_KEY` - Anthropic API key (optional, SDK supports but not currently used)
+**Required env vars (Frontend - Next.js):**
+- `NEXT_PUBLIC_WS_SERVER_URL` - WebSocket server URL (browser connects here)
+  - Development default: `ws://localhost:8080`
+  - Production: `wss://ws.kalebnim.dev`
+- `DATABASE_URL` - Neon PostgreSQL connection string (optional, analytics disabled if unset)
+- `OPENAI_API_KEY` - Unused (legacy, can be removed)
 
-**Development:**
-- `.env.local` file present (contains sensitive credentials)
-- Must never be committed (should be in `.gitignore`)
+**Required env vars (Backend - ws-server):**
+- `DASHSCOPE_API_KEY` - Alibaba Cloud API key for DashScope (ASR, LLM, TTS)
+- `DASHSCOPE_VOICE_ID` - Voice ID for Kaleb's cloned voice (TTS)
+- `PORT` - Server port (default: 8080)
+- `LOG_DIR` - Server log directory (default: `~/.local/share/kaleb-voice/logs/`)
+- `HOME` - Home directory for log path resolution
 
-**Production:**
-- Environment variables configured in Vercel project dashboard
-- Secrets are injected at deployment time
-- Never exposed in built bundle
+**Secrets location:**
+- Frontend: Vercel environment variables (managed in dashboard)
+- Backend: AWS Secrets Manager or ECS task definition (managed via infrastructure)
+- Development: `.env.local` file (git-ignored)
 
 ## Webhooks & Callbacks
 
 **Incoming:**
-- None (stateless application)
+- None (this is a synchronous voice conversation system, not event-driven)
 
 **Outgoing:**
-- OpenAI Realtime WebSocket events: Application listens for and responds to OpenAI WebSocket messages
-  - `session.created` - Connection established
-  - `input_audio_buffer.speech_started` - User speaking detected
-  - `conversation.item.input_audio_transcription.completed` - Transcript available
-  - `response.created` - LLM generating response
-  - `response.audio.delta` - Audio chunk from LLM (streamed)
-  - `response.audio_transcript.delta` - LLM response text (streamed)
-  - `response.audio.done` - Audio generation complete
-  - `error` - Error event from OpenAI
+- POST `/api/analytics/session` - Frontend fires when session starts/ends
+  - Body: `{ event: 'start' | 'end', sessionId?, durationMs?, status?, errorCode?, errorMessage? }`
+  - Response: `{ sessionId: string }` on start, `{ ok: true }` on end
+- POST `/api/analytics/transcript` - Frontend fires on each conversation turn
+  - Body: `{ sessionId: string, role: 'user' | 'assistant', text: string, turnIndex: number }`
+  - Response: `{ ok: true }`
 
-## Audio Pipeline
+## WebSocket Communication Protocol
 
-**Client-side Audio Processing:**
-- Input: Web Audio API with `getUserMedia()` microphone capture
-- Sample Rate: 24000 Hz (downsampled from device capture rate)
-- Format: PCM16 (signed 16-bit samples)
-- Encoding: Base64 for transmission over WebSocket
-- Output: Web Audio API `AudioContext` for speaker playback
-- Buffer Management: `ScriptProcessorNode` for real-time audio capture, `BufferSource` for playback with timing scheduling
+**Browser ↔ ws-server (WebSocket):**
+- Endpoint: `NEXT_PUBLIC_WS_SERVER_URL/ws` (upgraded via HTTP POST)
+- Session ID: Generated server-side, included in URL query or WebSocket data
 
-**Audio Conversion Functions:**
-- `pcm16ToFloat32()` - Decode PCM16 bytes to float samples
-- `float32ToPcm16Base64()` - Encode float samples to PCM16 Base64
-- `downsample()` - Resample from device rate to 24000 Hz
-- `base64ToArrayBuffer()` - Decode Base64 to binary buffer
+**Message Types (Browser → Server):**
+- `{ type: 'session.start' }` - Initialize the three-way DashScope pipeline
+- `{ type: 'audio.append', data: string }` - Base64-encoded PCM16 audio chunk
+- `{ type: 'audio.end' }` - Signal end-of-speech (triggers VAD finalization)
+
+**Message Types (Server → Browser):**
+- `{ type: 'transcript.partial', text: string }` - Interim ASR transcription
+- `{ type: 'transcript.final', text: string }` - Final ASR transcription
+- `{ type: 'response.audio.delta', data: string }` - Base64-encoded TTS audio chunk
+- `{ type: 'response.text.delta', text: string }` - LLM response text (streamed)
+- `{ type: 'response.done' }` - Signal end of LLM response
+- `{ type: 'error', message: string }` - Error notification
+
+## Audio Formats
+
+**Microphone Input:**
+- Sample rate: 16000 Hz (16 kHz)
+- Encoding: PCM16 (16-bit signed)
+- Channels: Mono
+- Frame size: Variable (chunks sent as received)
+- Encoding transport: Base64-encoded JSON messages over WebSocket
+
+**TTS Output:**
+- Sample rate: 24000 Hz (24 kHz)
+- Encoding: PCM16 (16-bit signed)
+- Channels: Mono
+- Encoding transport: Base64-encoded in `response.audio.delta` messages
 
 ---
 
-*Integration audit: 2025-04-09*
+*Integration audit: 2026-07-27*

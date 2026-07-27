@@ -1,306 +1,389 @@
 # Testing Patterns
 
-**Analysis Date:** 2026-04-09
+**Analysis Date:** 2026-07-27
 
 ## Test Framework
 
-**Runner:**
-- Playwright 1.58.2 (`@playwright/test`)
-- Config: `playwright.config.ts`
+**Primary: Playwright (E2E/Integration)**
+- Framework: `@playwright/test` 1.58.2
+- Config: `playwright.config.ts` (root level)
+- Test directory: `tests/` (all files with `.spec.ts` extension)
+
+**Secondary: Bun Test (Unit)**
+- Framework: Native `bun:test` built into Bun runtime
+- Test location: `app/lib/*.test.ts` (co-located with source)
 
 **Assertion Library:**
-- Playwright's built-in assertions (`expect()`)
+- Playwright: built-in `expect()` function
+- Bun: built-in `expect()` function (compatible)
 
 **Run Commands:**
 ```bash
-bun test              # Run all tests with Playwright
-bun test:headed       # Run tests in headed mode (browser visible)
+bun run test              # Run all tests via Playwright
+bun run test:headed       # Run with visible browser window
+bunx playwright test      # Direct Playwright invocation
+bun test                  # Run Bun tests only
 ```
 
 ## Test File Organization
 
-**Location:**
-- Tests co-located in `tests/` directory at project root
-- Separate from source code (`app/`, `lib/`, `scripts/`)
+**Location & Naming:**
+- Playwright tests: `tests/*.spec.ts`
+- Unit tests: `app/lib/*.test.ts` (co-located next to source)
+- Currently existing test files:
+  - `tests/tts-stt-pipeline.spec.ts` — TTS/STT API endpoints
+  - `tests/ws-pipeline.spec.ts` — WebSocket backend and DashScope integration
+  - `tests/context-pipeline.spec.ts` — Personal context schema and chat API
+  - `tests/ui-preservation.spec.ts` — Terminal UI state machine
+  - `app/lib/hackathonLinks.test.ts` — URL classification logic
 
-**Naming:**
-- Pattern: `{feature}.spec.ts`
-- Examples: `realtime-voice.spec.ts`, `tts-stt-pipeline.spec.ts`, `context-pipeline.spec.ts`
-
-**Structure:**
-```
-tests/
-├── realtime-voice.spec.ts          # OpenAI Realtime API & UI tests
-├── tts-stt-pipeline.spec.ts        # Text-to-speech and speech-to-text tests
-└── context-pipeline.spec.ts        # Context schema and chat API tests
-```
+**File Structure:**
+- Each Playwright spec file opens with JSDoc describing scope and requirements
+- Example from `ws-pipeline.spec.ts`:
+  ```typescript
+  /**
+   * Backend/WebSocket pipeline tests for the Bun WS server and DashScope APIs.
+   *
+   * Tests:
+   *   1. WS server health endpoint
+   *   2. WebSocket upgrade and session.start handshake
+   *   3. DashScope TTS WebSocket connection
+   *   ...
+   *
+   * Requires:
+   *   - WS server running on localhost:8080
+   *   - DASHSCOPE_API_KEY set in ws-server/.env.local
+   */
+  ```
 
 ## Test Structure
 
-**Suite Organization:**
-All tests use `test.describe()` blocks to group related tests:
-
+**Playwright Suite Organization:**
 ```typescript
-test.describe('POST /api/realtime/session', () => {
-  test('returns an ephemeral token', async ({ request }) => {
-    const res = await request.post('/api/realtime/session', { timeout: 15_000 });
-    expect(res.status()).toBe(200);
-    const json = await res.json();
-    expect(json.token).toBeDefined();
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature Group', () => {
+  test.setTimeout(30_000);  // Global timeout for suite
+  
+  test('should do something', async ({ page, request }) => {
+    // Arrange
+    const response = await request.post('/api/endpoint', {
+      data: { ... },
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 60_000,
+    });
+    
+    // Assert
+    expect(response.status()).toBe(200);
+    const json = await response.json();
+    expect(json.field).toBeDefined();
+  });
+});
+```
+
+**Bun Test Suite Organization:**
+```typescript
+import { describe, expect, test } from 'bun:test';
+
+describe('Feature Group', () => {
+  test('1. single test case name', () => {
+    const result = functionUnderTest(input);
+    expect(result).toEqual(expected);
+  });
+  
+  test('2. numbered naming for sequential logic', () => {
+    // ...
   });
 });
 ```
 
 **Patterns:**
-- Setup: Use fixtures provided by Playwright (`{ request }`, `{ page }`)
-- Test isolation: Each test is independent; no shared state between tests
-- Assertions: Direct `.toBe()`, `.toBeGreaterThan()`, `.toMatch()` patterns
-- Cleanup: Playwright handles automatic cleanup after each test
+- Test names are descriptive; numbered when order matters (`test('1. first case', ...)`)
+- Setup: helper functions defined above or in shared test utilities
+- Teardown: implicit via Playwright test context cleanup or explicit `afterEach()`
+- Assertions: inline, no assertion helper wrappers
 
 ## Mocking
 
-**Framework:** No external mocking library
-- Playwright tests interact with real running server (via `webServer` in config)
-- Server defined in `playwright.config.ts`:
+**Framework:** No formal mocking library; uses native patterns
+
+**Patterns Observed:**
+
+**Playwright:**
+- Mock API responses via `request.post()` directly to real endpoint (integration test style)
+- Intercept responses with `page.route()` if needed (not yet used in test suite)
+- Environment variables for configuration (DASHSCOPE_API_KEY, DASHSCOPE_VOICE_ID)
+
+**Bun Test:**
+- No mocks; tests call pure functions directly
+- Example from `hackathonLinks.test.ts`:
   ```typescript
-  webServer: {
-    command: 'bun dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true,
-    timeout: 30_000,
-  }
+  const make = (project_url: string, extra_links: string[] | null = null) => ({
+    project_url,
+    extra_links,
+  });
+  
+  test('devpost-only single URL', () => {
+    const out = classifyHackathonLinks(make('https://devpost.com/software/foodr-ihad3c'));
+    expect(out).toEqual([{ label: 'DEVPOST', href: '...' }]);
+  });
   ```
 
-**Patterns:**
-- Full HTTP request/response testing: `request.post()`, `request.get()`
-- Browser interactions: `page.goto()`, `page.fill()`, `page.getByRole()`, `page.waitForSelector()`
-- No mocking of API responses — tests verify actual behavior
-
 **What to Mock:**
-- External APIs are mocked at the source level (e.g., OpenAI API key verified but not mocked in tests)
-- Browser capabilities (audio, microphone) abstracted through actual MediaDevices API
+- External API calls in E2E tests: mock via environment variables (e.g., test API keys) or skip if unavailable
+- DashScope: requires real keys for ws-pipeline tests (tests fail gracefully if DASHSCOPE_API_KEY not set)
 
 **What NOT to Mock:**
-- Database queries (in-memory data)
-- File system operations (actual file reading in context pipeline)
-- HTTP responses (real server responses)
+- Pure functions: test with real inputs and outputs
+- HTTP endpoints: test integration with real server (Playwright starts `bun dev` via webServer config)
+- WebSocket connections: test with real WS server when possible
 
 ## Fixtures and Factories
 
-**Test Data:**
-No dedicated fixture files; data is generated per-test or read from source:
+**Test Data Patterns:**
 
-From `context-pipeline.spec.ts`:
-```typescript
-function loadContext() {
-  return JSON.parse(readFileSync(CONTEXT_PATH, 'utf-8'));
-}
+**Playwright:**
+- Fixtures: None currently used; tests construct data inline or via helper functions
+- Helper functions: defined at module level before test.describe()
+  ```typescript
+  function openWs(url: string, protocols?: string[]): Promise<{ ws, messages, waitForMessage, close }> {
+    // Helper to open raw WebSocket and collect messages
+  }
+  
+  async function chatQuery(request, question: string): Promise<string> {
+    // Helper to POST to /api/chat and accumulate NDJSON response
+  }
+  ```
 
-async function chatQuery(request: APIRequestContext, question: string): Promise<string> {
-  const res = await request.post('/api/chat', {
-    data: { messages: [{ role: 'user', content: question }] },
-    headers: { 'Content-Type': 'application/json' },
-    timeout: 25_000,
+**Bun Test:**
+- Factory pattern: `make()` helper creates test objects
+  ```typescript
+  const make = (project_url: string, extra_links: string[] | null = null) => ({
+    project_url,
+    extra_links,
   });
-  // ...parse NDJSON response
-  return sentences.join(' ').trim();
-}
-```
+  ```
+- No fixture library; data is hardcoded or factory-generated
 
 **Location:**
-- Helpers defined inline in test files (e.g., `loadContext()`, `chatQuery()`)
-- Reusable across multiple test blocks in same file
-- No separate fixtures directory
+- Helpers defined in test file itself (small, self-contained)
+- No shared fixtures directory yet
 
 ## Coverage
 
-**Requirements:** Not enforced (no coverage report configuration in `playwright.config.ts`)
+**Requirements:** Not enforced; no coverage target configured
 
-**View Coverage:** Not applicable — coverage measurement not configured
+**View Coverage:**
+- Run: `bun run test --coverage` (if supported by Playwright version)
+- Currently: no coverage reports generated
+
+**Known Gaps:**
+- `app/components/` not tested (E2E tests cover UI indirectly)
+- `ws-server/src/dashscope/` partially tested via ws-pipeline.spec.ts
+- Error paths not fully exercised in ws-pipeline tests
 
 ## Test Types
 
-**API Tests (E2E):**
-- Location: `tests/realtime-voice.spec.ts`, `tests/tts-stt-pipeline.spec.ts`
-- Scope: Test HTTP endpoints by making actual requests
-- Approach: Use `request` fixture to POST/GET, verify status codes and response schemas
+**Unit Tests:**
+- Scope: Pure functions, data transformations
+- Approach: Direct function calls, hardcoded inputs, assertion on output
+- Example: `app/lib/hackathonLinks.test.ts` — tests URL classification logic with 12 cases
+- Framework: Bun test
+- Speed: <1ms per test
 
-Example from `realtime-voice.spec.ts`:
-```typescript
-test('POST /api/realtime/session returns an ephemeral token', async ({ request }) => {
-  const res = await request.post('/api/realtime/session', { timeout: 15_000 });
-  expect(res.status()).toBe(200);
-  const json = await res.json();
-  expect(json.token).toBeDefined();
-  expect(typeof json.token).toBe('string');
-  expect(json.token.length).toBeGreaterThan(10);
-});
-```
+**Integration Tests:**
+- Scope: API endpoints (Next.js routes), WebSocket connections, context schema
+- Approach: HTTP requests to running dev server, WebSocket handshakes, JSON schema validation
+- Examples:
+  - `tests/tts-stt-pipeline.spec.ts` — tests `/api/tts` and `/api/stt` endpoints with real audio
+  - `tests/context-pipeline.spec.ts` — validates `memory/context.json` structure and `/api/chat` responses
+  - `tests/ws-pipeline.spec.ts` — tests WebSocket server upgrade, DashScope connections
+- Framework: Playwright
+- Speed: 5-60s per test (API latency, audio generation)
 
-**UI Tests (E2E):**
-- Location: `tests/realtime-voice.spec.ts` (Voice interface UI block)
-- Scope: Test browser interactions and component visibility
-- Approach: Use `page` fixture to navigate, fill inputs, check visibility
-
-Example from `realtime-voice.spec.ts`:
-```typescript
-test('Connect button is visible after navigating to voice state', async ({ page }) => {
-  await page.goto('/');
-  // Wait for terminal to boot and reach MENU state
-  await page.waitForSelector('input[aria-label="Terminal command input"]', { timeout: 15_000 });
-  
-  // Trigger connection flow
-  await page.fill('input[aria-label="Terminal command input"]', '1');
-  await page.keyboard.press('Enter');
-  
-  // Verify Connect button visible
-  const connectBtn = page.getByRole('button', { name: /connect/i });
-  await expect(connectBtn).toBeVisible({ timeout: 10_000 });
-});
-```
-
-**Schema Validation Tests:**
-- Location: `tests/context-pipeline.spec.ts`
-- Scope: Validate JSON structure and required fields
-- Approach: Load and inspect file contents with assertions
-
-Example from `context-pipeline.spec.ts`:
-```typescript
-test('has work_history with at least 3 entries', () => {
-  const ctx = loadContext();
-  expect(Array.isArray(ctx.work_history)).toBe(true);
-  expect(ctx.work_history.length).toBeGreaterThanOrEqual(3);
-  for (const entry of ctx.work_history) {
-    expect(typeof entry.role === 'string' || typeof entry.company === 'string').toBe(true);
-  }
-});
-```
-
-**Round-trip/Integration Tests:**
-- Location: `tests/tts-stt-pipeline.spec.ts`
-- Scope: Test end-to-end functionality with multiple services
-- Approach: Call TTS endpoint, capture output, feed to STT endpoint, verify result
-
-Example from `tts-stt-pipeline.spec.ts`:
-```typescript
-test('synthesized speech is transcribed back accurately', async ({ request }) => {
-  const inputText = 'My name is Kaleb and I am a software engineer.';
-  
-  // TTS
-  const ttsRes = await request.post('/api/tts', {
-    data: { text: inputText, speaker: 'default' },
-    headers: { 'Content-Type': 'application/json' },
-    timeout: 60_000,
-  });
-  expect(ttsRes.status()).toBe(200);
-  const wavBuffer = await ttsRes.body();
-  
-  // STT
-  const sttRes = await request.post('/api/stt', {
-    multipart: {
-      audio: {
-        name: 'audio.wav',
-        mimeType: 'audio/wav',
-        buffer: wavBuffer,
-      },
-    },
-    timeout: 30_000,
-  });
-  expect(sttRes.status()).toBe(200);
-  const json = await sttRes.json();
-  expect(json.transcript).toMatch(/kaleb|software|engineer/i);
-});
-```
+**E2E Tests:**
+- Scope: Full user journey, terminal UI state machine
+- Approach: Browser navigation, element visibility assertions, user interaction simulation
+- Example: `tests/ui-preservation.spec.ts` — verifies BOOTING → STATUS → MENU → VOICE_IDLE progression
+- Framework: Playwright with headless browser
+- Speed: 15-30s per test
 
 ## Common Patterns
 
-**Async Testing:**
-All tests are async by default (`async ({ fixture }) => { ... }`)
-- Await HTTP requests: `await request.post(...)`
-- Wait for UI elements: `await page.waitForSelector(...)`
-- No special async handling needed — Playwright waits automatically
-
-Example:
+**Async Testing (Playwright):**
 ```typescript
-test('returns an ephemeral token', async ({ request }) => {
-  const res = await request.post('/api/realtime/session', { timeout: 15_000 });
-  expect(res.status()).toBe(200);
-  const json = await res.json();  // Automatic await
-  expect(json.token).toBeDefined();
+test('does something async', async ({ page, request }) => {
+  // Await promises
+  const res = await request.post('/api/endpoint', { ... });
+  const json = await res.json();
+  
+  // Explicit timeouts for slow operations
+  await expect(page.getByText(/some text/i)).toBeVisible({ timeout: 15_000 });
 });
 ```
 
-**Error Handling / Negative Tests:**
-Test both success and failure paths:
+**Async Testing (Bun):**
+- Bun test automatically handles async functions; no special wrapper needed
+- Use `await` naturally in test body
 
-From `tts-stt-pipeline.spec.ts`:
+**Error Testing (Playwright):**
 ```typescript
-test('POST /api/tts rejects empty text', async ({ request }) => {
+test('rejects invalid input', async ({ request }) => {
   const res = await request.post('/api/tts', {
     data: { text: '', speaker: 'default' },
-    headers: { 'Content-Type': 'application/json' },
-    timeout: 60_000,
   });
-  // Should return 400 or 500 with error
+  
+  // Assert error status
   expect(res.status()).toBeGreaterThanOrEqual(400);
 });
 ```
 
-**Timeouts and Retries:**
-- Default test timeout: 30 seconds (`timeout: 30_000` in `playwright.config.ts`)
-- Request-specific timeouts: `{ timeout: 15_000 }` for fast API tests, `{ timeout: 60_000 }` for TTS (cold start)
-- Selector waits: `{ timeout: 15_000 }` for initial load, `{ timeout: 10_000 }` for state transitions
-- Retries: Set to 0 in config (`retries: 0`) — tests fail fast for debugging
-
-**Data Parsing Patterns:**
+**Error Testing (Bun):**
 ```typescript
-// JSON parsing with error handling
-const json = await res.json();
-expect(json.token).toBeDefined();
-
-// NDJSON parsing (newline-delimited JSON)
-const raw = await res.text();
-const lines = raw.trim().split('\n').filter(Boolean);
-const sentences = lines.map((line) => {
-  const parsed = JSON.parse(line);
-  if (parsed.error) throw new Error(`API error: ${parsed.error}`);
-  return parsed.sentence ?? '';
+test('invalid URL is silently skipped', () => {
+  const p = make('https://devpost.com/x', ['not-a-url']);
+  const out = classifyHackathonLinks(p);
+  expect(out.length).toBe(1);
 });
-
-// Binary response parsing
-const body = await res.body();
-const magic = body.slice(0, 4).toString();
-expect(magic).toBe('RIFF');  // WAV file magic bytes
 ```
 
-**Logging in Tests:**
-Console logging for debugging:
+**Test Helpers (WebSocket):**
 ```typescript
-console.log('[session] token prefix:', json.token.slice(0, 20) + '…');
-console.log('[stt transcript]', json.transcript);
-console.log('[round-trip]', `"${inputText}" → "${json.transcript}"`);
+function openWs(url: string, protocols?: string[]): Promise<{
+  ws: WebSocket;
+  messages: string[];
+  waitForMessage: (predicate: (msg: unknown) => boolean, timeoutMs?: number) => Promise<unknown>;
+  close: () => void;
+}> {
+  // Opens WebSocket, buffers messages, provides waitForMessage() helper
+  // Returns promise that resolves when WS opens
+}
+
+// Usage:
+const { ws, waitForMessage, close } = await openWs('ws://localhost:8080');
+const response = await waitForMessage((m) => m.type === 'session.start', 5_000);
+close();
 ```
 
-## Configuration Details
-
-**playwright.config.ts:**
-- `testDir: './tests'` — tests discovered in tests/ directory
-- `timeout: 30_000` — default 30 second test timeout
-- `retries: 0` — no automatic retries
-- `reporter: 'list'` — simple list output
-- `baseURL: 'http://localhost:3000'` — default base URL for requests
-- `webServer.command: 'bun dev'` — start dev server before tests
-- `webServer.reuseExistingServer: true` — reuse if already running
-
-**Important Note:**
+**Labeled Logging (Test Debugging):**
 ```typescript
+console.log('[ui] STATUS reached');
+console.log('[stt error]', await sttRes.text());
+console.log('[ws-server] health check passed');
+```
+- Bracket prefixes indicate context for easy parsing
+- Used to trace test execution flow in CI logs
+
+**Multipart Form Uploads (Playwright):**
+```typescript
+// Critical: DON't set global Content-Type — it breaks multipart boundaries
+// playwright.config.ts ensures this:
 use: {
   baseURL: 'http://localhost:3000',
   // Don't set global Content-Type — it breaks multipart form uploads
   // Individual tests set Content-Type as needed
-},
+}
+
+// In test: let Playwright set multipart boundary automatically
+const res = await request.post('/api/stt', {
+  multipart: {
+    audio: {
+      name: 'audio.wav',
+      mimeType: 'audio/wav',
+      buffer: wavBuffer,
+    },
+  },
+});
 ```
+
+**NDJSON Parsing (Playwright):**
+```typescript
+const raw = await res.text();
+const lines = raw.trim().split('\n').filter(Boolean);
+const data = lines.map((line) => {
+  const parsed = JSON.parse(line) as { sentence?: string; final?: boolean; error?: string };
+  if (parsed.error) throw new Error(`API error: ${parsed.error}`);
+  return parsed.sentence ?? '';
+});
+```
+- Used in context-pipeline tests to accumulate streaming responses
+
+## Playwright Configuration
+
+**File:** `playwright.config.ts`
+
+**Key Settings:**
+```typescript
+{
+  testDir: './tests',
+  timeout: 30_000,              // 30s per test
+  retries: 0,                   // No retry on failure (fail fast in CI)
+  reporter: 'list',             // Terminal output
+  use: {
+    baseURL: 'http://localhost:3000',
+    // Note: no global Content-Type to avoid breaking multipart uploads
+  },
+  webServer: {
+    command: 'bun dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,  // Reuse running dev server if available
+    timeout: 30_000,            // Wait up to 30s for server to start
+  },
+}
+```
+
+## Linting & Code Quality
+
+**ESLint Status:**
+- Tool: ESLint 9 with Next.js config (flat config format in `eslint.config.mjs`)
+- Command: `bun run lint`
+- **Current status: FAILS** with exit code 1
+- Problems reported: ~492 total (32 errors, 460 warnings)
+
+**Root Causes (Not in Source Code):**
+1. `.planning/research/**` — vendored minified files trigger `no-unused-expressions` warnings (~300+ warnings in single minified JS file)
+2. `ws-server/dist/**` — build output scanned but should be ignored
+3. Config gap: `eslint.config.mjs` overrides default ignores but does NOT include `ws-server/dist/**` or `.planning/research/**`
+
+**Actual Source Issues (Need Fixing):**
+1. `ws-server/src/session.ts` — 3 `no-this-alias` errors (lines 8, 62, 182)
+2. `ws-server/src/session.ts` — 1 `no-unused-vars` error (TurnLog import)
+3. Total source errors: ~5-10 (rest are warnings in dependencies)
+
+**Fix Approach:**
+1. Update `eslint.config.mjs` to add missing ignore patterns:
+   ```javascript
+   globalIgnores([
+     ".next/**",
+     "out/**",
+     "build/**",
+     "next-env.d.ts",
+     "ws-server/dist/**",
+     ".planning/research/**",
+   ])
+   ```
+2. Fix `no-this-alias` errors in `ws-server/src/session.ts` by refactoring to arrow functions or removing the alias
+3. Remove unused `TurnLog` import if not needed
+
+## Testing Strategy (Observed)
+
+**Layers Tested:**
+1. **Unit:** Pure utility functions (`app/lib/hackathonLinks.test.ts`)
+2. **Integration:** API endpoints and schema validation (`tests/context-pipeline.spec.ts`, `tests/tts-stt-pipeline.spec.ts`)
+3. **Backend Subsystem:** WebSocket server, DashScope pipeline (`tests/ws-pipeline.spec.ts`)
+4. **E2E UI:** Terminal state machine, user interaction (`tests/ui-preservation.spec.ts`)
+
+**Not Tested:**
+- React components (no snapshot or component tests; E2E covers UI)
+- Individual hooks (e.g., `useRealtimeVoice` tested via E2E UI test)
+- Error boundaries (no E2E test for React error states)
+
+**Why This Works:**
+- E2E tests exercise full stack; component tests add little value
+- Pure functions tested in isolation (fast feedback)
+- Integration tests verify API contracts
+- Real WebSocket and DashScope connections tested to catch configuration issues early
 
 ---
 
-*Testing analysis: 2026-04-09*
+*Testing analysis: 2026-07-27*

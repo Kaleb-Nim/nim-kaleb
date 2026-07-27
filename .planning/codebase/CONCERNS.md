@@ -1,254 +1,241 @@
 # Codebase Concerns
 
-**Analysis Date:** 2026-04-09
+**Analysis Date:** 2026-07-27
 
 ## Tech Debt
 
-**Deprecated Web Audio API in voice hook:**
-- Issue: Use of `createScriptProcessor()` which is deprecated in favor of `AudioWorklet`
-- Files: `app/hooks/useRealtimeVoice.ts:259`
-- Impact: While still functional, this API is deprecated and may be removed from browsers in future versions. Performance may degrade in some contexts
-- Fix approach: Replace `createScriptProcessor` with `AudioWorkletNode` for better performance isolation and future compatibility. Requires creating a separate `.js` worker file for audio processing
+**ESLint Configuration Ignores Gap:**
+- Issue: `bun run lint` exits with code 1, reporting ~492 problems, but most are false positives from vendored/research files
+- Files: `eslint.config.mjs` (missing ignores), `.planning/research/portfolio_info/**` (minified files), `ws-server/dist/index.js` (committed build output)
+- Impact: Continuous integration fails even when codebase is clean. Developers cannot trust lint output. Makes it impossible to enforce real linting rules.
+- Fix approach: Add global ignores to `eslint.config.mjs`:
+  ```javascript
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    ".planning/research/**",  // Add this
+    "ws-server/dist/**",       // Add this
+  ]),
+  ```
 
-**Inconsistent hardcoded strings across components:**
-- Issue: Hardcoded "Kebab" neural interface branding used inconsistently instead of "Kaleb"
-- Files: `app/page.tsx:78,82,94,114` (welcome text, status dashboard, management URL)
-- Impact: Portfolio branding is inconsistent (project name is "Kaleb Neural Interface" per design spec, but renders as "Kebab")
-- Fix approach: Replace all "Kebab" references with "Kaleb" or extract to a centralized constants file
+**Committed Build Artifacts:**
+- Issue: `ws-server/dist/index.js` (235KB minified) is committed to git repository
+- Files: `ws-server/dist/index.js`
+- Impact: Inflates repository size, makes diffs harder to review, violates CI/CD best practice (build outputs should be generated, not versioned)
+- Fix approach: Add `ws-server/dist/` to `.gitignore` and regenerate via `bun run build` in CI/ECS deployment pipeline
 
-**Hardcoded API model version:**
-- Issue: OpenAI Realtime API model version baked into code
-- Files: `app/hooks/useRealtimeVoice.ts:266`, `app/api/realtime/session/route.ts:16`
-- Impact: When OpenAI releases new model versions, code requires changes. Model version may become deprecated
-- Fix approach: Move model identifier to environment variable `NEXT_PUBLIC_OPENAI_REALTIME_MODEL` or server-side config
-
-**Downsampling algorithm uses naive nearest-neighbor interpolation:**
-- Issue: Downsampling from source sample rate to 24kHz uses simple index flooring
-- Files: `app/hooks/useRealtimeVoice.ts:54-62`
-- Impact: Audio quality loss, especially at high frequencies. May cause aliasing artifacts
-- Fix approach: Implement proper resampling (e.g., linear interpolation or polyphase filter)
-
-## Known Bugs
-
-**WebSocket connection state not fully cleaned up on error:**
-- Symptoms: If WebSocket connection fails, reference may be retained causing memory leak
-- Files: `app/hooks/useRealtimeVoice.ts:276-288`
-- Trigger: WebSocket error during active connection, then rapid reconnection attempts
-- Workaround: Refresh page to reset state
-
-**Timer refs in page.tsx not properly checked:**
-- Symptoms: Processing timer may fire after component unmount
-- Files: `app/page.tsx:30-59`
-- Trigger: Navigate away during PROCESSING state
-- Workaround: Rapid navigation away doesn't cause issues in practice since user stays on page
-
-**Floating point precision in PCM conversion:**
-- Symptoms: Audio distortion at extreme values
-- Files: `app/hooks/useRealtimeVoice.ts:30-35`
-- Trigger: Loud audio input near clipping threshold
-- Cause: Linear conversion uses fixed values (32768/32767) which can clip
+**Stale Architecture Diagram:**
+- Issue: `.planning/diagrams/openai-realtime-architecture.mmd` describes the removed OpenAI Realtime API design from March 2026, but system now uses Alibaba DashScope
+- Files: `.planning/diagrams/openai-realtime-architecture.mmd`
+- Impact: Misleads new team members about system architecture. Token-minting endpoint (`/api/realtime/session`) mentioned in diagram was deleted; no longer relevant.
+- Fix approach: Either delete diagram or update to show current DashScope three-service architecture (ASR → LLM → TTS via WebSocket)
 
 ## Security Considerations
 
-**API key exposure in WebSocket URL:**
-- Risk: Ephemeral token sent in WebSocket URL (though short-lived), visible in browser DevTools
-- Files: `app/hooks/useRealtimeVoice.ts:265-271`
-- Current mitigation: OpenAI provides short-lived ephemeral tokens (expires ~1 minute)
-- Recommendations: 
-  - Add Content Security Policy headers to prevent token exfiltration
-  - Log token generation for audit trail
-  - Consider implementing rate limiting on `/api/realtime/session` endpoint
-
-**No input validation on session endpoint:**
-- Risk: Endpoint accepts POST with no validation, could be called repeatedly
-- Files: `app/api/realtime/session/route.ts`
-- Current mitigation: Rate limiting by IP not implemented
+**Unauthenticated Public WebSocket with Cost Exposure:**
+- Risk: `ws-server` on `wss://ws.kalebnim.dev/ws` has zero authentication and zero rate limiting. Any browser can open unlimited WebSocket connections and trigger ASR/LLM/TTS calls on Alibaba DashScope, incurring per-token costs. No protection against automated abuse (bots, scraping, cost attacks).
+- Files: `ws-server/src/index.ts` (WebSocket upgrade handler has no auth check), `ws-server/src/session.ts` (no rate limiting per session)
+- Current mitigation: Relies on trust (public portfolio, assumes no malicious actors). ECS service runs behind ALB, but no WAF rules.
 - Recommendations:
-  - Add request validation (method, headers)
-  - Implement rate limiting per IP/user
-  - Add authentication check if deployed with auth system
+  1. **Implement rate limiting** per IP/session (e.g., max 5 concurrent sessions per IP, max 100 LLM tokens per minute per session)
+  2. **Add optional authentication** (JWT, API key prefix in URL) for production variant if traffic grows
+  3. **Cost monitoring** - Set up DashScope quota alerts; consider implementing token budget per session or daily spend limits
+  4. **Connection throttling** - Close idle WebSocket connections after 5 minutes
+  5. **Request validation** - Validate audio chunk sizes and transcript lengths to prevent memory exhaustion attacks
 
-**User microphone permission not explicitly requested:**
-- Risk: Silent failure if user denies mic permission creates confusion
-- Files: `app/hooks/useRealtimeVoice.ts:243`
-- Current mitigation: Error message shown but generic
-- Recommendations:
-  - Check `navigator.permissions.query()` before connecting
-  - Provide explicit user-facing guidance when permission is denied
+**Permissive CORS Configuration:**
+- Risk: `ws-server` sends `Access-Control-Allow-Origin: *` and `Access-Control-Allow-Headers: *` on all HTTP endpoints. While WebSocket upgrade itself doesn't strictly require CORS headers, this opens the health check endpoint to any origin.
+- Files: `ws-server/src/index.ts` (lines 17-26)
+- Current mitigation: Health check endpoint is read-only, low risk
+- Recommendations: Restrict to known origins if deploying behind API gateway; at minimum, remove wildcard headers:
+  ```typescript
+  'Access-Control-Allow-Origin': 'https://nim-kaleb.vercel.app',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  ```
 
-**No HTTPS enforcement verification:**
-- Risk: Code calls `navigator.mediaDevices.getUserMedia()` which requires HTTPS; will silently fail on HTTP
-- Files: `app/hooks/useRealtimeVoice.ts:243`
-- Current mitigation: Vercel deployment enforces HTTPS
+**Conversation History Stored Per-Session in Memory:**
+- Risk: Conversation history is retained in `Session.conversationHistory` (capped at 20 entries via `MAX_HISTORY_ENTRIES = 20`). If multiple concurrent sessions run, memory usage scales with active sessions. No garbage collection for idle sessions.
+- Files: `ws-server/src/session.ts` (lines 25, 85-89, 155-159)
+- Current mitigation: History is cleared on session cleanup. Sessions are closed when browser disconnects.
 - Recommendations:
-  - Add development-time check or warning if not running on localhost/https
+  1. Add idle session timeout (close WebSocket after 5 minutes with no activity)
+  2. Monitor WebSocket connection count and memory usage in ECS CloudWatch
+  3. Consider persisting history to PostgreSQL if you want to add conversation replay feature
+
+**API Key in Environment Variables Without Secrets Rotation:**
+- Risk: `DASHSCOPE_API_KEY` and `DASHSCOPE_VOICE_ID` are passed via ECS task environment variables. No key rotation mechanism. If key is exposed, requires manual update and redeployment.
+- Files: `ws-server/src/dashscope/asr.ts` (line 22), `ws-server/src/dashscope/llm.ts` (line 10), `ws-server/src/dashscope/tts.ts` (lines 37-38)
+- Current mitigation: Keys are server-side only (never sent to browser). AWS Secrets Manager could be used for storage.
+- Recommendations:
+  1. Store `DASHSCOPE_API_KEY` in AWS Secrets Manager instead of ECS task environment variables
+  2. Add automatic key rotation policy (e.g., rotate every 90 days)
+  3. Audit DashScope API logs for unauthorized usage
 
 ## Performance Bottlenecks
 
-**Audio encoding/decoding in main thread:**
-- Problem: PCM16↔Float32 conversions and Base64 encoding happen in WebSocket handler
-- Files: `app/hooks/useRealtimeVoice.ts:30-51, 111-230`
-- Cause: Browser's Web Worker API not used; all processing blocks React updates during heavy audio
-- Improvement path: Move audio codec operations to `AudioWorklet` or Web Worker
+**Audio Downsampling Using Simple Nearest-Neighbor:**
+- Problem: Browser microphone audio (typically 48kHz) is downsampled to 16kHz using simple nearest-neighbor sampling, not linear interpolation or better filters
+- Files: `app/hooks/useRealtimeVoice.ts` (lines 60-69)
+- Cause: Fast but lossy; may introduce aliasing artifacts or clicks between 48→16kHz boundary
+- Improvement path: Replace with windowed sinc or polyphase filter (more CPU cost, better quality). For now, acceptable for speech recognition, but not ideal for audio archive/playback.
 
-**Canvas rendering at 30fps with no frame skipping:**
-- Problem: Starfield redraws even if user tabs away
-- Files: `app/components/Starfield.tsx:46-54`
-- Cause: `requestAnimationFrame` respects 30fps cap but doesn't check `document.hidden`
-- Improvement path: Pause animation when tab is not visible using `document.visibilitychange` event
+**ScriptProcessorNode Deprecated (Browser Audio API):**
+- Problem: `useRealtimeVoice.ts` (line 346) uses deprecated `createScriptProcessor`. Modern Web Audio API recommends `AudioWorklet` for real-time audio processing, but Chromium still supports ScriptProcessor for compatibility.
+- Files: `app/hooks/useRealtimeVoice.ts` (line 346)
+- Cause: Lower priority than other tasks; ScriptProcessor is synchronous and blocks during processing
+- Improvement path: Migrate to `AudioWorklet` (requires more complex setup but runs in separate thread, prevents main-thread blocking). Not urgent for MVP.
 
-**Waveform visualizer updates on every message:**
-- Problem: Canvas redraws at full rate without throttling
-- Files: `app/components/VoiceInterface.tsx:38-76`
-- Cause: No frame rate cap, tied to `requestAnimationFrame` only
-- Improvement path: Add `document.hidden` check and target 30fps to match Starfield
+**System Prompt Loaded Synchronously from Filesystem:**
+- Problem: `ws-server/src/dashscope/llm.ts` uses `readFileSync()` to load system prompt at module initialization. If file is large or filesystem slow, blocks server startup.
+- Files: `ws-server/src/dashscope/llm.ts` (lines 15-18)
+- Cause: Simpler code, avoids async init complexity
+- Improvement path: Cache prompt in memory at startup (current approach is acceptable). If system prompt changes frequently, consider loading from database or environment variable instead.
 
-**Status dashboard rows animate with setTimeout:**
-- Problem: Each row triggers React re-render with state update
-- Files: `app/components/CognitiveStatus.tsx:53-64`
-- Cause: 150ms per row × 5 rows = unnecessary state churn
-- Improvement path: Use CSS animations with staggered delays instead of JavaScript state
-
-**Typewriter effect causes per-character React updates:**
-- Problem: Each character triggers re-render
-- Files: `app/hooks/useTypewriter.ts:26-35`
-- Cause: `setDisplayedText` called for every character at 30ms intervals
-- Improvement path: Consider batch updates or use `flushSync` for large text blocks
+**Fire-and-Forget Analytics Logging:**
+- Problem: `useRealtimeVoice.ts` (lines 72-78) and `ws-server/src/logger.ts` (lines 23-30) use fire-and-forget Promise patterns for analytics POST and file I/O. If network or filesystem fails, errors are silently swallowed.
+- Files: `app/hooks/useRealtimeVoice.ts` (line 72-78), `ws-server/src/logger.ts` (line 24-30)
+- Cause: Prevents logging from blocking real-time voice pipeline
+- Improvement path: Add retry logic and logging to error handler; monitor failed analytics in CloudWatch metrics
 
 ## Fragile Areas
 
-**Audio context initialization in `useRealtimeVoice` is tightly coupled:**
-- Files: `app/hooks/useRealtimeVoice.ts:232-311`
-- Why fragile: 
-  - Multiple stateful refs (wsRef, audioCtxRef, micStreamRef, processorRef, analyserRef)
-  - Cleanup logic spread across `disconnect()`, error handler, and `onclose` handler
-  - No shared cleanup utility
-- Safe modification: 
-  - Create higher-order hook `useAudioContext` to encapsulate initialization
-  - Use `useEffect` with proper cleanup for each resource (WebSocket, streams, nodes)
-  - Test disconnect after each state transition
-- Test coverage: No unit tests for voice hook; only e2e tests via Playwright
+**Barge-In (User Interruption) State Machine:**
+- Files: `ws-server/src/session.ts` (lines 38-48, 65-69, 224-228), `app/hooks/useRealtimeVoice.ts` (lines 241-291)
+- Why fragile: Barge-in logic coordinates:
+  1. Server cancels in-flight LLM+TTS response via `AbortController.abort()`
+  2. Stops TTS output immediately via `response.done` with `immediate: true`
+  3. Browser clears audio context and resets playback timing
+  4. Browser invalidates stale audio deltas via `playGenRef.current++`
+  - If any of these steps fails (e.g., abort doesn't propagate, TTS WebSocket doesn't close, audio context doesn't reset), the user hears overlapped audio or garbled output
+  - Multiple concurrent responses could interleave if cancellation doesn't work
+- Safe modification: Add comprehensive tests for barge-in scenarios; verify abort signal propagates through entire LLM streaming chain; ensure TTS `finishTtsSession()` is called before response abort
 
-**Terminal state machine lacks validation:**
-- Files: `app/hooks/useTerminalState.ts:19-31`
-- Why fragile: 
-  - `transitionTo()` accepts any state without validation
-  - No guard against invalid state transitions (e.g., VOICE_ACTIVE → BOOTING)
-  - Metadata merges unconditionally, could create stale data
-- Safe modification:
-  - Add transition validation function
-  - Create state machine graph to enforce valid transitions
-  - Clear metadata on certain transitions (e.g., reset when disconnecting)
-- Test coverage: No tests; relies on page.tsx logic
+**Audio Scheduling and Context Switching:**
+- Files: `app/hooks/useRealtimeVoice.ts` (lines 145-163, 241-291)
+- Why fragile: Audio playback uses two separate `AudioContext` instances (one for mic capture at 16kHz, one for playback at 24kHz). On `response.done`, contexts are closed and recreated. If timing is off or `nextPlayTimeRef` is not correctly updated, audio glitches or silence occurs.
+  - Comments reference "BUG-01 fix" and "BUG-02 fix" (lines 267-268), suggesting previous issues with playback timing
+  - `lastSourceRef.onended` callback may not fire reliably on all browsers
+- Safe modification: Add audiocontext state machine tests; mock Web Audio API in tests to verify start times and context closures; log all context transitions for debugging
 
-**Page component manages multiple state machines:**
-- Files: `app/page.tsx:27-59`
-- Why fragile:
-  - Four separate useEffect hooks coordinating state transitions
-  - Timer refs manually managed; unclear what cleans up what
-  - Component becomes MENU state and stays there; no clean path back to BOOTING
-- Safe modification:
-  - Extract state machine logic to `useTerminalState` (move page effects there)
-  - Simplify by centralizing timer cleanup
-  - Add explicit reset handler for reconnection flows
-- Test coverage: e2e Playwright tests exist but don't cover all state paths
+**TTS Server-Commit Mode Segment Handling:**
+- Files: `ws-server/src/dashscope/tts.ts` (lines 86-97)
+- Why fragile: In `server_commit` mode, DashScope sends `response.done` after each auto-committed segment (not just at the end). Callback only fires "truly done" after `session.finish()` is sent (see line 94). If timing is wrong or callback logic inverted, playback cuts short prematurely.
+- Safe modification: Add detailed logging of all TTS message types received; test with real DashScope to verify `response.done` semantics; consider moving to `client_commit` mode if more control is needed
 
-**CommandInput component has hidden input with maxLength:**
-- Files: `app/components/CommandInput.tsx:40`
-- Why fragile:
-  - Only command "1" is handled; numeric validation not explicit
-  - maxLength=10 could cause silent truncation of future commands
-  - input value not validated before onCommand callback
-- Safe modification:
-  - Add explicit command validation and enumeration
-  - Remove or justify maxLength constraint
-  - Validate and sanitize input before callback
-- Test coverage: No unit tests; only integration tests
-
-## Scaling Limits
-
-**Single canvas for entire starfield:**
-- Current capacity: 70 stars at 30fps on typical device
-- Limit: Performance degrades with high star counts (>500) on lower-end devices
-- Scaling path: Implement spatial partitioning or use OffscreenCanvas for parallel rendering
-
-**Audio buffer accumulation:**
-- Current capacity: Unbounded accumulation of audio chunks in `audioChunksRef`
-- Limit: Long sessions (>1 hour) could accumulate large arrays
-- Scaling path: Implement circular buffer or stream-based approach
-
-**State metadata merging has no size limit:**
-- Current capacity: Metadata object grows unbounded with each `transitionTo` call
-- Limit: Long sessions could accumulate stale metadata
-- Scaling path: Implement metadata reset logic or versioning
-
-## Dependencies at Risk
-
-**@anthropic-ai/sdk included but unused:**
-- Risk: Listed in package.json but not imported anywhere in codebase
-- Impact: Adds ~200KB to bundle; unnecessary dependency
-- Migration plan: Remove from package.json and bun.lock if Anthropic integration not planned
-
-**OpenAI SDK version tight coupling:**
-- Risk: Realtime API is in beta; SDK changes may break integration
-- Impact: Version bump could require code refactor
-- Migration plan: Monitor OpenAI SDK changelog; consider feature detection for API responses
-
-**Next.js 16 adoption:**
-- Risk: Recent major version; potential breaking changes in minor updates
-- Impact: Vercel deployments may force upgrades
-- Migration plan: Regular testing against next versions via `npm outdated`
-
-## Missing Critical Features
-
-**No input error recovery:**
-- Problem: If voice input fails once, user must manually reconnect
-- Blocks: Seamless conversation continuation; poor UX on network hiccups
-
-**No session persistence:**
-- Problem: Voice conversation history not saved; page refresh loses chat
-- Blocks: Creating persistent portfolio narrative or asynchronous interaction
-
-**No offline mode:**
-- Problem: All voice features require OpenAI API; no fallback
-- Blocks: Local demo or testing without API keys
-
-**No user feedback on microphone status:**
-- Problem: User can't see if microphone is capturing audio before sending
-- Blocks: Confidence that voice is working correctly
+**Conversation History Management:**
+- Files: `ws-server/src/session.ts` (lines 85-89, 155-159)
+- Why fragile: History is truncated by removing pairs of entries (user + assistant) when exceeding `MAX_HISTORY_ENTRIES = 20`. If a turn is incomplete (e.g., assistant response never arrives), removing from history could lose important context. No safeguards against malformed messages.
+- Safe modification: Add validation that user and assistant turns are always balanced before truncating; log warnings if history becomes corrupted
 
 ## Test Coverage Gaps
 
-**useRealtimeVoice hook:**
-- What's not tested: WebSocket event handling, audio codec conversions, error states, reconnection logic
-- Files: `app/hooks/useRealtimeVoice.ts`
-- Risk: Changes to audio pipeline or WebSocket handling could introduce silent failures
-- Priority: High (core feature)
+**WebSocket Message Protocol Validation:**
+- What's not tested: Browser-to-server message validation (`audio.append`, `audio.end`, `session.start`), server-to-browser message ordering and completeness
+- Files: `ws-server/src/types.ts` (validation logic), `ws-server/src/index.ts` (message dispatch)
+- Risk: Malformed messages could crash session or leak state
+- Priority: High
 
-**useTypewriter hook:**
-- What's not tested: Speed variations, text truncation, onComplete callback timing
-- Files: `app/hooks/useTypewriter.ts`
-- Risk: Animation timing regressions could go unnoticed
+**DashScope Connection Failure Scenarios:**
+- What's not tested: ASR/LLM/TTS connection timeouts, mid-stream disconnections, partial message corruption, DashScope API 5xx errors
+- Files: `ws-server/src/dashscope/asr.ts`, `ws-server/src/dashscope/llm.ts`, `ws-server/src/dashscope/tts.ts`
+- Risk: Sessions may hang, leak WebSocket connections, or send incomplete responses to browser
+- Priority: High
+
+**Audio Context Lifecycle on Mobile:**
+- What's not tested: iOS Safari and Android Chrome behavior with separate 16kHz mic + 24kHz playback contexts; `context.resume()` on user gesture; context suspension during audio playback interruption (e.g., incoming call)
+- Files: `app/hooks/useRealtimeVoice.ts` (lines 327-335)
+- Risk: Audio may not work on mobile or may break mid-conversation
+- Priority: Medium (only blocks if shipping mobile app; website usage is desktop-first)
+
+**Analytics Endpoint Rate Limiting:**
+- What's not tested: Rapid POST requests to `/api/analytics/session` and `/api/analytics/transcript` (e.g., 100 requests/sec); database insertion failures; duplicate session IDs
+- Files: `app/api/analytics/session/route.ts`, `app/api/analytics/transcript/route.ts`
+- Risk: Database could be overwhelmed; transactions could fail silently; analytics data could be incomplete
 - Priority: Medium
 
-**Terminal state machine:**
-- What's not tested: Invalid state transitions, metadata accumulation, effect cleanup
-- Files: `app/hooks/useTerminalState.ts`, `app/page.tsx`
-- Risk: State corruption or memory leaks during long user sessions
-- Priority: Medium (but fragile)
+**Graceful Degradation When Analytics Disabled:**
+- What's not tested: Behavior when `DATABASE_URL` is unset (analytics disabled); POST endpoints should return 503, but browser may retry or log confusing errors
+- Files: `app/api/analytics/session/route.ts`, `app/api/analytics/transcript/route.ts`, `app/hooks/useRealtimeVoice.ts`
+- Risk: Error messages may confuse users; analytics may silently fail on production if database connection is lost
+- Priority: Low (handled gracefully with 503 responses, but no explicit tests)
 
-**API endpoint (session token):**
-- What's not tested: Error handling, token expiry, rate limiting, concurrent requests
-- Files: `app/api/realtime/session/route.ts`
-- Risk: Could leak tokens or fail gracefully under load
-- Priority: High (security-relevant)
+## Known Bugs
 
-**VoiceInterface component:**
-- What's not tested: Waveform canvas rendering, button state transitions, error display
-- Files: `app/components/VoiceInterface.tsx`
-- Risk: Visual bugs or accessibility regressions
-- Priority: Low (mostly UI)
+**Missing End-of-Speech Signaling Implementation:**
+- Symptoms: `audio.end` message from browser is received by server but not processed
+- Files: `ws-server/src/index.ts` (line 87-89, stub comment says "Plan 02 will handle this fully")
+- Trigger: User manually ends speech before server VAD timeout, or ASR needs explicit EOF marker
+- Workaround: Relies entirely on server-side VAD (Voice Activity Detection) with 1000ms silence threshold; manual end-of-speech not yet functional
+
+**BUG-01 and BUG-02 Fixes in Audio Scheduling:**
+- Symptoms: Previous audio playback glitches/silence; incorrect timing on barge-in
+- Files: `app/hooks/useRealtimeVoice.ts` (lines 267-268, comments reference fixes)
+- Trigger: Specific sequence of rapid user interruptions
+- Current status: Fixed but fragile (see "Fragile Areas" above)
+
+## Scaling Limits
+
+**WebSocket Connection Per-Server Limit:**
+- Current capacity: ~1000 concurrent connections per ECS instance (depends on memory and CPU; rough estimate based on 2 `AudioContext` per session + conversation history)
+- Limit: At 2GB memory (typical ECS task), approximately 500-1000 sessions before OOM
+- Scaling path: Deploy multiple ws-server instances behind load balancer; use sticky sessions to route same browser to same server (for session affinity); consider sharded session store (Redis) if needed to handle 10k+ concurrent users
+
+**DashScope API Rate Limits:**
+- Current capacity: Alibaba Cloud DashScope has per-user rate limits (not documented in code; assumed 100+ req/sec for qwen-plus LLM)
+- Limit: If traffic spikes beyond account limits, all new LLM calls fail with 429/503 errors
+- Scaling path: Contact Alibaba sales to increase quota; implement client-side queuing for LLM requests; consider caching common responses
+
+**PostgreSQL Database Connections:**
+- Current capacity: Neon serverless has connection pool limits (depends on plan; free tier ~20 concurrent)
+- Limit: Analytics endpoints will timeout or fail if connection pool exhausted
+- Scaling path: Upgrade Neon plan for more connections; batch analytics writes; consider async event queue (e.g., Kafka) if analytics throughput grows
+
+**Browser Audio Context CPU Usage:**
+- Current capacity: Separate 16kHz mic capture + 24kHz playback contexts on a single browser tab
+- Limit: On low-end devices (old mobile, Chromebook), multiple tabs with active voice may max out CPU
+- Scaling path: Recommend single-tab usage; optimize ScriptProcessor to AudioWorklet (see Performance section)
+
+## Missing Critical Features
+
+**No Input Validation on Audio Chunks:**
+- Problem: Browser sends base64-encoded audio via WebSocket, but server doesn't validate chunk size, format, or frequency. A malicious client could send gigabytes of invalid data.
+- Blocks: Abuse protection; scalability to public deployment
+- Recommended fix: Add max chunk size check (e.g., 16KB per audio.append)
+
+**No Session Persistence Across Reconnects:**
+- Problem: If browser loses connection and reconnects, a new session is created; conversation history is lost
+- Blocks: Improving UX on spotty connections (mobile, WiFi)
+- Recommended fix: Store session ID in browser localStorage; on reconnect, resume existing session instead of creating new one
+
+**No Conversation Replay / History Viewing:**
+- Problem: Past conversations are logged to PostgreSQL but not exposed via UI or API
+- Blocks: Analytics dashboard, user ability to review past interactions
+- Recommended fix: Add `/api/analytics/sessions/{id}` endpoint to fetch session and transcript history
+
+**No Manual Session Timeout / Keepalive Ping:**
+- Problem: Long idle sessions may be disconnected by ALB/firewall; no heartbeat to keep WebSocket alive
+- Blocks: Long-form conversations (users having sustained chats)
+- Recommended fix: Browser sends `{ type: 'ping' }` every 30 seconds; server responds with `{ type: 'pong' }`
+
+## Dependencies at Risk
+
+**OpenAI SDK Used for DashScope, Not OpenAI:**
+- Risk: `openai` package (v6.32.0) is installed and used ONLY for DashScope compatibility mode (line 10 of `ws-server/src/dashscope/llm.ts`). If OpenAI SDK updates break DashScope compatibility or introduces new required fields, could cause silent API failures.
+- Impact: LLM responses may stop working after `npm update`
+- Migration plan: Consider forking a minimal OpenAI-compatible client or using a generic HTTP client (e.g., `fetch`) to reduce coupling
+
+**No Pinned Versions in Bun Workspaces:**
+- Risk: `package.json` uses caret ranges (`^6.32.0`, `^1.1.0`), allowing minor/patch updates. Bun lockfile (`bun.lock`) locks versions, but if lockfile is deleted or updated carelessly, could introduce breaking changes.
+- Impact: CI/CD may break silently if lockfile is regenerated
+- Migration plan: Use exact versions (`6.32.0` not `^6.32.0`) for critical dependencies (openai, drizzle-orm, next); accept ranges only for dev tools
+
+**Deprecated Web Audio API (ScriptProcessorNode):**
+- Risk: `createScriptProcessor()` is deprecated in Web Audio API spec. Browsers may remove support (though unlikely in near term).
+- Impact: Microphone input processing will break on future browser versions
+- Migration plan: Migrate to `AudioWorklet` before deprecation (see Performance section)
 
 ---
 
-*Concerns audit: 2026-04-09*
+*Concerns audit: 2026-07-27*
