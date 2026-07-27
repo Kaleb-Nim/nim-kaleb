@@ -173,7 +173,7 @@ Required for production.
 | `DASHSCOPE_API_KEY`          | ws-server      | Auth for all three DashScope services (ASR, LLM, TTS)                |
 | `DASHSCOPE_VOICE_ID`         | ws-server      | Voice clone ID used by TTS (Kaleb's cloned voice profile)            |
 | `NEXT_PUBLIC_WS_SERVER_URL`  | Vercel         | Browser WebSocket endpoint, e.g. `wss://ws.kalebnim.dev`             |
-| `OPENAI_API_KEY`             | Vercel         | Legacy Realtime session route (`app/api/realtime/session`)           |
+| `OPENAI_API_KEY`             | local dev      | Used by the `generate_run_map.ts` helper script                     |
 | `PORT`                       | ws-server      | Listen port (default `8080`; Nginx terminates TLS in front)          |
 | `LOG_DIR`                    | ws-server      | Optional conversation log directory                                  |
 | `DATABASE_URL`               | Vercel         | Neon Postgres connection string (used by `@neondatabase/serverless` + Drizzle) |
