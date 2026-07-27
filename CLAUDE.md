@@ -143,6 +143,7 @@ Use `@/*` for imports (e.g., `@/components/Terminal`).
 This is a fresh Next.js installation with default template files. The layout currently uses Geist fonts - these need to be replaced with Anonymous Pro per the design spec.
 
 <!-- GSD:project-start source:PROJECT.md -->
+
 ## Project
 
 **Kaleb's AI Voice Portfolio**
@@ -155,242 +156,404 @@ A terminal-themed personal portfolio website where visitors interact with an AI 
 
 - **Provider**: Alibaba Cloud for entire voice pipeline (STT + LLM + TTS)
 - **TTS Model**: Qwen3-TTS with voice cloning capability
-- **Speech Quality**: Must sound conversational, not robotic — filler words, natural rhythm, follow-up questions
+- **Speech Quality**: Must sound conversational, not robotic
 - **Backward Compatibility**: Terminal UI and state machine must remain intact
 - **Runtime**: Bun (not npm/node)
+
 <!-- GSD:project-end -->
 
 <!-- GSD:stack-start source:codebase/STACK.md -->
+
 ## Technology Stack
 
 ## Languages
+
 - TypeScript 5 - All source code, type-safe application development
 - JavaScript - Build configuration and tooling
 - CSS - Styling via Tailwind CSS 4
 - HTML - Template structure in Next.js
+
 ## Runtime
-- Bun - JavaScript/TypeScript runtime and package manager (primary)
-- Node.js compatible (via Next.js compatibility layer)
-- Bun - Primary package manager for this project
+
+- Bun - JavaScript/TypeScript runtime and package manager (primary for development and ws-server)
+- Node.js 20+ - Compatible (via Vercel hosting environment for Next.js frontend)
+- Bun (primary)
 - Lockfile: `bun.lock` (present, 105KB)
+
 ## Frameworks
-- Next.js 16.0.10 (App Router) - Full-stack React framework with API routes
+
+- Next.js 16.0.10 (App Router) - Full-stack React framework with API routes, deployed to Vercel
 - React 19.2.0 - UI component library
 - React DOM 19.2.0 - React rendering for DOM
 - Tailwind CSS 4 - Utility-first CSS framework
 - PostCSS 4 - CSS processing pipeline (`@tailwindcss/postcss`)
-- Anonymous Pro (Google Fonts) - Monospace terminal font (preloaded in layout)
 - Playwright 1.58.2 - E2E testing framework
 - `@playwright/test` - Test runner and assertions
-- ESLint 9 - Code linting
+- ESLint 9 - Code linting (flat config format)
 - ESLint Config Next 16.0.1 - Next.js-specific linting rules
-- ESLint Config (core-web-vitals, TypeScript) - Web Vitals and type checking
+- TypeScript 5 - Type checking and compilation
+- Bun - HTTP server + WebSocket runtime for `ws-server/` (deployed to ECS)
+
 ## Key Dependencies
-- openai 6.32.0 - OpenAI API SDK for GPT-4 Realtime API access
-- @anthropic-ai/sdk 0.78.0 - Anthropic Claude API SDK (installed but not currently used)
+
+- openai 6.32.0 - OpenAI-compatible SDK client pointed at DashScope LLM (`ws-server/src/dashscope/llm.ts`)
+- @neondatabase/serverless 1.1.0 - PostgreSQL serverless connection (Neon)
+- drizzle-orm 0.45.2 - Type-safe database ORM
+- drizzle-kit 0.31.10 - Database migration and schema management tools
+- @vercel/analytics 2.0.1 - Vercel analytics SDK for frontend monitoring
+- @anthropic-ai/sdk 0.78.0 - Anthropic Claude SDK (installed but not currently used)
 - @types/node 20 - Node.js type definitions
 - @types/react 19 - React type definitions
 - @types/react-dom 19 - React DOM type definitions
-- baseline-browser-mapping 2.10.16 - Browser compatibility mapping
+- @types/bun 1.3.14 - Bun runtime type definitions
+- baseline-browser-mapping 2.10.16 - Browser compatibility mappings
+
 ## Configuration
-- `.env.local` file present (contains secrets - OPENAI_API_KEY required)
-- No explicit node/bun version pinning in package.json
-- TypeScript strict mode enabled
-- ES2017 target compilation
-- `tsconfig.json` - TypeScript compiler configuration with strict mode
-- `next.config.ts` - Minimal Next.js configuration
-- `postcss.config.mjs` - PostCSS configuration for Tailwind
-- `eslint.config.mjs` - ESLint configuration
-- `playwright.config.ts` - Playwright test runner configuration
-- Command: `bun dev`
-- URL: http://localhost:3000
-- Next.js hot module replacement enabled
-- Test server uses `reuseExistingServer: true`
-- Command: `bun run build`
-- Command: `bun start`
-- Deployed to Vercel (see `.vercel/project.json`)
+
+- `tsconfig.json` - Strict mode enabled, ES2017 target, bundler module resolution, path aliases (`@/*`)
+- `tsconfig.tsbuildinfo` - Incremental build cache
+- `next.config.ts` - Next.js configuration, microphone permission headers, NEXT_PUBLIC_LAST_SYNC env injection
+- `eslint.config.mjs` - ESLint flat config extending Next.js core-web-vitals and TypeScript rules
+- `postcss.config.mjs` - PostCSS configuration with Tailwind plugin
+- `playwright.config.ts` - Playwright test runner (30s timeout, local server at http://localhost:3000)
+- `drizzle.config.ts` - Schema location (`lib/schema.ts`), PostgreSQL dialect, DATABASE_URL connection
+- `.vercel/project.json` - Vercel project metadata (projectId, orgId)
+- `.vercelignore` - Excludes ws-server, tts-server, tests, assets, .planning/ from Vercel builds
+- `.env.local` file present (contains secrets - DASHSCOPE_API_KEY, DASHSCOPE_VOICE_ID, DATABASE_URL, NEXT_PUBLIC_WS_SERVER_URL, OPENAI_API_KEY)
+- No explicit Node/Bun version pinning in package.json
+
 ## Platform Requirements
+
 - Bun runtime environment
-- macOS/Linux/Windows with Node.js-compatible shell (project uses `bunx` commands)
+- macOS/Linux/Windows with Node.js-compatible shell
 - TypeScript compiler (via devDependencies)
 - Playwright Chromium binary (installed via `bunx playwright install chromium`)
-- Vercel hosting platform (configured)
-- OpenAI API key (`OPENAI_API_KEY` env var)
-- Node.js 20+ runtime (via Vercel Node.js environment)
+- Vercel hosting platform (Next.js frontend: nim-kaleb.vercel.app)
+- Amazon ECS (Bun ws-server: wss://ws.kalebnim.dev)
+- Neon PostgreSQL serverless database
+- Alibaba Cloud DashScope API access (STT, LLM, TTS)
+
 ## Scripts
+
+- `bun dev` - Run Next.js dev server on http://localhost:3000
+- `bun run sync-context` - Sync context (custom build script)
+- `bun run build` - Build Next.js production bundle
+- `bun start` - Start Next.js production server
+- `bun test` - Run Playwright tests
+- `bun test:headed` - Run Playwright tests with browser UI
+- `bun run lint` - Run ESLint on codebase
+- `drizzle-kit push` - Push schema changes to database
+- `drizzle-kit generate` - Generate migration files
+
 ## Path Aliases
-- `@/*` maps to project root (e.g., `@/app`, `@/components`, `@/hooks`)
+
+- `@/*` maps to project root (e.g., `@/app`, `@/components`, `@/hooks`, `@/lib`)
+
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
+
 ## Conventions
 
 ## Naming Patterns
-- Components: PascalCase with `.tsx` extension (e.g., `Terminal.tsx`, `CommandInput.tsx`, `VoiceInterface.tsx`)
-- Hooks: camelCase with `use` prefix and `.ts` extension (e.g., `useTerminalState.ts`, `useRealtimeVoice.ts`, `useTypewriter.ts`)
-- CSS Modules: Component name + `.module.css` (e.g., `Terminal.module.css`, `VoiceInterface.module.css`)
-- API routes: Nested directories matching route structure (e.g., `app/api/realtime/session/route.ts`)
-- Utility files: camelCase (e.g., `memory.ts`)
-- React components: PascalCase (e.g., `Home`, `Terminal`, `VoiceInterface`)
-- Hooks: camelCase with `use` prefix (e.g., `useTerminalState`, `useRealtimeVoice`, `useTypewriter`)
-- Regular functions: camelCase (e.g., `connect`, `disconnect`, `handleMessage`, `downsampling`, `pcm16ToFloat32`)
-- Helper functions in components: camelCase (e.g., `handleCommand`, `handleKeyDown`, `scheduleAudioChunk`)
-- Event handlers: `handle{EventName}` pattern (e.g., `handleCommand`, `handleKeyDown`, `handleContainerClick`, `handleMessage`)
-- React state: camelCase (e.g., `inputValue`, `displayedText`, `isComplete`, `status`)
-- Refs: camelCase with `Ref` suffix (e.g., `canvasRef`, `inputRef`, `wsRef`, `audioCtxRef`, `micStreamRef`)
-- Constants: UPPER_SNAKE_CASE when truly constant (e.g., `SAMPLE_RATE`, `PHASE_LABELS`)
-- Booleans: `is{Property}` or `has{Property}` prefix (e.g., `isDesktop`, `isComplete`, `isConnected`, `hasGreenTint`)
-- Abbreviations in conversions: descriptive patterns like `pcm16ToFloat32`, `float32ToPcm16Base64`
-- Interfaces: PascalCase, `Props` suffix for component props (e.g., `CommandInputProps`, `VoiceInterfaceProps`, `TypewriterOptions`)
-- Type aliases: PascalCase (e.g., `TerminalState`, `RealtimePhase`, `RealtimeStatus`, `Star`)
+
+- Components: PascalCase with `.tsx` extension (e.g., `Terminal.tsx`, `CommandInput.tsx`, `CognitiveStatus.tsx`)
+- Hooks: camelCase with `use` prefix and `.ts` extension (e.g., `useHashRoute.ts`, `useRealtimeVoice.ts`, `useTypewriter.ts`)
+- CSS Modules: Component name + `.module.css` (e.g., `CommandInput.module.css`, `CognitiveStatus.module.css`)
+- Utility/library files: camelCase (e.g., `hackathonLinks.ts`, `sections.ts`, `workStatus.ts`)
+- Test files: same as source + `.test.ts` or `.spec.ts` (e.g., `hackathonLinks.test.ts`, `ws-pipeline.spec.ts`)
+- API routes: nested directories matching route structure (e.g., `app/api/analytics/route.ts`)
+- React components: PascalCase (e.g., `CommandInput`, `CognitiveStatus`, `FloatingMic`)
+- Hooks: camelCase with `use` prefix (e.g., `useHashRoute`, `useRealtimeVoice`, `useTerminalState`)
+- Regular functions: camelCase (e.g., `parseHash`, `dedupeKey`, `classifyHost`)
+- Event handlers: `handle{EventName}` pattern (e.g., `handleKeyDown`, `handleContainerClick`, `handleCommand`)
+- Helper functions: camelCase with descriptive action verbs (e.g., `navigateTo`, `classifyHackathonLinks`, `glyphFor`)
+- React state: camelCase (e.g., `inputValue`, `visibleRows`, `isDesktop`)
+- Refs: camelCase with `Ref` suffix (e.g., `wsRef`, `audioCtxRef`, `processorRef`, `playGenRef`)
+- Booleans: `is{Property}` or `has{Property}` prefix (e.g., `isDesktop`, `isComplete`, `intentionalCloseRef`)
+- Constants: UPPER_SNAKE_CASE when truly constant (e.g., `MIC_SAMPLE_RATE`, `PLAYBACK_SAMPLE_RATE`, `WS_SERVER_URL`)
+- Audio conversion functions: descriptive patterns like `pcm16ToFloat32`, `float32ToPcm16Base64`
+- Interfaces: PascalCase, `Props` suffix for component props (e.g., `CommandInputProps`, `CognitiveStatusProps`, `RealtimeStatus`)
+- Type aliases: PascalCase (e.g., `TerminalState`, `RealtimePhase`, `HackathonLinkLabel`)
 - Discriminated union types: Use `type` for union literals (e.g., `type RealtimePhase = 'idle' | 'connecting' | 'listening' | 'responding' | 'error'`)
-- Exported types: Consistent with domain (e.g., `type TerminalState`, `export interface RealtimeStatus`)
+
 ## Code Style
-- ESLint: Next.js 16 core web vitals + TypeScript rules (`eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`)
-- Config file: `eslint.config.mjs` (flat config format, ESLint 9)
-- No Prettier in use (rely on ESLint rules)
+
 - Indentation: 2 spaces (standard Next.js)
-- ESLint configuration: Extends Next.js defaults (core web vitals and TypeScript)
-- Global ignores: `.next/**`, `out/**`, `build/**`, `next-env.d.ts`
-- Strict TypeScript mode enabled in `tsconfig.json`
+- No Prettier in use (rely on ESLint rules for enforcement)
+- Line length: No strict limit enforced
+- Semicolons: Always included (ESLint enforces)
+- Tool: ESLint 9 with flat config format
+- Config file: `eslint.config.mjs` (root level)
+- Extends: `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`
+- Key rules enforced:
+- **Known issue:** ESLint currently exits with code 1 (~492 problems). Root causes:
+
 ## Import Organization
-- `@/*` maps to project root (e.g., `@/app/hooks/useTerminalState`, `@/app/components/Terminal`)
-- Used consistently across all files for relative imports above same-directory level
+
+- `@/*` maps to project root: `@/app`, `@/components`, `@/hooks`, `@/lib`
+- Used consistently across all files for imports above same-directory level
+- Example: `import { useHashRoute } from '@/app/hooks/useHashRoute'`
+
 ## Error Handling
-- Try-catch blocks wrap async operations and JSON parsing (e.g., in `useRealtimeVoice.ts`)
-- Error messages propagated to state for UI display (`setStatus(prev => ({ ...prev, phase: 'error', error: msg }})`)
-- Specific error handling for known error cases: JSON parse failures, network errors, file operations
-- Error recovery includes cleanup of resources (closing WebSocket, stopping audio tracks, clearing refs)
-- Type narrowing for error objects: `err instanceof Error ? err.message : String(err)`
+
+- Try-catch blocks wrap async operations and JSON parsing (e.g., in `useRealtimeVoice.ts`, `ws-pipeline.spec.ts`)
+- Error messages propagated to component state for UI display: `setStatus(prev => ({ ...prev, error: msg }))`
+- Type narrowing for error objects: `err instanceof DOMException ? err.name : err instanceof Error ? err.message : String(err)`
+- Specific error handling for known error cases:
+- Error recovery includes cleanup of resources:
+- Silent failures acceptable only for fire-and-forget operations (e.g., analytics posts): `.catch(() => {})`
+
 ## Logging
-- Browser console output in test files for debugging: `console.log('[session] token prefix:', json.token.slice(0, 20) + '…')`
-- Labeled logs with metadata prefixes in brackets: `[session]`, `[stt]`, `[round-trip]`, `[ui]`, `[location]`
-- Used primarily in Playwright tests for test result visibility
+
+- Labeled logs with metadata prefixes in brackets for context: `[ws]`, `[session]`, `[stt]`, `[ui]`, `[location]`
+- Example: `console.log('[ws] session ${sessionId} connected')`
+- Used primarily in test files for visibility of test execution: `console.log('[ui] STATUS reached')`
+- ws-server logging: uses same bracket pattern in main module, plus structured logging in `logger.ts` for turn analysis
+- Debug info logged only in tests; production code avoids verbose logging
+- Console logs in test files only, not in production components
+- Exception: internal helper logs in hooks (minimal, bracket-prefixed)
+- Logger module: `ws-server/src/logger.ts` provides `logTurn()` for structured NDJSON logging of conversation turns
+- Session latency tracking: captures ASR time, LLM TTFT, TTS TTFA, total turn time
+- Console logs with bracket prefixes in `index.ts` and `session.ts` for WebSocket lifecycle events
+
 ## Comments
+
 - Complex algorithmic sections (e.g., audio processing in `useRealtimeVoice.ts`)
-- State machine transitions and logic flow (e.g., section comments in `app/page.tsx`)
-- Non-obvious setup requirements (e.g., "Don't set global Content-Type — it breaks multipart form uploads" in `playwright.config.ts`)
-- Function-level JSDoc blocks for exported hooks and utilities:
-- Inline comments for sections with `── ` separator (visual clarity in longer functions)
+- State machine transitions and logic flow
+- Non-obvious setup requirements (e.g., platform-specific gotchas)
+- Deviations from standard patterns (e.g., why a rule is disabled)
+- Function-level JSDoc blocks for exported hooks and utilities
+- Example from `useHashRoute.ts`:
 - Type documentation in interfaces for complex fields
+- Comments for non-obvious parameter behavior
+- Inline comments for sections use `── ` separator (visual clarity in longer functions)
+- Comments explain "why" not "what" (code is what; comments are context)
+- Keep comments concise; rarely exceed 1-2 sentences
+
 ## Function Design
-- Custom hooks under 300 lines including complex logic (`useRealtimeVoice.ts` = 338 lines with full audio pipeline)
-- Components typically 50-150 lines
-- Event handlers: single-line arrow functions when simple, multi-statement for complex logic
+
+- Custom hooks: typically 50-350 lines including complex logic (`useRealtimeVoice.ts` = 338 lines with full audio pipeline)
+- Components: typically 50-150 lines (e.g., `CommandInput.tsx` = 50 lines, `CognitiveStatus.tsx` = 80+ lines)
+- Utility functions: 10-50 lines for pure logic (e.g., `classifyHackathonLinks` = 29 lines)
 - Props passed via object interfaces rather than multiple parameters
 - Optional callbacks passed via interface: `onComplete?: () => void`
 - Options objects for hook configuration: `{ transitionTo, ... }` passed to hooks
-- Hooks return objects with multiple properties: `{ status, analyserRef, connect, disconnect, isConnected }`
+- Hooks return objects with multiple named properties for clarity: `{ status, isConnected, connect, disconnect }`
 - Component functions return JSX (implicit React.ReactElement)
-- Type definitions explicit: `Float32Array<ArrayBuffer>` for typed array returns
+- Pure functions return typed data structures: `Float32Array<ArrayBuffer>`, `HackathonLink[]`
 - Event handlers return `void`
+
 ## Module Design
-- Default exports for React components: `export default function Terminal(...)`
-- Named exports for hooks: `export function useTerminalState(...)`
-- Named exports for types: `export type RealtimePhase = ...`, `export interface RealtimeStatus { ... }`
-- Single default export per component file, additional types/interfaces co-located
-- Components imported directly from their files
-- Hooks imported from individual hook files in `app/hooks/`
+
+- React components use default export: `export default function Terminal(...)`
+- Hooks use named export: `export function useHashRoute(): string`
+- Types use named export: `export type RealtimePhase = ...`, `export interface RealtimeStatus { ... }`
+- Pure utility functions use named export: `export function classifyHackathonLinks(...)`
+- Single default export per component file; additional types/interfaces co-located in same file
+- Not used in this codebase; components imported directly from their files
+
 ## Async Patterns
-- Async state updates wrapped in `setStatus(prev => ({ ...prev, ... }))`
-- Callback dependencies properly tracked in useEffect and useCallback
-- Cleanup functions return from useEffect (memory leak prevention in animation loops, event listeners)
+
+- Async state updates wrapped in `setStatus(prev => ({ ...prev, ... }))` for immutability
+- Avoid updating state during async operations without checking mounted state
+- Callback dependencies properly tracked in `useEffect` and `useCallback`
+- Dependency arrays always include all captured variables (enforced by ESLint)
+- Cleanup functions always returned from `useEffect` (prevents memory leaks)
+- Examples: clearTimeout, removeEventListener, WebSocket.close()
+
 ## React-Specific Patterns
+
 - `'use client'` directive at top of all interactive components
 - Consistent use of `useState`, `useRef`, `useEffect`, `useCallback`
-- Interfaces define all component props
-- Optional props use `?` (e.g., `onComplete?: () => void`)
+- Interfaces define all component props with optional props using `?`
 - Children components use `ReactNode` type
-- Return objects with named properties for clarity
-- Use `useCallback` for event handlers to prevent unnecessary re-renders
-- Proper dependency arrays on all useEffect and useCallback
+- Rarely used; component composition favors explicit props
+- `useCallback` for event handlers to prevent unnecessary re-renders
+- `useRef` for mutable state that doesn't trigger re-renders (DOM refs, WebSocket refs, timers)
+- `useEffect` with proper cleanup for side effects
+- Dependency arrays always specified (ESLint enforces)
+- TypeScript strict mode enabled
+- Explicit return types on exported functions and hooks
+- Type narrowing for error handling (instanceof checks)
+
+## Directory Structure Conventions
+
+- Components live in `app/components/` — all interactive UI
+- Hooks live in `app/hooks/` — all custom hooks
+- Utilities live in `app/lib/` — pure functions, data, types
+- CSS Modules co-located with components: `ComponentName.tsx` + `ComponentName.module.css`
+- API routes in `app/api/` following Next.js route structure
+- Source in `ws-server/src/` — TypeScript entry point at `index.ts`
+- DashScope integration in `ws-server/src/dashscope/`
+- Build output ignored at `ws-server/dist/` (never commit)
+- Logger and types co-located with main module
+- Separate conventions from Next.js app: more imperative, Bun-native
+
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
+
 ## Architecture
 
+## System Overview
+
+```text
+
+```
+
+## Component Responsibilities
+
+| Component | Responsibility | File |
+|-----------|----------------|------|
+| Frontend App | Multi-section terminal UI, hash routing, voice overlay control | `app/page.tsx` |
+| Voice Connection | WebSocket management, audio I/O, session lifecycle | `app/hooks/useRealtimeVoice.ts` |
+| Hash Router | URL-to-section mapping, navigation state | `app/hooks/useHashRoute.ts` |
+| WebSocket Server | Session orchestration, DashScope pipeline coordination | `ws-server/src/index.ts`, `ws-server/src/session.ts` |
+| ASR Integration | Speech-to-text via DashScope Qwen3 | `ws-server/src/dashscope/asr.ts` |
+| LLM Integration | Conversational reasoning via qwen-plus | `ws-server/src/dashscope/llm.ts` |
+| TTS Integration | Voice synthesis with Kaleb's voice clone | `ws-server/src/dashscope/tts.ts` |
+| Analytics API | Session tracking and transcript logging | `app/api/analytics/session/route.ts`, `app/api/analytics/transcript/route.ts` |
+
 ## Pattern Overview
-- Linear state progression through terminal lifecycle phases
-- Client-side React components with server-side API proxies
-- OpenAI Realtime API integration for bidirectional voice
-- Canvas-based visual rendering (starfield, waveform)
-- Strict CSS-in-modules for terminal styling (not Tailwind)
+
+- WebSocket-based real-time bidirectional communication (browser ↔ ws-server)
+- Server-side secrets management (DashScope API keys never reach browser)
+- Streaming audio/text for low-latency voice interactions
+- Optional analytics persistence (graceful degradation if DATABASE_URL unset)
+- Hash-based SPA routing for multi-section navigation
+- Canvas-based starfield visual layer with React terminal UI overlay
+
 ## Layers
-- Purpose: Render terminal UI with animations and state-driven visibility
-- Location: `app/components/`
-- Contains: TSX components for terminal chrome, content, voice interface
-- Depends on: Hooks (state management, typewriter, voice), CSS modules
-- Used by: Root page component
-- Purpose: Encapsulate terminal state machine, typewriter animation, voice connection logic
-- Location: `app/hooks/`
-- Contains: `useTerminalState.ts`, `useTypewriter.ts`, `useRealtimeVoice.ts`
-- Depends on: React hooks, OpenAI SDK, Web Audio API
-- Used by: Components and page component
-- Purpose: Proxy OpenAI Realtime session creation with server-side secret handling
-- Location: `app/api/realtime/session/route.ts`
-- Contains: POST endpoint that exchanges server API key for client-safe ephemeral token
-- Depends on: OpenAI API, environment variables
-- Used by: `useRealtimeVoice` hook (browser fetch call)
-- Purpose: App initialization and entry point
-- Location: `app/layout.tsx`, `app/page.tsx`
-- Contains: Font loading, metadata, terminal state orchestration
-- Depends on: All components and hooks
-- Used by: Next.js router
+
+- Purpose: Render multi-section terminal UI, capture user input, manage voice overlay
+- Location: `app/`
+- Contains: React components, hooks, Next.js pages and API routes
+- Depends on: WebSocket server, Web Audio API, Neon database (optional)
+- Used by: Web browsers via Vercel CDN
+- Purpose: Coordinate DashScope voice pipeline, maintain session state, route audio/text
+- Location: `ws-server/src/`
+- Contains: Bun HTTP/WebSocket server, DashScope client libraries, session manager
+- Depends on: OpenAI SDK (for DashScope compatible-mode API), DashScope cloud service
+- Used by: Browser clients via `NEXT_PUBLIC_WS_SERVER_URL`
+- Purpose: Abstract DashScope ASR, LLM, and TTS APIs behind unified interfaces
+- Location: `ws-server/src/dashscope/`
+- Contains: Three WebSocket clients (ASR, TTS) and one REST client (LLM compatible-mode)
+- Depends on: Alibaba Cloud DashScope services, OpenAI SDK
+- Used by: Session orchestrator in ws-server
+- Purpose: Store analytics events (session lifecycle, conversation transcripts)
+- Location: `lib/db.ts`, `lib/schema.ts`, `app/api/analytics/`
+- Contains: Drizzle ORM, Neon Postgres schema, analytics endpoints
+- Depends on: Neon Postgres (optional, fire-and-forget if unavailable)
+- Used by: Browser client and ws-server for async logging
+
 ## Data Flow
-- Terminal state held in component state via `useTerminalState()` custom hook
-- Metadata (error messages, transcripts) stored alongside state
-- Transitions triggered by:
+
+### Primary Voice Interaction Path
+
+### Multi-Turn Conversation State
+
+- `Session.conversationHistory` capped at 20 entries (10 user, 10 assistant turns)
+- History maintained across voice session lifetime
+- On new transcript, prior context passed to LLM for coherent responses
+- Barge-in triggers `AbortController` to cancel in-flight LLM+TTS and restart
+
+### Navigation and Page Rendering
+
+- Voice connection state: `useRealtimeVoice()` hook manages status (idle, connecting, listening, responding, error)
+- Navigation state: `useHashRoute()` hook manages current section from URL hash
+- Voice overlay visibility: `voiceOpen` state in root `app/page.tsx`
+- Typewriter animation: `useTypewriter()` hook for character-by-character reveals (legacy, less used in multi-page views)
+
 ## Key Abstractions
-- Purpose: Encapsulate valid state transitions
-- Examples: `BOOTING`, `STATUS`, `MENU`, `PROCESSING`, `CONNECTING`, `VOICE_IDLE`, `VOICE_ACTIVE`
-- Pattern: Centralized type definition in `useTerminalState.ts` used throughout codebase
-- Purpose: Character-by-character text reveal with completion callback
-- Examples: `useTypewriter` hook, `TypewriterLine` component
-- Pattern: Character index incremented on interval, completion triggers state transition
-- Purpose: Manage OpenAI WebSocket connection lifecycle
-- Examples: `useRealtimeVoice` hook, session token endpoint
-- Pattern: Setup → async connect → message handlers → cleanup on disconnect
-- Purpose: Seamless sequential playback of incoming PCM16 audio chunks
-- Examples: `scheduleAudioChunk` in `useRealtimeVoice`
-- Pattern: Track `nextPlayTimeRef` to schedule each source at end of previous duration
+
+- Purpose: Encapsulate bidirectional communication between browser and ws-server
+- Examples:
+- Pattern: Type-discriminated union for all messages
+- Purpose: Coordinate three separate WebSocket clients (ASR, TTS) and one REST client (LLM) as a cohesive voice interaction
+- Examples: Session.startResponse(), scheduleAudioChunk()
+- Pattern: Callback-driven event emission and AbortController for cancellation
+- Purpose: Hide implementation details of three separate DashScope APIs behind callback-based interfaces
+- Examples: `createAsrSession()`, `streamLlmResponse()`, `createTtsSession()`
+- Pattern: Factory functions returning promises or WebSocket handles
+- Purpose: Enable deep-linkable section navigation without full page reloads
+- Examples: `navigateTo('products')` → `#/products`, `#/hackathons/arcademy-xyz` → detail view
+- Pattern: URL fragment parsing and React state synchronization
+
 ## Entry Points
+
 - Location: `app/page.tsx`
-- Triggers: Next.js router / app initialization
+- Triggers: Next.js router on page load or navigation to `/`
 - Responsibilities:
-- Location: `app/api/realtime/session/route.ts`
-- Triggers: Fetch call from `useRealtimeVoice.connect()`
+- Location: `ws-server/src/index.ts`
+- Triggers: HTTP request to `wss://ws.kalebnim.dev/ws` (or configured `NEXT_PUBLIC_WS_SERVER_URL`)
 - Responsibilities:
+- Location: `app/api/analytics/session/route.ts`, `app/api/analytics/transcript/route.ts`
+- Triggers: POST from browser or ws-server with analytics events
+- Responsibilities:
+
+## Architectural Constraints
+
+- **Threading:** Bun event loop (single-threaded async). Audio processing via Web Audio API (separate from JS thread). Multiple concurrent WebSocket sessions handled via Bun's per-connection data slots.
+- **Global state:** Session instances stored in Bun WebSocket `ws.data` slot (one per connection). DashScope clients instantiated per session. No shared global state across sessions (isolation).
+- **Circular imports:** None detected. Module dependency graph is acyclic.
+- **Audio sample rates:** Browser mic captured at 16kHz (ASR requirement), downsampled if system default differs. TTS output at 24kHz (DashScope TTS requirement), playback via separate AudioContext.
+- **Message size:** PCM16 audio chunks base64-encoded and sent as JSON. Browser receives ~40KB chunks per 250ms at 16kHz (base64 expands by 33%).
+- **Connection lifecycle:** Barge-in (new user utterance during assistant response) cancels in-flight LLM+TTS, cleans up audio, sends immediate `response.done`.
+
+## Anti-Patterns
+
+### WebSocket Reconnection Without Cleanup
+
+### Raw Microphone Stream Forwarding
+
+### Unbounded Conversation History
+
+### Skipping Analytics Gracefully
+
 ## Error Handling
-- WebSocket error → `setStatus({ phase: 'error', error: msg })` → conditional `<div className={styles.errorLine}>` renders
-- Fetch error in connect → caught in try-catch → mic/audio cleanup → error state
-- Missing API key → 500 response → caught by hook → error message displayed
-- User denial of mic access → getUserMedia throws → caught → error state
+
+- Microphone access denial → getUserMediaErrorMessage() maps DOMException names to friendly UI text
+- WebSocket connection failure → connect() catches and sets phase: 'error'
+- DashScope API errors → ASR/LLM/TTS callbacks emit onError → session sends error message to browser
+- JSON parsing failures → Session.handleMessage() catches and ignores (no cascade)
+- Fetch failures in analytics → postAnalytics() wraps in `.catch(() => {})` to prevent crashes
+- Abort signals → streamLlmResponse() checks signal.aborted after each await; barge-in AbortController short-circuits in-flight operations
+
 ## Cross-Cutting Concerns
-- console via `console` (not implemented in current codebase, could be added)
-- No centralized logging service
-- Input validation: CommandInput limits to 10 characters via `maxLength`
-- API response validation: assumes OpenAI response shape (no schema validation)
-- Stateless token-based: server issues ephemeral tokens
-- OpenAI Realtime WebSocket authenticated via ephemeral token in protocol header
-- No user authentication (public portfolio)
-- React useEffect cleanup functions for timers and animation frames
-- WebSocket cleanup on disconnect (wsRef = null)
-- Audio context cleanup (close, disconnect, getTracks.stop)
-- Event listener cleanup (window resize, etc.)
+
+- WebSocket messages validated via isValidBrowserMessage() type guard (discriminates on `type` field)
+- Analytics endpoints validate UUIDs against UUID_RE regex before database operations
+- Analytics text fields trimmed to MAX_TEXT (8000 chars for transcripts, 1024 for error messages)
+- Microphone error names checked against known DOMException cases
+- DashScope API key stored server-side in `process.env.DASHSCOPE_API_KEY` (never sent to browser)
+- TTS voice_id stored server-side in `process.env.DASHSCOPE_VOICE_ID` (immutable, security: T-02-08)
+- Browser clients identified by session UUID from ws-server; analytics keyed by sessionId
+- useEffect cleanup functions remove window event listeners
+- WebSocket cleanup on disconnect: wsRef.current = null, audio contexts closed, mic tracks stopped
+- TTS session finishTtsSession() sends explicit session.finish to DashScope before closing
+- AbortController signals prevent callbacks after resource cleanup
+
 <!-- GSD:architecture-end -->
 
 <!-- GSD:skills-start source:skills/ -->
+
 ## Project Skills
 
-No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, or `.github/skills/` with a `SKILL.md` index file.
+| Skill | Description | Path |
+|-------|-------------|------|
+| playwright-cli | Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs to navigate websites, interact with web pages, fill forms, take screenshots, test web applications, or extract information from web pages. | `.claude/skills/playwright-cli/SKILL.md` |
+| scqa-writing-framework | Structures content using the Situation, Complication, Question, Answer framework for clear, logical, and engaging narratives suitable for threads, articles, and reports. | `.claude/skills/scqa-writing-framework/SKILL.md` |
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
+
 ## GSD Workflow Enforcement
 
 Before using Edit, Write, or other file-changing tools, start work through a GSD command so planning artifacts and execution context stay in sync.
 
 Use these entry points:
+
 - `/gsd-quick` for small fixes, doc updates, and ad-hoc tasks
 - `/gsd-debug` for investigation and bug fixing
 - `/gsd-execute-phase` for planned phase work
@@ -399,6 +562,7 @@ Do not make direct repo edits outside a GSD workflow unless the user explicitly 
 <!-- GSD:workflow-end -->
 
 <!-- GSD:profile-start -->
+
 ## Developer Profile
 
 > Profile not yet configured. Run `/gsd-profile-user` to generate your developer profile.
