@@ -114,9 +114,10 @@ None at milestone start.
 | 260627-4tk | Show link destination words (GitHub, LinkedIn…) on mobile quick-bar | 2026-06-27 | 2f83d2b | Done | [260627-4tk](./quick/260627-4tk-mobile-quick-bar-link-brand-icons/) |
 | 260708-j9l | SEO foundations for "Kaleb Nim": metadata rewrite, Person JSON-LD, robots.ts + sitemap.ts | 2026-07-08 | 5718068 | Done | [260708-j9l](./quick/260708-j9l-add-seo-foundations-for-keyword-kaleb-ni/) |
 | 260723-vbf | Replace sidequests with products section (grid → detail); first entry Overlay Notes | 2026-07-23 | b37a0de | Needs Review | [260723-vbf](./quick/260723-vbf-rename-sidequests-section-to-products-wi/) |
+| 260727-pco | Delete dead OpenAI Realtime session route + test; correct README env-var row | 2026-07-27 | 4c72619 | Done | [260727-pco](./quick/260727-pco-delete-dead-openai-realtime-session-rout/) |
 
 ## Session Continuity
 
-Last session: 2026-05-25T11:15:00Z
-Stopped at: Completed 17-02-PLAN.md auto tasks (MeetupDetail overlay + MeetupsPage rewrite); checkpoint:human-verify pending
+Last session: 2026-07-27T00:00:00Z
+Stopped at: Completed quick task 260727-pco: deleted dead OpenAI Realtime session route + test, corrected README OPENAI_API_KEY row
 Resume file: None
