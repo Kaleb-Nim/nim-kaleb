@@ -352,7 +352,7 @@ export const SECTIONS: Section[] = [
     count: WORK_ITEMS.length,
     aliases: ['work', 'experience', 'roles'],
     desc: 'Internships and full-time roles',
-    title: './work-experience — 3 years of shipped AI work',
+    title: './work-experience — 4 years of shipped AI work',
     intro: `Roles where someone paid me to ship AI systems. ${PROFILE.seeking}`,
     items: WORK_ITEMS,
     footer: `[${WORK_ITEMS.length} entries] · most recent first`,
