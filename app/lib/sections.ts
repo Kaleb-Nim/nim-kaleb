@@ -11,6 +11,11 @@
 // Products (1), Hobbies (5), Links (5).
 
 import { HACK_ITEMS, HACK_STATS, type HackathonItem } from './hackathons';
+import { ROLES, PROJECTS, HOBBIES, PROFILE, HACK_INTRO, COMMUNITY_INTRO } from './content';
+
+// Facts and copy live in ./content (issue #8). This file shapes them into the
+// page sections and keeps the meetup list. Re-export so consumers have one import.
+export * from './content';
 
 // Re-export from the JSON-backed module so consumers can keep importing
 // HACK_ITEMS / HackathonItem from '@/app/lib/sections' if they prefer.
@@ -44,6 +49,9 @@ export interface WorkItem {
   note: string;
   tag: 'ACTIVE' | 'SHIPPED' | 'ARCHIVED';
   tagLabel?: string;
+  headline?: string | null;
+  aside?: string;
+  links?: ItemLink[];
 }
 
 export interface Speaker {
@@ -61,6 +69,8 @@ export interface MeetupItem {
   hero: string | null;
   gallery: Array<string | null>;
   signup?: string;
+  /** Shown larger at the top of the section. */
+  featured?: boolean;
 }
 
 export interface ProductItem {
@@ -79,11 +89,14 @@ export interface ProductItem {
   hero: string;
   gallery: string[];
   links: ItemLink[];
+  headline?: string;
+  aside?: string;
 }
 
 export interface HobbyItem {
   title: string;
   note: string;
+  photo?: string | null;
 }
 
 export interface LinkPageItem {
@@ -125,54 +138,25 @@ export const LINKS: Link[] = [
 
 // ── WORK EXPERIENCE (4) ────────────────────────────────────────────────────
 
-export const WORK_ITEMS: WorkItem[] = [
-  {
-    date: 'Jan 2025 – Jul 2026',
-    title: 'AI Engineer',
-    org: 'RAiD — RSAF Agile innovation Digital',
-    logo: '/work-logos/raid.png',
-    logoBg: '#FFFFFF',
-    note: 'Building AI Air Traffic Controller Training Simulator: Real-time speech diarisation + transcription for ATC controllers; augmenting simulator-pilots’ console ops with digital-twin + agentic solutions + evaluation.',
-    tag: 'ACTIVE',
-    tagLabel: 'Full-time (NS)',
-  },
-  {
-    date: 'Apr 2024 – Aug 2024',
-    title: 'AI Engineer',
-    org: 'Tensorplex Labs (Crypto AI Startup)',
-    logo: '/work-logos/tensorplex.png',
-    logoBg: '#F4F1EB',
-    note: 'LLM-powered community + helpdesk chatbot — auto-answers questions, moderates discussion, runs tickets across 4 Web3 Discord servers serving 10,000+ members.',
-    tag: 'SHIPPED',
-    tagLabel: 'Intern',
-  },
-  {
-    date: 'Jan 2024 – Apr 2024',
-    title: 'AI Engineer',
-    org: 'A*STAR — Advanced Remanufacturing & Technology Centre (ARTC)',
-    logo: '/work-logos/artc.png',
-    logoBg: '#FFFFFF',
-    note: 'Led AI-driven supply-chain risk research with a Fortune 50 medical client — early-warning system leveraging LLMs.',
-    tag: 'SHIPPED',
-    tagLabel: 'Contract',
-  },
-  {
-    date: 'Mar 2023 – Jan 2024',
-    title: 'Development Scientist Intern',
-    org: 'A*STAR — Advanced Remanufacturing & Technology Centre (ARTC)',
-    logo: '/work-logos/artc.png',
-    logoBg: '#FFFFFF',
-    note: 'Q&A LLM agent surfacing what-if insights for hydrogen-supply-chain optimisation; custom knowledge-base RAG with analytical visualisations.',
-    tag: 'ARCHIVED',
-    tagLabel: 'Intern',
-  },
-];
+export const WORK_ITEMS: WorkItem[] = ROLES.map((r) => ({
+  date: `${r.start} – ${r.end ?? 'Present'}`,
+  title: r.title,
+  org: r.org,
+  logo: r.logo,
+  logoBg: r.logoBg,
+  note: r.bullets.join(' '),
+  tag: r.end === null ? 'ACTIVE' : 'SHIPPED',
+  tagLabel: r.kind,
+  headline: r.headline,
+  aside: r.aside,
+  links: r.links,
+}));
 
 // ── SYAI MEETUPS (9) ───────────────────────────────────────────────────────
 
 export const SYAI_ITEMS: MeetupItem[] = [
   {
-    num: 11, date: 'May 2026',
+    num: 11, date: 'May 2026', featured: true,
     title: 'Claude Code Workshop (SYAI x YouthTechSG)',
     desc: "I taught Claude Code to 60 people — Skills, hooks, and subagents from the ground up, co-organised with YouthTechSG. The hard lesson: 'I use this every day' and 'I can teach it' are completely different skill levels. Full slides at https://syai-claude-workshop.vercel.app/1.",
     speakers: [
@@ -269,7 +253,6 @@ export const SYAI_ITEMS: MeetupItem[] = [
     title: 'AI Meets Ambition — Youth Startup Pitches',
     desc: "Youth-led AI startup pitches at *SCAPE — health tools, productivity products, and unfiltered stories from the founder journey. The room skewed toward first-time pitchers, which made the honest Q&A the best part of the afternoon.",
     speakers: [
-      { name: 'TBD', role: 'Youth founders — pitch lineup', linkedin: '' },
     ],
     hero: '/meetups/2025-04-pitches/hero.jpg',
     gallery: [
@@ -326,65 +309,29 @@ export function formatProductStatus(p: ProductItem): string {
   return parts.join(' · ');
 }
 
-export const PRODUCT_ITEMS: ProductItem[] = [
-  {
-    slug: 'overlay-notes',
-    name: 'Overlay Notes',
-    kind: 'Chrome Extension',
-    status: 'LIVE',
-    version: '1.1.1',
-    installs: 47,
-    installsAsOf: 'Jul 2026',
-    published: 'Jul 2026',
-    tagline:
-      'Sketch freehand Excalidraw-style notes over any webpage. Anchored to the content, saved per page, 100% local.',
-    narrative:
-      'Started while studying for NUS CS2030 — course material in the browser, notes in Apple Notes off to the side, constant context-switching. I already used Excalidraw for mind-mapping, so the idea was to put that canvas directly on the page instead of beside it. My first published Chrome extension.',
-    features: [
-      'Full Excalidraw toolset — pen, shapes, arrows, hand-drawn text',
-      'Works on strict-CSP sites like GitHub',
-      'Annotate ↔ browse (click-through) modes, toggled with Alt+Shift+E',
-      'Scroll-anchored drawings that stay pinned to the content',
-      "Autosave per normalized URL into the extension's own IndexedDB",
-      'Auto-restore across SPA navigations',
-      'Badge + popup for per-page state at a glance',
-      'Local-first — no account, fully offline',
-    ],
-    stack: [
-      'WXT',
-      'TypeScript',
-      'React 19',
-      '@excalidraw/excalidraw 0.18.1',
-      'Dexie (IndexedDB)',
-      'Playwright validation CLI',
-    ],
-    // Sourced from the LinkedIn launch post rather than the Chrome Web Store
-    // listing — the hero is the actual CS2030 page that prompted the build.
-    hero: '/products/overlay-notes/hero.jpg',
-    gallery: ['/products/overlay-notes/g1.jpg'],
-    links: [
-      {
-        label: 'CHROME STORE',
-        href: 'https://chromewebstore.google.com/detail/overlay-notes/ogekdbffoapphpabjphfgeppildcleck',
-      },
-      { label: 'GITHUB', href: 'https://github.com/Kaleb-Nim/overlay-notes' },
-      {
-        label: 'LINKEDIN',
-        href: 'https://www.linkedin.com/posts/kaleb-nim_chromeextension-buildinpublic-ugcPost-7484554047480328192-ghZg/',
-      },
-    ],
-  },
-];
+export const PRODUCT_ITEMS: ProductItem[] = PROJECTS.map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  kind: p.kind,
+  status: p.status,
+  version: p.version,
+  installs: p.installs,
+  installsAsOf: p.installsAsOf,
+  published: p.since,
+  tagline: p.headline,
+  narrative: p.summary,
+  features: p.facts.map((f) => `${f.label}: ${f.value}`),
+  stack: p.stack,
+  hero: p.hero,
+  gallery: p.gallery,
+  links: p.links,
+  headline: p.headline,
+  aside: p.aside,
+}));
 
 // ── HOBBIES (5) ────────────────────────────────────────────────────────────
 
-export const HOBBIES_ITEMS: HobbyItem[] = [
-  { title: 'Cooking',              note: 'optimising one-pot recipes; lab notebook style' },
-  { title: 'Bouldering',           note: 'V4 problems on a good day' },
-  { title: 'Mechanical keyboards', note: 'currently typing on a Bauer Lite, holy panda v2' },
-  { title: 'Reading sci-fi',       note: 'Stanisław Lem, Ted Chiang, Liu Cixin' },
-  { title: 'Long walks + lo-fi',   note: 'best debugging tool i own' },
-];
+export const HOBBIES_ITEMS: HobbyItem[] = HOBBIES.map((h) => ({ title: h.title, note: h.note, photo: h.photo }));
 
 // ── LINK ITEMS (5) ─────────────────────────────────────────────────────────
 
@@ -392,7 +339,7 @@ export const LINK_ITEMS: LinkPageItem[] = [
   { title: 'GitHub',   note: 'github.com/Kaleb-Nim',                    link: { label: 'OPEN', href: 'https://github.com/Kaleb-Nim' } },
   { title: 'LinkedIn', note: 'linkedin.com/in/kaleb-nim',               link: { label: 'OPEN', href: 'https://www.linkedin.com/in/kaleb-nim/' } },
   { title: 'Email',    note: 'kaleb.nim@gmail.com',                     link: { label: 'COPY', href: 'mailto:kaleb.nim@gmail.com' } },
-  { title: 'Resume',   note: 'one-pager — updated quarterly',           link: { label: 'PDF',  href: '#' } },
+  { title: 'Resume',   note: 'one-page CV',                             link: { label: 'PDF',  href: '/kaleb-cv.pdf' } },
 ];
 
 // ── SECTIONS ───────────────────────────────────────────────────────────────
@@ -402,25 +349,24 @@ export const SECTIONS: Section[] = [
   {
     id: 'work-experience',
     path: 'work-experience',
-    count: 4,
+    count: WORK_ITEMS.length,
     aliases: ['work', 'experience', 'roles'],
     desc: 'Internships and full-time roles',
-    title: './work-experience — 3 years in AI Engineering Space',
-    intro: 'Roles where someone gave me money to ship AI systems. → currently looking for freelance AI Engineering work.',
+    title: './work-experience — 3 years of shipped AI work',
+    intro: `Roles where someone paid me to ship AI systems. ${PROFILE.seeking}`,
     items: WORK_ITEMS,
-    footer: '[4 entries] · most recent first',
+    footer: `[${WORK_ITEMS.length} entries] · most recent first`,
   },
   {
     id: 'syai-meetups',
     path: 'ai-community-events',
-    count: 9,
+    count: SYAI_ITEMS.length,
     aliases: ['meetups', 'syai'],
     desc: 'Organizing AI monthly meetups for Youths as Head of Community of Singapore Youth AI',
     title: './ai-community-events — running SYAI\'s monthly AI meetup',
-    intro:
-      'Heading the planning and execution of monthly AI meetups islandwide, featuring networking sessions, hands-on AI workshops, and fireside chats with industry leaders. Successfully organised 10 events to date, each engaging 30–60 youths from polytechnics, universities, and junior colleges. [sgyouthai.org/programs#AIMM](https://sgyouthai.org/programs#AIMM)',
+    intro: `${COMMUNITY_INTRO.headline} ${COMMUNITY_INTRO.summary} [sgyouthai.org/programs#AIMM](https://sgyouthai.org/programs#AIMM)`,
     items: SYAI_ITEMS,
-    footer: '[9 sessions] · 30–60 attendees per event · open to all',
+    footer: `[${SYAI_ITEMS.length} sessions] · 30–60 attendees per event · open to all`,
   },
   {
     id: 'hackathons',
@@ -429,7 +375,7 @@ export const SECTIONS: Section[] = [
     aliases: ['hacks', 'hackathon'],
     desc: 'weekends I traded for shipping demos',
     title: `./hackathons — ${HACK_STATS.total} weekends, ${HACK_STATS.total} demos`,
-    intro: 'Things I built between Friday night and Sunday afternoon. Most still work.',
+    intro: `${HACK_INTRO.headline} ${HACK_INTRO.aside}`,
     items: HACK_ITEMS,
     footer: `[${HACK_STATS.total} entries] · ${HACK_STATS.wins} win${HACK_STATS.wins === 1 ? '' : 's'} · ${HACK_STATS.prizes} prize${HACK_STATS.prizes === 1 ? '' : 's'}`,
   },
@@ -442,14 +388,14 @@ export const SECTIONS: Section[] = [
     desc: 'products I built that people actually use',
     title: './products — things I shipped that are still running',
     intro:
-      'Products I built and still maintain — live, installable, serving real users. Not demos, not hackathon weekends.',
+      'Products I built and still run, with real users. Not hackathon weekends.',
     items: PRODUCT_ITEMS,
     footer: `[${PRODUCT_ITEMS.length} product${PRODUCT_ITEMS.length === 1 ? '' : 's'}] · live · more shipping soon`,
   },
   {
     id: 'hobbies',
     path: 'hobbies',
-    count: 5,
+    count: HOBBIES_ITEMS.length,
     aliases: ['life', 'offline'],
     desc: 'what I do when the laptop is closed',
     title: './hobbies — what I do offline',

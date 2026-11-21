@@ -1,7 +1,7 @@
 {
   "source": "https://devpost.com/kaleb-nim",
   "scraped_at": "2026-05-19T12:36:25.874Z",
-  "count": 23,
+  "count": 24,
   "projects": [
     {
       "slug": "polyfintech-100-2023",
@@ -970,6 +970,39 @@
       ],
       "extra_links": [],
       "extra_images": []
+    },
+    {
+      "slug": "batey-2022",
+      "project_url": "",
+      "title": "Batey Hackathon 2022",
+      "tagline": "Gold award. A food recommender built on TensorFlow Recommenders.",
+      "thumbnail_url": "",
+      "thumbnail_local": "",
+      "date": "2022",
+      "date_iso": "2022-06-01T12:00:00+08:00",
+      "event_name": "Batey Hackathon 2022",
+      "event_url": "",
+      "organizer": "Batey",
+      "prizes": [
+        "Winner — Gold ($2000)"
+      ],
+      "team": [
+        {
+          "name": "Kaleb Nim",
+          "devpost_url": "https://devpost.com/kaleb-nim"
+        }
+      ],
+      "built_with": [
+        "tensorflow-recommenders",
+        "python"
+      ],
+      "description_md": "",
+      "gallery": [],
+      "is_winner": true,
+      "extra_links": null,
+      "sources": [
+        "memory/raw/information.txt"
+      ]
     }
   ],
   "beacons_source": "https://beacons.ai/kaleb_nim",
