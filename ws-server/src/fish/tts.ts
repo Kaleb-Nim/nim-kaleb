@@ -1,11 +1,13 @@
 // Fish Audio TTS WebSocket client (wss://api.fish.audio/v1/tts/live).
 // Same interface as dashscope/tts.ts so session.ts can switch on TTS_PROVIDER.
-// FISH_API_KEY and FISH_VOICE_ID are read from process.env only and are never
+// FISH_API_KEY and the voice (FISH_VOICE_ID, or FISH_REFERENCE_AUDIO + FISH_REFERENCE_TEXT
+// for inline zero-shot cloning) are read from process.env only and are never
 // configurable via browser messages (same rule as T-02-08).
 //
 // Protocol (MessagePack frames): client sends start → text* → flush* → stop;
 // server sends audio* → finish { reason: 'stop' | 'error' } and then closes.
 
+import { readFileSync } from 'node:fs';
 import { encode, decode } from '@msgpack/msgpack';
 import type { TtsCallbacks, TtsHandle } from '../tts/types';
 import { OUTPUT_SAMPLE_RATE } from '../tts/types';
@@ -16,34 +18,74 @@ export const DEFAULT_FISH_MODEL = 's2.1-pro';
 
 export type FishLatency = 'low' | 'balanced' | 'normal';
 
+/** A stored Fish voice model, or an inline reference clip cloned zero-shot per session. */
+export type FishVoice =
+  | { kind: 'model'; referenceId: string }
+  | { kind: 'inline'; audio: Uint8Array; text: string };
+
 export interface FishConfig {
   apiKey: string;
-  voiceId: string;
+  voice: FishVoice;
   model: string;
   /** Rate requested from Fish; resampled to 24 kHz if different */
   sampleRate: number;
   latency: FishLatency;
 }
 
+type FileReader = (path: string) => Uint8Array;
+
+// Inline reference clips are read once per process, not per turn.
+const fileCache = new Map<string, Uint8Array>();
+const readCached: FileReader = (path) => {
+  let data = fileCache.get(path);
+  if (!data) {
+    data = new Uint8Array(readFileSync(path));
+    fileCache.set(path, data);
+  }
+  return data;
+};
+
 /** Read Fish settings from env. Returns an error string instead of throwing. */
-export function readFishConfig(env: Record<string, string | undefined> = process.env): FishConfig | string {
+export function readFishConfig(
+  env: Record<string, string | undefined> = process.env,
+  readFile: FileReader = readCached
+): FishConfig | string {
   const apiKey = env.FISH_API_KEY;
-  const voiceId = env.FISH_VOICE_ID;
   if (!apiKey) return 'FISH_API_KEY is not set';
-  if (!voiceId) return 'FISH_VOICE_ID is not set';
+
+  let voice: FishVoice;
+  if (env.FISH_VOICE_ID) {
+    voice = { kind: 'model', referenceId: env.FISH_VOICE_ID };
+  } else if (env.FISH_REFERENCE_AUDIO && env.FISH_REFERENCE_TEXT) {
+    try {
+      const audio = readFile(env.FISH_REFERENCE_AUDIO);
+      const text = new TextDecoder().decode(readFile(env.FISH_REFERENCE_TEXT)).trim();
+      if (!text) return 'FISH_REFERENCE_TEXT is empty';
+      voice = { kind: 'inline', audio, text };
+    } catch {
+      return 'FISH_REFERENCE_AUDIO or FISH_REFERENCE_TEXT could not be read';
+    }
+  } else {
+    return 'Set FISH_VOICE_ID, or FISH_REFERENCE_AUDIO + FISH_REFERENCE_TEXT';
+  }
+
   const sampleRate = Number(env.FISH_SAMPLE_RATE ?? OUTPUT_SAMPLE_RATE);
   if (!Number.isInteger(sampleRate) || sampleRate <= 0) return 'FISH_SAMPLE_RATE must be a positive integer';
   const latency = (env.FISH_LATENCY ?? 'balanced') as FishLatency;
   if (!['low', 'balanced', 'normal'].includes(latency)) return 'FISH_LATENCY must be low, balanced or normal';
-  return { apiKey, voiceId, model: env.FISH_MODEL || DEFAULT_FISH_MODEL, sampleRate, latency };
+  return { apiKey, voice, model: env.FISH_MODEL || DEFAULT_FISH_MODEL, sampleRate, latency };
 }
 
 export function buildStartEvent(cfg: FishConfig): Record<string, unknown> {
+  const voice =
+    cfg.voice.kind === 'model'
+      ? { reference_id: cfg.voice.referenceId }
+      : { references: [{ audio: cfg.voice.audio, text: cfg.voice.text }] };
   return {
     event: 'start',
     request: {
       text: '',
-      reference_id: cfg.voiceId,
+      ...voice,
       format: 'pcm',
       sample_rate: cfg.sampleRate,
       latency: cfg.latency,
@@ -97,6 +139,9 @@ export function handleFishMessage(handle: FishHandle, callbacks: TtsCallbacks, r
       } else if (handle.finishing) {
         callbacks.onDone();
       }
+      // Fish doesn't always close after finish; close it ourselves so sockets don't
+      // pile up against the account's concurrency limit.
+      if (handle.ws.readyState === WebSocket.OPEN) handle.ws.close(1000, 'finished');
       break;
     default:
       // Unknown/informational events — ignore

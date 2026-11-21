@@ -71,12 +71,25 @@ describe('provider switch', () => {
 describe('readFishConfig', () => {
   test('requires key and voice', () => {
     expect(readFishConfig({})).toBe('FISH_API_KEY is not set');
-    expect(readFishConfig({ FISH_API_KEY: 'k' })).toBe('FISH_VOICE_ID is not set');
+    expect(readFishConfig({ FISH_API_KEY: 'k' })).toContain('FISH_VOICE_ID');
   });
   test('defaults: s2.1-pro, 24 kHz, balanced', () => {
     expect(readFishConfig({ FISH_API_KEY: 'k', FISH_VOICE_ID: 'v' })).toEqual({
-      apiKey: 'k', voiceId: 'v', model: 's2.1-pro', sampleRate: 24000, latency: 'balanced',
+      apiKey: 'k', voice: { kind: 'model', referenceId: 'v' }, model: 's2.1-pro', sampleRate: 24000, latency: 'balanced',
     });
+  });
+  test('inline reference mode reads the clip and transcript', () => {
+    const files: Record<string, Uint8Array> = { '/a.wav': new Uint8Array([1, 2, 3]), '/a.txt': new TextEncoder().encode(' Hi there. \n') };
+    const cfg = readFishConfig(
+      { FISH_API_KEY: 'k', FISH_REFERENCE_AUDIO: '/a.wav', FISH_REFERENCE_TEXT: '/a.txt' },
+      (p) => { const f = files[p]; if (!f) throw new Error('nope'); return f; }
+    );
+    expect(cfg).toMatchObject({ voice: { kind: 'inline', text: 'Hi there.' } });
+    const ev = buildStartEvent(cfg as Exclude<typeof cfg, string>) as { request: Record<string, unknown> };
+    expect(ev.request.reference_id).toBeUndefined();
+    expect(ev.request.references).toEqual([{ audio: new Uint8Array([1, 2, 3]), text: 'Hi there.' }]);
+    expect(readFishConfig({ FISH_API_KEY: 'k', FISH_REFERENCE_AUDIO: '/x', FISH_REFERENCE_TEXT: '/a.txt' }, () => { throw new Error(); }))
+      .toContain('could not be read');
   });
   test('rejects bad sample rate and latency', () => {
     expect(readFishConfig({ FISH_API_KEY: 'k', FISH_VOICE_ID: 'v', FISH_SAMPLE_RATE: 'x' })).toContain('FISH_SAMPLE_RATE');
@@ -94,7 +107,7 @@ describe('readFishConfig', () => {
 
 describe('protocol', () => {
   test('start event asks for raw pcm with the cloned voice', () => {
-    const ev = buildStartEvent({ apiKey: 'k', voiceId: 'voice-123', model: 's2.1-pro', sampleRate: 24000, latency: 'balanced' });
+    const ev = buildStartEvent({ apiKey: 'k', voice: { kind: 'model', referenceId: 'voice-123' }, model: 's2.1-pro', sampleRate: 24000, latency: 'balanced' });
     expect(ev).toMatchObject({ event: 'start', request: { text: '', reference_id: 'voice-123', format: 'pcm', sample_rate: 24000, latency: 'balanced' } });
     expect(JSON.stringify(ev)).not.toContain('"k"'); // api key never in the payload
   });
@@ -128,6 +141,7 @@ describe('protocol', () => {
     handleFishMessage(handle, r.cb, encode({ event: 'finish', reason: 'stop' }));
     handleFishMessage(handle, r.cb, encode({ event: 'finish', reason: 'stop' }));
     expect(r.done).toBe(1);
+    expect(handle.ws.readyState).toBe(WebSocket.CLOSED); // client closes after finish
   });
 
   test('finish with error reason reports an error', () => {

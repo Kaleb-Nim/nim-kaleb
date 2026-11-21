@@ -71,6 +71,13 @@ export function createTtsSession(callbacks: TtsCallbacks): Promise<TtsHandle> {
         return;
       }
 
+      // DashScope sometimes sends a bare { code, message } frame (no type) before
+      // dropping the socket, e.g. "Model not exist." Surface it instead of hanging.
+      if (!msg.type && typeof msg.code === 'string') {
+        callbacks.onError(`TTS ${msg.code}: ${typeof msg.message === 'string' ? msg.message : 'error'}`);
+        return;
+      }
+
       switch (msg.type) {
         case 'response.audio.delta':
           if (msg.delta) callbacks.onAudioDelta(msg.delta);
