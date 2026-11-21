@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PROFILE, PROJECTS, ROLES, HACK_INTRO, HACK_HIGHLIGHTS } from '@/app/lib/content';
 import { LINKS } from '@/app/lib/sections';
-import { gsap, ScrollTrigger, useLenis, prefersReducedMotion } from '../_shared/scroll';
+import { gsap, ScrollTrigger, useLenis, prefersReducedMotion, refreshInDocumentOrder } from '../_shared/scroll';
 import OverlayChapter from '../_shared/OverlayChapter';
 import Switcher from '../_shared/Switcher';
 import { CUTS } from '../_shared/housecutMedia';
@@ -178,7 +178,7 @@ export default function DClient() {
         hTl.to(svg, { x: () => -(svg.getBoundingClientRect().width - window.innerWidth + 40), ease: 'none', duration: hTl.duration() - 0.6 }, 0.6);
       }
     }, el);
-    const t = setTimeout(() => ScrollTrigger.refresh(), 600);
+    const t = setTimeout(() => refreshInDocumentOrder(), 600);
     return () => { clearTimeout(t); ctx.revert(); };
   }, []);
 

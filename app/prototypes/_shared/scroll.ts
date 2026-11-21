@@ -31,3 +31,18 @@ export function useLenis() {
     };
   }, []);
 }
+
+/**
+ * Refresh ScrollTriggers top to bottom, whichever component created them. Pins push
+ * everything below them down, so a trigger must be measured after every pin above it.
+ * Triggers without an element (whole-page ones) go last.
+ */
+export function refreshInDocumentOrder() {
+  const all = ScrollTrigger.getAll();
+  const withEl = all.filter((st) => st.trigger instanceof Element);
+  withEl.sort((a, b) => ((a.trigger as Element).compareDocumentPosition(b.trigger as Element) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  withEl.forEach((st, i) => { (st.vars as { refreshPriority?: number }).refreshPriority = withEl.length - i; });
+  all.filter((st) => !(st.trigger instanceof Element)).forEach((st) => { (st.vars as { refreshPriority?: number }).refreshPriority = -1; });
+  ScrollTrigger.sort();
+  ScrollTrigger.refresh();
+}

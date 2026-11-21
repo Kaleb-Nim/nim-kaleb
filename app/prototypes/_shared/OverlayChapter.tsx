@@ -7,7 +7,7 @@
 import { useEffect, useRef } from 'react';
 import { Shantell_Sans, Public_Sans } from 'next/font/google';
 import { PROJECTS } from '@/app/lib/content';
-import { gsap, ScrollTrigger, prefersReducedMotion } from './scroll';
+import { gsap, ScrollTrigger, prefersReducedMotion, refreshInDocumentOrder } from './scroll';
 import s from './overlay.module.css';
 
 const hand = Shantell_Sans({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--on-hand' });
@@ -40,7 +40,7 @@ function Mark({ kind, children, note, side = 'right', color = 'violet', id }: {
   );
 }
 
-export default function OverlayChapter({ label }: { label?: React.ReactNode }) {
+export default function OverlayChapter({ label, variant = 'paper' }: { label?: React.ReactNode; variant?: 'paper' | 'suite' }) {
   const root = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -52,10 +52,13 @@ export default function OverlayChapter({ label }: { label?: React.ReactNode }) {
       const marks = gsap.utils.toArray<HTMLElement>('[data-mark]', el);
 
       // Headline squiggle and count-up, once, when the chapter arrives.
-      gsap.from(el.querySelectorAll(`.${s.squiggle} path`), { drawSVG: '0%', duration: 1.1, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 60%', refreshPriority: -10 } });
-      const n = { v: 0 };
-      const counter = el.querySelector(`.${s.count}`)!;
-      gsap.to(n, { v: ON.installs ?? 600, duration: 1.6, ease: 'power3.out', snap: { v: 1 }, onUpdate: () => { counter.textContent = String(n.v); }, scrollTrigger: { trigger: counter, start: 'top 85%', refreshPriority: -10 } });
+      gsap.from(el.querySelectorAll(`.${s.squiggle} path`), { drawSVG: '0%', duration: 1.1, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 60%' } });
+      el.querySelectorAll<HTMLElement>('[data-count]').forEach((counter) => {
+        const n = { v: 0 };
+        const to = Number(counter.dataset.count);
+        const pre = counter.dataset.prefix ?? '', post = counter.dataset.suffix ?? '';
+        gsap.fromTo(n, { v: 0 }, { v: to, duration: 1.6, ease: 'power3.out', snap: { v: 1 }, onUpdate: () => { counter.textContent = `${pre}${n.v}${post}`; }, scrollTrigger: { trigger: counter, start: 'top 85%' } });
+      });
 
       if (reduce) return;
       // Hide every stroke and note; they draw as the page scrolls past them.
@@ -67,7 +70,7 @@ export default function OverlayChapter({ label }: { label?: React.ReactNode }) {
 
       const travel = () => Math.max(0, doc.scrollHeight - viewport.clientHeight + 40);
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: el.querySelector(`.${s.stage}`), start: 'top top', end: () => `+=${travel() * 2.2 + 600}`, pin: true, scrub: 0.6, invalidateOnRefresh: true, refreshPriority: -10 },
+        scrollTrigger: { trigger: el.querySelector(`.${s.stage}`), start: 'top top', end: () => `+=${travel() * 2.2 + 600}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
       });
       tl.to(doc, { y: () => -travel(), ease: 'none', duration: 10 }, 0);
       // Each mark draws when it reaches the upper-middle of the viewport.
@@ -82,26 +85,40 @@ export default function OverlayChapter({ label }: { label?: React.ReactNode }) {
         }
       });
       // The real screenshot below drops in at a tilt, then its own notes draw.
-      gsap.from(el.querySelector(`.${s.polaroid}`), { rotate: 9, y: 120, opacity: 0, duration: 1, ease: 'back.out(1.4)', scrollTrigger: { trigger: el.querySelector(`.${s.proof}`), start: 'top 75%', refreshPriority: -11 } });
-      gsap.from(el.querySelectorAll(`.${s.proof} .ink`), { drawSVG: '0%', duration: 0.9, stagger: 0.2, delay: 0.5, scrollTrigger: { trigger: el.querySelector(`.${s.proof}`), start: 'top 70%', refreshPriority: -11 } });
+      gsap.from(el.querySelector(`.${s.polaroid}`), { rotate: 9, y: 120, opacity: 0, duration: 1, ease: 'back.out(1.4)', scrollTrigger: { trigger: el.querySelector(`.${s.proof}`), start: 'top 75%' } });
+      gsap.from(el.querySelectorAll(`.${s.proof} .ink`), { drawSVG: '0%', duration: 0.9, stagger: 0.2, delay: 0.5, scrollTrigger: { trigger: el.querySelector(`.${s.proof}`), start: 'top 70%' } });
     }, el);
-    const t = setTimeout(() => ScrollTrigger.refresh(), 400);
+    const t = setTimeout(() => refreshInDocumentOrder(), 400);
     return () => { clearTimeout(t); ctx.revert(); };
   }, []);
 
   return (
-    <section ref={root} className={`${hand.variable} ${sans.variable} ${s.chapter}`} id="overlay-notes" data-chapter="overlay">
+    <section ref={root} className={`${hand.variable} ${sans.variable} ${s.chapter} ${variant === 'suite' ? s.suite : ''}`} id="overlay-notes" data-chapter="overlay">
       <div className={s.stage}>
+        {variant === 'suite' ? (
+          <div className={s.copy}>
+            {label && <div className={s.label}>{label}</div>}
+            <h2 className={s.productName}>Overlay Notes</h2>
+            <svg className={s.squiggle} viewBox="0 0 320 22" aria-hidden><path d="M4,14 C50,4 80,20 130,11 S220,2 260,13 S310,7 316,12" /></svg>
+            <p className={s.sub}>A Chrome extension for drawing and annotating notes right on top of any web page.</p>
+            <ul className={s.metrics}>
+              <li><b className={s.count} data-count={ON.installs ?? 600} data-suffix=" installs">{ON.installs ?? 600} installs</b><span>on the Chrome Web Store, {ON.installsAsOf}</span></li>
+              <li><b>Version {ON.version}</b><span>live and still maintained</span></li>
+              <li><b className={s.count} data-count={20} data-prefix="Top " data-suffix=" of 65">Top 20 of 65</b><span>at the Acacia AI Symposium Launchpad</span></li>
+            </ul>
+            <p className={s.aside}>{ON.aside}</p>
+          </div>
+        ) : (
         <div className={s.copy}>
           {label && <div className={s.label}>{label}</div>}
           <p className={s.kicker}>Chrome extension, since {ON.since} ↴</p>
           <h2 className={s.h2}>Draw &amp; annotate notes on <span>any webpage</span></h2>
           <svg className={s.squiggle} viewBox="0 0 320 22" aria-hidden><path d="M4,14 C50,4 80,20 130,11 S220,2 260,13 S310,7 316,12" /></svg>
           <p className={s.aside}>{ON.aside}</p>
-          <p className={s.stat}><b className={s.count}>0</b> students drawing on the web.<br /><span>Version {ON.version} on the Chrome Web Store.</span></p>
+          <p className={s.stat}><b className={s.count} data-count={ON.installs ?? 600}>0</b> students drawing on the web.<br /><span>Version {ON.version} on the Chrome Web Store.</span></p>
           <p className={s.how}>Keep scrolling. The page on the right scrolls, my notes stay stuck to the words. That&rsquo;s the whole product.</p>
         </div>
-
+        )}
         <div className={s.browser}>
           <div className={s.chrome}><i /><i /><i /><span>127.0.0.1:8000/2526-s2/02-type.html</span></div>
           <div className={s.toolbar} aria-hidden><b>✎ Annotate</b><span className={s.swatch} /><span className={`${s.swatch} ${s.sw2}`} /><span className={`${s.swatch} ${s.sw3}`} /></div>

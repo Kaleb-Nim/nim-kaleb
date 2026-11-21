@@ -96,3 +96,55 @@
   .mark { white-space: normal; }
 }
 .count { font-variant-numeric: tabular-nums; }
+
+/* ── Suite variant: the same motifs inside direction E's palette ── */
+.suite {
+  --paper: transparent; --head: #EDEAE3; --body: #B9B3A6; --purple: #F5B83D; --red: #FF7A66; --ink: #EDEAE3; --yellow: #F5B83D;
+  background: transparent; color: var(--body);
+}
+.suite::before { background: transparent; }
+.suite .stage { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='32'%3E%3Crect y='31' width='8' height='1' fill='rgba(237,234,227,0.05)'/%3E%3C/svg%3E"); }
+.productName { font: 700 clamp(56px, 7.4vw, 124px)/.9 var(--on-hand), cursive; color: var(--head); text-transform: uppercase; letter-spacing: -.01em; }
+.sub { font: 500 19px/1.4 var(--on-sans), sans-serif; color: var(--head); max-width: 26em; }
+.metrics { list-style: none; margin: 22px 0 18px; display: flex; flex-direction: column; gap: 10px; }
+.metrics li { display: flex; flex-direction: column; gap: 2px; }
+.metrics b { font: 700 40px/1 var(--on-hand), cursive; color: var(--purple); }
+.metrics em { font-style: normal; font-size: 22px; color: var(--body); }
+.metrics li > span { font-size: 15px; color: var(--body); }
+.suite .aside { color: var(--red); }
+.suite .browser { border-color: #0c0c0d; box-shadow: 0 30px 70px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(237,234,227,.12); }
+.suite .chrome { background: #26272b; border-bottom-color: #0c0c0d; }
+.suite .chrome i { background: #3a3b40; border-color: #0c0c0d; }
+.suite .chrome span { background: #1b1c1f; color: #B9B3A6; }
+.suite .doc { color: #222; }
+.suite .viewport { background: #fff; }
+.suite .toolbar { background: #fff; }
+/* Notes live on the white lecture page, so they keep dark ink there. */
+.suite .doc .noteText { color: #211d2e; }
+.suite .doc .note.violet .noteText { color: #C2410C; }
+.suite .doc .note :global(.ink) { stroke: #211d2e; }
+.suite .doc .note.violet :global(.ink), .suite .doc .violet :global(.ink) { stroke: #C2410C; }
+.suite .doc .ink :global(.ink) { stroke: #211d2e; }
+.suite .doc .orange :global(.ink) { stroke: #f08a24; }
+.suite .proof { padding-top: 40px; }
+.suite .redNote { color: var(--red); }
+.suite .facts dd { color: var(--head); }
+.suite .btnPrimary { background: var(--purple); color: #141416 !important; box-shadow: 3px 4px 0 #000; }
+.suite .btnDashed { color: var(--head) !important; border-color: var(--head); }
+.suite .polaroid { background: #EDEAE3; }
+@media (max-width: 860px) {
+  .metrics li { grid-template-columns: 1fr; gap: 2px; }
+  .metrics b { font-size: 32px; }
+}
+@media (max-width: 860px) {
+  .suite .stage { padding-top: 64px; gap: 12px; }
+  .suite .label { margin-bottom: 6px; }
+  .productName { font-size: 46px; }
+  .suite .squiggle { margin-bottom: 6px; }
+  .suite .sub, .suite .aside { display: none; }
+  .metrics { margin: 6px 0 4px; gap: 4px; }
+  .metrics li { flex-direction: row; align-items: baseline; gap: 8px; }
+  .metrics b { font-size: 22px; white-space: nowrap; }
+  .metrics li > span { font-size: 12.5px; line-height: 1.3; }
+  .suite .browser { height: 50vh; }
+}
