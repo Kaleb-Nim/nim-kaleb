@@ -43,7 +43,7 @@ function render(): string {
   line('## Background');
   line();
   line(`${PROFILE.line} Based in ${PROFILE.location}. ${PROFILE.seeking}`);
-  line(`Aside you can use: ${PROFILE.aside}`);
+  if (PROFILE.aside) line(`Aside you can use: ${PROFILE.aside}`);
   line();
 
   line('### Work Experience');
@@ -52,7 +52,7 @@ function render(): string {
     line(`**${r.title} at ${r.org}** (${r.start} – ${r.end ?? 'present'}, ${r.kind})`);
     if (r.headline) line(`- Headline: ${r.headline}`);
     for (const b of r.bullets) line(`- ${b}`);
-    line(`- Aside: ${r.aside}`);
+    if (r.aside) line(`- Aside: ${r.aside}`);
     line();
   }
 
@@ -64,7 +64,7 @@ function render(): string {
     line(`- What it is: ${p.summary}`);
     for (const f of p.facts) line(`- ${f.label}: ${f.value}`);
     line(`- Stack: ${p.stack.join(', ')}`);
-    line(`- Aside: ${p.aside}`);
+    if (p.aside) line(`- Aside: ${p.aside}`);
     line(`- Links: ${p.links.map((l) => l.href).join(', ')}`);
     line();
   }
@@ -74,7 +74,7 @@ function render(): string {
   line(`${HACK_INTRO.headline} ${HACK_INTRO.aside} (${HACK_STATS.total} are listed on the site, ${HACK_STATS.wins} of them wins.)`);
   line();
   for (const h of HACK_HIGHLIGHTS) {
-    line(`- **${h.event}:** ${h.result}. ${h.headline} Aside: ${h.aside}`);
+    line(`- **${h.event}:** ${h.result}. ${h.headline}${h.aside ? ` Aside: ${h.aside}` : ''}`);
   }
   line();
 
@@ -91,7 +91,7 @@ function render(): string {
   line(`Aside: ${COMMUNITY_INTRO.aside}`);
   for (const c of PROFILE.community) line(`- ${c}`);
   line();
-  line('Meetups I ran or hosted, most recent first:');
+  line(`${COMMUNITY_INTRO.total} meetups so far. The ones on the site, most recent first:`);
   for (const m of SYAI_ITEMS) {
     line(`- #${m.num}, ${m.date}: ${m.title}`);
   }
@@ -104,7 +104,7 @@ function render(): string {
 
   line('### Personal');
   line();
-  for (const h of HOBBIES) line(`- ${h.title}: ${h.note}`);
+  for (const h of HOBBIES) line(h.note ? `- ${h.title}: ${h.note}` : `- ${h.title}`);
   line();
 
   return `${BEGIN}\n${out.join('\n').trimEnd()}\n${END}`;

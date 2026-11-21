@@ -21,12 +21,11 @@ excited someone showed up to talk to you.
 ## Background
 
 AI engineer with three years of shipped work. First year of Business AI Systems at NUS. Based in Singapore. Looking for AI engineering or software engineering roles from January 2027.
-Aside you can use: 40+ hackathons in. Still 0 for 6 at NUS LifeHack.
 
 ### Work Experience
 
 **Co-founder, engineering at Housecut** (Oct 2026 – present, Co-founder)
-- Headline: Real estate agents in Singapore post the listing videos we cut.
+- Headline: Agentic video editing for real estate agents.
 - Co-founded with Soh Hong Yu. I build the pipeline that turns an agent’s phone clips into three edited 9:16 listing videos.
 - Aside: Hong Yu and I won Best Pre-University Hack at Hack&Roll twice. This time someone pays us.
 
@@ -40,31 +39,27 @@ Aside you can use: 40+ hackathons in. Still 0 for 6 at NUS LifeHack.
 **AI Engineer at Tensorplex Labs** (Apr 2024 – Aug 2024, Intern)
 - Headline: 10,000+ members across four crypto Discord servers got answers from my bot.
 - LLM helpdesk and moderation bot: answered questions, moderated threads and ran support tickets.
-- Aside: My crypto chapter. Kept the bot, skipped the coins.
 
-**AI Engineer at A*STAR ARTC** (Jan 2024 – Apr 2024, Contract)
+**AI Engineer at A*STAR** (Jan 2024 – Apr 2024, Contract)
 - Led supply-chain risk research with a Fortune 50 medical company: an LLM early-warning system for disruptions.
-- Aside: The client is on the Fortune 50 list. That is all I’m allowed to say.
 
-**Development Scientist Intern at A*STAR ARTC** (Mar 2023 – Jan 2024, Intern)
+**Development Scientist Intern at A*STAR** (Mar 2023 – Jan 2024, Intern)
 - Q&A agent over a hydrogen supply-chain model that answers “what if” questions with charts, on a custom RAG knowledge base.
-- Aside: Learned more about hydrogen logistics than I ever planned to.
 
 ### Projects
 
 **Housecut** (AI video editor for real estate agents, live since Oct 2026)
-- Headline: Real estate agents in Singapore post the listing videos we cut.
+- Headline: Agentic video editing for real estate agents.
 - What it is: An agent uploads the raw phone clips from a viewing. Within 24 hours they get three cuts back: a slow tour, a beat cut and a hook-first teaser, each with music, captions, their name and the price on screen.
 - Price: S$45 a listing
 - Turnaround: 3 cuts within 24 hours
 - Team: Co-founded with Soh Hong Yu
 - My part: Pipeline, dispatcher and review loop
 - Stack: Next.js, Cloudflare D1 + R2, Stripe, Claude Code agent workers, HyperFrames
-- Aside: A videographer charges $200 to $500 for a basic walkthrough. We charge S$45.
 - Links: https://housecut.app
 
 **Overlay Notes** (Chrome extension, live since Jul 2026)
-- Headline: About 600 people draw notes straight onto web pages with it.
+- Headline: Chrome extension for students to annotate notes directly on web pages. About 600 installs.
 - What it is: Excalidraw on top of any page. Circle a claim, draw an arrow between two paragraphs, and the drawing stays pinned to the content as you scroll. Saved per page, no account, works offline.
 - Installs: ~600 (Nov 2026)
 - Version: 1.2.0 on the Chrome Web Store
@@ -78,11 +73,11 @@ Aside you can use: 40+ hackathons in. Still 0 for 6 at NUS LifeHack.
 
 40+ hackathons. These five ended with a cheque or a trophy. NUS LifeHack: entered every year since 2021, won zero times. (24 are listed on the site, 6 of them wins.)
 
-- **HackOmania 2026:** Ahrefs challenge winner, $1,000. Predicts which rumours Singapore will fall for before they spread. Aside: Team Banluck. The name was not my idea.
-- **NUS Hack&Roll 2025:** Best Pre-University Hack, out of 747 participants. A drawing game you win by sketching what humans get and AI doesn’t. Aside: Second year running for the same award, same team core.
-- **NUS Hack&Roll 2024:** Best Pre-University Hack, out of ~650 participants. 1v1 Snake where your prompts are the weapons. Aside: Built to settle who the better prompt engineer was. Still unsettled.
-- **PolyFinTech 100 API Hackathon 2023:** Champion, S$2,500. Generates a personalised 30 to 45 second infomercial from an LLM script. Aside: The giant cheque did not fit in the MRT.
-- **Batey Hackathon 2022:** Gold, $2,000. A food recommender built on TensorFlow Recommenders. Aside: My first prize money.
+- **HackOmania 2026:** 1st place, $1,000 cash + $2,100 in AI credits, 320+ participants. Predicts which rumours Singapore will fall for before they spread.
+- **NUS Hack&Roll 2025:** Best Pre-University Hack, out of 747 participants. A drawing game you win by sketching what humans get and AI doesn’t. Aside: Second year running for the same award.
+- **NUS Hack&Roll 2024:** Best Pre-University Hack, out of ~650 participants. 1v1 Snake where your prompts are the weapons.
+- **PolyFinTech 100 API Hackathon 2023:** Champion, S$2,500. Generates a personalised 30 to 45 second infomercial from an LLM script.
+- **Batey Hackathon 2022:** Gold, $2,000. A food recommender built on TensorFlow Recommenders.
 
 ### Education
 
@@ -91,13 +86,13 @@ Aside you can use: 40+ hackathons in. Still 0 for 6 at NUS LifeHack.
 
 ### Community & Leadership
 
-60 people learned Claude Code from me in one afternoon. Singapore Youth AI runs a monthly meetup for students from polytechnics, JCs and universities: workshops, founder pitches and fireside chats, 30 to 60 people each time. I’m one of the four founding members and I run the programme.
+Organizing 10 AI meetups for 500+ youths in Singapore. Singapore Youth AI runs a monthly meetup for students from polytechnics, JCs and universities: workshops, founder pitches and fireside chats, 30 to 60 people each time. I’m one of the four founding members and I run the programme.
 Aside: “I use this every day” and “I can teach this” turned out to be different skill levels.
 - One of the four founding members of Singapore Youth AI, and its Head of Community. The National Youth Council funded the programme with S$50,000.
 - Moderated panels at AI Singapore’s AI Student Developer Conference in 2025 and 2026.
 - Vice-President of SP Guitarist at Singapore Polytechnic: 40 members, weekly training, concerts.
 
-Meetups I ran or hosted, most recent first:
+10 meetups so far. The ones on the site, most recent first:
 - #11, May 2026: Claude Code Workshop (SYAI x YouthTechSG)
 - #10, Nov 2025: AI Learning Journey with Alibaba Cloud (SYAI x YouthTechSG)
 - #9, Sep 2025: AI in Job Markets: Building Future-Ready Skills (Fireside)
@@ -117,9 +112,9 @@ Meetups I ran or hosted, most recent first:
 
 ### Personal
 
-- Bouldering: Mostly falling off the same problem in new ways.
+- Bouldering
 - Solo travel: Thailand, China, Indonesia, Taiwan and Vietnam since 2024.
-- Guitar: Ran SP Guitarist as Vice-President. Still play.
+- Guitar: Vice-President of SP Guitarist.
 - Skiing: Hakuba, then Yabuli.
 <!-- END:content -->
 

@@ -360,13 +360,13 @@ export const SECTIONS: Section[] = [
   {
     id: 'syai-meetups',
     path: 'ai-community-events',
-    count: SYAI_ITEMS.length,
+    count: COMMUNITY_INTRO.total,
     aliases: ['meetups', 'syai'],
     desc: 'Organizing AI monthly meetups for Youths as Head of Community of Singapore Youth AI',
     title: './ai-community-events — running SYAI\'s monthly AI meetup',
     intro: `${COMMUNITY_INTRO.headline} ${COMMUNITY_INTRO.summary} [sgyouthai.org/programs#AIMM](https://sgyouthai.org/programs#AIMM)`,
     items: SYAI_ITEMS,
-    footer: `[${SYAI_ITEMS.length} sessions] · 30–60 attendees per event · open to all`,
+    footer: `[${COMMUNITY_INTRO.total} sessions] · 30–60 attendees per event · open to all`,
   },
   {
     id: 'hackathons',

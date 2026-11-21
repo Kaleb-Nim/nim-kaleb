@@ -7,8 +7,8 @@
 // `bun run voice-facts`.
 //
 // Copy rules (docs/research/portfolio-not-vibe-coded.md): one people-phrased
-// stat per project as its headline, one voiced aside per entry, no generic
-// claims, no em dashes. Every number below comes from a source named next to it.
+// stat or tagline per project as its headline, asides only where Kaleb has said
+// them himself (LinkedIn posts), no generic claims, no em dashes. Every number below comes from a source named next to it.
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -29,7 +29,7 @@ export interface Profile {
   /** What Kaleb is looking for, shown near the top and said by the voice clone. */
   seeking: string;
   location: string;
-  aside: string;
+  aside?: string;
   education: Array<{ school: string; credential: string; dates: string; note?: string }>;
   community: string[];
   skills: Record<string, string[]>;
@@ -47,7 +47,8 @@ export interface Role {
   logoBg: string;
   /** The people-phrased stat for this role, or null when there isn't a public one. */
   headline: string | null;
-  aside: string;
+  /** Only asides Kaleb has actually said (LinkedIn posts); omit otherwise. */
+  aside?: string;
   bullets: string[];
   links?: ContentLink[];
 }
@@ -60,7 +61,7 @@ export interface Project {
   since: string;
   /** The one people-phrased stat that opens the project. */
   headline: string;
-  aside: string;
+  aside?: string;
   summary: string;
   facts: Fact[];
   stack: string[];
@@ -79,7 +80,7 @@ export interface HackHighlight {
   year: number;
   result: string;
   headline: string;
-  aside: string;
+  aside?: string;
   /** Photo of the win, sourced from Kaleb's LinkedIn posts. null = still to come. */
   photo: string | null;
   photoCredit?: string;
@@ -99,7 +100,6 @@ export const PROFILE: Profile = {
   line: 'AI engineer with three years of shipped work. First year of Business AI Systems at NUS.',
   seeking: 'Looking for AI engineering or software engineering roles from January 2027.',
   location: 'Singapore',
-  aside: '40+ hackathons in. Still 0 for 6 at NUS LifeHack.',
   education: [
     {
       school: 'National University of Singapore',
@@ -137,7 +137,7 @@ export const ROLES: Role[] = [
     kind: 'Co-founder',
     logo: '/work-logos/housecut.svg',
     logoBg: '#FFFFFF',
-    headline: 'Real estate agents in Singapore post the listing videos we cut.',
+    headline: 'Agentic video editing for real estate agents.',
     aside: 'Hong Yu and I won Best Pre-University Hack at Hack&Roll twice. This time someone pays us.',
     bullets: [
       'Co-founded with Soh Hong Yu. I build the pipeline that turns an agent’s phone clips into three edited 9:16 listing videos.',
@@ -170,13 +170,12 @@ export const ROLES: Role[] = [
     logo: '/work-logos/tensorplex.png',
     logoBg: '#F4F1EB',
     headline: '10,000+ members across four crypto Discord servers got answers from my bot.',
-    aside: 'My crypto chapter. Kept the bot, skipped the coins.',
     bullets: [
       'LLM helpdesk and moderation bot: answered questions, moderated threads and ran support tickets.',
     ],
   },
   {
-    org: 'A*STAR ARTC',
+    org: 'A*STAR',
     title: 'AI Engineer',
     start: 'Jan 2024',
     end: 'Apr 2024',
@@ -184,13 +183,12 @@ export const ROLES: Role[] = [
     logo: '/work-logos/artc.png',
     logoBg: '#FFFFFF',
     headline: null,
-    aside: 'The client is on the Fortune 50 list. That is all I’m allowed to say.',
     bullets: [
       'Led supply-chain risk research with a Fortune 50 medical company: an LLM early-warning system for disruptions.',
     ],
   },
   {
-    org: 'A*STAR ARTC',
+    org: 'A*STAR',
     title: 'Development Scientist Intern',
     start: 'Mar 2023',
     end: 'Jan 2024',
@@ -198,7 +196,6 @@ export const ROLES: Role[] = [
     logo: '/work-logos/artc.png',
     logoBg: '#FFFFFF',
     headline: null,
-    aside: 'Learned more about hydrogen logistics than I ever planned to.',
     bullets: [
       'Q&A agent over a hydrogen supply-chain model that answers “what if” questions with charts, on a custom RAG knowledge base.',
     ],
@@ -214,8 +211,7 @@ export const PROJECTS: Project[] = [
     kind: 'AI video editor for real estate agents',
     status: 'LIVE',
     since: 'Oct 2026',
-    headline: 'Real estate agents in Singapore post the listing videos we cut.',
-    aside: 'A videographer charges $200 to $500 for a basic walkthrough. We charge S$45.',
+    headline: 'Agentic video editing for real estate agents.',
     summary:
       'An agent uploads the raw phone clips from a viewing. Within 24 hours they get three cuts back: a slow tour, a beat cut and a hook-first teaser, each with music, captions, their name and the price on screen.',
     facts: [
@@ -238,7 +234,7 @@ export const PROJECTS: Project[] = [
     version: '1.2.0',
     installs: 600,
     installsAsOf: 'Nov 2026',
-    headline: 'About 600 people draw notes straight onto web pages with it.',
+    headline: 'Chrome extension for students to annotate notes directly on web pages. About 600 installs.',
     aside: 'Built instead of studying for CS2030. To study for CS2030.',
     summary:
       'Excalidraw on top of any page. Circle a claim, draw an arrow between two paragraphs, and the drawing stays pinned to the content as you scroll. Saved per page, no account, works offline.',
@@ -274,9 +270,8 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     slug: 'hackomania-2026',
     event: 'HackOmania 2026',
     year: 2026,
-    result: 'Ahrefs challenge winner, $1,000',
+    result: '1st place, $1,000 cash + $2,100 in AI credits, 320+ participants',
     headline: 'Predicts which rumours Singapore will fall for before they spread.',
-    aside: 'Team Banluck. The name was not my idea.',
     photo: '/hackathons/wins/hackomania-2026.jpg',
     photoCredit: 'GeeksHacking',
   },
@@ -286,7 +281,7 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     year: 2025,
     result: 'Best Pre-University Hack, out of 747 participants',
     headline: 'A drawing game you win by sketching what humans get and AI doesn’t.',
-    aside: 'Second year running for the same award, same team core.',
+    aside: 'Second year running for the same award.',
     photo: null,
   },
   {
@@ -295,7 +290,6 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     year: 2024,
     result: 'Best Pre-University Hack, out of ~650 participants',
     headline: '1v1 Snake where your prompts are the weapons.',
-    aside: 'Built to settle who the better prompt engineer was. Still unsettled.',
     photo: '/hackathons/wins/hack-and-roll-2024.jpg',
   },
   {
@@ -304,7 +298,6 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     year: 2023,
     result: 'Champion, S$2,500',
     headline: 'Generates a personalised 30 to 45 second infomercial from an LLM script.',
-    aside: 'The giant cheque did not fit in the MRT.',
     photo: '/hackathons/wins/polyfintech-2023.jpg',
   },
   {
@@ -313,7 +306,6 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     year: 2022,
     result: 'Gold, $2,000',
     headline: 'A food recommender built on TensorFlow Recommenders.',
-    aside: 'My first prize money.',
     photo: null,
   },
 ];
@@ -321,18 +313,20 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
 // ── Community ──────────────────────────────────────────────────────────────
 
 export const COMMUNITY_INTRO = {
-  headline: '60 people learned Claude Code from me in one afternoon.',
+  headline: 'Organizing 10 AI meetups for 500+ youths in Singapore.',
   aside: '“I use this every day” and “I can teach this” turned out to be different skill levels.',
   summary:
     'Singapore Youth AI runs a monthly meetup for students from polytechnics, JCs and universities: workshops, founder pitches and fireside chats, 30 to 60 people each time. I’m one of the four founding members and I run the programme.',
   featuredMeetup: 11,
+  /** True count per Kaleb; two early meetups are missing from SYAI_ITEMS. */
+  total: 10,
 };
 
 // ── Hobbies ────────────────────────────────────────────────────────────────
 
 export const HOBBIES: Hobby[] = [
-  { title: 'Bouldering', note: 'Mostly falling off the same problem in new ways.', photo: null },
+  { title: 'Bouldering', note: '', photo: null },
   { title: 'Solo travel', note: 'Thailand, China, Indonesia, Taiwan and Vietnam since 2024.', photo: null },
-  { title: 'Guitar', note: 'Ran SP Guitarist as Vice-President. Still play.', photo: null },
+  { title: 'Guitar', note: 'Vice-President of SP Guitarist.', photo: null },
   { title: 'Skiing', note: 'Hakuba, then Yabuli.', photo: null },
 ];
