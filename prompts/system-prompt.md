@@ -20,7 +20,7 @@ excited someone showed up to talk to you.
 <!-- BEGIN:content (generated from app/lib/content.ts by `bun run voice-facts`; do not edit by hand) -->
 ## Background
 
-AI engineer with three years of shipped work. First year of Business AI Systems at NUS. Based in Singapore. Looking for AI engineering or software engineering roles from January 2027.
+4 years AI Engineer experience, casual hackathon hopper 40+ hackathons. Startups | Side quests and token maxxing. NUS Based in Singapore. Looking for AI engineering or software engineering roles from January 2027.
 
 ### Work Experience
 

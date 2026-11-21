@@ -97,7 +97,8 @@ export interface Hobby {
 
 export const PROFILE: Profile = {
   name: 'Kaleb Nim',
-  line: 'AI engineer with three years of shipped work. First year of Business AI Systems at NUS.',
+  // Kaleb's own words (issue #9, round 4). Keep verbatim.
+  line: '4 years AI Engineer experience, casual hackathon hopper 40+ hackathons. Startups | Side quests and token maxxing. NUS',
   seeking: 'Looking for AI engineering or software engineering roles from January 2027.',
   location: 'Singapore',
   education: [

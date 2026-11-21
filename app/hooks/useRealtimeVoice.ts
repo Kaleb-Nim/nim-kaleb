@@ -110,6 +110,9 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
   const micStreamRef = useRef<MediaStream | null>(null);
   const processorRef = useRef<ScriptProcessorNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  // Level of the clone's voice, for visuals that react while it speaks. Optional:
+  // consumers that ignore it get the same audio graph as before, plus a pass-through node.
+  const playbackAnalyserRef = useRef<AnalyserNode | null>(null);
   // Next scheduled playback time for gapless audio
   const nextPlayTimeRef = useRef<number>(0);
   const lastSourceRef = useRef<AudioBufferSourceNode | null>(null);
@@ -153,7 +156,13 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
 
     const source = ctx.createBufferSource();
     source.buffer = buffer;
-    source.connect(ctx.destination);
+    if (!playbackAnalyserRef.current || playbackAnalyserRef.current.context !== ctx) {
+      const a = ctx.createAnalyser();
+      a.fftSize = 512;
+      a.connect(ctx.destination);
+      playbackAnalyserRef.current = a;
+    }
+    source.connect(playbackAnalyserRef.current);
 
     const now = ctx.currentTime;
     const startAt = Math.max(now, nextPlayTimeRef.current);
@@ -601,5 +610,5 @@ export function useRealtimeVoice({ transitionTo }: UseRealtimeVoiceOptions) {
     };
   }, []);
 
-  return { status, analyserRef, connect, disconnect, isConnected };
+  return { status, analyserRef, playbackAnalyserRef, connect, disconnect, isConnected };
 }

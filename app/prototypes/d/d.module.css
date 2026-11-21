@@ -1,0 +1,127 @@
+/* PROTOTYPE (issue #9, round 2), direction D "Transcript".
+   Tokens: haze #EDEFF2, ink #0E1013, graphite #4E555E, rec #FF5B1F, glows re-colour per chapter. */
+.page {
+  --haze: #EDEFF2; --ink: #0E1013; --graphite: #4E555E; --rec: #FF5B1F; --line: rgba(14, 16, 19, .14);
+  position: relative; color: var(--ink); font-family: var(--d-body), system-ui, sans-serif; font-size: 17px; line-height: 1.55;
+  overflow-x: clip;
+}
+.page a { color: inherit; }
+.page a:focus-visible, .page button:focus-visible { outline: 2px solid var(--rec); outline-offset: 3px; }
+
+/* ── Ambient background ── */
+.ambient { position: fixed; inset: 0; z-index: -1; background: var(--haze); overflow: hidden; }
+.blob { position: absolute; width: 62vmax; height: 62vmax; border-radius: 50%; filter: blur(90px); opacity: .55; background: #FFB38A; }
+.blob:nth-child(1) { left: -18vmax; top: -22vmax; }
+.blob:nth-child(2) { right: -24vmax; top: 18vh; background: #9CCBFF; }
+.blob:nth-child(3) { left: 20vw; bottom: -36vmax; background: #FFE08A; opacity: .4; }
+.grain { position: absolute; inset: 0; opacity: .18; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ── Chapter rail ── */
+.rail { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; gap: 10px; }
+.rail a { display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none; height: 14px; }
+.rail a::after { content: ''; width: 18px; height: 3px; border-radius: 2px; background: rgba(14, 16, 19, .25); transition: width .3s, background .3s; }
+.rail a span { font: 500 11px var(--d-mono), monospace; opacity: 0; transform: translateX(6px); transition: opacity .2s, transform .2s; white-space: nowrap; }
+.rail a:hover span, .rail a.on span { opacity: 1; transform: none; }
+.rail a.on::after { width: 34px; background: var(--rec); }
+
+/* ── Type primitives ── */
+.w { display: inline-block; white-space: pre; will-change: filter, opacity; }
+.who { font: 500 12.5px/1 var(--d-mono), monospace; color: var(--rec); margin-right: 14px; display: inline-block; vertical-align: 0.25em; }
+.chLabel { font: 500 15px var(--d-body), sans-serif; color: var(--graphite); margin-bottom: 18px; }
+.chLabelOnPaper { font: 500 12.5px var(--d-mono), monospace; color: #d64848; }
+
+/* ── Hero ── */
+.hero { min-height: 100vh; position: relative; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-rows: auto auto 1fr auto;
+  column-gap: 56px; padding: 40px clamp(20px, 6vw, 96px) 0; }
+.rec { grid-column: 1 / -1; font: 500 13px var(--d-mono), monospace; color: var(--graphite); display: flex; align-items: center; gap: 10px; }
+.recDot { width: 10px; height: 10px; border-radius: 50%; background: var(--rec); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+.name { grid-column: 1 / -1; font-family: var(--d-display), sans-serif; font-weight: 850; font-stretch: 150%; font-variation-settings: 'wdth' 150;
+  font-size: clamp(64px, 13.5vw, 230px); line-height: .86; letter-spacing: -.03em; margin: 5vh 0 4vh -0.04em; }
+.transcript { display: flex; flex-direction: column; gap: 14px; align-self: start; }
+.line { font-size: clamp(20px, 1.9vw, 27px); line-height: 1.32; letter-spacing: -.01em; max-width: 30em; }
+.you { color: var(--graphite); }
+.you .who { color: var(--ink); }
+.blink { display: inline-block; width: .5em; height: 1em; background: var(--rec); vertical-align: -0.15em; margin-left: 4px; animation: pulse 1s steps(1) infinite; }
+.heroMic { align-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.micNote { font-size: 15px; color: var(--graphite); max-width: 24em; }
+.scope { grid-column: 1 / -1; width: calc(100% + 2 * clamp(20px, 6vw, 96px)); margin-left: calc(-1 * clamp(20px, 6vw, 96px)); height: 22vh; align-self: end; display: block; }
+
+.mic { display: inline-flex; align-items: center; gap: 14px; border: 0; cursor: pointer; background: var(--ink); color: #fff; border-radius: 999px;
+  padding: 16px 26px 16px 18px; font: 700 18px var(--d-body), sans-serif; transition: background .2s, transform .2s; }
+.mic:hover { background: var(--rec); transform: scale(1.03); }
+.micBig { font-size: clamp(18px, 1.6vw, 24px); padding: 22px 34px 22px 22px; }
+.micDot { width: 22px; height: 22px; border-radius: 50%; background: var(--rec); box-shadow: 0 0 0 6px rgba(255, 91, 31, .25); flex: none; }
+.mic:hover .micDot { background: #fff; }
+
+/* ── Dividers ── */
+.divider { position: relative; padding: 40px clamp(20px, 6vw, 96px) 24px; }
+.divider svg { width: 100%; height: 80px; display: block; overflow: visible; }
+.divider path { fill: none; stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.stamp { font: 500 12.5px var(--d-mono), monospace; color: var(--rec); }
+
+/* ── Chapters ── */
+.chapter { position: relative; }
+.hcPin { height: 100vh; position: relative; overflow: hidden; padding: 0 clamp(20px, 6vw, 96px); }
+.giantWrap { position: absolute; left: clamp(20px, 6vw, 96px); right: clamp(20px, 6vw, 96px); top: 50%; transform: translateY(-50%); z-index: 3; }
+.giant, .giant2 { font-family: var(--d-display), sans-serif; font-weight: 800; font-variation-settings: 'wdth' 130;
+  font-size: clamp(44px, 7.6vw, 132px); line-height: .92; letter-spacing: -.03em; max-width: 13em; }
+.giant2 { font-size: clamp(30px, 4.2vw, 68px); max-width: 18em; margin-bottom: 2vh; }
+.caret { display: inline-block; width: .42em; height: .8em; background: var(--rec); margin-left: .05em; vertical-align: -0.05em; }
+.stageCyl { position: absolute; left: 0; right: 36%; top: 16vh; bottom: 0; }
+.cutName { position: absolute; left: 50%; bottom: 5vh; transform: translateX(-50%); font: 700 18px var(--d-body), sans-serif; display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap; }
+.cutName span { font: 500 11.5px var(--d-mono), monospace; color: var(--rec); }
+.hcSide { position: absolute; right: clamp(20px, 6vw, 96px); top: 26vh; width: min(30%, 380px); display: flex; flex-direction: column; gap: 18px; z-index: 2; }
+.quote { font-family: var(--d-display), sans-serif; font-variation-settings: 'wdth' 110; font-weight: 600; font-size: 22px; line-height: 1.25; }
+.bigFact { font-size: 17px; }
+.bigFact b { display: block; font-family: var(--d-display), sans-serif; font-variation-settings: 'wdth' 150; font-weight: 850; font-size: 72px; line-height: 1; color: var(--rec); }
+.small { font-size: 14.5px; color: var(--graphite); }
+.link { font-weight: 700; text-decoration-color: var(--rec); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+.harnessPin { min-height: 100vh; padding: 9vh clamp(20px, 6vw, 96px) 4vh; display: flex; flex-direction: column; }
+.harnessWrap { flex: 1; min-height: 0; display: flex; align-items: center; }
+.harnessWrap :global(.harness) { width: 100%; max-height: 64vh; overflow: visible; color: var(--ink); }
+.harnessWrap :global(.hd-node rect) { fill: rgba(255, 255, 255, .72); stroke: var(--ink); stroke-width: 1.5; }
+.harnessWrap :global(.hd-hot rect) { fill: var(--ink); }
+.harnessWrap :global(.hd-hot text) { fill: #fff; }
+.harnessWrap :global(.hd-clip rect) { fill: rgba(255, 255, 255, .8); stroke: var(--ink); }
+.harnessWrap :global(.hd-thumb) { fill: var(--rec) !important; stroke: none !important; }
+.harnessWrap :global(.hd-track) { fill: rgba(14, 16, 19, .1) !important; stroke: none !important; }
+.harnessWrap :global(.hd-fill) { fill: var(--rec) !important; stroke: none !important; }
+.harnessWrap :global(.hd-edge) { fill: none; stroke: var(--ink); stroke-width: 2; }
+.harnessWrap :global(.hd-loop) { stroke: var(--rec); stroke-dasharray: none; }
+.harnessWrap :global(.hd-title) { font: 700 17px var(--d-body), sans-serif; fill: var(--ink); }
+.harnessWrap :global(.hd-small) { font: 500 12.5px var(--d-mono), monospace; fill: var(--graphite); }
+.harnessWrap :global(.hd-cap) { font: 700 19px var(--d-body), sans-serif; fill: var(--ink); }
+.harnessWrap :global(.hd-joke) { font: 850 24px var(--d-display), sans-serif; font-variation-settings: 'wdth' 140; fill: var(--rec); }
+
+/* ── Work (rough) ── */
+.work { padding: 4vh clamp(20px, 6vw, 96px) 10vh; }
+.role { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 32px; padding: 26px 0; border-top: 1px solid var(--line); }
+.when { font: 500 12.5px var(--d-mono), monospace; color: var(--graphite); padding-top: 8px; }
+.role h3 { font-family: var(--d-display), sans-serif; font-variation-settings: 'wdth' 120; font-size: 30px; font-weight: 750; letter-spacing: -.02em; line-height: 1.05; }
+.role h3 span { font-family: var(--d-body), sans-serif; font-size: 16px; font-weight: 500; color: var(--graphite); margin-left: 10px; letter-spacing: 0; }
+.roleHead { font-size: 19px; margin-top: 8px; max-width: 36em; }
+.roleAside { margin-top: 8px; font-size: 17px; color: var(--rec); font-weight: 600; }
+
+.contact { min-height: 90vh; padding: 10vh clamp(20px, 6vw, 96px); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 36px; }
+.contact .giant { font-size: clamp(64px, 14vw, 240px); }
+.links { display: flex; flex-wrap: wrap; gap: 12px 28px; font-weight: 700; font-size: 19px; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; padding-top: 24px; }
+  .heroMic { margin-top: 28px; }
+  .scope { height: 16vh; }
+  .rail { display: none; }
+  .stageCyl { right: 0; top: 28vh; bottom: 18vh; }
+  .hcSide { position: absolute; left: 20px; right: 20px; top: auto; bottom: 2vh; width: auto; gap: 6px; }
+  .hcSide .quote, .hcSide .small { display: none; }
+  .bigFact b { font-size: 40px; display: inline; margin-right: 8px; }
+  .cutName { bottom: 22vh; }
+  .harnessPin { padding-top: 6vh; }
+  .harnessWrap { overflow: hidden; margin: 0 -20px; padding-left: 20px; }
+  .harnessWrap :global(.harness) { width: 900px; min-width: 900px; max-height: none; }
+  .role { grid-template-columns: 1fr; gap: 6px; }
+}
+.price { font-variant-numeric: tabular-nums; }
