@@ -282,7 +282,8 @@ export const HACK_HIGHLIGHTS: HackHighlight[] = [
     result: 'Best Pre-University Hack, out of 747 participants',
     headline: 'A drawing game you win by sketching what humans get and AI doesn’t.',
     aside: 'Second year running for the same award.',
-    photo: null,
+    // Frame from the video in Kaleb's LinkedIn post (the winner slide with the team's names).
+    photo: '/hackathons/wins/hack-and-roll-2025.jpg',
   },
   {
     slug: 'a-brilliant-cobra-duel',
