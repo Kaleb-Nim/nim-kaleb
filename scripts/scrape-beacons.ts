@@ -3,7 +3,7 @@
 // Scrape beacons.ai/kaleb_nim project cards via headless Chromium (Cloudflare gates curl).
 //
 // Extracts each project: aria-label (title), href (URL), background image, description.
-// Then merges into .planning/research/hackathons/hackathons.json:
+// Then merges into .scratch/hackathons/hackathons.json (staging; curate into app/data/hackathons.json):
 //   - matched by normalized title → adds extra_links/extra_images to existing project
 //   - unmatched → appended as new project with source=beacons
 // Thumbnails (when distinct from Devpost) downloaded to public/hackathons/.
@@ -16,7 +16,7 @@ import { join, extname } from 'node:path';
 
 const BEACONS_URL = 'https://beacons.ai/kaleb_nim';
 const ROOT = process.cwd();
-const RESEARCH_DIR = join(ROOT, '.planning/research/hackathons');
+const RESEARCH_DIR = join(ROOT, '.scratch/hackathons');
 const IMG_DIR = join(ROOT, 'public/hackathons');
 const JSON_PATH = join(RESEARCH_DIR, 'hackathons.json');
 

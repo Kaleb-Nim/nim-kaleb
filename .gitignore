@@ -45,3 +45,6 @@ assets/reference-audio/*.wav
 assets/reference-audio/*.txt
 assets/reference-audio/verification/
 .env*.local
+
+# scraper staging output (scripts/scrape-*.ts)
+/.scratch/

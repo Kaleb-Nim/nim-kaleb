@@ -2,9 +2,9 @@
 //
 // Source-of-truth:
 //   - ACTIVE / SHIPPED / ARCHIVED rows are verbatim from
-//     .planning/research/v3-design-kit/pages.jsx (lines 89-92, WORK_STATUS_META).
+//     pre-wayfinder:.planning/research/v3-design-kit/pages.jsx (lines 89-92, WORK_STATUS_META).
 //   - WIP / MILESTONE rows are verbatim from
-//     .planning/research/v3-design-kit/Timeline.jsx (lines 15-21, STATUS_META).
+//     pre-wayfinder:.planning/research/v3-design-kit/Timeline.jsx (lines 15-21, STATUS_META).
 //
 // Per Phase 11 D-Implementation Decisions: keep the full table so future tags
 // (WIP, MILESTONE) work without code changes.

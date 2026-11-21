@@ -1,7 +1,7 @@
 'use client';
 
 // Directory.tsx — clickable section list for the index.
-// Ported verbatim from .planning/research/v3-design-kit/Directory.jsx.
+// Ported verbatim from pre-wayfinder:.planning/research/v3-design-kit/Directory.jsx.
 // Mobile-first: tap-target rows (≥60px), persistent chevron, subtle fill,
 // no hover-dependent affordances. Each row is an <a href="#/{id}"> so that
 // middle-click / right-click open-in-new-tab semantics work and hashchange
