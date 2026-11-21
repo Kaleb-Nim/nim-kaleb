@@ -1,0 +1,113 @@
+/* PROTOTYPE (issue #9), direction B. Tokens: white, ink, slate, line, signal blue, highlighter. */
+.page {
+  --bg: #FFFFFF;
+  --ink: #16181B;
+  --slate: #5B6169;
+  --line: #E3E5E8;
+  --soft: #F4F5F6;
+  --blue: #0B57D0;
+  --hi: #FFE45C;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--b-sans), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.page a { color: var(--blue); }
+.page a:focus-visible, .page button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px clamp(16px, 4vw, 48px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark { font-weight: 800; color: var(--ink) !important; text-decoration: none; letter-spacing: -0.01em; }
+.nav { display: flex; gap: 22px; font-size: 15px; }
+.nav a { color: var(--ink); text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+
+.hero, .section, .contact { max-width: 1120px; margin: 0 auto; padding-left: clamp(16px, 4vw, 48px); padding-right: clamp(16px, 4vw, 48px); }
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: end;
+  padding-top: 88px; padding-bottom: 72px;
+}
+.h1 { margin-top: 14px; font-size: clamp(36px, 5vw, 60px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
+.sub { font-size: 20px; color: var(--slate); margin-top: 22px; max-width: 34em; }
+.callout { background: var(--soft); border-radius: 14px; padding: 24px; }
+.calloutHead { font-weight: 700; font-size: 20px; letter-spacing: -0.01em; }
+.calloutText { color: var(--slate); font-size: 15px; margin: 6px 0 18px; }
+.cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+  background: var(--ink); color: #fff; border: 0; border-radius: 10px;
+  padding: 16px 18px; font: 600 16px/1 var(--b-sans), sans-serif; cursor: pointer;
+}
+.cta:hover { background: var(--blue); }
+.mic { width: 10px; height: 10px; border-radius: 50%; background: #FF4D3D; }
+.try { font-size: 14px; color: var(--slate); margin-top: 12px; }
+
+.section { padding-top: 64px; padding-bottom: 64px; border-top: 1px solid var(--line); }
+.sectionTitle { font-size: 15px; font-weight: 600; color: var(--slate); margin-bottom: 28px; }
+
+.project + .project { margin-top: 112px; }
+.kicker { font-weight: 700; font-size: 16px; }
+.kicker span { font-weight: 400; color: var(--slate); margin-left: 8px; }
+.stat { font-size: clamp(32px, 4.6vw, 56px); line-height: 1.04; letter-spacing: -0.03em; font-weight: 800; margin-top: 10px; max-width: 18em; }
+.statSmall { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.06; letter-spacing: -0.025em; font-weight: 800; }
+.aside { font-size: 17px; color: var(--slate); margin-top: 12px; font-style: italic; }
+.shot { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); margin-top: 32px; }
+.projectBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; margin-top: 32px; }
+.summary { font-size: 18px; line-height: 1.6; }
+.facts { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+.facts th { text-align: left; font-weight: 500; color: var(--slate); padding: 9px 16px 9px 0; vertical-align: top; width: 34%; border-top: 1px solid var(--line); }
+.facts td { padding: 9px 0; border-top: 1px solid var(--line); font-weight: 500; }
+.linkRow { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 18px; font-size: 15px; }
+.pill { border: 1px solid var(--ink); color: var(--ink) !important; text-decoration: none; padding: 7px 14px; border-radius: 999px; font-weight: 600; }
+.pill:hover { background: var(--hi); }
+
+.timeline { list-style: none; }
+.role { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 28px; padding: 28px 0; border-top: 1px solid var(--line); }
+.role:first-child { border-top: 0; padding-top: 0; }
+.logo { width: 96px; height: 56px; border-radius: 10px; border: 1px solid var(--line); display: grid; place-items: center; padding: 10px; }
+.logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.roleTop { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.roleTop strong { font-size: 20px; letter-spacing: -0.01em; }
+.roleTop span { color: var(--slate); font-size: 15px; }
+.quote { font-style: italic; margin-top: 6px; color: var(--ink); background: linear-gradient(transparent 60%, var(--hi) 60%); display: inline; }
+.roleHead { font-weight: 600; margin-top: 10px; font-size: 18px; }
+.bullets { margin: 6px 0 0 18px; color: #33373C; }
+.bullets li + li { margin-top: 4px; }
+
+.wins { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 36px; }
+.win img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; display: block; }
+.win figcaption { display: flex; flex-direction: column; gap: 2px; margin-top: 10px; font-size: 14px; }
+.win figcaption span { color: var(--slate); }
+.win figcaption em { font-style: normal; font-weight: 500; margin-top: 4px; }
+.moreWins { list-style: none; margin-top: 28px; font-size: 15px; }
+.moreWins li { padding: 10px 0; border-top: 1px solid var(--line); }
+
+.community { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.community .shot { margin-top: 0; }
+.community .summary { margin-top: 16px; font-size: 17px; }
+
+.contact { padding-top: 96px; padding-bottom: 120px; border-top: 1px solid var(--line); }
+.contactHead { font-size: clamp(36px, 6vw, 72px); line-height: 1; letter-spacing: -0.035em; font-weight: 800; }
+.contactLinks { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.contactLinks a { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--slate) !important; }
+.contactLinks a span { color: var(--ink); font-weight: 700; font-size: 17px; }
+.contactLinks a:hover { border-color: var(--ink); }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; padding-bottom: 48px; }
+  .projectBody, .community { grid-template-columns: 1fr; gap: 24px; }
+  .nav { gap: 14px; font-size: 14px; }
+  .role { grid-template-columns: 1fr; gap: 12px; }
+  .project + .project { margin-top: 80px; }
+}
