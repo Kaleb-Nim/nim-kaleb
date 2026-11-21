@@ -47,7 +47,8 @@ export function createAsrSession(callbacks: AsrCallbacks): Promise<WebSocket> {
             turn_detection: {
               type: 'server_vad',
               threshold: 0.0,
-              silence_duration_ms: 1000,
+              // 550 ms (was 1000): this window is added to every turn before the LLM starts
+              silence_duration_ms: 550,
             },
           },
         })

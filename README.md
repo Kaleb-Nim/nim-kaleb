@@ -172,6 +172,11 @@ Required for production.
 | ---------------------------- | -------------- | -------------------------------------------------------------------- |
 | `DASHSCOPE_API_KEY`          | ws-server      | Auth for all three DashScope services (ASR, LLM, TTS)                |
 | `DASHSCOPE_VOICE_ID`         | ws-server      | Voice clone ID used by TTS (Kaleb's cloned voice profile)            |
+| `TTS_PROVIDER`               | ws-server      | Optional. `dashscope` (default) or `fish` (Fish Audio S2.1 Pro)       |
+| `FISH_API_KEY`               | ws-server      | Fish Audio API key, only when `TTS_PROVIDER=fish`                    |
+| `FISH_VOICE_ID`              | ws-server      | Fish voice model id. Production: `5eca5aa5795144b8aa160063aa9619d2` (Kaleb's web-trained "kal" voice). Other voices come from the Fish web app or `bun run fish:create-voice` (needs API credit) |
+| `FISH_REFERENCE_AUDIO` / `FISH_REFERENCE_TEXT` | ws-server | Paths to a reference clip + exact transcript for inline zero-shot cloning, fallback used only when `FISH_VOICE_ID` is unset; lower quality than a trained voice |
+| `FISH_MODEL` / `FISH_LATENCY` / `FISH_SAMPLE_RATE` | ws-server | Optional. Defaults `s2.1-pro` / `balanced` / `24000` (resampled to 24 kHz if changed) |
 | `NEXT_PUBLIC_WS_SERVER_URL`  | Vercel         | Browser WebSocket endpoint, e.g. `wss://ws.kalebnim.dev`             |
 | `OPENAI_API_KEY`             | local dev      | Used by the `generate_run_map.ts` helper script                     |
 | `PORT`                       | ws-server      | Listen port (default `8080`; Nginx terminates TLS in front)          |
