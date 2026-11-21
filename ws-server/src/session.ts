@@ -1,9 +1,9 @@
 import type { ServerWebSocket } from 'bun';
 import type { ServerMessage } from './types';
-import type { TtsHandle } from './dashscope/tts';
+import type { TtsHandle } from './tts';
 import { createAsrSession, forwardAudioToAsr } from './dashscope/asr';
 import { streamLlmResponse } from './dashscope/llm';
-import { createTtsSession, appendTextToTts, finishTtsSession } from './dashscope/tts';
+import { getTtsClient } from './tts';
 import { logTurn } from './logger';
 import type { TurnLog } from './logger';
 
@@ -30,6 +30,9 @@ export class Session {
 
   private ws: ServerWebSocket<SessionData>;
 
+  /** TTS provider chosen from TTS_PROVIDER once per browser session */
+  private tts = getTtsClient();
+
   constructor(ws: ServerWebSocket<SessionData>) {
     this.ws = ws;
     this.sessionId = ws.data.sessionId;
@@ -41,8 +44,8 @@ export class Session {
       this.responseAbort.abort();
       this.responseAbort = null;
     }
-    if (this.ttsHandle && this.ttsHandle.ws.readyState === WebSocket.OPEN) {
-      finishTtsSession(this.ttsHandle);
+    if (this.ttsHandle) {
+      this.tts.abortTtsSession(this.ttsHandle);
     }
     this.ttsHandle = null;
   }
@@ -93,7 +96,7 @@ export class Session {
     let assistantResponse = '';
 
     // Open TTS session — promise resolves once WS is open
-    const ttsReadyPromise = createTtsSession({
+    const ttsReadyPromise = session.tts.createTtsSession({
       onAudioDelta: (delta) => {
         if (firstTtsAudio) {
           ttsTtfaMs = Math.round(performance.now() - (ttsOpenTime ?? turnStart));
@@ -125,10 +128,18 @@ export class Session {
     });
 
     // Store handle once resolved (for barge-in cleanup)
-    ttsReadyPromise.then((handle) => { session.ttsHandle = handle; });
+    ttsReadyPromise.then((handle) => {
+      // Turn was barged-in before the TTS socket opened: close it instead of leaving it idle
+      if (abort.signal.aborted) {
+        session.tts.abortTtsSession(handle);
+        return;
+      }
+      session.ttsHandle = handle;
+    });
 
     // Start LLM streaming once TTS WebSocket is open
     ttsReadyPromise.then((handle) => {
+      if (abort.signal.aborted) return;
       ttsOpenTime = performance.now();
       // For greeting, use a special internal prompt; for normal, use transcript
       const prompt = isGreeting
@@ -144,13 +155,13 @@ export class Session {
             llmTtftMs = Math.round(performance.now() - (ttsOpenTime ?? turnStart));
             firstLlmChunk = false;
           }
-          appendTextToTts(handle, chunk);
+          session.tts.appendTextToTts(handle, chunk);
           session.send({ type: 'response.text.delta', delta: chunk });
           assistantResponse += chunk;
         },
         () => {
           if (abort.signal.aborted) return;
-          finishTtsSession(handle);
+          session.tts.finishTtsSession(handle);
           if (assistantResponse) {
             session.conversationHistory.push({ role: 'assistant', content: assistantResponse });
             while (session.conversationHistory.length > MAX_HISTORY_ENTRIES) {

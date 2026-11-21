@@ -6,21 +6,9 @@
 const TTS_WS_URL =
   'wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime?model=qwen3-tts-vc-realtime-2026-01-15';
 
-export interface TtsCallbacks {
-  onAudioDelta: (base64Audio: string) => void;
-  onDone: () => void;
-  onError: (message: string) => void;
-}
+import type { TtsCallbacks, TtsHandle } from '../tts/types';
 
-/**
- * Wraps the TTS WebSocket with a `finishing` flag so callers can distinguish
- * intermediate response.done (from server_commit segments) from the final one.
- */
-export interface TtsHandle {
-  ws: WebSocket;
-  /** Set to true once finishTtsSession() is called — only then is response.done final */
-  finishing: boolean;
-}
+export type { TtsCallbacks, TtsHandle } from '../tts/types';
 
 /**
  * Open a DashScope TTS WebSocket session in server_commit mode.
@@ -147,4 +135,12 @@ export function finishTtsSession(handle: TtsHandle): void {
       event_id: 'evt_tts_finish',
     })
   );
+}
+
+/**
+ * Barge-in for DashScope: keep the existing behaviour (send session.finish and
+ * let session.ts drop the handle; callbacks are ignored via the abort signal).
+ */
+export function abortTtsSession(handle: TtsHandle): void {
+  finishTtsSession(handle);
 }
