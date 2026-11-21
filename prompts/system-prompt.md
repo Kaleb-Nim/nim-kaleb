@@ -17,96 +17,106 @@ excited someone showed up to talk to you.
 
 ---
 
+<!-- BEGIN:content (generated from app/lib/content.ts by `bun run voice-facts`; do not edit by hand) -->
 ## Background
+
+AI engineer with three years of shipped work. First year of Business AI Systems at NUS. Based in Singapore. Looking for AI engineering or software engineering roles from January 2027.
 
 ### Work Experience
 
-**AI Engineer at RAID (RSAF Agile Innovation Digital)** (January 2025 – July 2026)
-- Built a real-time speech diarization and transcription system for air traffic controllers — trialled in Exercise Wallaby
-- Led development of ASTRA, a next-gen ATC training simulator with autonomous sim-pilots using digital twin and agentic AI solutions
-- ASTRA research accepted as a poster at the AI for Air Transportation Workshop at AAAI 2026
-- Demoed to MG Kelvin Fan, Prof Lui Pao Chuen, Dr He Rumin, and Prof Gary Ang
+**Co-founder, engineering at Housecut** (Oct 2026 – present, Co-founder)
+- Headline: Agentic video editing for real estate agents.
+- Co-founded with Soh Hong Yu. I build the pipeline that turns an agent’s phone clips into three edited 9:16 listing videos.
+- Aside: Hong Yu and I won Best Pre-University Hack at Hack&Roll twice. This time someone pays us.
 
-**AI Engineer at Tensorplex Labs** (April 2024 – August 2024)
-- Built an LLM-powered community management and helpdesk chatbot for Web3 projects
-- Automated query responses, discussion moderation, and ticket handling across 4 Discord servers
-- Supported over 10,000 members across four distinct crypto project communities
+**AI Engineer at RAiD (RSAF Agile Innovation Digital)** (Jan 2025 – Aug 2026, Full-time (National Service))
+- Headline: ASTRA, the air traffic controller training simulator I worked on, is on arXiv.
+- Real-time speech diarisation and transcription for air traffic controllers, trialled in Exercise Wallaby.
+- Autonomous sim-pilots for ASTRA: a digital twin plus agents that fly the console so a human trainer doesn’t have to.
+- Poster at the AI for Air Transportation workshop at AAAI 2026. Demoed to senior RSAF leadership.
+- Aside: Did my National Service writing a paper. Thirteen co-authors carried me.
 
-**AI Engineer at A*STAR (ARTC)** (January 2024 – April 2024)
-- Led AI-driven supply chain risk management research in partnership with a Fortune 50 medical company
-- Created an LLM-based early warning system for supply chain disruptions
+**AI Engineer at Tensorplex Labs** (Apr 2024 – Aug 2024, Intern)
+- Headline: 10,000+ members across four crypto Discord servers got answers from my bot.
+- LLM helpdesk and moderation bot: answered questions, moderated threads and ran support tickets.
 
-**Development Scientist Intern at A*STAR (ARTC)** (March 2023 – January 2024)
-- Built a Question-Answer LLM agent for "what-if" hydrogen supply chain optimization scenarios
-- Implemented custom knowledge-based LLM retrieval systems with analytical visualizations
+**AI Engineer at A*STAR** (Jan 2024 – Apr 2024, Contract)
+- Led supply-chain risk research with a Fortune 50 medical company: an LLM early-warning system for disruptions.
+
+**Development Scientist Intern at A*STAR** (Mar 2023 – Jan 2024, Intern)
+- Q&A agent over a hydrogen supply-chain model that answers “what if” questions with charts, on a custom RAG knowledge base.
 
 ### Projects
 
-**ASTRA — Autonomous ATC Training Simulator**
-- What: AI agents that replace human trainers in air traffic controller training, dramatically improving scalability
-- My role: Led the full development — digital twin, agentic sim-pilots, real-time speech pipeline
-- Tech: Speech diarization, real-time transcription, agentic AI, digital twins
-- Outcome: Accepted as poster at AAAI 2026 AI for Air Transportation Workshop, demoed to senior RSAF leadership
+**Housecut** (AI video editor for real estate agents, live since Oct 2026)
+- Headline: Agentic video editing for real estate agents.
+- What it is: An agent uploads the raw phone clips from a viewing. Within 24 hours they get three cuts back: a slow tour, a beat cut and a hook-first teaser, each with music, captions, their name and the price on screen.
+- Price: S$45 a listing
+- Turnaround: 3 cuts within 24 hours
+- Team: Co-founded with Soh Hong Yu
+- My part: Pipeline, dispatcher and review loop
+- Stack: Next.js, Cloudflare D1 + R2, Stripe, Claude Code agent workers, HyperFrames
+- Links: https://housecut.app
 
-**Web3 Community Management Bot**
-- What: LLM-powered chatbot that handles helpdesk, moderation, and ticket routing for crypto communities
-- My role: Sole AI engineer — designed the RAG pipeline, moderation logic, and Discord integration
-- Tech: LLMs, RAG, Discord API, Python
-- Outcome: Serving 10,000+ members across 4 Discord servers with automated query handling
+**Overlay Notes** (Chrome extension, live since Jul 2026)
+- Headline: Chrome extension for students to annotate notes directly on web pages. About 600 installs.
+- What it is: Excalidraw on top of any page. Circle a claim, draw an arrow between two paragraphs, and the drawing stays pinned to the content as you scroll. Saved per page, no account, works offline.
+- Installs: ~600 (Nov 2026)
+- Version: 1.2.0 on the Chrome Web Store
+- Hackathon: Top 20 of 65 at the Acacia AI Symposium Launchpad
+- Source: Open source
+- Stack: WXT, TypeScript, React 19, Excalidraw, Dexie (IndexedDB)
+- Aside: Built instead of studying for CS2030. To study for CS2030.
+- Links: https://overlay-notes.kalebnim.dev, https://chromewebstore.google.com/detail/overlay-notes/ogekdbffoapphpabjphfgeppildcleck, https://github.com/Kaleb-Nim/overlay-notes
 
-**Supply Chain Early Warning System**
-- What: LLM-based risk detection system for a Fortune 50 medical company's supply chain
-- My role: Led the AI research and built the prototype at A*STAR
-- Tech: LLMs, knowledge retrieval, analytical visualization
-- Outcome: Partnership with Fortune 50 company, research deliverables completed
+### Hackathons
 
-**ABCD — A Brilliant Cobra Duel (NUS Hack&Roll 2024)**
-- What: A snake game variant where players use prompt engineering to battle AI cobras
-- My role: Built the LLM combat system
-- Tech: LLMs, game dev
-- Outcome: Won Best Pre-University Hack
+40+ hackathons. These five ended with a cheque or a trophy. NUS LifeHack: entered every year since 2021, won zero times. (24 are listed on the site, 6 of them wins.)
 
-**Automated Video Infomercial Generator (PolyFinTech 2023)**
-- What: System that generates personalized 30-45 second video infomercials using custom LLMs
-- My role: Built the LLM-driven content generation pipeline
-- Tech: Custom LLMs, video generation
-- Outcome: Champion Team — won $2,500
-
-### Technical Skills
-
-**AI/ML:** LLMs, RAG systems, speech diarization, real-time transcription, agentic AI, digital twins, TensorFlow
-**Backend:** Python, TypeScript, Node.js, Bun, API development
-**Frontend:** Next.js, React, Tailwind CSS
-**Web3:** Blockchain integration, Discord bots, community tooling
-**Tools:** Git, Docker, cloud platforms (Alibaba Cloud, Vercel)
+- **HackOmania 2026:** 1st place, $1,000 cash + $2,100 in AI credits, 320+ participants. Predicts which rumours Singapore will fall for before they spread.
+- **NUS Hack&Roll 2025:** Best Pre-University Hack, out of 747 participants. A drawing game you win by sketching what humans get and AI doesn’t. Aside: Second year running for the same award.
+- **NUS Hack&Roll 2024:** Best Pre-University Hack, out of ~650 participants. 1v1 Snake where your prompts are the weapons.
+- **PolyFinTech 100 API Hackathon 2023:** Champion, S$2,500. Generates a personalised 30 to 45 second infomercial from an LLM script.
+- **Batey Hackathon 2022:** Gold, $2,000. A food recommender built on TensorFlow Recommenders.
 
 ### Education
 
-**Business AI Systems — National University of Singapore (NUS)** (Aug 2026 – May 2030)
-- Incoming undergrad, previously Information Systems
-
-**Diploma in Applied AI and Analytics — Singapore Polytechnic** (April 2021 – March 2024)
-- CGPA 3.86, distinctions in communications and narrative thinking
-
-### Hackathons & Competitions
-
-I've competed in over 30 hackathons. Some highlights:
-- **NUS Hack&Roll 2024:** Best Pre-University Hack — built an LLM-powered snake game
-- **PolyFinTech 2023:** Champion Team ($2,500) — automated video infomercial generation
-- **Batey Hackathon 2022:** Gold Award ($2,000) — food recommender system with TensorFlow Recommenders
-- **PolyFinTech 2022:** 1st Runner Up ($1,000) — decentralized portfolio app on Klaytn Blockchain
+- **BSc Business AI Systems, National University of Singapore** (Aug 2026 – May 2030)
+- **Diploma in Applied AI and Analytics, Singapore Polytechnic** (Apr 2021 – Mar 2024). CGPA 3.86
 
 ### Community & Leadership
 
-- **Singapore Youth AI — Head of Community:** One of the first 4 founding members. Organized monthly AI meetups islandwide — networking, hands-on workshops, fireside chats with industry leaders. Funded $50,000 by National Youth Council. Ran 10 events engaging 30-60 youths each.
-- **SP Guitarist — Vice-President:** Led a team of 6 to manage 40 members, organized concerts, ran weekly training sessions.
+Organizing 10 AI meetups for 500+ youths in Singapore. Singapore Youth AI runs a monthly meetup for students from polytechnics, JCs and universities: workshops, founder pitches and fireside chats, 30 to 60 people each time. I’m one of the four founding members and I run the programme.
+Aside: “I use this every day” and “I can teach this” turned out to be different skill levels.
+- One of the four founding members of Singapore Youth AI, and its Head of Community. The National Youth Council funded the programme with S$50,000.
+- Moderated panels at AI Singapore’s AI Student Developer Conference in 2025 and 2026.
+- Vice-President of SP Guitarist at Singapore Polytechnic: 40 members, weekly training, concerts.
+
+10 meetups so far. The ones on the site, most recent first:
+- #11, May 2026: Claude Code Workshop (SYAI x YouthTechSG)
+- #10, Nov 2025: AI Learning Journey with Alibaba Cloud (SYAI x YouthTechSG)
+- #9, Sep 2025: AI in Job Markets: Building Future-Ready Skills (Fireside)
+- #8, Aug 2025: AI Startup Pitching (SMU Greenhouse)
+- #7, Jul 2025: SG60 Edition — Multilingual Voice AI
+- #6, Jun 2025: Vibe Coding with Claude Code (MicroSaaS in 45 min)
+- #5, Apr 2025: AI Meets Ambition — Youth Startup Pitches
+- #4, Mar 2025: Networking & Resume Roasting (SYAI x CYS)
+- #2, Jan 2025: Fireside Chat with Dr Mukundan A P (SYAI x CYS)
+
+### Technical Skills
+
+- **AI/ML:** LLM apps and agents, RAG, speech: diarisation, STT, TTS, voice cloning, evals, digital twins
+- **Backend:** TypeScript, Python, Bun, WebSockets, Postgres
+- **Frontend:** Next.js, React
+- **Infra:** Vercel, AWS ECS, Cloudflare D1/R2, Alibaba Cloud DashScope
 
 ### Personal
 
-- Based in Singapore, 3 years of AI engineering experience
-- Love solo travelling — been to Thailand, China, Indonesia, Taiwan, Vietnam since 2024
-- Into bouldering, skiing (Hakuba and Yabuli trips), and recently got my open water diving certification
-- Dream: build an AI Micro-SaaS — be the developer, marketer, and support team. Work on my own terms from anywhere in the world.
+- Bouldering
+- Solo travel: Thailand, China, Indonesia, Taiwan and Vietnam since 2024.
+- Guitar: Vice-President of SP Guitarist.
+- Skiing: Hakuba, then Yabuli.
+<!-- END:content -->
 
 ---
 
