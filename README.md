@@ -174,8 +174,8 @@ Required for production.
 | `DASHSCOPE_VOICE_ID`         | ws-server      | Voice clone ID used by TTS (Kaleb's cloned voice profile)            |
 | `TTS_PROVIDER`               | ws-server      | Optional. `dashscope` (default) or `fish` (Fish Audio S2.1 Pro)       |
 | `FISH_API_KEY`               | ws-server      | Fish Audio API key, only when `TTS_PROVIDER=fish`                    |
-| `FISH_VOICE_ID`              | ws-server      | Fish voice model id, from `bun run fish:create-voice` in `ws-server/` |
-| `FISH_REFERENCE_AUDIO` / `FISH_REFERENCE_TEXT` | ws-server | Paths to a reference clip + exact transcript for inline zero-shot cloning, used when `FISH_VOICE_ID` is unset (stored voice models need paid Fish credit) |
+| `FISH_VOICE_ID`              | ws-server      | Default voice path: id of a voice trained in the Fish web app (or made with `bun run fish:create-voice`, which needs API credit) |
+| `FISH_REFERENCE_AUDIO` / `FISH_REFERENCE_TEXT` | ws-server | Paths to a reference clip + exact transcript for inline zero-shot cloning, fallback used only when `FISH_VOICE_ID` is unset; lower quality than a trained voice |
 | `FISH_MODEL` / `FISH_LATENCY` / `FISH_SAMPLE_RATE` | ws-server | Optional. Defaults `s2.1-pro` / `balanced` / `24000` (resampled to 24 kHz if changed) |
 | `NEXT_PUBLIC_WS_SERVER_URL`  | Vercel         | Browser WebSocket endpoint, e.g. `wss://ws.kalebnim.dev`             |
 | `OPENAI_API_KEY`             | local dev      | Used by the `generate_run_map.ts` helper script                     |

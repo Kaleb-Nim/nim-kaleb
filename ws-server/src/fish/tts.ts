@@ -1,7 +1,7 @@
 // Fish Audio TTS WebSocket client (wss://api.fish.audio/v1/tts/live).
 // Same interface as dashscope/tts.ts so session.ts can switch on TTS_PROVIDER.
-// FISH_API_KEY and the voice (FISH_VOICE_ID, or FISH_REFERENCE_AUDIO + FISH_REFERENCE_TEXT
-// for inline zero-shot cloning) are read from process.env only and are never
+// FISH_API_KEY and the voice (FISH_VOICE_ID = a trained Fish voice model, the default;
+// FISH_REFERENCE_AUDIO + FISH_REFERENCE_TEXT = inline zero-shot fallback) are read from process.env only and are never
 // configurable via browser messages (same rule as T-02-08).
 //
 // Protocol (MessagePack frames): client sends start → text* → flush* → stop;

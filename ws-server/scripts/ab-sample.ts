@@ -1,7 +1,7 @@
 // Old-vs-new listening pair: synthesise the same lines through the real DashScope
 // and Fish clients (the exact code paths session.ts uses) and write 24 kHz WAVs.
 //
-//   cd ws-server && bun run fish:ab [outDir] [--providers=dashscope,fish]
+//   cd ws-server && bun run fish:ab [outDir] [--providers=dashscope,fish] [--name=C-voice]
 //
 // Needs DASHSCOPE_API_KEY + DASHSCOPE_VOICE_ID and FISH_API_KEY + FISH_VOICE_ID.
 // Text is streamed in small chunks like LLM output, so it exercises flush/resample too.
@@ -19,6 +19,7 @@ const LINES = [
 const args = process.argv.slice(2);
 const providersArg = args.find((a) => a.startsWith('--providers='));
 const providers = (providersArg?.split('=')[1] ?? 'dashscope,fish').split(',') as TtsProvider[];
+const nameArg = args.find((a) => a.startsWith('--name='))?.split('=')[1];
 const outDir = args.find((a) => !a.startsWith('--')) ?? `${import.meta.dir}/../ab-samples`;
 
 function wav(pcm: Uint8Array, rate = 24000): Uint8Array {
@@ -72,7 +73,7 @@ for (const provider of providers) {
   const all = new Uint8Array(parts.reduce((n, p) => n + p.length, 0));
   let off = 0;
   for (const p of parts) { all.set(p, off); off += p.length; }
-  const path = `${outDir}/${provider === 'dashscope' ? 'A-old-dashscope' : 'B-new-fish'}.wav`;
+  const path = `${outDir}/${nameArg && providers.length === 1 ? nameArg : provider === 'dashscope' ? 'A-old-dashscope' : 'B-new-fish'}.wav`;
   await Bun.write(path, wav(all));
   console.log(`wrote ${path}`);
 }
