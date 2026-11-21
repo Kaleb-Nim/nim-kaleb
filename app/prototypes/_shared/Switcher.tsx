@@ -1,16 +1,16 @@
 'use client';
 
-// PROTOTYPE (issue #9). Throwaway direction switcher for /prototypes/{a,b,c}.
+// PROTOTYPE (issue #9). Throwaway direction switcher for /prototypes/{d,e} (round 2).
 // Hidden in production builds and when the URL carries ?clean (screenshots).
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 const DIRS = [
-  { key: 'a', name: 'Editorial' },
-  { key: 'b', name: 'Product-dense' },
-  { key: 'c', name: 'Terminal remnant' },
+  { key: 'd', name: 'Transcript' },
+  { key: 'e', name: 'Cutting room' },
 ];
+// Round 1 (a, b, c) was rejected as flat; those routes still exist but are off the switcher.
 
 export default function Switcher() {
   const router = useRouter();
@@ -26,15 +26,15 @@ export default function Switcher() {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       if (t.closest('input, textarea, [contenteditable]')) return;
-      if (e.key === 'ArrowRight') router.replace(`/prototypes/${DIRS[(idx + 1) % 3].key}`);
-      if (e.key === 'ArrowLeft') router.replace(`/prototypes/${DIRS[(idx + 2) % 3].key}`);
+      if (e.key === 'ArrowRight') router.replace(`/prototypes/${DIRS[(idx + 1) % DIRS.length].key}`);
+      if (e.key === 'ArrowLeft') router.replace(`/prototypes/${DIRS[(idx + DIRS.length - 1) % DIRS.length].key}`);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [idx, router]);
 
   if (hidden) return null;
-  const go = (d: number) => router.replace(`/prototypes/${DIRS[(idx + d + 3) % 3].key}`);
+  const go = (d: number) => router.replace(`/prototypes/${DIRS[(idx + d + DIRS.length) % DIRS.length].key}`);
   const btn: React.CSSProperties = { background: 'none', border: 0, color: 'inherit', font: 'inherit', cursor: 'pointer', padding: '4px 10px' };
   return (
     <div

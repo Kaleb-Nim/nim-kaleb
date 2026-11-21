@@ -1,0 +1,98 @@
+/* PROTOTYPE (issue #9, round 2). Overlay Notes chapter: tokens copied from overlay-notes-landing/app/globals.css. */
+.chapter {
+  --paper: #f6f1e7; --rule: rgba(91, 61, 245, .10); --purple: #5b3df5; --ink: #211d2e; --head: #1c1830;
+  --body: #4a4560; --red: #d64848; --yellow: #ffc93c; --orange: #f08a24;
+  position: relative;
+  color: var(--body);
+  font-family: var(--on-sans), system-ui, sans-serif;
+  background: repeating-linear-gradient(var(--paper) 0 31px, var(--rule) 31px 32px), var(--paper);
+  padding-bottom: 120px;
+}
+.chapter::before { /* the red margin line of a notebook */
+  content: ''; position: absolute; top: 0; bottom: 0; left: clamp(20px, 6vw, 88px); width: 2px; background: rgba(214, 72, 72, .35);
+}
+.stage {
+  height: 100vh; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: clamp(24px, 4vw, 64px);
+  align-items: center; padding: 72px clamp(32px, 8vw, 128px) 48px; position: relative;
+}
+.label { margin-bottom: 18px; }
+.kicker { font: 500 16px var(--on-hand), cursive; color: var(--red); transform: rotate(-1.5deg); }
+.h2 { font: 700 clamp(38px, 4.4vw, 64px)/.95 var(--on-hand), cursive; color: var(--head); letter-spacing: -.02em; margin-top: 10px; }
+.h2 span { color: var(--purple); }
+.squiggle { width: min(340px, 70%); height: 24px; display: block; margin: 4px 0 18px; overflow: visible; }
+.squiggle path { fill: none; stroke: var(--purple); stroke-width: 6; stroke-linecap: round; }
+.aside { font: 500 19px/1.4 var(--on-hand), cursive; color: var(--ink); max-width: 22em; }
+.stat { margin-top: 22px; font: 600 17px/1.4 var(--on-sans), sans-serif; color: var(--ink); }
+.stat b { font: 700 64px/1 var(--on-hand), cursive; color: var(--purple); display: inline-block; min-width: 2.2ch; margin-right: 8px; vertical-align: -6px; }
+.stat span { font-weight: 400; color: var(--body); font-size: 15px; }
+.how { margin-top: 20px; font: 400 15px/1.5 var(--on-sans), sans-serif; max-width: 26em; }
+
+.browser { background: #fff; border-radius: 10px; border: 2px solid var(--ink); box-shadow: 6px 8px 0 var(--ink); overflow: hidden; transform: rotate(1deg); display: flex; flex-direction: column; height: min(74vh, 720px); }
+.chrome { display: flex; gap: 6px; align-items: center; padding: 10px 12px; background: #ece8f7; border-bottom: 2px solid var(--ink); }
+.chrome i { width: 11px; height: 11px; border-radius: 50%; background: #d6d0ea; border: 1.5px solid var(--ink); }
+.chrome span { margin-left: 10px; font: 500 12.5px var(--on-sans), sans-serif; color: var(--body); background: #fff; border-radius: 12px; padding: 4px 12px; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.toolbar { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px dashed #cfc8e6; font: 600 13px var(--on-sans), sans-serif; color: #fff; }
+.toolbar b { background: #2e9e5a; padding: 4px 10px; border-radius: 6px; }
+.swatch { width: 16px; height: 16px; border-radius: 4px; background: var(--ink); }
+.sw2 { background: var(--red); } .sw3 { background: var(--orange); }
+.viewport { position: relative; overflow: hidden; flex: 1; }
+.doc { position: relative; padding: 22px 230px 60px 28px; font: 15.5px/1.7 Georgia, 'Times New Roman', serif; color: #222; will-change: transform; }
+.doc h3 { font: 700 26px/1.2 var(--on-sans), sans-serif; color: #111; margin-bottom: 14px; }
+.doc h4 { font: 700 18px/1.3 var(--on-sans), sans-serif; color: #111; margin: 26px 0 8px; }
+.doc p + p { margin-top: 10px; }
+.box { border: 1.5px solid #38a8d8; border-radius: 6px; margin-bottom: 16px; padding: 0 16px 12px; }
+.boxHead { margin: 0 -16px 10px; padding: 7px 16px; background: #e9f6fc; font: 700 14px var(--on-sans), sans-serif; color: #111; }
+.box ul { margin: 6px 0 0 20px; }
+.box li + li { margin-top: 6px; }
+
+/* ── Marks: strokes live in the doc, so they scroll with it ── */
+.mark { position: relative; white-space: nowrap; }
+.mark > svg { position: absolute; overflow: visible; pointer-events: none; }
+.mark :global(.ink) { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.violet :global(.ink) { stroke: var(--purple); }
+.ink :global(.ink) { stroke: var(--ink); }
+.orange :global(.ink) { stroke: var(--orange); }
+
+.k_underline { left: -2px; right: -2px; bottom: -8px; height: 12px; width: calc(100% + 4px); }
+.k_circle { left: -12px; top: -10px; width: calc(100% + 24px); height: calc(100% + 20px); }
+.k_box { left: -4px; top: -3px; width: calc(100% + 8px); height: calc(100% + 6px); }
+.note { position: absolute; left: calc(100% - 214px); width: 200px; display: flex; align-items: flex-start; gap: 4px; z-index: 2; margin-top: -10px; }
+.lower { margin-top: 12px; }
+.note .arrowSvg { width: 40px; height: 22px; flex: none; overflow: visible; }
+.note :global(.ink) { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.note.orange :global(.ink) { stroke: var(--orange); }
+.note.violet :global(.ink) { stroke: var(--purple); }
+.noteText { font: 500 17px/1.15 var(--on-hand), cursive; color: var(--ink); white-space: normal; }
+.note.violet .noteText { color: var(--purple); }
+.orange .noteText { color: var(--orange); }
+
+/* ── Proof: the real screenshot ── */
+.proof { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; padding: 64px clamp(32px, 8vw, 128px) 0; }
+.polaroid { position: relative; background: #fff; padding: 10px; border-radius: 6px; transform: rotate(2deg); box-shadow: 0 22px 40px -16px rgba(20, 12, 60, .45); }
+.polaroid img { width: 100%; height: auto; display: block; border-radius: 3px; }
+.tape { position: absolute; top: -12px; left: 38%; width: 84px; height: 26px; background: rgba(255, 201, 60, .6); transform: rotate(-6deg); }
+.proofNotes { position: relative; }
+.redNote { font: 500 21px/1.2 var(--on-hand), cursive; color: var(--red); transform: rotate(-3deg); }
+.bigArrow { width: 90px; height: 60px; overflow: visible; margin: 6px 0 12px; transform: scaleX(-1); }
+.bigArrow :global(.ink) { fill: none; stroke: var(--red); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.facts { display: grid; gap: 10px; }
+.facts div { display: grid; grid-template-columns: 96px 1fr; gap: 10px; font-size: 15px; }
+.facts dt { font: 600 14px var(--on-hand), cursive; color: var(--red); }
+.facts dd { color: var(--ink); }
+.ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.btnPrimary { background: var(--purple); color: #fff !important; font: 700 16px var(--on-sans), sans-serif; padding: 13px 22px; border-radius: 26px; box-shadow: 3px 4px 0 var(--ink); transform: rotate(-1deg); text-decoration: none; }
+.btnDashed { color: var(--ink) !important; border: 2px dashed var(--ink); padding: 11px 18px; border-radius: 26px; font: 600 15px var(--on-sans), sans-serif; text-decoration: none; }
+
+@media (max-width: 860px) {
+  .stage { height: auto; min-height: 100vh; grid-template-columns: 1fr; padding: 56px 20px 28px 36px; align-content: start; gap: 20px; }
+  .browser { height: 62vh; transform: none; }
+  .how { display: none; }
+  .stat b { font-size: 48px; }
+  .proof { grid-template-columns: 1fr; padding: 40px 20px 0 36px; gap: 28px; }
+  .doc { padding-right: 20px; }
+  .note { position: static; display: inline-flex; width: auto; margin: 0 0 0 6px; }
+  .arrowSvg { display: none; }
+  .noteText { font-size: 15px; }
+  .mark { white-space: normal; }
+}
+.count { font-variant-numeric: tabular-nums; }

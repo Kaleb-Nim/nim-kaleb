@@ -48,3 +48,6 @@ assets/reference-audio/verification/
 
 # scraper staging output (scripts/scrape-*.ts)
 /.scratch/
+
+# Prototype #9: local-only media (client deliverables, not for the public repo)
+/public/prototype-media/
