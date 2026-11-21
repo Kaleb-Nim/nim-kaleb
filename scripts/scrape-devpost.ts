@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 // @ts-nocheck — Bun globals (Bun.spawn) used; @types/bun not installed in this project.
 // Scrape devpost.com/kaleb-nim → structured JSON of hackathon projects.
-// Writes .planning/research/hackathons/hackathons.json and downloads thumbnails
+// Writes .scratch/hackathons/hackathons.json (staging; curate into app/data/hackathons.json) and downloads thumbnails
 // to public/hackathons/<slug>.<ext>.
 
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -10,7 +10,7 @@ import { join, extname } from 'node:path';
 const PROFILE = 'https://devpost.com/kaleb-nim';
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 const ROOT = process.cwd();
-const RESEARCH_DIR = join(ROOT, '.planning/research/hackathons');
+const RESEARCH_DIR = join(ROOT, '.scratch/hackathons');
 const IMG_DIR = join(ROOT, 'public/hackathons');
 
 type TeamMember = { name: string; devpost_url: string };

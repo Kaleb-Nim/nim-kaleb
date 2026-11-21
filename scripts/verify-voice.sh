@@ -70,35 +70,10 @@ for i in 0 1 2; do
       echo "(qwen3-tts-vc-realtime-2026-01-15) but this test uses the non-streaming model"
       echo "(qwen3-tts-vc-2026-01-22). This is a known potential incompatibility."
       echo ""
-      echo "Voice verification will happen in Phase 2 with the realtime WebSocket model."
+      echo "Verify the voice through the realtime WebSocket model instead."
       echo "The enrollment itself is likely fine — check with the list API:"
       echo "  source .env.local && bash scripts/enroll-voice.sh list"
       echo ""
-
-      # Create Phase 2 scope note so deferred verification is tracked
-      SCOPE_NOTE=".planning/phases/02-server-infrastructure/DEFERRED-VOICE-VERIFY.md"
-      mkdir -p "$(dirname "$SCOPE_NOTE")"
-      cat > "$SCOPE_NOTE" << 'SCOPEEOF'
-# Deferred Voice Verification — Phase 2 Scope Note
-
-**Created by:** Phase 1, Plan 03 (verify-voice.sh deferred path)
-**Reason:** Non-streaming model `qwen3-tts-vc-2026-01-22` rejected the voice_id enrolled against `qwen3-tts-vc-realtime-2026-01-15` (cross-model incompatibility).
-
-## Required in Phase 2
-
-1. **VOICE-02 listen verification**: After the realtime WebSocket TTS pipeline is working, synthesize at least one test sentence and confirm the voice sounds like Kaleb.
-2. **VOICE-05 intonation check**: Synthesize achievement vs. challenge sentences via the realtime pipeline and confirm observable prosody variation.
-
-## Acceptance
-
-- [ ] At least one audio sample generated via the realtime TTS model sounds recognizably like Kaleb
-- [ ] Achievement and challenge sentences have distinguishable intonation
-
-This note should be consumed by Phase 2 planning and deleted once verification is complete.
-SCOPEEOF
-
-      echo "Created Phase 2 scope note: $SCOPE_NOTE"
-      echo "Phase 2 planning will pick up VOICE-02 and VOICE-05 listen verification."
       exit 0
     fi
     continue

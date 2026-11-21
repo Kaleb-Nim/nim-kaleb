@@ -1,7 +1,5 @@
 tts-server/
 ws-server/
-.planning/
-!.planning/research/hackathons/hackathons.json
 tests/
 assets/
 scripts/

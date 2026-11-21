@@ -1,5 +1,5 @@
 // app/lib/sections.ts — typed port of LINKS, SECTIONS, and the six item arrays
-// from .planning/research/v3-design-kit/index-data.jsx.
+// from pre-wayfinder:.planning/research/v3-design-kit/index-data.jsx.
 //
 // Per CONTEXT.md decision (v3.0): the `id` field for each Section MUST equal
 // its `path` value (so hash routes are `#/work-experience`, `#/syai-meetups`,
@@ -7,7 +7,7 @@
 // used as the route slug.
 //
 // Counts must match user spec: Work (4), SYAI Meetups (9),
-// Hackathons (data-derived from .planning/research/hackathons/hackathons.json),
+// Hackathons (data-derived from app/data/hackathons.json),
 // Products (1), Hobbies (5), Links (5).
 
 import { HACK_ITEMS, HACK_STATS, type HackathonItem } from './hackathons';
@@ -307,7 +307,7 @@ export const SYAI_ITEMS: MeetupItem[] = [
 
 // ── HACKATHONS ─────────────────────────────────────────────────────────────
 // HACK_ITEMS + HACK_STATS now live in ./hackathons (sourced from
-// .planning/research/hackathons/hackathons.json) and are re-exported at the
+// app/data/hackathons.json) and are re-exported at the
 // top of this file. The legacy 15-item hand-curated placeholder array has been
 // removed in favour of the JSON-backed dataset.
 

@@ -1,7 +1,7 @@
 'use client';
 
 // HomePage.tsx — content rendered for the home route (route === '').
-// Ported verbatim from .planning/research/v3-design-kit/index.html (lines 127-186).
+// Ported verbatim from pre-wayfinder:.planning/research/v3-design-kit/index.html (lines 127-186).
 //
 // Composition:
 //   Block 1 — Identity header (name @ handle + Operating Model line)
